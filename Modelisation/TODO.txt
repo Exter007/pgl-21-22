@@ -1,0 +1,5 @@
+1) Réfléchir au use case diagram, chacun réfléchit de son côté et fait un résumé des interactions/relations pour chaque fonctionnalités de base choisies.
+2) Réfléchir aux liens (inclusions, extensions) entre les cas d'utilisations
+3) PL demander à Nico pour use case
+4) Réfléchir au use case de notre extension personnelle
+5) Regarder les diagrams que l'on doit faire, quelle app allons nous choisir (Visual Para ou Draw.io)
