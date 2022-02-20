@@ -8,6 +8,10 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations {
+    compile.exclude module: 'spring-boot-starter-tomcat'
+}
+
 repositories {
     mavenCentral()
 }
@@ -21,10 +25,21 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
+    implementation 'org.flywaydb:flyway-core'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
     runtimeOnly 'org.apache.derby:derby'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'org.apache.derby:derbyclient'
+    implementation 'org.apache.derby:derbynet:10.14.2.0'
+
+    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'commons-io:commons-io:2.4'
 }
 
 tasks.named('test') {
