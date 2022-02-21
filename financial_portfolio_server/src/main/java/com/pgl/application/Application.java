@@ -8,18 +8,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationStartingEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.InputStream;
 import java.util.Properties;
 
+@ComponentScan(basePackages = {"com.pgl"})
+@EntityScan(basePackages = {"com.pgl.models"})
+@SpringBootApplication
 public class Application {
     protected static Logger logger = LoggerFactory.getLogger(Application.class);
     protected static String APPLICATION_PROPERTIES_FILE = "application.properties";
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(ApplicationConfig.class);
+        SpringApplication application = new SpringApplication(Application.class);
         application.setBannerMode(Banner.Mode.OFF);
 
         application.addListeners(new ApplicationListener<ApplicationStartingEvent>() {
@@ -29,6 +35,7 @@ public class Application {
             }
         });
         application.run(args);
+//        SpringApplication.run(Application.class, args);
     }
 
     public static void startDbServer() {
@@ -99,7 +106,7 @@ public class Application {
             System.setProperty("pgl.db.server.home", dbHome);
 
             AppServer server = new DerbyServer();
-            server.lauch();
+            server.launch();
         } catch (NumberFormatException e) {
             e.printStackTrace();
             logger.error(e.getMessage());

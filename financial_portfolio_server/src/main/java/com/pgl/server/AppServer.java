@@ -8,7 +8,7 @@ public interface AppServer {
     void restart();
     void stop();
 
-    default void lauch() {
+    default void launch() {
         this.configure();
         this.create();
         this.start();

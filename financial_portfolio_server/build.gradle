@@ -1,8 +1,9 @@
 plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
+    id 'application'
 }
+mainClassName = 'com.pgl.application.Application'
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
@@ -11,6 +12,9 @@ sourceCompatibility = '11'
 configurations {
     compile.exclude module: 'spring-boot-starter-tomcat'
 }
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
 
 repositories {
     mavenCentral()
@@ -26,7 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.session:spring-session-core'
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
-    implementation 'org.flywaydb:flyway-core'
+//    implementation 'org.flywaydb:flyway-core'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
