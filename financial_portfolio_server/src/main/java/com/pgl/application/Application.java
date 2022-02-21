@@ -13,12 +13,14 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationStartingEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.io.InputStream;
 import java.util.Properties;
 
 @ComponentScan(basePackages = {"com.pgl"})
 @EntityScan(basePackages = {"com.pgl.models"})
+@EnableJpaRepositories(basePackages = {"com.pgl.repositories"})
 @SpringBootApplication
 public class Application {
     protected static Logger logger = LoggerFactory.getLogger(Application.class);

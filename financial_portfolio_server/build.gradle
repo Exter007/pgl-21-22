@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'application'
+    id 'com.github.johnrengelman.shadow'
 }
 mainClassName = 'com.pgl.application.Application'
 
@@ -44,6 +45,13 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'commons-io:commons-io:2.4'
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.pgl.application.Application'
+    }
+    mergeServiceFiles()
 }
 
 tasks.named('test') {
