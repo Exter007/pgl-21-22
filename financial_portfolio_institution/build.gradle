@@ -1,0 +1,63 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.beryx.jlink' version '2.23.1'
+    id 'com.github.johnrengelman.shadow'
+}
+
+mainClassName = 'com.pgl.energy.application.StartApplication'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+ext {
+    jerseyVersion = '2.34'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.glassfish.jersey.core:jersey-client:${jerseyVersion}"
+    implementation "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.2'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // https://mvnrepository.com/artifact/javax.inject/javax.inject
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
+    // https://mvnrepository.com/artifact/com.jfoenix/jfoenix
+    implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
+
+
+//    implementation project(':FinancialPortfolioServer')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+jlink {
+    launcher {
+        name = 'com.pgl.energy.application.StartApplication'
+    }
+}
+
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.pgl.energy.application.StartApplication'
+    }
+    mergeServiceFiles()
+}
+
+test {
+    useJUnitPlatform()
+}

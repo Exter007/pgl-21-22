@@ -1,6 +1,10 @@
 HELP.md
 .gradle
 /.gradle/
+/gradlew
+/gradlew.bat
+gradlew
+gradlew.bat
 build/
 /build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -42,5 +46,3 @@ out/
 
 ### Others ###
 /resources/
-/gradlew
-/gradlew.bat
