@@ -22,12 +22,12 @@ import java.util.Properties;
 @EntityScan(basePackages = {"com.pgl.models"})
 @EnableJpaRepositories(basePackages = {"com.pgl.repositories"})
 @SpringBootApplication
-public class Application {
-    protected static Logger logger = LoggerFactory.getLogger(Application.class);
+public class ServerApplication {
+    protected static Logger logger = LoggerFactory.getLogger(ServerApplication.class);
     protected static String APPLICATION_PROPERTIES_FILE = "application.properties";
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(Application.class);
+        SpringApplication application = new SpringApplication(ServerApplication.class);
         application.setBannerMode(Banner.Mode.OFF);
 
         application.addListeners(new ApplicationListener<ApplicationStartingEvent>() {
@@ -44,7 +44,7 @@ public class Application {
         Properties properties = new Properties();
         InputStream in = null;
         try {
-            in = Application.class.getResourceAsStream("/" + APPLICATION_PROPERTIES_FILE);
+            in = ServerApplication.class.getResourceAsStream("/" + APPLICATION_PROPERTIES_FILE);
             properties.load(in);
         } catch (Exception e) {
             e.printStackTrace();

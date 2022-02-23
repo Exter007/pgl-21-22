@@ -21,7 +21,7 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "pgl/account/register/client", method = RequestMethod.POST)
+    @RequestMapping(value = "register/client", method = RequestMethod.POST)
     public ResponseEntity<?> confirm(@RequestBody ApplicationClient applicationClient) {
         applicationClient = applicationClientService.getRepository().save(applicationClient);
         return ResponseEntity.ok(applicationClient);

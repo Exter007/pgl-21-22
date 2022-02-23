@@ -49,7 +49,7 @@ dependencies {
 
 shadowJar {
     manifest {
-        attributes 'Main-Class': 'com.pgl.application.Application'
+        attributes 'Main-Class': 'com.pgl.application.ServerApplication'
     }
     mergeServiceFiles()
 }

@@ -1,0 +1,162 @@
+/*Font size*/
+.fn-14{
+    -fx-font-size:14px;
+}
+
+.fn-16{
+    -fx-font-size:16px;
+}
+
+.fn-18{
+    -fx-font-size:18px;
+}
+
+.fn-24{
+    -fx-font-size:24px;
+}
+
+.fn-32{
+    -fx-font-size:32px;
+}
+
+.fn-48{
+    -fx-font-size:48px;
+}
+
+.fn-64{
+    -fx-font-size:64px;
+}
+
+/*Text-alignments*/
+
+.txt-center{
+    -fx-text-alignment:center;
+}
+
+.txt-justify{
+    -fx-text-alignment:justify;
+}
+
+.txt-left{
+    -fx-text-alignment:left;
+}
+
+.txt-right{
+    -fx-text-alignment:right;
+}
+
+/*Text-colors*/
+
+.fill-light-grey{
+    -fx-fill: #ececec;
+    -fx-text-fill: #ececec;
+}
+
+.fill-grey{
+    -fx-fill: #9c9c9c;
+    -fx-text-fill: #9c9c9c;
+}
+
+.fill-dark{
+    -fx-fill: #4f5d55;
+    -fx-text-fill: #4f5d55;
+}
+
+.fill-white{
+    -fx-fill: #ffffff;
+    -fx-text-fill: #ffffff;
+}
+
+.fill-red{
+    -fx-fill: #e86829;
+    -fx-text-fill: #e86829;
+}
+
+.fill-green{
+    -fx-fill: #8bc34a;
+    -fx-text-fill: #8bc34a;
+}
+
+.back-white{
+    -fx-background-color:#ffffff;
+}
+
+.back-black{
+    -fx-background-color:#080808;
+}
+
+.back-transparent{
+    -fx-background-color:transparent;
+    -fx-background-radius:0px;
+}
+
+
+
+.back-green{
+    -fx-background-color:#8bc34a;
+}
+
+.back-blue{
+    -fx-background-color:#38A0F7;
+}
+
+/*SHAPE*/
+
+.flat{
+    -fx-background-radius:0px;
+}
+
+
+/*BORDERS*/
+
+.border-2px{
+/*    -fx-border-width: 2px;*/
+    -fx-background-radius: 15px;
+}
+
+.border-light-grey{
+    -fx-border-color: #38A0F7;   
+}
+
+.border-listView{
+    /*-fx-border-width: 35px;*/
+    /*-fx-border-color: #38A0F7;*/
+    -fx-background-radius: 15px;
+    -fx-padding: 8px;
+}
+
+/*HOVER*/
+
+.hover-hand:hover{
+    -fx-cursor:hand;
+    -fx-background-radius: 15px;
+}
+
+.hover-dark-grey:hover{
+    -fx-background-color:#d2d2d2;
+}
+
+
+.bodybg{
+    -fx-background-image: url("/images/background.jpg");
+    -fx-background-size: 100% 100%;
+}
+
+/*POLICE*/
+
+.text-police{
+    -fx-font-family:Smile of the Ocean; 
+}
+
+.text-color{
+    -fx-text-fill: white; 
+    -fx-font-size: 17px;
+}
+
+.background-ligth-grey{
+  -fx-background-color:#48A2ED;   
+}
+
+.back-orange{
+  -fx-background-color:#ED8948;   
+}
