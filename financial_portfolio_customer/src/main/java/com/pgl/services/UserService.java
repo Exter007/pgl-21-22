@@ -124,6 +124,16 @@ public class UserService {
 
         System.out.println(applicationClient);
 
+        if (applicationClient != null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Client enregistré avec succés");
+            alert.showAndWait();
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Erreur lors de l'enregistrement");
+            alert.showAndWait();
+        }
+
 //        String fooResourceUrl
 //                = GlobalVariables.CONTEXT_PATH.concat("/account/getAccount");
 //        ResponseEntity<String> response
