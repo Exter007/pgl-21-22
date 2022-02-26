@@ -6,6 +6,14 @@ import com.pgl.utils.GlobalVariables;
 import javafx.scene.control.Alert;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -13,8 +21,10 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 public class UserService {
+
 
     public WebTarget webTarget;
     protected ClientConfig config = new ClientConfig();
@@ -99,48 +109,28 @@ public class UserService {
      * @return
      */
     public ApplicationClient register(ApplicationClient entity){
+
+        RestTemplate restTemplate = new RestTemplate();
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/client");
-        System.out.println("url: "+url);
-        client.property("contextName", ContextName.CLIENT);
 
-        webTarget = client.target(url);
+        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+//        HttpEntity <String> entity = new HttpEntity<String>(headers);
+        headers.setBasicAuth("","");
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        HttpEntity<ApplicationClient> request = new HttpEntity<>(entity,headers);
+        ApplicationClient applicationClient = restTemplate.postForObject(url, request, ApplicationClient.class);
 
-        System.out.println(response.getStatus());
-//        System.out.println(response.readEntity(String.class));
+        System.out.println(applicationClient);
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
+//        String fooResourceUrl
+//                = GlobalVariables.CONTEXT_PATH.concat("/account/getAccount");
+//        ResponseEntity<String> response
+//                = restTemplate.getForEntity(fooResourceUrl, String.class);
+//        System.out.println(response.getStatusCode());
 
-            String error= response.readEntity(String.class);
-            System.out.println("Error: "+error);
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            if(error.equals("This User already exists")){
-                alert.setHeaderText("Erreur email");
-                alert.setContentText("Un compte avec cet email existe deja");
-                alert.showAndWait();
-            }
-            else{
-                alert.setHeaderText("Erreur lors de la création du compte");
-                alert.showAndWait();
-            }
-
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
-
-            return null;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setTitle("Error");
-        alert.setHeaderText("Compte créé avec succès");
-        alert.setContentText("Une mail de confirmation vous a étè envoyè.  Veuillez validè votre compte pour vous connectez");
-        alert.showAndWait();
-
-        return response.readEntity(ApplicationClient.class);
+        return null;
     }
 
     /**

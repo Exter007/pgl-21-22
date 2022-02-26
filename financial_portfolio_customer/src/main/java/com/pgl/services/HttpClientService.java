@@ -9,6 +9,8 @@ import javax.ws.rs.core.*;
 
 import javafx.scene.control.Alert;
 import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -81,6 +83,12 @@ public class HttpClientService<P extends Persistent>{
         webTarget = client.target(url);
         Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
 
+//        RestTemplate restTemplate = new RestTemplate();
+//        String fooResourceUrl
+//                = GlobalVariables.CONTEXT_PATH.concat("/account/getAccount");
+//        ResponseEntity<String> response
+//                = restTemplate.getForEntity(fooResourceUrl, String.class);
+//        System.out.println(response.getStatusCode());
 
         if (response.getStatus() != Response.Status.OK.getStatusCode()) {
             System.out.println("Failed with HTTP Error code: " + response.getStatus());

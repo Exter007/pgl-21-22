@@ -20,11 +20,15 @@ public class AccountController {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
-    @ResponseBody
-    @RequestMapping(value = "register/client", method = RequestMethod.POST)
-    public ResponseEntity<?> confirm(@RequestBody ApplicationClient applicationClient) {
+    @PostMapping(value = "register/client")
+    public ResponseEntity<?> register(@RequestBody ApplicationClient applicationClient) {
         applicationClient = applicationClientService.getRepository().save(applicationClient);
         return ResponseEntity.ok(applicationClient);
+    }
+
+    @RequestMapping(value = "getTest", method = RequestMethod.GET)
+    public ResponseEntity<?> getAccount(String id){
+        return ResponseEntity.ok("Success");
     }
 
 }
