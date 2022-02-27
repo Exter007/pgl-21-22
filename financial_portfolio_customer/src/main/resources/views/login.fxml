@@ -55,7 +55,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="98.0" prefWidth="701.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 17;" styleClass="fn-16" text="Login" wrappingWidth="166.0">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 17;" styleClass="fn-16" text="Identifiant" wrappingWidth="166.0">
                                              <HBox.margin>
                                                 <Insets left="17.0" />
                                              </HBox.margin>
