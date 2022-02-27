@@ -5,7 +5,7 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
-mainClassName = 'com.pgl.energy.application.StartApplication'
+mainClassName = 'com.pgl.application.StartApplication'
 
 group 'org.example'
 version '1.0-SNAPSHOT'
