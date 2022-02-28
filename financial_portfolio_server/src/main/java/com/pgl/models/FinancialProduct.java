@@ -19,6 +19,10 @@ public class FinancialProduct extends Persistent {
             inverseJoinColumns = @JoinColumn(name = "financial_product_holder_id"))
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
+    //TODO : add ManyToOne avec wallet
+
+
+
 
     public enum PRODUCT_STATE{
         UNARCHIVED,

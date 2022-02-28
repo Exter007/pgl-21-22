@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="BANK_ACCOUNT")
-public abstract class BankAccount extends PersistentWithoutId {
+public abstract class BankAccount extends FinancialProduct {
 
     public enum ACCOUNT_TYPE {
         INDIVIDUAL_ACCOUNT,
@@ -54,6 +54,7 @@ public abstract class BankAccount extends PersistentWithoutId {
     }
 
     //TODO : Implementer les methodes relatives a BankAccount
+    //TODO : Regarder a la cardinalite, exemeple : un wallet doit au moins avoir un compte courant pour pouvoir être créé
 
     public String getIban() {
         return iban;
