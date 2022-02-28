@@ -6,7 +6,17 @@ import java.util.Date;
 
 @Entity
 @Table(name="BANK_ACCOUNT")
-public class BankAccount {
+public class BankAccount extends PersistentWithoutId {
+    public enum ACCOUNT_TYPE {
+        INDIVIDUAL_ACCOUNT,
+        JOINT_ACCOUNT,
+        ACCOUNT_UNDIVIDED
+    };
+
+    public enum CURRENCY {
+        EURO
+    };
+
     @Id
     @Column(name="iban",unique = true,nullable = false)
     private String iban;
@@ -24,16 +34,25 @@ public class BankAccount {
     private CURRENCY currency;
 
     @Column(name="monthlyFee")
-    private float monthlyfee;
-
-    @Column(name="creationDate")
-    private Date creationDate;
+    private float monthlyFee;
 
     @Column(name="annualYield")
     private float annualYield;
 
-    @Column(name="lastUpdate")
-    private Date lastUpdate;
+    public BankAccount() {
+    }
+
+    public BankAccount(String iban, ACCOUNT_TYPE type, int pin_code, float amount, CURRENCY currency, float monthlyFee, float annualYield) {
+        this.iban = iban;
+        this.type = type;
+        this.pin_code = pin_code;
+        this.amount = amount;
+        this.currency = currency;
+        this.monthlyFee = monthlyFee;
+        this.annualYield = annualYield;
+    }
+
+    //TODO : Implementer les methodes relatives a BankAccount
 
     public String getIban() {
         return iban;
@@ -76,19 +95,11 @@ public class BankAccount {
     }
 
     public float getMonthlyfee() {
-        return monthlyfee;
+        return monthlyFee;
     }
 
-    public void setMonthlyfee(float monthlyfee) {
-        this.monthlyfee = monthlyfee;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setMonthlyfee(float monthlyFee) {
+        this.monthlyFee = monthlyFee;
     }
 
     public float getAnnualYield() {
@@ -97,13 +108,5 @@ public class BankAccount {
 
     public void setAnnualYield(float annualYield) {
         this.annualYield = annualYield;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 }

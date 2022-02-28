@@ -4,11 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="WALLET")
-public class Wallet {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+public class Wallet extends Persistent {
 
     @Column(name="name")
     private String name;
@@ -17,12 +13,24 @@ public class Wallet {
     @JoinColumn(name = "financial_institution_BIC", nullable=false)
     private FinancialInstitution financialInstitution;
 
-    public String getId() {
-        return id;
+    //TODO : Implementer les methodes relatives a Wallet.
+
+    public Wallet() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Wallet(String name, FinancialInstitution financialInstitution) {
+        this();
+        this.name = name;
+        this.financialInstitution = financialInstitution;
+    }
+
+
+    public FinancialInstitution getFinancialInstitution() {
+        return financialInstitution;
+    }
+
+    public void setFinancialInstitution(FinancialInstitution financialInstitution) {
+        this.financialInstitution = financialInstitution;
     }
 
     public String getName() {

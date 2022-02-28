@@ -28,7 +28,7 @@ public class FinancialProduct extends Persistent {
     public FinancialProduct() {
     }
 
-    public FinancialProduct(String wording, PRODUCT_STATE state, String phone) {
+    public FinancialProduct(String wording, PRODUCT_STATE state) {
         this();
         this.wording = wording;
         this.state = state;
