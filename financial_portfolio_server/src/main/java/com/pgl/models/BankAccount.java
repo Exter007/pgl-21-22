@@ -6,7 +6,8 @@ import java.util.Date;
 
 @Entity
 @Table(name="BANK_ACCOUNT")
-public class BankAccount extends PersistentWithoutId {
+public abstract class BankAccount extends PersistentWithoutId {
+
     public enum ACCOUNT_TYPE {
         INDIVIDUAL_ACCOUNT,
         JOINT_ACCOUNT,
@@ -94,11 +95,11 @@ public class BankAccount extends PersistentWithoutId {
         this.currency = currency;
     }
 
-    public float getMonthlyfee() {
+    public float getMonthlyFee() {
         return monthlyFee;
     }
 
-    public void setMonthlyfee(float monthlyFee) {
+    public void setMonthlyFee(float monthlyFee) {
         this.monthlyFee = monthlyFee;
     }
 
