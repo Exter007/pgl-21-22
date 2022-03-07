@@ -36,25 +36,17 @@ public class RegisterController implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private Button register;
+    private TextField firstName;
     @FXML
-    private Button login;
+    private TextField lastName;
     @FXML
-    private TextField name;
-    @FXML
-    private TextField surname;
-    @FXML
-    private DatePicker date_of_birth;
-    @FXML
-    private TextField nationalRegister;
+    private TextField nationalRegisterNumber;
     @FXML
     private TextField email;
     @FXML
-    private TextField city;
-    @FXML
     private PasswordField password;
     @FXML
-    private PasswordField password_confirm;
+    private PasswordField password2;
 
 
     /**
@@ -64,25 +56,42 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
+    public ApplicationClient build_user(){
+        ApplicationClient user = new ApplicationClient();
+
+        user.setName(lastName.getText());
+        user.setFirstName(firstName.getText());
+        user.setEmail(email.getText());
+        user.setPassword(password.getText());
+        user.setNationalRegister(nationalRegisterNumber.getText());
+
+        int code = 10000 + (int) (Math.random()*(99999-10000));
+        user.setToken(String.valueOf(code));
+
+        user.setActive(false);
+
+        return user;
+    }
 
     @FXML
-    private void on_register(MouseEvent event) {
+    private void register(MouseEvent event) {
 
-        if(email.getText().isEmpty() || name.getText().isEmpty() || password.getText().isEmpty()
-                || password_confirm.getText().isEmpty()){
+        if(email.getText().isEmpty() ||
+                nationalRegisterNumber.getText().isEmpty() ||
+                firstName.getText().isEmpty() ||
+                lastName.getText().isEmpty() ||
+                password.getText().isEmpty() ||
+                password2.getText().isEmpty()){
             List<String> errors = new ArrayList<>();
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Les champs suivants sont invalides");
-            String errorString = "- email\n - Nom\n - Mot de passe\n - Confirmation de mot de passe";
-
-            alert.setContentText(errorString);
+            alert.setHeaderText("Un/plusieurs champs sont invalides, veuillez réessayer");
             alert.showAndWait();
 
-        }else if(!password.getText().equals(password_confirm.getText())) {
+        }else if(!password.getText().equals(password2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Error");
-//            alert.setHeaderText("Error");
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur");
             alert.setContentText("Les mots de passes ne correspondent pas");
             alert.showAndWait();
         } else {
@@ -93,7 +102,7 @@ public class RegisterController implements Initializable {
 
             if (user != null){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/accountActivation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -107,9 +116,9 @@ public class RegisterController implements Initializable {
     }
 
     @FXML
-    private void on_login(MouseEvent event) {
+    private void login(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
@@ -120,20 +129,13 @@ public class RegisterController implements Initializable {
         }
     }
 
-    public ApplicationClient build_user(){
-        ApplicationClient user = new ApplicationClient();
+    @FXML
+    private void languageFR(MouseEvent event) {
+        //TODO
+    }
 
-        user.setName(name.getText());
-        user.setFirstName(surname.getText());
-        user.setEmail(email.getText());
-        user.setPassword(password.getText());
-        user.setNationalRegister(nationalRegister.getText());
-
-        int code = 10000 + (int) (Math.random()*(99999-10000));
-        user.setToken(String.valueOf(code));
-
-        user.setActive(false);
-
-        return user;
+    @FXML
+    private void languageEN(MouseEvent event) {
+        //TODO
     }
 }

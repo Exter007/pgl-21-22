@@ -27,7 +27,9 @@ public class LoginController implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private TextField email;
+    private TextField name;
+    @FXML
+    private TextField nationalRegisterNumber;
     @FXML
     private PasswordField password;
 
@@ -37,43 +39,53 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
+    /**
+     * Supprime les espaces dans le nom
+     * @param name
+     * @param nationalRegisterNumber
+     * @return le nom et le numéro de registre national concaténé
+     */
+    private String username(String name, String nationalRegisterNumber){
+        String clearSpaceName = name.replaceAll("\\s+","");
+        return clearSpaceName+nationalRegisterNumber;
+    }
 
     @FXML
     private void login(MouseEvent event) {
-
-        if(email.getText().isEmpty() || password.getText().isEmpty()){
+        if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Les champs ne peuvent pas etre vides");
+            alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
         }else{
-            ApplicationClient user = userService.login(email.getText(), password.getText());
+            ApplicationClient user = userService.login(username(name.getText(),nationalRegisterNumber.getText()), password.getText());
             if (user!= null){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/my_portfolios.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
-
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Veuillez remplir tout les champs");
+                alert.showAndWait();
             }
         }
-
-
     }
 
     @FXML
     private void register(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/register.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Register.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
             GlobalStage.setStage(newWindow);
-
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,71 +93,24 @@ public class LoginController implements Initializable {
 
     @FXML
     private void password_reset(MouseEvent event) {
-        if(email.getText().isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez entrer votre email");
-            alert.showAndWait();
-        }else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la réinitialisation du mot de passe?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                ApplicationClient user = new ApplicationClient();
-                user.setEmail(email.getText());
-                UserService.setCurrentUser(user);
-                boolean res = userService.sendPasswordResetCode(user);
-
-                if(res == true){
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/views/resetPassword.fxml"));
-                        Stage newWindow = new Stage();
-                        Scene scene = new Scene(root);
-                        newWindow.setScene(scene);
-                        GlobalStage.setStage(newWindow);
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_1.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
-    private void account_activation(MouseEvent event) {
-        if(email.getText().isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez entrer votre email");
-            alert.showAndWait();
-        }else{
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez l'activation du compte?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                ApplicationClient user = new ApplicationClient();
-                user.setEmail(email.getText());
-                UserService.setCurrentUser(user);
-                boolean res = userService.sendAccountResetCode(user);
+    private void languageFR(MouseEvent event) {
+        //TODO
+    }
 
-                if(res == true){
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setTitle("Error");
-                    alert.setHeaderText("Un code vous a étè envoyé par mail");
-                    alert.showAndWait();
-
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/views/accountActivation.fxml"));
-                        Stage newWindow = new Stage();
-                        Scene scene = new Scene(root);
-                        newWindow.setScene(scene);
-                        GlobalStage.setStage(newWindow);
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-
-        }
-
+    @FXML
+    private void languageEN(MouseEvent event) {
+    //TODO
     }
 }

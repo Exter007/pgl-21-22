@@ -67,7 +67,6 @@ public class UserService {
             String error= response.readEntity(String.class);
 
             if(response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-
                 if(error.equals("Account not activated")){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Compte non activé");
@@ -75,12 +74,11 @@ public class UserService {
                     alert.showAndWait();
                 }else{
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Error");
+                    alert.setTitle("Error");
                     alert.setHeaderText("Email ou mot de passe incorrect");
-//                alert.setContentText("Email ou mot de passe incorrect");
+                    alert.setContentText("Votre nom et/ou votre numéro de registre national et/ou votre mot de passe est incorrect");
                     alert.showAndWait();
                 }
-
             }
 
             System.out.println("Failed with HTTP Error code: " + response.getStatus());
