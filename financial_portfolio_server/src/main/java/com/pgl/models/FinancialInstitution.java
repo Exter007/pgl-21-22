@@ -29,10 +29,6 @@ public class FinancialInstitution extends User{
     @JsonIgnore
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy ="financialInstitution")
-    @JsonIgnore
-    private List<Wallet> wallets = new ArrayList<>();
-
     public FinancialInstitution() {
     }
 
@@ -79,8 +75,6 @@ public class FinancialInstitution extends User{
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
     }
-
-    public List<Wallet> getWallets() { return wallets; }
 
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
