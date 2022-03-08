@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //TODO
     }
 
     /**
@@ -52,15 +52,32 @@ public class LoginController implements Initializable {
         return clearSpaceName+nationalRegisterNumber;
     }
 
+    /**
+     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
+     * @param nationalRegisterNumber
+     * @return true ou false
+     */
+    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
+        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
+        isNumeric = (nationalRegisterNumber.length() == 11);
+        return isNumeric;
+    }
+
     @FXML
     private void login(MouseEvent event) {
         if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
+        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre n° de registre national ne peut être composé que de chiffres");
+            alert.showAndWait();
         }else{
-            ApplicationClient user = userService.login(username(name.getText(),nationalRegisterNumber.getText()), password.getText());
-            if (user!= null){
+            ApplicationClient user = new ApplicationClient();
+            // TODO
+            // ApplicationClient user = userService.login(username(name.getText(),nationalRegisterNumber.getText()), password.getText());
+            if (user != null){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();
@@ -72,7 +89,7 @@ public class LoginController implements Initializable {
                 }
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Veuillez remplir tout les champs");
+                alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
                 alert.showAndWait();
             }
         }

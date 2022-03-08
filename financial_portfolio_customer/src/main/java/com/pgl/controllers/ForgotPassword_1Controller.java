@@ -37,14 +37,30 @@ public class ForgotPassword_1Controller implements Initializable {
         // TODO
     }
 
+    /**
+     * Vérifie que l'e-mail est au bon format (@ et .)
+     * @param email
+     * @return true ou false
+     */
+    private boolean check_email(String email){
+        boolean hasArobase =  email.contains("@");
+        boolean hasPoint =  email.contains(".");
+        return hasArobase && hasPoint;
+    }
+
     @FXML
     private void validate(MouseEvent event) {
         if(email.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez rentrer votre e-mail");
             alert.showAndWait();
+
+        }else if(!check_email(email.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre e-mail n'est pas au bon format");
+            alert.showAndWait();
+
         }else {
-            //TODO
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_2.fxml"));
                 Stage newWindow = new Stage();
