@@ -21,6 +21,8 @@ public class Wallet extends Persistent {
     @JsonIgnore
     private List<FinancialProduct> financialProducts = new ArrayList<>();
 
+    private List<Wallet> wallets;
+
     //TODO : Implementer les methodes relatives a Wallet.
 
     public Wallet() {
@@ -31,6 +33,18 @@ public class Wallet extends Persistent {
         this.name = name;
         this.financialInstitution = financialInstitution;
         this.financialProducts.add(bankAccount);
+    }
+
+    public void create() {
+
+    }
+
+    public void modify() {
+
+    }
+
+    public void delete(int id) {
+        // DELETE FROM WALLETS where id = id;
     }
 
 
