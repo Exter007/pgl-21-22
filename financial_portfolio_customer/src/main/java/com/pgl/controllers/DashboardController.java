@@ -8,8 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.LineChart;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -26,7 +26,28 @@ public class DashboardController implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private TextField code;
+    private Label welcome;
+
+    @FXML
+    private TableView wallet_tableview;
+
+    @FXML
+    private DatePicker from_date;
+
+    @FXML
+    private DatePicker to_date;
+
+    @FXML
+    private ChoiceBox export_format;
+
+    @FXML
+    private TableView products_tableview;
+
+    @FXML
+    private ListView products_listview;
+
+    @FXML
+    private LineChart products_linechart;
 
     /**
      * Initializes the controller class.
@@ -48,22 +69,38 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void languageFR(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     private void languageEN(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     private void ask_wallet(MouseEvent event) {
-
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-AskWalletToInstitution.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     private void transfer(MouseEvent event) {
-
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-Transfer.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -118,17 +155,23 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void graph(MouseEvent event) {
-
+        products_tableview.visibleProperty().setValue(false);
+        products_listview.visibleProperty().setValue(false);
+        products_linechart.visibleProperty().setValue(true);
     }
 
     @FXML
     private void list(MouseEvent event) {
-
+        products_tableview.visibleProperty().setValue(false);
+        products_listview.visibleProperty().setValue(true);
+        products_linechart.visibleProperty().setValue(false);
     }
 
     @FXML
     private void tableview(MouseEvent event) {
-
+        products_tableview.visibleProperty().setValue(true);
+        products_listview.visibleProperty().setValue(false);
+        products_linechart.visibleProperty().setValue(false);
     }
 
     @FXML

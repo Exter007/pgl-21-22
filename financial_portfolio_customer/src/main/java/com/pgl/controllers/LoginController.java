@@ -71,7 +71,7 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national ne peut être composé que de chiffres");
+            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
             alert.showAndWait();
         }else{
             ApplicationClient user = new ApplicationClient();
