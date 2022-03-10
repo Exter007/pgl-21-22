@@ -11,20 +11,17 @@ import java.util.List;
 @Table(name = "FINANCIAL_PRODUCT_HOLDER")
 public class FinancialProductHolder extends PersistentWithoutId {
 
-//    @EmbeddedId
-//    FinancialProductHolderKey financialProductHolderKey;
-
     @Id
     @Column(name = "national_register", unique = true, nullable = false)
     private String nationalRegister;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "birth_date")
+    @Column(name = "birth_date", nullable = false)
     private Date birthDate;
 
     @Column(name = "sex")
@@ -38,29 +35,35 @@ public class FinancialProductHolder extends PersistentWithoutId {
     private FinancialInstitution financialInstitution;
 
     @ManyToOne()
-    @JoinColumn(name = "application_client_id", nullable=false)
+    @JoinColumn(name = "application_client_id")
     private ApplicationClient applicationClient;
 
-    @ManyToMany(mappedBy = "financialProductHolders")
+    @ManyToMany(mappedBy = "financialProductHolders", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<FinancialProduct> financialProducts = new ArrayList<>();
 
-//    @Embeddable
-//    class FinancialProductHolderKey implements Serializable {
-//        @Column(name = "national_register", unique = true, nullable = false)
-//        private String nationalRegister;
-//
-//        @Column(name = "financial_institution_BIC", nullable=false)
-//        private String financialInstitutionBIC;
-//    }
-//
-//    public FinancialProductHolderKey getFinancialProductHolderKey() {
-//        return financialProductHolderKey;
-//    }
-//
-//    public void setFinancialProductHolderKey(FinancialProductHolderKey financialProductHolderKey) {
-//        this.financialProductHolderKey = financialProductHolderKey;
-//    }
+
+    public FinancialProductHolder(String nationalRegister, String name, String firstName, Date birthDate, FinancialInstitution financialInstitution, CurrentAccount currentAccount) {
+        this.nationalRegister = nationalRegister;
+        this.name = name;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.financialInstitution = financialInstitution;
+        this.financialProducts.add(currentAccount);
+    }
+
+    /** Builder for all attributes  **/
+    public FinancialProductHolder(String nationalRegister, String name, String firstName, Date birthDate, String sex, String phone, FinancialInstitution financialInstitution, ApplicationClient applicationClient, List<FinancialProduct> financialProducts) {
+        this.nationalRegister = nationalRegister;
+        this.name = name;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.sex = sex;
+        this.phone = phone;
+        this.financialInstitution = financialInstitution;
+        this.applicationClient = applicationClient;
+        this.financialProducts = financialProducts;
+    }
 
     public String getName() {
         return name;
