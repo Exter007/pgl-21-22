@@ -121,19 +121,25 @@ public class RegisterController implements Initializable {
     }
 
     public ApplicationClient build_user(){
-        ApplicationClient user = new ApplicationClient();
-
-        user.setName(name.getText());
-        user.setFirstName(surname.getText());
-        user.setEmail(email.getText());
-        user.setPassword(password.getText());
-        user.setNationalRegister(nationalRegister.getText());
-
         int code = 10000 + (int) (Math.random()*(99999-10000));
-        user.setToken(String.valueOf(code));
+        ApplicationClient user = new ApplicationClient(nationalRegister.getText(),
+                                surname.getText(), name.getText(), password.getText(),
+                                email.getText(), String.valueOf(code),false);
 
-        user.setActive(false);
+//        user.setName(name.getText());
+//        user.setFirstName(surname.getText());
+//        user.setEmail(email.getText());
+//        user.setPassword(password.getText());
+//        user.setNationalRegister(nationalRegister.getText());
+
+//        user.setActive(false);
 
         return user;
+    }
+
+    public String buildLogin(String firstName, String name, String nationalRegister) {
+        return  (firstName != null ? firstName : "")
+                .concat(name != null ? name: "")
+                .concat(nationalRegister != null ? nationalRegister: "");
     }
 }

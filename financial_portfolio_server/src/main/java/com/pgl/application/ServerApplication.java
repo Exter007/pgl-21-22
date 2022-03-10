@@ -2,6 +2,7 @@ package com.pgl.application;
 
 import com.pgl.server.AppServer;
 import com.pgl.server.DerbyServer;
+import com.pgl.utils.ContextName;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -31,6 +32,11 @@ public class ServerApplication {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    ContextName getContext (){
+        return ContextName.CLIENT;
     }
 
     public static void main(String[] args) {

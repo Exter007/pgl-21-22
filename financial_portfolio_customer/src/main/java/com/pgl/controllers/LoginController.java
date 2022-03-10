@@ -89,23 +89,23 @@ public class LoginController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la réinitialisation du mot de passe?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                ApplicationClient user = new ApplicationClient();
-                user.setEmail(email.getText());
-                UserService.setCurrentUser(user);
-                boolean res = userService.sendPasswordResetCode(user);
-
-                if(res == true){
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/views/resetPassword.fxml"));
-                        Stage newWindow = new Stage();
-                        Scene scene = new Scene(root);
-                        newWindow.setScene(scene);
-                        GlobalStage.setStage(newWindow);
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+//                ApplicationClient user = new ApplicationClient();
+//                user.setEmail(email.getText());
+//                UserService.setCurrentUser(user);
+//                boolean res = userService.sendPasswordResetCode(user);
+//
+//                if(res == true){
+//                    try {
+//                        Parent root = FXMLLoader.load(getClass().getResource("/views/resetPassword.fxml"));
+//                        Stage newWindow = new Stage();
+//                        Scene scene = new Scene(root);
+//                        newWindow.setScene(scene);
+//                        GlobalStage.setStage(newWindow);
+//
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
             }
         }
 
@@ -121,28 +121,28 @@ public class LoginController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez l'activation du compte?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                ApplicationClient user = new ApplicationClient();
-                user.setEmail(email.getText());
-                UserService.setCurrentUser(user);
-                boolean res = userService.sendAccountResetCode(user);
-
-                if(res == true){
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setTitle("Error");
-                    alert.setHeaderText("Un code vous a étè envoyé par mail");
-                    alert.showAndWait();
-
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/views/accountActivation.fxml"));
-                        Stage newWindow = new Stage();
-                        Scene scene = new Scene(root);
-                        newWindow.setScene(scene);
-                        GlobalStage.setStage(newWindow);
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+//                ApplicationClient user = new ApplicationClient();
+//                user.setEmail(email.getText());
+//                UserService.setCurrentUser(user);
+//                boolean res = userService.sendAccountResetCode(user);
+//
+//                if(res == true){
+//                    alert = new Alert(Alert.AlertType.INFORMATION);
+////                alert.setTitle("Error");
+//                    alert.setHeaderText("Un code vous a étè envoyé par mail");
+//                    alert.showAndWait();
+//
+//                    try {
+//                        Parent root = FXMLLoader.load(getClass().getResource("/views/accountActivation.fxml"));
+//                        Stage newWindow = new Stage();
+//                        Scene scene = new Scene(root);
+//                        newWindow.setScene(scene);
+//                        GlobalStage.setStage(newWindow);
+//
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
             }
 
         }

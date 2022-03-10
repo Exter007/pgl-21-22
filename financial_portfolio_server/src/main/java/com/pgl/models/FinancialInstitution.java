@@ -26,29 +26,31 @@ public class FinancialInstitution extends User{
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy ="financialInstitution")
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
-    public FinancialInstitution(String login, String BIC, String name, String password, String email, boolean active, String language, String token, Address address) {
-        super(login, password, language, token, email, active, ROLE.FINANCIAL_INSTITUTION);
+    public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token) {
+        super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION);
         this.BIC = BIC;
         this.name = name;
         this.address = address;
+        this.setLogin(buildLogin());
     }
 
     /** Builder for all attributes  **/
-    public FinancialInstitution(String login, String BIC, String name, String password, String email, String language, String token, boolean active, String phone, List<FinancialProductHolder> financialProductHolders, Address address, List<Notification> notifications) {
-        super(login, password, language, token, email, active, ROLE.FINANCIAL_INSTITUTION);
+    public FinancialInstitution(String BIC, String name, String password, String email, String language, String token, boolean active, String phone, List<FinancialProductHolder> financialProductHolders, Address address, List<Notification> notifications) {
+        super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION, language);
         this.BIC = BIC;
         this.name = name;
         this.phone = phone;
         this.financialProductHolders = financialProductHolders;
         this.address = address;
         this.notifications = notifications;
+        this.setLogin(buildLogin());
     }
 
     public String getBIC() {
@@ -98,4 +100,11 @@ public class FinancialInstitution extends User{
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
+
+    @JsonIgnore
+    public String buildLogin() {
+        return  (getName() != null ? getName() : "")
+                .concat(getBIC() != null ? getBIC(): "");
+    }
+
 }

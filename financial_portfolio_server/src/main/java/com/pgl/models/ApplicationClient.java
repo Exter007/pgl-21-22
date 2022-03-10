@@ -28,21 +28,23 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
-    public ApplicationClient(String login,String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token) {
-        super(login, password, language, token, email, active, ROLE.APPLICATION_CLIENT);
+    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
+        super(password, email, token, active, ROLE.APPLICATION_CLIENT);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
         this.name = name;
+        this.setLogin(buildLogin());
     }
 
     /** Builder for all attributes  **/
-    public ApplicationClient(String login, String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
-        super(login, password, language, token, email, active, ROLE.APPLICATION_CLIENT);
+    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
+        super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
         this.name = name;
         this.financialProductHolders = financialProductHolders;
         this.notifications = notifications;
+        this.setLogin(buildLogin());
     }
 
     public String getNationalRegister() {
@@ -87,7 +89,7 @@ public class ApplicationClient extends User{
     }
 
     @JsonIgnore
-    public String getLogin() {
+    public String buildLogin() {
         return  (getFirstName() != null ? getFirstName() : "")
                 .concat(getName() != null ? getName(): "")
                 .concat(getNationalRegister() != null ? getNationalRegister(): "");

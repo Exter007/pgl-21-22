@@ -28,22 +28,22 @@ public abstract class User extends PersistentWithoutId {
     private ROLE role;
 
 
-    public User(String login, String password, String email, boolean active, ROLE role) {
+    public User(String password, String email, String token, boolean active, ROLE role) {
         this.password = password;
         this.email = email;
         this.active = active;
         this.role = role;
-        this.login = login;
+        this.token = token;
     }
 
-    public User(String login, String password, String language, String token, String email, boolean active, ROLE role) {
+    /** Builder for all attributes  **/
+    public User( String password, String email, String token, boolean active, ROLE role, String language) {
         this.password = password;
         this.language = language;
         this.token = token;
         this.email = email;
         this.active = active;
         this.role = role;
-        this.login = login;
     }
 
     public String getLogin() {
