@@ -28,16 +28,16 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
-    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token) {
-        super(password, language, token, email, active);
+    public ApplicationClient(String login,String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token) {
+        super(login, password, language, token, email, active, ROLE.APPLICATION_CLIENT);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
         this.name = name;
     }
 
     /** Builder for all attributes  **/
-    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
-        super(password, language, token, email, active);
+    public ApplicationClient(String login, String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
+        super(login, password, language, token, email, active, ROLE.APPLICATION_CLIENT);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
         this.name = name;

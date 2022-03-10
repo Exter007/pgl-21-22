@@ -33,16 +33,16 @@ public class FinancialInstitution extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
-    public FinancialInstitution( String BIC, String name, String password, String email, boolean active, String language, String token, Address address) {
-        super(password, language, token, email, active);
+    public FinancialInstitution(String login, String BIC, String name, String password, String email, boolean active, String language, String token, Address address) {
+        super(login, password, language, token, email, active, ROLE.FINANCIAL_INSTITUTION);
         this.BIC = BIC;
         this.name = name;
         this.address = address;
     }
 
     /** Builder for all attributes  **/
-    public FinancialInstitution(String BIC, String name, String password, String email, String language, String token, boolean active, String phone, List<FinancialProductHolder> financialProductHolders, Address address, List<Notification> notifications) {
-        super(password, language, token, email, active);
+    public FinancialInstitution(String login, String BIC, String name, String password, String email, String language, String token, boolean active, String phone, List<FinancialProductHolder> financialProductHolders, Address address, List<Notification> notifications) {
+        super(login, password, language, token, email, active, ROLE.FINANCIAL_INSTITUTION);
         this.BIC = BIC;
         this.name = name;
         this.phone = phone;
