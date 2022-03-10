@@ -4,7 +4,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow'
 }
-mainClassName = 'com.pgl.application.Application'
+mainClassName = 'com.pgl.application.ServerApplication'
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
