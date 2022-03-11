@@ -15,91 +15,61 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//@Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(
-//        securedEnabled = true,
-//        jsr250Enabled = true,
-//        prePostEnabled = true
-//)
-public class WebSecurityConfig {
-//        extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    UserDetailsServiceImpl userDetailsService;
-//
-//    @Autowired
-//    BCryptPasswordEncoder bCryptPasswordEncoder;
-//
-//    @Autowired
-//    private AuthEntryPointJwt unauthorizedHandler;
-//
-//    @Bean
-//    public JwtTokenFilter authenticationJwtTokenFilter() {
-//        return new JwtTokenFilter();
-//    }
-//
-//    @Bean
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+
+    @Bean
+    public JwtTokenFilter authenticationJwtTokenFilter() {
+        return new JwtTokenFilter();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
 //    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/**");
 //    }
-//
-//
-////    @Override
-////    public void configure(WebSecurity web) throws Exception {
-////        web.ignoring().antMatchers("/**");
-////    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(bCryptPasswordEncoder);
-//    }
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        // Enable CORS and disable CSRF
-//        http.cors().and().csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeRequests()
-////                .antMatchers("/api/auth/**").permitAll()
-////                .antMatchers("/api/test/**").permitAll()
-//                .anyRequest().authenticated();
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//
-//        // Set permissions on endpoints
-////        http.authorizeRequests()
-////                // Our public endpoints
-////                .antMatchers("/api/public/**").permitAll()
-////                .antMatchers(HttpMethod.GET, "/api/author/**").permitAll()
-////                .antMatchers(HttpMethod.POST, "/api/author/search").permitAll()
-////                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
-////                .antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
-////                // Our private endpoints
-////                .anyRequest().authenticated();
-//
-//        // Add JWT token filter
-////        http.addFilterBefore(
-////                authenticationJwtTokenFilter(),
-////                UsernamePasswordAuthenticationFilter.class
-////        );
-//    }
-//
-////    @Bean
-////    public CorsFilter corsFilter() {
-////        UrlBasedCorsConfigurationSource source =
-////                new UrlBasedCorsConfigurationSource();
-////        CorsConfiguration config = new CorsConfiguration();
-////        config.setAllowCredentials(true);
-////        config.addAllowedOrigin("*");
-////        config.addAllowedHeader("*");
-////        config.addAllowedMethod("*");
-////        source.registerCorsConfiguration("/**", config);
-////        return new CorsFilter(source);
-////    }
-//
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Enable CORS and disable CSRF
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+//                .antMatchers("/api/auth/**").permitAll()
+//                .antMatchers("/api/test/**").permitAll()
+                .anyRequest().authenticated();
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+    }
+
 //    @Bean
 //    GrantedAuthorityDefaults grantedAuthorityDefaults() {
 //        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
