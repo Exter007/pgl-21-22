@@ -77,4 +77,76 @@ class FinancialProductHolderTest {
     @Test
     void setFinancialProducts() {
     }
+
+    @Test
+    void testGetName() {
+    }
+
+    @Test
+    void testSetName() {
+    }
+
+    @Test
+    void testGetFirstName() {
+    }
+
+    @Test
+    void testSetFirstName() {
+    }
+
+    @Test
+    void testGetBirthDate() {
+    }
+
+    @Test
+    void testSetBirthDate() {
+    }
+
+    @Test
+    void testGetSex() {
+    }
+
+    @Test
+    void testSetSex() {
+    }
+
+    @Test
+    void testGetPhone() {
+    }
+
+    @Test
+    void testSetPhone() {
+    }
+
+    @Test
+    void testGetApplicationClient() {
+    }
+
+    @Test
+    void testSetApplicationClient() {
+    }
+
+    @Test
+    void testGetNationalRegister() {
+    }
+
+    @Test
+    void testSetNationalRegister() {
+    }
+
+    @Test
+    void testGetFinancialInstitution() {
+    }
+
+    @Test
+    void testSetFinancialInstitution() {
+    }
+
+    @Test
+    void testGetFinancialProducts() {
+    }
+
+    @Test
+    void testSetFinancialProducts() {
+    }
 }

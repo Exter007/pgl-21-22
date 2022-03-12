@@ -46,4 +46,48 @@ public class ApplicationClientTest {
     @Test
     void getLogin() {
     }
+
+    @Test
+    void testGetNationalRegister() {
+    }
+
+    @Test
+    void testSetNationalRegister() {
+    }
+
+    @Test
+    void testGetFirstName() {
+    }
+
+    @Test
+    void testSetFirstName() {
+    }
+
+    @Test
+    void testGetName() {
+    }
+
+    @Test
+    void testSetName() {
+    }
+
+    @Test
+    void testGetFinancialProductHolders() {
+    }
+
+    @Test
+    void testSetFinancialProductHolders() {
+    }
+
+    @Test
+    void getNotifications() {
+    }
+
+    @Test
+    void setNotifications() {
+    }
+
+    @Test
+    void buildLogin() {
+    }
 }

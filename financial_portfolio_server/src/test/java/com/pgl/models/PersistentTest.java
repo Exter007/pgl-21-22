@@ -25,4 +25,24 @@ class PersistentTest {
     @Test
     void testEquals() {
     }
+
+    @Test
+    void testGetId() {
+    }
+
+    @Test
+    void testSetId() {
+    }
+
+    @Test
+    void testToString1() {
+    }
+
+    @Test
+    void testHashCode1() {
+    }
+
+    @Test
+    void testEquals1() {
+    }
 }

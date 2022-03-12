@@ -29,4 +29,36 @@ class FinancialProductTest {
     @Test
     void setFinancialProductHolders() {
     }
+
+    @Test
+    void testGetWording() {
+    }
+
+    @Test
+    void testSetWording() {
+    }
+
+    @Test
+    void testGetState() {
+    }
+
+    @Test
+    void testSetState() {
+    }
+
+    @Test
+    void getFinancialInstitution() {
+    }
+
+    @Test
+    void setFinancialInstitution() {
+    }
+
+    @Test
+    void testGetFinancialProductHolders() {
+    }
+
+    @Test
+    void testSetFinancialProductHolders() {
+    }
 }
