@@ -25,4 +25,24 @@ class PersistentWithoutIdTest {
     @Test
     void setModificationDate() {
     }
+
+    @Test
+    void testGetCreationDate() {
+    }
+
+    @Test
+    void testSetCreationDate() {
+    }
+
+    @Test
+    void testSetCreationDates() {
+    }
+
+    @Test
+    void testGetModificationDate() {
+    }
+
+    @Test
+    void testSetModificationDate() {
+    }
 }

@@ -13,13 +13,13 @@ public class Address extends Persistent{
     private String street;
 
     @Column(name = "street_number")
-    private int streetNumber;
+    private int streetNumber;//Arsène: Devrait être un string (voir https://www.techno-science.net/definition/7104.html)
 
     @Column(name = "city", nullable = false)
     private String city;
 
     @Column(name = "postal_code", nullable = false)
-    private int postalCode;
+    private int postalCode;//Arsène: Devrait être un string vu que les codes postales ne contiennent pas forcément que des chiffres selon le pays (voir pays-bas et royaume-uni)
 
     @Column(name = "country", nullable = false)
     private String country;
@@ -35,7 +35,7 @@ public class Address extends Persistent{
         this.country = country;
     }
 
-    /** Builder for all attributes  **/
+    /** Builder for all attributes  **///Arsène: Pas de sens vu que les institutions financières s'instancient avec une adresse
     public Address(String street, int streetNumber, String city, int postalCode, String country, FinancialInstitution financialInstitution) {
         this.street = street;
         this.streetNumber = streetNumber;
