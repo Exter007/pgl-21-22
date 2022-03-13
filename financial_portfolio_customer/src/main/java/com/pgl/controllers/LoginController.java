@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -40,15 +41,15 @@ public class LoginController implements Initializable {
     }    
 
     @FXML
-    private void login(MouseEvent event) {
+    private void login(MouseEvent event) throws JsonProcessingException {
 
         if(email.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Les champs ne peuvent pas etre vides");
             alert.showAndWait();
         }else{
-            ApplicationClient user = userService.login(email.getText(), password.getText());
-            if (user!= null){
+            boolean response = userService.login(email.getText(), password.getText());
+            if (response){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/my_portfolios.fxml"));
                     Stage newWindow = new Stage();

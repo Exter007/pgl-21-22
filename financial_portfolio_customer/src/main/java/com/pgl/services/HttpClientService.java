@@ -1,59 +1,74 @@
 package com.pgl.services;
 
 import com.pgl.models.Persistent;
+import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
 
-import javax.inject.Inject;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.*;
-
 import javafx.scene.control.Alert;
-import org.glassfish.jersey.client.ClientConfig;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public class HttpClientService<P extends Persistent>{
+public class HttpClientService<P>{
 
-    @Inject
-    UserService userService = new UserService();
+    RestTemplate restTemplate = new RestTemplate();
 
-    public WebTarget webTarget;
-    protected GenericType<P> genericP;
-    protected GenericType<List<P>> genericsP;
-    protected ClientConfig config = new ClientConfig();
-    private Client client = ClientBuilder.newClient(config);
+    private HttpHeaders headers;
+
     /**
-     * Reference du chemin de l'objet pour le mappage avec les services webs
+     * Reference du service web (url)
      */
     private String referencePath;
 
+    public HttpClientService() {
+        initHeaders();
+    }
 
-    public HttpClientService( GenericType<P> genericP, GenericType<List<P>> genericsP, String referencePath){
-        this.genericP = genericP;
-        this.genericsP = genericsP;
+    public HttpClientService(String referencePath){
         this.referencePath = referencePath;
     }
 
+    public void initHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("contextName", ContextName.CLIENT.name());
+        headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        this.headers = headers;
+    }
+
+    public HttpHeaders getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(HttpHeaders headers) {
+        this.headers = headers;
+    }
+
+    /**
+     * Save an entity
+     * @param entity
+     * @return entity saved
+     */
     public P save(P entity){
         String savePath = "/save";
         String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO.concat(referencePath).concat(savePath);
         System.out.println("url: "+url);
 
-        client.register(userService.getFeature());
-        webTarget = client.target(url);
+        HttpEntity<P> httpEntity = getHttpEntity(entity);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity, MediaType.APPLICATION_JSON),Response.class);
+        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, Object.class);
 
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatusCode());
 
-        if (response.getStatus() != Response.Status.CREATED.getStatusCode()) {
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+        // if creation request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.CREATED)) {
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+            String error= response.getBody().toString();
             System.out.println("Error: "+error);
             Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -69,63 +84,69 @@ public class HttpClientService<P extends Persistent>{
             return null;
         }
 
-//        GenericType<P> genericP = new GenericType<P>() {};
-
-        return response.readEntity(genericP);
+        return (P)response.getBody();
     }
 
+
+    /**
+     * Find an entity by id
+     * @param id
+     * @return entity retrieved
+     */
     public P findById(Long id){
         String findByIdPath = "/find-by-id/";
         String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + findByIdPath + id;
         System.out.println(url);
 
-        client.register(userService.getFeature());
-        webTarget = client.target(url);
-        Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-//        RestTemplate restTemplate = new RestTemplate();
-//        String fooResourceUrl
-//                = GlobalVariables.CONTEXT_PATH.concat("/account/getAccount");
-//        ResponseEntity<String> response
-//                = restTemplate.getForEntity(fooResourceUrl, String.class);
-//        System.out.println(response.getStatusCode());
+        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET,
+                httpEntity, Object.class);
 
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
-            String error= response.readEntity(String.class);
+        System.out.println(response.getStatusCode());
+
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de la consultation");
-//            alert.setContentText(error);
             alert.showAndWait();
 
             return null;
         }
 
-        return (P)response.readEntity(genericP);
+        return (P)response.getBody();
     }
 
+    /**
+     * Delete an entity by id
+     * @param id
+     * @return a boolean status result
+     */
     public boolean deleteById(Long id) {
         String deleteByIdPath = "/delete-by-id/";
 
         String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + deleteByIdPath + id;
 
-        client.register(userService.getFeature());
-        webTarget = client.target(url);
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        Response response = webTarget.request().delete();
+        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.DELETE,
+                httpEntity, Object.class);
 
-        System.out.println(response.getStatus());
 
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
-            String error= response.readEntity(String.class);
+        System.out.println(response.getStatusCode());
+
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de la suppression");
-//            alert.setContentText(error);
             alert.showAndWait();
 
             return false;
@@ -135,19 +156,26 @@ public class HttpClientService<P extends Persistent>{
 
     }
 
+    /**
+     * Retrieve the full entities list
+     * @return entities list retrieved
+     */
     public List<P> getList() {
         String listPath = "/list";
 
         String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + listPath;
 
-        client.register(userService.getFeature());
-        webTarget = client.target(url);
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
+                httpEntity, Object.class);
 
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
-            String error= response.readEntity(String.class);
+        System.out.println(response.getStatusCode());
+
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -157,29 +185,30 @@ public class HttpClientService<P extends Persistent>{
 
             return null;
         }
-//        GenericType<List<P>> genericsP = new GenericType<>() {};
 
-        return response.readEntity(genericsP);
+        return (List<P>) response.getBody();
     }
 
-    public P post(String path, P entity){
-        System.out.println("url: "+path);
 
-        client.register(userService.getFeature());
-        webTarget = client.target(path);
+    /**
+     * Post request with specific url
+     * @return entities posted
+     */
+    public P post(String url, P entity){
+        System.out.println("url: "+url);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        HttpEntity<P> httpEntity = getHttpEntity(entity);
 
-        System.out.println(response.getStatus());
-        System.out.println(response.readEntity(String.class));
+        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, Object.class);
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+        System.out.println(response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+        // if creation request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
+
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -190,64 +219,79 @@ public class HttpClientService<P extends Persistent>{
             return null;
         }
 
-//        GenericType<P> genericP = new GenericType<P>() {};
-
-        return response.readEntity(genericP);
+        return (P) response.getBody();
     }
 
-    public P get(String path) {
+    /**
+     * Retrieve an entity with specific url
+     * @return entity retrieved
+     */
+    public P getByURL(String url) {
+        System.out.println(url);
 
-        client.register(userService.getFeature());
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        webTarget = client.target(path);
+        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
+                httpEntity, Object.class);
 
-        Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
-//        System.out.println(response);
+        System.out.println(response.getStatusCode());
 
-        // Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
-            String error= response.readEntity(String.class);
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de l'opération");
-//            alert.setContentText(error);
             alert.showAndWait();
 
             return null;
         }
 
-        return response.readEntity(genericP);
+        return (P) response.getBody();
     }
 
+    /**
+     * Retrieve full entities with specific url
+     * @return entities list retrieved
+     */
     public List<P> getListByURL(String url) {
 
-        client.register(userService.getFeature());
-        webTarget = client.target(url);
+        System.out.println(url);
 
-        Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
-            String error= response.readEntity(String.class);
+        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
+                httpEntity, Object.class);
+
+        System.out.println(response.getStatusCode());
+
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
+            String error= response.getStatusCode().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de listing");
-//            alert.setContentText(error);
+            alert.setHeaderText("Erreur lors du listing");
             alert.showAndWait();
 
             return null;
         }
 
-        return response.readEntity(genericsP);
+        return (List<P>) response.getBody();
     }
 
     public void not_selected_error(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Aucun élément sélectionné");
         alert.showAndWait();
+    }
+
+    public HttpEntity getHttpEntity(P entity){
+        HttpEntity<P> httpEntity = new HttpEntity<>(entity, headers);
+        return httpEntity;
     }
 
 }

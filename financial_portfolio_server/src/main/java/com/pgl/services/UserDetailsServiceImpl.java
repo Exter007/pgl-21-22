@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    public UserService userService = new UserService();
+    @Autowired
+    public UserService userService;
 
     @Autowired
     ContextName context;

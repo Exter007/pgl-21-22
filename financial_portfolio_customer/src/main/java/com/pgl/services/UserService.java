@@ -1,35 +1,24 @@
 package com.pgl.services;
 
 import com.pgl.models.ApplicationClient;
-import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
+import com.pgl.utils.JwtResponse;
+import com.pgl.utils.LoginRequest;
 import javafx.scene.control.Alert;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.Arrays;
+import javax.inject.Inject;
 
 public class UserService {
 
+    @Inject
+    HttpClientService httpClientService = new HttpClientService<ApplicationClient>();
 
-    public WebTarget webTarget;
-    protected ClientConfig config = new ClientConfig();
-    private Client client = ClientBuilder.newClient(config);
-    public static HttpAuthenticationFeature feature;
+    RestTemplate restTemplate = new RestTemplate();
+
     private static ApplicationClient currentUser;
 
     public UserService(){}
@@ -43,255 +32,262 @@ public class UserService {
     }
 
     /**
-     * User login
+     * Connect a user
      * @param username
      * @param password
-     * @return
+     * @return a boolean status login
      */
-    public ApplicationClient login(String username, String password){
-        feature = HttpAuthenticationFeature.basic(username, password);
-        client = ClientBuilder.newClient(config);
-        client.register(feature);
-        client.property("contextName", ContextName.CLIENT);
+    public boolean login(String username, String password){
+        String url = GlobalVariables.CONTEXT_PATH.concat("/account/login");
+        // create user authentication object
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername(username);
+        loginRequest.setPassword(password);
 
-        String url = GlobalVariables.CONTEXT_PATH.concat("/account");
-        System.out.println("url: "+url);
+        // create headers specifying that it is JSON request
+        HttpHeaders authenticationHeaders = httpClientService.getHeaders();
+        HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest,
+                authenticationHeaders);
 
-        webTarget = client.target(url).path("login2");
+        // Authenticate User and get JWT
+        ResponseEntity<JwtResponse> response = restTemplate.exchange(url,
+                HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
-        Response response = webTarget.request().accept(MediaType.APPLICATION_JSON).get(Response.class);
-        System.out.println(response);
+        String token = "Bearer " + response.getBody().getAccessToken();
+        HttpHeaders headers = httpClientService.getHeaders();
+        headers.set("Authorization", token);
+        httpClientService.setHeaders(headers);
 
-        // Status 200 or 201 is successful.
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            String error= response.readEntity(String.class);
+        // if the authentication is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            String error= response.toString();
+            System.out.println(response);
+            if(response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
 
-            if(response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
-
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 if(error.equals("Account not activated")){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Compte non activé");
                     alert.setContentText("Veuillez le validé avec le code envoyé à votre email");
-                    alert.showAndWait();
                 }else{
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Error");
                     alert.setHeaderText("Email ou mot de passe incorrect");
-//                alert.setContentText("Email ou mot de passe incorrect");
-                    alert.showAndWait();
                 }
-
+                alert.showAndWait();
             }
 
-            System.out.println("Failed with HTTP Error code: " + response.getStatus());
+            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
 
             System.out.println("Error: "+error);
 
-            return null;
+            return false;
+
         }
 
-        return currentUser = response.readEntity(ApplicationClient.class);
+        return true;
     }
 
     /**
-     * User logout
+     * Disconnect a user
      */
     public void logout(){
-        client = ClientBuilder.newClient(config);
-//        feature = HttpAuthenticationFeature.digest();
-        feature = HttpAuthenticationFeature.basic("","");
+        httpClientService.initHeaders();
         currentUser = null;
     }
 
     /**
-     * Register user
-     * @param entity
-     * @return
+     * Register a user
+     * @param user
+     * @return registered user
      */
-    public ApplicationClient register(ApplicationClient entity){
-
-        RestTemplate restTemplate = new RestTemplate();
+    public ApplicationClient register(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/client");
 
-        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-//        HttpEntity <String> entity = new HttpEntity<String>(headers);
-        headers.setBasicAuth("","");
+        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
 
-        HttpEntity<ApplicationClient> request = new HttpEntity<>(entity,headers);
-        ApplicationClient applicationClient = restTemplate.postForObject(url, request, ApplicationClient.class);
+        ResponseEntity<ApplicationClient> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, ApplicationClient.class);
 
-        System.out.println(applicationClient);
+        System.out.println(response);
 
         Alert alert;
-        if (applicationClient != null) {
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Client enregistré avec succés");
-        }else {
+        // if the registration is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            String error= response.toString();
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de l'enregistrement");
+            if(error.equals("This User already exists")){
+                alert.setHeaderText("Erreur email");
+                alert.setContentText("Un compte avec cet email existe deja");
+            } else{
+                alert.setHeaderText("Erreur lors de la création du compte");
+            }
+            alert.showAndWait();
+            return null;
         }
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Client enregistré avec succés");
+        alert.setContentText("Une mail de confirmation vous a étè envoyè.  Veuillez validè votre compte pour vous connectez");
         alert.showAndWait();
 
-//        String fooResourceUrl
-//                = GlobalVariables.CONTEXT_PATH.concat("/account/getAccount");
-//        ResponseEntity<String> response
-//                = restTemplate.getForEntity(fooResourceUrl, String.class);
-//        System.out.println(response.getStatusCode());
+        return response.getBody();
+    }
 
-        return null;
+
+
+    public void requestSecu(){
+//        String token = "Bearer " + authenticationResponse.getBody().getAccessToken();
+//        HttpHeaders headers = getHeaders();
+//        headers.set("Authorization", token);
+//        HttpEntity<String> jwtEntity = new HttpEntity<String>(headers);
+//        // Use Token to get Response
+//        ResponseEntity<String> helloResponse = restTemplate.exchange(HELLO_URL, HttpMethod.GET, jwtEntity,
+//                String.class);
+//        if (helloResponse.getStatusCode().equals(HttpStatus.OK)) {
+//            response = helloResponse.getBody();
+//        }
     }
 
     /**
      * Send verification code for password reset
-     * @param entity
-     * @return
+     * @param user
+     * @return a boolean status result
      */
-    public boolean sendPasswordResetCode(ApplicationClient entity){
+    public boolean sendPasswordResetCode(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
-        webTarget = client.target(url);
+        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, boolean.class);
 
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatusCode());
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de l'envoi du code de reinitialisation");
             alert.showAndWait();
 
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+            String error= response.getBody().toString();
             System.out.println("Error: "+error);
 
             return false;
         }
 
-        return response.readEntity(boolean.class);
+        return response.getBody();
 
     }
 
     /**
      * Reset user password
-     * @param entity
-     * @return
+     * @param user
+     * @return a boolean status result
      */
-    public boolean resetPassword(ApplicationClient entity){
+    public boolean resetPassword(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
-        webTarget = client.target(url);
+        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, boolean.class);
 
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatusCode());
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+            String error= response.getBody().toString();
             System.out.println("Error: "+error);
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de la validation du mot de passe");
             if(error.equals("Reset code is incorrect")){
                 alert.setContentText("Le code saisi est incorrect");
-                alert.showAndWait();
-            }else{
-                alert.showAndWait();
             }
-
-
+            alert.showAndWait();
 
 
             return false;
         }
 
-        return response.readEntity(boolean.class);
+        return response.getBody();
     }
 
     /**
      * Send account reset code
-     * @param entity
-     * @return
+     * @param user
+     * @return a boolean status result
      */
-    public boolean sendAccountResetCode(ApplicationClient entity){
+    public boolean sendAccountResetCode(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
         System.out.println("url: "+url);
 
-        webTarget = client.target(url);
+        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, boolean.class);
 
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatusCode());
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de l'envoi du code d'activation");
             alert.showAndWait();
 
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+            String error= response.getBody().toString();
             System.out.println("Error: "+error);
 
             return false;
         }
 
-        return response.readEntity(boolean.class);
+        return response.getBody();
 
     }
 
     /**
      *Account activation
-     * @param entity
-     * @return
+     * @param user
+     * @return a boolean status result
      */
-    public boolean accountActivation(ApplicationClient entity){
+    public boolean accountActivation(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/activation");
         System.out.println("url: "+url);
 
-        webTarget = client.target(url);
+        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
 
-        Response response = webTarget
-                .request()
-                .post(Entity.entity(entity,MediaType.APPLICATION_JSON),Response.class);
+        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, boolean.class);
 
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatusCode());
 
-//        Status 200 or 201 is successful.
-        if (response.getStatus() != 200 && response.getStatus() != 201) {
+        // if request is not successful
+        if (!response.getStatusCode().equals(HttpStatus.OK)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur lors de l'activation du compte ");
             alert.showAndWait();
 
-            System.out.println("Failed : HTTP error code : " + response.getStatus());
+            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.readEntity(String.class);
+            String error= response.getBody().toString();
             System.out.println("Error: "+error);
 
             return false;
         }
 
-        return response.readEntity(boolean.class);
+        return response.getBody();
     }
 
-
-    public HttpAuthenticationFeature getFeature(){
-        return feature;
+    public HttpEntity getHttpEntity(ApplicationClient entity){
+        HttpHeaders headers = httpClientService.getHeaders();
+        HttpEntity<ApplicationClient> httpEntity = new HttpEntity<>(entity, headers);
+        return httpEntity;
     }
 
 }

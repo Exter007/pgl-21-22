@@ -27,6 +27,8 @@ public abstract class User extends PersistentWithoutId {
     @Column(name = "role")
     private ROLE role;
 
+    public User() {
+    }
 
     public User(String password, String email, String token, boolean active, ROLE role) {
         this.password = password;
