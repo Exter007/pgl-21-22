@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,25 +37,17 @@ public class RegisterController implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private Button register;
+    private TextField firstName;
     @FXML
-    private Button login;
+    private TextField lastName;
     @FXML
-    private TextField name;
-    @FXML
-    private TextField surname;
-    @FXML
-    private DatePicker date_of_birth;
-    @FXML
-    private TextField nationalRegister;
+    private TextField nationalRegisterNumber;
     @FXML
     private TextField email;
     @FXML
-    private TextField city;
-    @FXML
     private PasswordField password;
     @FXML
-    private PasswordField password_confirm;
+    private PasswordField password2;
 
 
     /**
@@ -62,78 +55,150 @@ public class RegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //TODO
     }
 
+    /**
+     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
+     * @param nationalRegisterNumber
+     * @return true ou false
+     */
+    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
+        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
+        isNumeric = (nationalRegisterNumber.length() == 11);
+        return isNumeric;
+    }
+
+    /**
+     * Vérifie que l'e-mail est au bon format (@ et .)
+     * @param email
+     * @return true ou false
+     */
+    private boolean check_email(String email){
+        boolean hasArobase =  email.contains("@");
+        boolean hasPoint =  email.contains(".");
+        return hasArobase && hasPoint;
+    }
+
+    /**
+     * Vérifie si le mot de passe est au bon format (1 lettre et 1 chiffre au minimum)
+     * @param password
+     * @return true ou false
+     */
+    private boolean check_password(String password){
+        char c;
+        boolean alpha = false;
+        boolean number = false;
+        for(int i=0; i < password.length(); i++) {
+            c = password.charAt(i);
+            if( Character.isDigit(c)) {
+                number = true;
+            }
+            if (Character.isUpperCase(c) || Character.isLowerCase(c)) {
+                alpha = true;
+            }
+            if(number && alpha)
+                return true;
+        }
+        return false;
+    }
+
+    public ApplicationClient create_user(){
+        int token = 10000 + (int) (Math.random()*(99999-10000));
+        ApplicationClient user = new ApplicationClient();
+
+        user.setName(lastName.getText());
+        user.setFirstName(firstName.getText());
+        user.setEmail(email.getText());
+        user.setPassword(password.getText());
+        user.setNationalRegister(nationalRegisterNumber.getText());
+        user.setToken(String.valueOf(token));
+        user.setActive(false);
+
+        return user;
+    }
 
     @FXML
-    private void on_register(MouseEvent event) {
-
-        if(email.getText().isEmpty() || name.getText().isEmpty() || password.getText().isEmpty()
-                || password_confirm.getText().isEmpty()){
-            List<String> errors = new ArrayList<>();
+    private void register(MouseEvent event) {
+        if(email.getText().isEmpty() ||
+                nationalRegisterNumber.getText().isEmpty() ||
+                firstName.getText().isEmpty() ||
+                lastName.getText().isEmpty() ||
+                password.getText().isEmpty() ||
+                password2.getText().isEmpty()){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Les champs suivants sont invalides");
-            String errorString = "- email\n - Nom\n - Mot de passe\n - Confirmation de mot de passe";
-
-            alert.setContentText(errorString);
+            alert.setHeaderText("Erreur");
+            alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
             alert.showAndWait();
 
-        }else if(!password.getText().equals(password_confirm.getText())) {
+        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setTitle("Error");
-//            alert.setHeaderText("Error");
+            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.showAndWait();
+
+        }else if(!check_email(email.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre e-mail n'est pas au bon format");
+            alert.showAndWait();
+
+        }else if(!check_password(password.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.showAndWait();
+
+        }else if(!password.getText().equals(password2.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Erreur");
             alert.setContentText("Les mots de passes ne correspondent pas");
             alert.showAndWait();
-        } else {
-            ApplicationClient user = build_user();
 
-            user = userService.register(user);
-            UserService.setCurrentUser(user);
+        }else {
+            ApplicationClient user = create_user();
+
+            // TODO
+            // user = userService.register(user);
+            // UserService.setCurrentUser(user);
 
             if (user != null){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/accountActivation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
-
                 } catch (IOException ex) {
                     Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur");
+                alert.setHeaderText("Les informations que vous avez renseigné ne sont pas correct ou sont déjà utilisées");
+                alert.showAndWait();
             }
         }
     }
 
     @FXML
-    private void on_login(MouseEvent event) {
+    private void login(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
             GlobalStage.setStage(newWindow);
-
         } catch (IOException ex) {
             Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public ApplicationClient build_user(){
-        ApplicationClient user = new ApplicationClient();
+    @FXML
+    private void languageFR(ActionEvent event) {
+        //TODO
+    }
 
-        user.setName(name.getText());
-        user.setFirstName(surname.getText());
-        user.setEmail(email.getText());
-        user.setPassword(password.getText());
-        user.setNationalRegister(nationalRegister.getText());
-
-        int code = 10000 + (int) (Math.random()*(99999-10000));
-        user.setToken(String.valueOf(code));
-
-        user.setActive(false);
-
-        return user;
+    @FXML
+    private void languageEN(ActionEvent event) {
+        //TODO
     }
 }
