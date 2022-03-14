@@ -49,4 +49,56 @@ class FinancialInstitutionTest {
     @Test
     void setFinancialProductHolders() {
     }
+
+    @Test
+    void testGetBIC() {
+    }
+
+    @Test
+    void testSetBIC() {
+    }
+
+    @Test
+    void testGetName() {
+    }
+
+    @Test
+    void testSetName() {
+    }
+
+    @Test
+    void testGetPhone() {
+    }
+
+    @Test
+    void testSetPhone() {
+    }
+
+    @Test
+    void getAddress() {
+    }
+
+    @Test
+    void setAddress() {
+    }
+
+    @Test
+    void testGetFinancialProductHolders() {
+    }
+
+    @Test
+    void testSetFinancialProductHolders() {
+    }
+
+    @Test
+    void getNotifications() {
+    }
+
+    @Test
+    void setNotifications() {
+    }
+
+    @Test
+    void buildLogin() {
+    }
 }

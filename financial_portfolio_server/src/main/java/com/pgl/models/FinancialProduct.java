@@ -1,5 +1,7 @@
 package com.pgl.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ public class FinancialProduct extends Persistent {
     @Column(name = "wording")
     private String wording;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     private PRODUCT_STATE state;
 
     @ManyToMany()
@@ -19,23 +21,21 @@ public class FinancialProduct extends Persistent {
             inverseJoinColumns = @JoinColumn(name = "financial_product_holder_id"))
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
-    //TODO : add ManyToOne avec wallet
+    @ManyToOne()
+    @JoinColumn(name = "financial_institution_id", nullable = false)
+    private FinancialInstitution financialInstitution;
 
-
-
-
-    public enum PRODUCT_STATE{
-        UNARCHIVED,
-        ARCHIVED,
+    public FinancialProduct(PRODUCT_STATE state, FinancialInstitution financialInstitution) {
+        this.state = state;
+        this.financialInstitution = financialInstitution;
     }
 
-    public FinancialProduct() {
-    }
-
-    public FinancialProduct(String wording, PRODUCT_STATE state) {
-        this();
+    /** Builder for all attributes  **/
+    public FinancialProduct(String wording, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
         this.wording = wording;
         this.state = state;
+        this.financialProductHolders = financialProductHolders;
+        this.financialInstitution = financialInstitution;
     }
 
     public String getWording() {
@@ -54,6 +54,13 @@ public class FinancialProduct extends Persistent {
         this.state = state;
     }
 
+    public FinancialInstitution getFinancialInstitution() {
+        return financialInstitution;
+    }
+
+    public void setFinancialInstitution(FinancialInstitution financialInstitution) {
+        this.financialInstitution = financialInstitution;
+    }
 
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
@@ -61,5 +68,11 @@ public class FinancialProduct extends Persistent {
 
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
+    }
+
+
+    public enum PRODUCT_STATE{
+        UNARCHIVED,
+        ARCHIVED,
     }
 }

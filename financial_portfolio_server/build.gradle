@@ -4,7 +4,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow'
 }
-mainClassName = 'com.pgl.application.Application'
+mainClassName = 'com.pgl.application.ServerApplication'
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
@@ -46,6 +46,9 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'commons-io:commons-io:2.4'
+
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 }
 
 shadowJar {

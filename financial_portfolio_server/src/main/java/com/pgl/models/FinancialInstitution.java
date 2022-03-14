@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,11 +15,8 @@ public class FinancialInstitution extends User{
     @Column(name = "BIC", unique = true, nullable = false)
     private String BIC;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "phone")
     private String phone;
@@ -29,15 +25,32 @@ public class FinancialInstitution extends User{
     @JsonIgnore
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
-    public FinancialInstitution() {
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+    private Address address;
 
-    public FinancialInstitution(String BIC, String name, String email, String phone) {
-        this();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy ="financialInstitution")
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+
+    public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token) {
+        super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION);
         this.BIC = BIC;
         this.name = name;
-        this.email = email;
+        this.address = address;
+        this.setLogin(buildLogin());
+    }
+
+    /** Builder for all attributes  **/
+    public FinancialInstitution(String BIC, String name, String password, String email, String language, String token, boolean active, String phone, List<FinancialProductHolder> financialProductHolders, Address address, List<Notification> notifications) {
+        super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION, language);
+        this.BIC = BIC;
+        this.name = name;
         this.phone = phone;
+        this.financialProductHolders = financialProductHolders;
+        this.address = address;
+        this.notifications = notifications;
+        this.setLogin(buildLogin());
     }
 
     public String getBIC() {
@@ -56,20 +69,20 @@ public class FinancialInstitution extends User{
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public List<FinancialProductHolder> getFinancialProductHolders() {
@@ -79,4 +92,19 @@ public class FinancialInstitution extends User{
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
     }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    @JsonIgnore
+    public String buildLogin() {
+        return  (getName() != null ? getName() : "")
+                .concat(getBIC() != null ? getBIC(): "");
+    }
+
 }

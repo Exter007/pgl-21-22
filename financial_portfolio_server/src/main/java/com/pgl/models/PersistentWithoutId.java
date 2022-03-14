@@ -33,18 +33,6 @@ public class PersistentWithoutId implements Serializable {
     @Column(name = "modification_date", nullable = false)
     protected Date modificationDate;
 
-    /**
-     * This field is used to indicate that the object must be create or update in DB.
-     */
-    @Transient
-    public boolean toAddOrUpdate = false;
-
-    /**
-     * This field is used to indicate that the object must be deleted from DB.
-     */
-    @Transient
-    public boolean toDelete = false;
-
 
     /**
      * Default constructor.

@@ -46,3 +46,4 @@ out/
 ### Others ###
 /resources/
 database
+derby.log

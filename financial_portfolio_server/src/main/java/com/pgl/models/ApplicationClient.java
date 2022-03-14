@@ -12,29 +12,42 @@ public class ApplicationClient extends User{
 
     @Id
     @Column(name = "national_register",unique = true, nullable = false)
-    private String nationalRegister;
+    private String nationalRegister;//devrait être une constante
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "email")
-    private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy ="applicationClient")
     @JsonIgnore
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy ="applicationClient")
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+
     public ApplicationClient() {
     }
 
-    public ApplicationClient(String nationalRegister, String firstName, String email) {
-        this();
+    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
+        super(password, email, token, active, ROLE.APPLICATION_CLIENT);
+        this.nationalRegister = nationalRegister;//TODO manque une vérification de validité (11 chiffres)
+        this.firstName = firstName;
+        this.name = name;
+        this.setLogin(buildLogin());
+    }
+
+    /** Builder for all attributes  **/
+    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
+        super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
-        this.email = email;
+        this.name = name;
+        this.financialProductHolders = financialProductHolders;
+        this.notifications = notifications;
+        this.setLogin(buildLogin());
     }
 
     public String getNationalRegister() {
@@ -61,27 +74,35 @@ public class ApplicationClient extends User{
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
     }
 
+    //TODO remplacer ce setter par une methode addFinancialProductHolder et une methode removeFinancialProductHolder
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
     }
 
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    //TODO remplacer ce setter par une methode addNotification
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
     @JsonIgnore
-    public String getLogin() {
+    public String buildLogin() {
         return  (getFirstName() != null ? getFirstName() : "")
                 .concat(getName() != null ? getName(): "")
                 .concat(getNationalRegister() != null ? getNationalRegister(): "");
-    }
+    }/*Arsène: incohérent car pour être un client de l'application, il faut avoir fourni son nom complet
+       et son registre national donc ils ne peuvent pas être null
+       le login se base sur le nom complet et l’identifiant unique (numéro de registre national) de l’utilisateur
+       pas forcément une simple concaténation sinon on aura de très long login
+       un exemple serait les initiales concaténées au numéro de registre national
+    */
 
 }

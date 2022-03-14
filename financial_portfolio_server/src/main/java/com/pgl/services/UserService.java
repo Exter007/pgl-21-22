@@ -1,164 +1,33 @@
 package com.pgl.services;
 
-import com.pgl.models.ApplicationClient;
-import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
+import com.pgl.utils.ContextName;
 import org.slf4j.Logger;
-import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Date;
-import java.util.Optional;
 
 @Service()
 public class UserService<P extends User> {
     protected static Logger logger;
-    Object user;
-    Class className;
-    Optional<ApplicationClient> applicationClient;
-    Optional<FinancialInstitution> financialInstitution;
 
     @Autowired
-    ApplicationClientService applicationClientService;
+    public ApplicationClientService applicationClientService;
 
     @Autowired
-    FinancialInstitutionService financialInstitutionService;
+    public FinancialInstitutionService financialInstitutionService;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     public UserService() {
     }
 
-    public UserService(Class className) {
-        this.className = className;
-        if( className == ApplicationClient.class){
-            this.applicationClient = Optional.of((ApplicationClient) user);
-        }else if (className == FinancialInstitution.class){
-            this.financialInstitution = Optional.of((FinancialInstitution) user);
-        }
-    }
-
-    CrudRepository<? extends User, String> getRepository(){
-        if( className  == ApplicationClient.class){
-            return applicationClientService.getRepository();
-        }else if (className  == FinancialInstitution.class){
-            return financialInstitutionService.getRepository();
-        }
-
-        return null;
-    }
-
-    /**
-     * Find user by username or email
-     * @param id
-     * @return
-     */
-    public Object findUserById(String id) {
-        logger.debug("Entering findUserById()");
-
-        if( className == ApplicationClient.class){
-            return applicationClient = applicationClientService.getRepository()
-                    .findById(id);
-        } else if( className == FinancialInstitution.class){
-            return financialInstitution = financialInstitutionService.getRepository()
-                    .findById(id);
-        }
-
-        return user;
-    }
-
-
-    /**
-     * Build or modify and save user
-     * @param user
-     * @return
-     * @throws Exception
-     */
-    public Object saveUser(P user) throws Exception {
-
-        Object userFound = null;
-        String id = null;
-
-        if( className == ApplicationClient.class){
-            applicationClient= Optional.of((ApplicationClient) user);
-            id = applicationClient.get().getNationalRegister();
-            userFound = findUserById(id);
-        } else if( className == FinancialInstitution.class){
-            financialInstitution= Optional.of((FinancialInstitution) user);
-            id = financialInstitution.get().getBIC();
-            userFound = findUserById(id);
-        }
-
-        //      If a User already exists with this login
-        if(id == null && userFound != null)
-            throw new RuntimeException("This User already exists");
-
-        //      If is a new User
-        if (userFound == null) {
-            user.setCreationDate(new Date());
-            userFound = SerializationUtils.clone(user);
-//            userFound = user;
-            String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
-            if( className == ApplicationClient.class){
-                applicationClient = (Optional<ApplicationClient>) userFound;
-                applicationClient.get().setPassword(hashPW);
-                return saveUser2(applicationClient);
-
-            }else if( className == FinancialInstitution.class){
-                financialInstitution = (Optional<FinancialInstitution>) userFound;
-                financialInstitution.get().setPassword(hashPW);
-               return saveUser2(financialInstitution);
-            }
-
-//            if(isProvider){
-//                userFound = addRoleToUser(userFound, User.ROLE_NAME.PROVIDER.name());
-//            }else{
-//                userFound = addRoleToUser(userFound, User.ROLE_NAME.USER.name());
-//            }
-
-        }else {
-            if( className == ApplicationClient.class){
-                applicationClient = (Optional<ApplicationClient>) userFound;
-                applicationClient.get().setModificationDate(new Date());
-                return saveUser2(applicationClient);
-            }else if( className == FinancialInstitution.class){
-                financialInstitution = (Optional<FinancialInstitution>) userFound;
-                applicationClient.get().setModificationDate(new Date());
-                return saveUser2(financialInstitution);
-            }
-        }
-
-        return null;
-    }
-
-    private Object saveUser2(Object user){
-        if( className == ApplicationClient.class){
-            try {
-                return applicationClientService.getRepository().save((ApplicationClient) user);
-            } catch(Exception ex) {
-                throw new RuntimeException("save.fail.data.integrity.violation.error");
-            }
-        } else if( className == FinancialInstitution.class){
-            try {
-                return financialInstitutionService.getRepository().save((FinancialInstitution) user);
-            } catch(Exception ex) {
-                throw new RuntimeException("save.fail.data.integrity.violation.error");
-            }
+    public User findByLogin(String login, String contextName){
+        if (contextName == ContextName.CLIENT.name()){
+            return applicationClientService.getRepository().findByLogin(login);
+        }else if(contextName == ContextName.INSTITUTION.name()){
+            return financialInstitutionService.getRepository().findByLogin(login);
         }
         return null;
     }
-
-//    public User addRoleToUser(User user, String roleName) throws Exception{
-//        Role role = roleService.findByRoleName(roleName);
-//        System.out.println(role.getRoleName());
-//
-//        user.setRole(role);
-//        return user;
-//    }
 
 //    /**
 //     * Send mail for User account validation when creating a new user account
