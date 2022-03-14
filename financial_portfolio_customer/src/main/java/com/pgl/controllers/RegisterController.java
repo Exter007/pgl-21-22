@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -66,7 +67,7 @@ public class RegisterController implements Initializable {
 
 
     @FXML
-    private void on_register(MouseEvent event) {
+    private void on_register(MouseEvent event) throws JsonProcessingException {
 
         if(email.getText().isEmpty() || name.getText().isEmpty() || password.getText().isEmpty()
                 || password_confirm.getText().isEmpty()){

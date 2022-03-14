@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class AccountController {
     protected Logger logger;
 
-//    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -38,30 +38,26 @@ public class AccountController {
     @Autowired
     ApplicationClientService applicationClientService;
 
-//    public AccountController(AuthenticationManager authenticationManager) {
-//        this.authenticationManager = authenticationManager;
-//        this.logger = LoggerFactory.getLogger(this.getClass());
-//    }
-
-    public AccountController() {
+    public AccountController(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
-//    @PostMapping("login")
-//    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt = jwtUtils.generateJwtToken(authentication);
-//
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(item -> item.getAuthority())
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(new JwtResponse(jwt,
-//                userDetails.getUsername(),
-//                roles));
-//    }
+    @PostMapping("login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getUsername(),
+                roles));
+    }
 
     @PostMapping(value = "register/client")
     public ResponseEntity<?> register(@RequestBody ApplicationClient applicationClient) throws Exception {

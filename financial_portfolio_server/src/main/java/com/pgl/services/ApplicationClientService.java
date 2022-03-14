@@ -45,7 +45,7 @@ public class ApplicationClientService {
             userFound.setModificationDate(new Date());
         }
 
-        return userFound;
+        return applicationClientRepository.save(userFound);
     }
 
 }

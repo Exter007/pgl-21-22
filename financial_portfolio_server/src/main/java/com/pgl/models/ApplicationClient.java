@@ -28,6 +28,9 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    public ApplicationClient() {
+    }
+
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT);
         this.nationalRegister = nationalRegister;//manque une vérification de validité (11 chiffres)
