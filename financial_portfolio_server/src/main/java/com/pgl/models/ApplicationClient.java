@@ -12,7 +12,7 @@ public class ApplicationClient extends User{
 
     @Id
     @Column(name = "national_register",unique = true, nullable = false)
-    private String nationalRegister;
+    private String nationalRegister;//devrait être une constante
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -30,7 +30,7 @@ public class ApplicationClient extends User{
 
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT);
-        this.nationalRegister = nationalRegister;
+        this.nationalRegister = nationalRegister;//manque une vérification de validité (11 chiffres)
         this.firstName = firstName;
         this.name = name;
         this.setLogin(buildLogin());
@@ -76,6 +76,7 @@ public class ApplicationClient extends User{
         return financialProductHolders;
     }
 
+    //TODO remplacer ce setter par une methode addFinancialProductHolder et une methode removeFinancialProductHolder
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
     }
@@ -84,6 +85,7 @@ public class ApplicationClient extends User{
         return notifications;
     }
 
+    //TODO remplacer ce setter par une methode addNotification
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
