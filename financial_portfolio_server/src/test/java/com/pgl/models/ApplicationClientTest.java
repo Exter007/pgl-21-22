@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ApplicationClientTest {
 
@@ -71,7 +70,7 @@ public class ApplicationClientTest {
 
     @Test
     void getFinancialProductHolders() {
-        //TODO
+        assertTrue(appClient.getFinancialProductHolders().isEmpty(),"La liste doit être vide");
     }
 
     @Test
@@ -81,7 +80,7 @@ public class ApplicationClientTest {
 
     @Test
     void getNotifications() {
-        //TODO
+        assertTrue(appClient.getNotifications().isEmpty(),"La liste doit être vide");
     }
 
     @Test
