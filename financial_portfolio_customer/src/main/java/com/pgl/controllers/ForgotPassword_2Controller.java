@@ -3,6 +3,7 @@ package com.pgl.controllers;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -105,6 +106,21 @@ public class ForgotPassword_2Controller implements Initializable {
 
         }else{
             //TODO
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Votre mot de passe a bien été changé !");
+            alert.showAndWait();
+
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
+
+            } catch (IOException ex) {
+                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -120,6 +136,16 @@ public class ForgotPassword_2Controller implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void languageFR(ActionEvent event) {
+        //TODO
+    }
+
+    @FXML
+    private void languageEN(ActionEvent event) {
+        //TODO
     }
 
 }

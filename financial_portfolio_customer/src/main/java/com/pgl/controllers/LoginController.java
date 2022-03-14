@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -122,12 +123,12 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void languageFR(MouseEvent event) {
+    private void languageFR(ActionEvent event) {
         //TODO
     }
 
     @FXML
-    private void languageEN(MouseEvent event) {
-    //TODO
+    private void languageEN(ActionEvent event) {
+        //TODO
     }
 }
