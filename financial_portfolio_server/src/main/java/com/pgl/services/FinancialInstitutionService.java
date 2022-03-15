@@ -27,7 +27,7 @@ public class FinancialInstitutionService {
         FinancialInstitution userFound = getRepository().findByLogin(user.getLogin());
 
         //      If a User already exists with this login
-        if(userFound != null){
+        if(!user.toUpdate && userFound != null){
             throw new RuntimeException("This User already exists");
         }
 
@@ -37,7 +37,7 @@ public class FinancialInstitutionService {
             userFound = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             userFound.setPassword(hashPW);
-            userFound.setLogin(user.getEmail());
+            userFound.setLogin(user.getLogin());
             userFound.setRole(User.ROLE.FINANCIAL_INSTITUTION);
 
         }else {

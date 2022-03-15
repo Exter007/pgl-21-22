@@ -39,6 +39,9 @@ public class Transaction extends PersistentWithoutId{
     @Column(name = "status", nullable = false)
     private Request.REQUEST_STATUS status;
 
+    public Transaction() {
+    }
+
     public Transaction(String transactionNumber, TRANSACTION_TYPE type, BankAccount bankAccount, String destinationIBAN, String destinationName, float amount, Date date, Request.REQUEST_STATUS status) {
         this.transactionNumber = transactionNumber;
         this.type = type;

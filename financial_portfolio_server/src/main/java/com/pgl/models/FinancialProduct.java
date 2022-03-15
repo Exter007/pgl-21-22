@@ -30,6 +30,9 @@ public class FinancialProduct extends Persistent {
         this.financialInstitution = financialInstitution;
     }
 
+    public FinancialProduct() {
+    }
+
     /** Builder for all attributes  **/
     public FinancialProduct(String wording, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
         this.wording = wording;

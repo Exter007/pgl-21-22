@@ -1,5 +1,7 @@
 package com.pgl.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -24,9 +26,12 @@ public class Address extends Persistent{
     @Column(name = "country", nullable = false)
     private String country;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "address")
     private FinancialInstitution financialInstitution;
 
+    public Address() {
+    }
 
     public Address(String street, String city, int postalCode, String country) {
         this.street = street;

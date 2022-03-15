@@ -33,6 +33,9 @@ public class FinancialInstitution extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    public FinancialInstitution() {
+    }
+
     public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token) {
         super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION);
         this.BIC = BIC;

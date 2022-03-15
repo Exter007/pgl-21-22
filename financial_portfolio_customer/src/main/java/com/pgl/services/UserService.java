@@ -1,6 +1,7 @@
 package com.pgl.services;
 
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.User;
 import com.pgl.utils.GlobalVariables;
 import com.pgl.utils.JwtResponse;
 import com.pgl.utils.LoginRequest;
@@ -256,11 +257,11 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean accountActivation(ApplicationClient user){
+    public boolean accountActivation(User user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/activation");
         System.out.println("url: "+url);
 
-        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
+        HttpEntity<User> httpEntity = getHttpEntity(user);
 
         ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntity, boolean.class);
@@ -284,9 +285,9 @@ public class UserService {
         return response.getBody();
     }
 
-    public HttpEntity getHttpEntity(ApplicationClient entity){
+    public HttpEntity getHttpEntity(Object entity){
         HttpHeaders headers = httpClientService.getHeaders();
-        HttpEntity<ApplicationClient> httpEntity = new HttpEntity<>(entity, headers);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(entity, headers);
         return httpEntity;
     }
 

@@ -17,6 +17,9 @@ public class RequestWallet extends Request{
     @JoinColumn(name = "wallet_id", nullable=false)
     private Wallet wallet;
 
+    public RequestWallet() {
+    }
+
     public RequestWallet(REQUEST_STATUS status, ApplicationClient applicationClient, Wallet wallet) {
         super(status);
         this.applicationClient = applicationClient;

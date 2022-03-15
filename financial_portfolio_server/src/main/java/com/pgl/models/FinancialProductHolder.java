@@ -42,6 +42,8 @@ public class FinancialProductHolder extends PersistentWithoutId {
     @JsonIgnore
     private List<FinancialProduct> financialProducts = new ArrayList<>();
 
+    public FinancialProductHolder() {
+    }
 
     public FinancialProductHolder(String nationalRegister, String name, String firstName, Date birthDate, FinancialInstitution financialInstitution, CurrentAccount currentAccount) {
         this.nationalRegister = nationalRegister;

@@ -20,6 +20,9 @@ public class Notification extends Persistent{
     @JoinColumn(name = "financialInstitution")
     private FinancialInstitution financialInstitution;
 
+    public Notification() {
+    }
+
     /** Builder for ApplicationClient  **/
     public Notification(String message, NOTIFICATION_STATUS status, ApplicationClient applicationClient) {
         this.message = message;

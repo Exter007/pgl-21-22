@@ -21,15 +21,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     ContextName context;
 
-    public UserDetailsServiceImpl(ContextName contextName) {
-        this.context = contextName;
+    public UserDetailsServiceImpl() {
     }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByLogin(username, context.name());
-        if(user == null) throw new UsernameNotFoundException("User Not Found with username: " + username);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = userService.findByLogin(login);
+        if(user == null) throw new UsernameNotFoundException("User Not Found with login: " + login);
 
         return UserDetailsImpl.build(user);
     }

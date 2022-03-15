@@ -11,6 +11,9 @@ public class Request extends Persistent{
     @Column(name = "status", nullable=false)
     private REQUEST_STATUS status;
 
+    public Request() {
+    }
+
     public Request(REQUEST_STATUS status) {
         this.status = status;
     }

@@ -90,6 +90,7 @@ public class RegisterController implements Initializable {
             ApplicationClient user = build_user();
 
             user = userService.register(user);
+//            user.toUpdate = true;
             UserService.setCurrentUser(user);
 
             if (user != null){
@@ -126,6 +127,7 @@ public class RegisterController implements Initializable {
         ApplicationClient user = new ApplicationClient(nationalRegister.getText(),
                                 surname.getText(), name.getText(), password.getText(),
                                 email.getText(), String.valueOf(code),false);
+        user.toUpdate = false;
 
 //        user.setName(name.getText());
 //        user.setFirstName(surname.getText());

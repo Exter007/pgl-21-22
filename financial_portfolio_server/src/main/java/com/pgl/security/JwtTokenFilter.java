@@ -29,6 +29,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     public UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    ContextName contextName;
+
     protected Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     @Override
@@ -36,12 +39,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        this.contextName = getContext(request.getHeader("contextName"));
+
         // Get authorization header and validate
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                userDetailsService = new UserDetailsServiceImpl(getContext(request.getHeader("contextName")));
+                userDetailsService = new UserDetailsServiceImpl();
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -63,9 +69,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     public ContextName getContext(String contextName){
-        if (contextName == ContextName.CLIENT.name()){
+        if (contextName.equals(ContextName.CLIENT.name())){
             return ContextName.CLIENT;
-        }else if(contextName == ContextName.INSTITUTION.name()){
+        }else if(contextName.equals( ContextName.INSTITUTION.name())){
             return ContextName.INSTITUTION;
         }
         return null;

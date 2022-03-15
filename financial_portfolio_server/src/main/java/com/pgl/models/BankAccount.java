@@ -56,6 +56,8 @@ public class BankAccount extends FinancialProduct {
     @Column(name="penalty")
     private long penalty;
 
+    public BankAccount() {
+    }
 
     /** Base builder  **/
     public BankAccount(String iban, ACCOUNT_NATURE nature, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution) {

@@ -17,6 +17,9 @@ public class RequestTransfer extends Request{
     @JoinColumn(name = "bank_account_id", nullable=false)
     private BankAccount bankAccount;
 
+    public RequestTransfer() {
+    }
+
     public RequestTransfer(REQUEST_STATUS status, ApplicationClient applicationClient, BankAccount bankAccount) {
         super(status);
         this.applicationClient = applicationClient;

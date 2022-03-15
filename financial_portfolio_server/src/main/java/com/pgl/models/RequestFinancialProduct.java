@@ -18,6 +18,9 @@ public class RequestFinancialProduct extends Request{
     @JoinColumn(name = "financialProduct_id", nullable=false)
     private FinancialProduct financialProduct;
 
+    public RequestFinancialProduct() {
+    }
+
     public RequestFinancialProduct(REQUEST_STATUS status, ApplicationClient applicationClient, FinancialProduct financialProduct) {
         super(status);
         this.applicationClient = applicationClient;

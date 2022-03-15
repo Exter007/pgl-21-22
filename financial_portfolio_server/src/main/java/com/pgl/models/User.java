@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @MappedSuperclass
-public abstract class User extends PersistentWithoutId {
+public class User extends PersistentWithoutId {
 
     @Column(name = "login")
     private String login;

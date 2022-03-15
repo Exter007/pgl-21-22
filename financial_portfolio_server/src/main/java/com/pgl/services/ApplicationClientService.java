@@ -28,7 +28,7 @@ public class ApplicationClientService {
         ApplicationClient userFound = getRepository().findByLogin(user.getLogin());
 
         //      If a User already exists with this login
-        if(userFound != null){
+        if(!user.toUpdate && userFound != null){
             throw new RuntimeException("This User already exists");
         }
 
@@ -38,7 +38,7 @@ public class ApplicationClientService {
             userFound = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             userFound.setPassword(hashPW);
-            userFound.setLogin(user.getEmail());
+            userFound.setLogin(user.getLogin());
             userFound.setRole(User.ROLE.APPLICATION_CLIENT);
 
         }else {

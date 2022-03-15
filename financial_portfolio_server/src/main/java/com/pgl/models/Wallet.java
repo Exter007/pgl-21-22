@@ -22,6 +22,10 @@ public class Wallet extends Persistent {
     @JsonIgnore
     private List<WalletFinancialProduct> walletFinancialProducts = new ArrayList<>();
 
+
+    public Wallet() {
+    }
+
     public Wallet(String name, FinancialInstitution financialInstitution) {
         this.name = name;
         this.financialInstitution = financialInstitution;

@@ -35,6 +35,12 @@ public class PersistentWithoutId implements Serializable {
 
 
     /**
+     * This field is used to indicate if it is a new object to be created in the DB or en update.
+     */
+    @Transient
+    public boolean toUpdate = true;
+
+    /**
      * Default constructor.
      */
     public PersistentWithoutId() {
