@@ -63,7 +63,7 @@ public class FinancialProductHolder extends PersistentWithoutId {
         this.sex = sex;
         this.phone = phone;
         this.financialInstitution = financialInstitution;
-        this.applicationClient = applicationClient;
+        this.applicationClient = applicationClient;//Arsène: le financialProductHolder doit être ajouté dans la liste de financialProductHolder de applicationClient
         this.financialProducts = financialProducts;
     }
 
