@@ -3,6 +3,8 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.9'
     id 'org.beryx.jlink' version '2.23.1'
     id 'com.github.johnrengelman.shadow'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 mainClassName = 'com.pgl.application.StartApplication'
@@ -31,9 +33,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.jfoenix/jfoenix
     implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-
-//    implementation project(':FinancialPortfolioServer')
+    implementation project(':FinancialPortfolioServer')
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

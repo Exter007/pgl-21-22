@@ -5,3 +5,5 @@ pluginManagement {
 }
 rootProject.name = 'FinancialPortfolioInstitution'
 
+include('FinancialPortfolioServer')
+project(':FinancialPortfolioServer').projectDir = new File("../financial_portfolio_server")

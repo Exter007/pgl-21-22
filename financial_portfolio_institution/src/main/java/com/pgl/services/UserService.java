@@ -1,7 +1,6 @@
 package com.pgl.services;
 
-import com.pgl.controllers.RegisterController;
-import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
 import com.pgl.utils.GlobalStage;
 import com.pgl.utils.GlobalVariables;
@@ -12,10 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -26,19 +23,19 @@ import java.util.logging.Logger;
 public class UserService {
 
     @Inject
-    HttpClientService httpClientService = new HttpClientService<ApplicationClient>();
+    HttpClientService httpClientService = new HttpClientService<FinancialInstitution>();
 
     RestTemplate restTemplate = new RestTemplate();
 
-    private static ApplicationClient currentUser;
+    private static FinancialInstitution currentUser;
 
     public UserService(){}
 
-    public static ApplicationClient getCurrentUser() {
+    public static FinancialInstitution getCurrentUser() {
         return currentUser;
     }
 
-    public static void setCurrentUser(ApplicationClient currentUser) {
+    public static void setCurrentUser(FinancialInstitution currentUser) {
         UserService.currentUser = currentUser;
     }
 
@@ -67,7 +64,7 @@ public class UserService {
             response = restTemplate.exchange(url,
                     HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
-            ApplicationClient user = new ApplicationClient();
+            FinancialInstitution user = new FinancialInstitution();
             user.setLogin(response.getBody().getLogin());
             this.currentUser = user;
             String token = "Bearer " + Objects.requireNonNull(response.getBody()).getAccessToken();
@@ -91,10 +88,11 @@ public class UserService {
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
                 } catch (IOException ex) {
-                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } catch(Exception e){
+        }
+        catch(Exception e){
             System.out.println("Error: "+e);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
@@ -117,13 +115,13 @@ public class UserService {
      * @param user
      * @return registered user
      */
-    public ApplicationClient register(ApplicationClient user){
+    public FinancialInstitution register(FinancialInstitution user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/client");
 
-        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
+        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<ApplicationClient> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, ApplicationClient.class);
+        ResponseEntity<FinancialInstitution> response = restTemplate.exchange(url, HttpMethod.POST,
+                httpEntity, FinancialInstitution.class);
 
         System.out.println(response);
 
@@ -170,11 +168,11 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean sendPasswordResetCode(ApplicationClient user){
+    public boolean sendPasswordResetCode(FinancialInstitution user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
-        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
+        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
 
         ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntity, boolean.class);
@@ -204,11 +202,11 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean resetPassword(ApplicationClient user){
+    public boolean resetPassword(FinancialInstitution user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
-        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
+        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
 
         ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntity, boolean.class);
@@ -241,11 +239,11 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean sendAccountResetCode(ApplicationClient user){
+    public boolean sendAccountResetCode(FinancialInstitution user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
         System.out.println("url: "+url);
 
-        HttpEntity<ApplicationClient> httpEntity = getHttpEntity(user);
+        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
 
         ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
                 httpEntity, boolean.class);
