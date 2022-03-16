@@ -14,7 +14,7 @@ public class FinancialInstitution extends User{
 
     @Id
     @Column(name = "BIC", unique = true, nullable = false)
-    private String BIC;
+    private String BIC; //devrait être une constante
 
     @Column(name = "name", nullable = false)
     private String name;

@@ -1,10 +1,17 @@
 package com.pgl.models;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("CURRENT_ACCOUNT")
 public class CurrentAccount extends BankAccount {
 
-    public CurrentAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution) {
-        super(iban, ACCOUNT_NATURE.CURRENT_ACCOUNT, type,state, pin_code, currency, financialInstitution);
+    public CurrentAccount() {
     }
 
+    public CurrentAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
+        super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
+        this.setNature(ACCOUNT_NATURE.CURRENT_ACCOUNT);
+    }
 }
