@@ -1,13 +1,9 @@
 package com.pgl.services;
 
-import com.pgl.models.Persistent;
 import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
-
 import javafx.scene.control.Alert;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;

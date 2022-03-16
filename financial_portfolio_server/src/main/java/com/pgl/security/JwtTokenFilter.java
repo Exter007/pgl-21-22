@@ -1,5 +1,6 @@
 package com.pgl.security;
 
+import com.pgl.models.User;
 import com.pgl.services.UserDetailsServiceImpl;
 import com.pgl.services.UserService;
 import com.pgl.utils.ContextName;

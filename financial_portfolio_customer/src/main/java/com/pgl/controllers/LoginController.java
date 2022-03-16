@@ -76,9 +76,11 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         }else{
             ApplicationClient user = new ApplicationClient();
-            // TODO
-            // ApplicationClient user = userService.login(username(name.getText(),nationalRegisterNumber.getText()), password.getText());
-            if (user != null){
+            user.setNationalRegister(nationalRegisterNumber.getText());
+            user.setFirstName(name.getText());
+            String login = user.buildLogin();
+            boolean response = userService.login(login, password.getText());
+            if (response){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();

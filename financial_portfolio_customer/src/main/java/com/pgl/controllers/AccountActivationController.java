@@ -1,6 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -44,21 +45,23 @@ public class AccountActivationController implements Initializable {
             alert.setHeaderText("Veuillez rentrer le code que vous avez reçu par e-mail");
             alert.showAndWait();
         }else {
-            // TODO
-            ApplicationClient user = new ApplicationClient();
-            /*
             User user = new User();
-            UserService.getCurrentUser().setValidateCode(Integer.parseInt(code.getText()));
-            UserService.currentUser = user;
-            boolean result = userService.accountActivation(UserService.getCurrentUser());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            user.setPassword(UserService.getCurrentUser().getPassword());
+            user.setEmail(UserService.getCurrentUser().getEmail());
+            user.setToken(UserService.getCurrentUser().getToken());
+            user.setActive(UserService.getCurrentUser().getActive());
+            user.setRole(UserService.getCurrentUser().getRole());
 
-            if(result == true){
+            boolean result = userService.accountActivation(user);
+
+            if(result){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Compte activé avec succés");
+                alert.setHeaderText("Compte activé avec sucés");
                 alert.showAndWait();
 
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -70,24 +73,7 @@ public class AccountActivationController implements Initializable {
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Erreur de validation");
-                alert.setContentText("Le code entré est incorrect");
-                alert.showAndWait();
-            }
-
-             */
-            if (user != null){
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
-                    Stage newWindow = new Stage();
-                    Scene scene = new Scene(root);
-                    newWindow.setScene(scene);
-                    GlobalStage.setStage(newWindow);
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
+                alert.setHeaderText("Le code renseigné est incorrect");
                 alert.showAndWait();
             }
         }

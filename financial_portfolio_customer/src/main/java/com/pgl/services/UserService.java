@@ -1,17 +1,27 @@
 package com.pgl.services;
 
+import com.pgl.controllers.RegisterController;
 import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
+import com.pgl.utils.GlobalStage;
 import com.pgl.utils.GlobalVariables;
 import com.pgl.utils.JwtResponse;
 import com.pgl.utils.LoginRequest;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserService {
 
@@ -50,40 +60,49 @@ public class UserService {
         HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest,
                 authenticationHeaders);
 
-        // Authenticate User and get JWT
-        ResponseEntity<JwtResponse> response = restTemplate.exchange(url,
-                HttpMethod.POST, authenticationEntity, JwtResponse.class);
+        ResponseEntity<JwtResponse> response = null;
 
-        String token = "Bearer " + response.getBody().getAccessToken();
-        HttpHeaders headers = httpClientService.getHeaders();
-        headers.set("Authorization", token);
-        httpClientService.setHeaders(headers);
+        try{
+            // Authenticate User and get JWT
+            response = restTemplate.exchange(url,
+                    HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
-        // if the authentication is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            String error= response.toString();
-            System.out.println(response);
-            if(response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+            ApplicationClient user = new ApplicationClient();
+            user.setLogin(response.getBody().getLogin());
+            this.currentUser = user;
+            String token = "Bearer " + Objects.requireNonNull(response.getBody()).getAccessToken();
+            HttpHeaders headers = httpClientService.getHeaders();
+            headers.set("Authorization", token);
+            httpClientService.setHeaders(headers);
 
+            return true;
+
+        }catch (RuntimeException e){
+            System.out.println("Response : "+response.getStatusCode() + " - " + response.getBody());
+            if(e.equals("Account not activated")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                if(error.equals("Account not activated")){
-                    alert.setHeaderText("Compte non activé");
-                    alert.setContentText("Veuillez le validé avec le code envoyé à votre email");
-                }else{
-                    alert.setHeaderText("Email ou mot de passe incorrect");
-                }
+                alert.setHeaderText("Compte non activé");
+                alert.setContentText("Veuillez le validé avec le code envoyé à votre email");
                 alert.showAndWait();
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
+                } catch (IOException ex) {
+                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-
-            System.out.println("Error: "+error);
-
-            return false;
-
+        }
+        catch(Exception e){
+            System.out.println("Error: "+e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
+            alert.showAndWait();
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -263,23 +282,29 @@ public class UserService {
 
         HttpEntity<User> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, boolean.class);
+        ResponseEntity<Boolean> response = null;
+        try{
+            response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, boolean.class);
 
-        System.out.println(response.getStatusCode());
+            System.out.println(response.getStatusCode());
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'activation du compte ");
-            alert.showAndWait();
+            // if request is not successful
+            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur lors de l'activation du compte ");
+                alert.showAndWait();
 
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
+                System.out.println("Failed : HTTP error code : " + response.getStatusCode());
 
-            String error= response.getBody().toString();
-            System.out.println("Error: "+error);
+                String error= response.getBody().toString();
+                System.out.println("Error: "+error);
 
-            return false;
+                return false;
+            }
+
+        }catch(RuntimeException e){
+
         }
 
         return response.getBody();

@@ -103,17 +103,12 @@ public class RegisterController implements Initializable {
         return false;
     }
 
-    public ApplicationClient create_user(){
-        int token = 10000 + (int) (Math.random()*(99999-10000));
-        ApplicationClient user = new ApplicationClient();
-
-        user.setName(lastName.getText());
-        user.setFirstName(firstName.getText());
-        user.setEmail(email.getText());
-        user.setPassword(password.getText());
-        user.setNationalRegister(nationalRegisterNumber.getText());
-        user.setToken(String.valueOf(token));
-        user.setActive(false);
+    public ApplicationClient build_user(){
+        String token = String.valueOf(10000 + (int) (Math.random()*(99999-10000))) ;
+        ApplicationClient user = new ApplicationClient(nationalRegisterNumber.getText(),
+                firstName.getText(), lastName.getText(), password.getText(),
+                email.getText(), token,false);
+        user.toUpdate = false;
 
         return user;
     }
@@ -154,11 +149,10 @@ public class RegisterController implements Initializable {
             alert.showAndWait();
 
         }else {
-            ApplicationClient user = create_user();
+            ApplicationClient user = build_user();
 
-            // TODO
-            // user = userService.register(user);
-            // UserService.setCurrentUser(user);
+            user = userService.register(user);
+            UserService.setCurrentUser(user);
 
             if (user != null){
                 try {

@@ -2,6 +2,7 @@ package com.pgl.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -106,8 +107,8 @@ public class FinancialInstitution extends User{
 
     @JsonIgnore
     public String buildLogin() {
-        return  (getName() != null ? getName() : "")
-                .concat(getBIC() != null ? getBIC(): "");
+        return  StringUtils.deleteWhitespace((getName() != null ? getName() : "")
+                .concat(getBIC() != null ? getBIC(): ""));
     }
 
 }

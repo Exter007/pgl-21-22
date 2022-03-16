@@ -53,6 +53,10 @@ public class AccountController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = userService.findByLogin(loginRequest.getUsername());
+        if(!user.getActive()){
+            throw new RuntimeException("Account not activated");
+        }
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

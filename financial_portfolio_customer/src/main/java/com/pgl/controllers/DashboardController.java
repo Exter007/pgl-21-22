@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,8 +56,13 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        loadUserConnected();
     }
+
+    public void loadUserConnected(){
+        welcome.setText(UserService.getCurrentUser().getLogin());
+    }
+
 
     @FXML
     private void edit_profil(ActionEvent event) {
@@ -73,7 +79,21 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void diconnect(ActionEvent event) {
-        //TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la déconnexion ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            userService.logout();
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
+
+            } catch (IOException ex) {
+                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML

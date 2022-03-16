@@ -1,6 +1,7 @@
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -95,9 +96,9 @@ public class ApplicationClient extends User{
 
     @JsonIgnore
     public String buildLogin() {
-        return  (getFirstName() != null ? getFirstName() : "")
+        return  StringUtils.deleteWhitespace((getFirstName() != null ? getFirstName() : "")
                 .concat(getName() != null ? getName(): "")
-                .concat(getNationalRegister() != null ? getNationalRegister(): "");
+                .concat(getNationalRegister() != null ? getNationalRegister(): ""));
     }/*Arsène: incohérent car pour être un client de l'application, il faut avoir fourni son nom complet
        et son registre national donc ils ne peuvent pas être null
        le login se base sur le nom complet et l’identifiant unique (numéro de registre national) de l’utilisateur
