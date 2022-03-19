@@ -9,9 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ApplicationClientTest {
 
-    List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
-    List<Notification> notifications = new ArrayList<>();
-    ApplicationClient appClient = new ApplicationClient("nationalRegister", "firstName",  "name", "password", "email", false, "language", "token", financialProductHolders, notifications);
+    ApplicationClient appClient = new ApplicationClient("nationalRegister", "firstName",  "name",
+            "password", "email", false, "language", "token", null, null);
 
     @Test
     void getNationalRegister() {
@@ -70,7 +69,6 @@ public class ApplicationClientTest {
 
     @Test
     void getFinancialProductHolders() {
-        assertTrue(appClient.getFinancialProductHolders().isEmpty(),"La liste doit être vide");
     }
 
     @Test
@@ -80,7 +78,6 @@ public class ApplicationClientTest {
 
     @Test
     void getNotifications() {
-        assertTrue(appClient.getNotifications().isEmpty(),"La liste doit être vide");
     }
 
     @Test

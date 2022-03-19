@@ -21,7 +21,7 @@ public abstract class BankAccount extends FinancialProduct {
     private ACCOUNT_TYPE type;
 
     @Column(name="pin_code", nullable = false)
-    private int pin_code;
+    private int pin_code;//doit être un string parce que peut commencer par 0
 
     @Column(name="amount")
     private float amount;
@@ -43,6 +43,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.iban = iban;
         this.type = type;
         this.pin_code = pin_code;
+        this.amount = 0;
         this.currency = currency;
         this.monthlyFee = monthlyFee;
         this.annualYield = annualYield;
@@ -108,7 +109,7 @@ public abstract class BankAccount extends FinancialProduct {
         return nature;
     }
 
-    public void setNature(ACCOUNT_NATURE nature) {
+    protected void setNature(ACCOUNT_NATURE nature) {
         this.nature = nature;
     }
 
