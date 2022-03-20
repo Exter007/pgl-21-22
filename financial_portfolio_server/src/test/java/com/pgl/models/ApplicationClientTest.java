@@ -14,8 +14,8 @@ public class ApplicationClientTest {
 
     @Test
     void getNationalRegister() {
-        assertEquals("String", appClient.getNationalRegister().getClass().getSimpleName());//teste le type
-        assertEquals("nationalRegister", appClient.getNationalRegister());//teste la valeur
+        assertEquals("String", appClient.getNationalRegister().getClass().getSimpleName());//test the type
+        assertEquals("nationalRegister", appClient.getNationalRegister());//test the value
         //TODO tester la longueur de la chaine (11) et le type de caractère (numérique) (refaire ligne 14 et 19)
     }
 
@@ -26,8 +26,8 @@ public class ApplicationClientTest {
 
     @Test
     void getFirstName() {
-        assertEquals("String", appClient.getFirstName().getClass().getSimpleName());//teste le type
-        assertEquals("firstName", appClient.getFirstName());//teste la valeur
+        assertEquals("String", appClient.getFirstName().getClass().getSimpleName());//test the type
+        assertEquals("firstName", appClient.getFirstName());//test the value
     }
 
     @Test
@@ -40,8 +40,8 @@ public class ApplicationClientTest {
 
     @Test
     void getName() {
-        assertEquals("String", appClient.getName().getClass().getSimpleName());//teste le type
-        assertEquals("name", appClient.getName());//teste la valeur
+        assertEquals("String", appClient.getName().getClass().getSimpleName());//test the type
+        assertEquals("name", appClient.getName());//test the value
     }
 
     @Test
@@ -50,21 +50,6 @@ public class ApplicationClientTest {
         String name = appClient.getName();
         assertNotEquals("name", name);
         assertEquals("Test", name);
-    }
-
-    @Test
-    void getEmail() {
-        assertEquals("String", appClient.getEmail().getClass().getSimpleName());//teste le type
-        assertEquals("email", appClient.getEmail());//teste la valeur
-        //TODO tester la présence de @ ?
-    }
-
-    @Test
-    void setEmail() {
-        appClient.setEmail("test");
-        String email = appClient.getEmail();
-        assertNotEquals("email", email);
-        assertEquals("test", email);
     }
 
     @Test

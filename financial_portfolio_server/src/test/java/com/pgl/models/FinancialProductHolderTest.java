@@ -15,8 +15,8 @@ class FinancialProductHolderTest {
             "firstName", birthDate, "sex", "phone", financialInstitution, applicationClient, null);
     @Test
     void getName() {
-        assertEquals("String", financialProductHolder.getName().getClass().getSimpleName());//teste le type
-        assertEquals("name", financialProductHolder.getName());//teste la valeur
+        assertEquals("String", financialProductHolder.getName().getClass().getSimpleName());//test the type
+        assertEquals("name", financialProductHolder.getName());//test the value
     }
 
     @Test
@@ -29,8 +29,8 @@ class FinancialProductHolderTest {
 
     @Test
     void getFirstName() {
-        assertEquals("String", financialProductHolder.getFirstName().getClass().getSimpleName());//teste le type
-        assertEquals("firstName", financialProductHolder.getFirstName());//teste la valeur
+        assertEquals("String", financialProductHolder.getFirstName().getClass().getSimpleName());//test the type
+        assertEquals("firstName", financialProductHolder.getFirstName());//test the value
     }
 
     @Test
@@ -53,8 +53,8 @@ class FinancialProductHolderTest {
 
     @Test
     void getSex() {
-        assertEquals("String", financialProductHolder.getSex().getClass().getSimpleName());//teste le type
-        assertEquals("sex", financialProductHolder.getSex());//teste la valeur
+        assertEquals("String", financialProductHolder.getSex().getClass().getSimpleName());//test the type
+        assertEquals("sex", financialProductHolder.getSex());//test the value
     }
 
     @Test
@@ -67,8 +67,8 @@ class FinancialProductHolderTest {
 
     @Test
     void getPhone() {
-        assertEquals("String", financialProductHolder.getPhone().getClass().getSimpleName());//teste le type
-        assertEquals("phone", financialProductHolder.getPhone());//teste la valeur
+        assertEquals("String", financialProductHolder.getPhone().getClass().getSimpleName());//test the type
+        assertEquals("phone", financialProductHolder.getPhone());//test the value
     }
 
     @Test
@@ -81,8 +81,8 @@ class FinancialProductHolderTest {
 
     @Test
     void getNationalRegister() {
-        assertEquals("String", financialProductHolder.getNationalRegister().getClass().getSimpleName());//teste le type
-        assertEquals("nationalRegister", financialProductHolder.getNationalRegister());//teste la valeur
+        assertEquals("String", financialProductHolder.getNationalRegister().getClass().getSimpleName());//test the type
+        assertEquals("nationalRegister", financialProductHolder.getNationalRegister());//test the value
     }
 
     @Test

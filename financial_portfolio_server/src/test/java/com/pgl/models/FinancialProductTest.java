@@ -10,8 +10,8 @@ class FinancialProductTest {
     FinancialProduct financialProduct = new FinancialProduct("wording", FinancialProduct.PRODUCT_STATE.UNARCHIVED, financialInstitution, null);
     @Test
     void getWording() {
-        assertEquals("String", financialProduct.getWording().getClass().getSimpleName());//teste le type
-        assertEquals("wording", financialProduct.getWording());//teste la valeur
+        assertEquals("String", financialProduct.getWording().getClass().getSimpleName());//test the type
+        assertEquals("wording", financialProduct.getWording());//test the value
     }
 
     @Test
@@ -24,8 +24,8 @@ class FinancialProductTest {
 
     @Test
     void getState() {
-        assertEquals("PRODUCT_STATE", financialProduct.getState().getClass().getSimpleName());//teste le type
-        assertEquals(FinancialProduct.PRODUCT_STATE.UNARCHIVED, financialProduct.getState());//teste la valeur
+        assertEquals("PRODUCT_STATE", financialProduct.getState().getClass().getSimpleName());//test the type
+        assertEquals(FinancialProduct.PRODUCT_STATE.UNARCHIVED, financialProduct.getState());//test the value
     }
 
     @Test
@@ -33,6 +33,7 @@ class FinancialProductTest {
         financialProduct.setState(FinancialProduct.PRODUCT_STATE.ARCHIVED);
         FinancialProduct.PRODUCT_STATE state = financialProduct.getState();
         assertNotEquals(FinancialProduct.PRODUCT_STATE.UNARCHIVED, state);
+        assertEquals(FinancialProduct.PRODUCT_STATE.ARCHIVED, state);
     }
 
     @Test

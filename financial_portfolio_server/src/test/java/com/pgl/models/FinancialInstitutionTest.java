@@ -15,8 +15,8 @@ class FinancialInstitutionTest {
     FinancialInstitution financialInstitution = new FinancialInstitution("BIC", "name", "password", "email", "address", "token", true, "phone", financialProductHolders, address, notifications);
     @Test
     void getBIC() {
-        assertEquals("String", financialInstitution.getBIC().getClass().getSimpleName());//teste le type
-        assertEquals("BIC", financialInstitution.getBIC());//teste la valeur
+        assertEquals("String", financialInstitution.getBIC().getClass().getSimpleName());//test the type
+        assertEquals("BIC", financialInstitution.getBIC());//test the value
     }
 
     @Test
@@ -26,8 +26,8 @@ class FinancialInstitutionTest {
 
     @Test
     void getName() {
-        assertEquals("String", financialInstitution.getName().getClass().getSimpleName());//teste le type
-        assertEquals("name", financialInstitution.getName());//teste la valeur
+        assertEquals("String", financialInstitution.getName().getClass().getSimpleName());//test the type
+        assertEquals("name", financialInstitution.getName());//test the value
     }
 
     @Test
@@ -40,8 +40,8 @@ class FinancialInstitutionTest {
 
     @Test
     void getEmail() {
-        assertEquals("String", financialInstitution.getEmail().getClass().getSimpleName());//teste le type
-        assertEquals("email", financialInstitution.getEmail());//teste la valeur
+        assertEquals("String", financialInstitution.getEmail().getClass().getSimpleName());//test the type
+        assertEquals("email", financialInstitution.getEmail());//test the value
     }
 
     @Test
@@ -54,8 +54,8 @@ class FinancialInstitutionTest {
 
     @Test
     void getPhone() {
-        assertEquals("String", financialInstitution.getPhone().getClass().getSimpleName());//teste le type
-        assertEquals("phone", financialInstitution.getPhone());//teste la valeur
+        assertEquals("String", financialInstitution.getPhone().getClass().getSimpleName());//test the type
+        assertEquals("phone", financialInstitution.getPhone());//test the value
     }
 
     @Test

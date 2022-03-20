@@ -13,8 +13,8 @@ class AddressTest {
     * */
     @Test
     void getStreet() {
-        assertEquals("String", address.getStreet().getClass().getSimpleName());//teste le type
-        assertEquals("street", address.getStreet());//teste la valeur
+        assertEquals("String", address.getStreet().getClass().getSimpleName());//test the type
+        assertEquals("street", address.getStreet());//test the value
     }
 
     @Test
@@ -22,14 +22,14 @@ class AddressTest {
         address.setStreet("set");
         String street = address.getStreet();
         assertNotEquals("street", street);//teste le changement de valeur
-        assertEquals("set", street);//teste la valeur
+        assertEquals("set", street);//test the value
     }
 
     @Test
     void getStreetNumber() {
-        //assertEquals("String", address.getStreetNumber().getClass().getSimpleName());//teste le type
-        //assertEquals("streetNumber",address.getStreetNumber());//teste la valeur
-        assertEquals(0, address.getStreetNumber());//teste la valeur
+        //assertEquals("String", address.getStreetNumber().getClass().getSimpleName());//test the type
+        //assertEquals("streetNumber",address.getStreetNumber());//test the value
+        assertEquals(0, address.getStreetNumber());//test the value
     }
 
     @Test
@@ -46,8 +46,8 @@ class AddressTest {
 
     @Test
     void getCity() {
-        assertEquals("String", address.getCity().getClass().getSimpleName());//teste le type
-        assertEquals("city", address.getCity());//teste la valeur
+        assertEquals("String", address.getCity().getClass().getSimpleName());//test the type
+        assertEquals("city", address.getCity());////test the value
     }
 
     @Test
@@ -60,9 +60,9 @@ class AddressTest {
 
     @Test
     void getPostalCode() {
-        //assertEquals("String", address.getPostalCode().getClass().getSimpleName());//teste le type
-        //assertEquals("postalCode",address.getPostalCode());//teste la valeur
-        assertEquals(0, address.getPostalCode());//teste la valeur
+        //assertEquals("String", address.getPostalCode().getClass().getSimpleName());//test the type
+        //assertEquals("postalCode",address.getPostalCode());//test the value
+        assertEquals(0, address.getPostalCode());//test the value
     }
 
     @Test
@@ -79,8 +79,8 @@ class AddressTest {
 
     @Test
     void getCountry() {
-        assertEquals("String", address.getCountry().getClass().getSimpleName());//teste le type
-        assertEquals("country", address.getCountry());//teste la valeur
+        assertEquals("String", address.getCountry().getClass().getSimpleName());//test the type
+        assertEquals("country", address.getCountry());//test the value
     }
 
     @Test

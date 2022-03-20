@@ -14,20 +14,20 @@ class BankAccountTest {
 
     @Test
     void getIban() {
-        assertEquals("String", bankAccount.getIban().getClass().getSimpleName());//teste le type
-        assertEquals("iban", bankAccount.getIban());//teste la valeur
+        assertEquals("String", bankAccount.getIban().getClass().getSimpleName());//test the type
+        assertEquals("iban", bankAccount.getIban());//test the value
     }
 
     @Test
     void getType() {
-        assertEquals("ACCOUNT_TYPE", bankAccount.getType().getClass().getSimpleName());//teste le type
-        assertEquals(BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT, bankAccount.getType());//teste la valeur
+        assertEquals("ACCOUNT_TYPE", bankAccount.getType().getClass().getSimpleName());//test the type
+        assertEquals(BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT, bankAccount.getType());//test the value
     }
 
     @Test
     void getPin_code() {
-        //assertEquals("String", bankAccount.getPin_code().getClass().getSimpleName());//teste le type
-        assertEquals(0, bankAccount.getPin_code());//teste la valeur
+        //assertEquals("String", bankAccount.getPin_code().getClass().getSimpleName());//test the type
+        assertEquals(0, bankAccount.getPin_code());//test the value
     }
 
     @Test
@@ -46,7 +46,7 @@ class BankAccountTest {
 
     @Test
     void getAmount() {
-        assertEquals(0, bankAccount.getAmount());//teste la valeur
+        assertEquals(0, bankAccount.getAmount());//test the value
     }
 
     @Test
@@ -59,8 +59,8 @@ class BankAccountTest {
 
     @Test
     void getCurrency() {
-        assertEquals("CURRENCY", bankAccount.getCurrency().getClass().getSimpleName());//teste le type
-        assertEquals(BankAccount.CURRENCY.EURO, bankAccount.getCurrency());//teste la valeur
+        assertEquals("CURRENCY", bankAccount.getCurrency().getClass().getSimpleName());//test the type
+        assertEquals(BankAccount.CURRENCY.EURO, bankAccount.getCurrency());//test the value
     }
 
     @Test
@@ -70,7 +70,7 @@ class BankAccountTest {
 
     @Test
     void getMonthlyFee() {
-        assertEquals(0, bankAccount.getMonthlyFee());//teste la valeur
+        assertEquals(0, bankAccount.getMonthlyFee());//test the value
     }
 
     @Test
@@ -83,7 +83,7 @@ class BankAccountTest {
 
     @Test
     void getAnnualYield() {
-        assertEquals(0, bankAccount.getAnnualYield());//teste la valeur
+        assertEquals(0, bankAccount.getAnnualYield());//test the value
     }
 
     @Test
@@ -96,7 +96,7 @@ class BankAccountTest {
 
     @Test
     void getNature() {
-        assertEquals("ACCOUNT_NATURE", bankAccount.getNature().getClass().getSimpleName());//teste le type
-        assertEquals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT, bankAccount.getNature());//teste la valeur
+        assertEquals("ACCOUNT_NATURE", bankAccount.getNature().getClass().getSimpleName());//test the type
+        assertEquals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT, bankAccount.getNature());//test the value
     }
 }
