@@ -21,7 +21,6 @@ public class WalletAskTransferConfirmationController implements Initializable {
 
     @FXML
     private Button confirmButton;
-
     @FXML
     private Button cancelButton;
 
@@ -33,6 +32,10 @@ public class WalletAskTransferConfirmationController implements Initializable {
         // TODO
     }
 
+    /**
+     * Confirm the request for access to transfers
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void ask_confirm(MouseEvent event) {
         //TODO
@@ -46,6 +49,10 @@ public class WalletAskTransferConfirmationController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Cancel the request for access to transfers
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void ask_cancel(MouseEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

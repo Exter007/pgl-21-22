@@ -50,14 +50,15 @@ public class AccountActivationController implements Initializable {
             alert.showAndWait();
         }else {
             User user = new User();
+            /*
             user.setLogin(UserService.getCurrentUser().getLogin());
             user.setPassword(UserService.getCurrentUser().getPassword());
             user.setEmail(UserService.getCurrentUser().getEmail());
             user.setToken(UserService.getCurrentUser().getToken());
             user.setActive(UserService.getCurrentUser().getActive());
             user.setRole(UserService.getCurrentUser().getRole());
-
-            boolean result = userService.accountActivation(user);
+            */
+            boolean result = true;
 
             if(result){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -90,7 +91,7 @@ public class AccountActivationController implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

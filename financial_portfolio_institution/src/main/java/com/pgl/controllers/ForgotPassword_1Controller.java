@@ -39,7 +39,7 @@ public class ForgotPassword_1Controller implements Initializable {
 
     /**
      * Check that the e-mail is in the right format (@ and .)
-     * @param email the user email
+     * @param email institution email
      * @return true or false
      */
     private boolean check_email(String email){
@@ -66,7 +66,7 @@ public class ForgotPassword_1Controller implements Initializable {
 
         }else {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_2.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ForgotPassword_2.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
@@ -85,7 +85,7 @@ public class ForgotPassword_1Controller implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

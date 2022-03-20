@@ -28,7 +28,7 @@ public class ForgotPassword_2Controller implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private TextField nationalRegisterNumber;
+    private TextField BIC;
     @FXML
     private PasswordField newPassword;
     @FXML
@@ -45,14 +45,13 @@ public class ForgotPassword_2Controller implements Initializable {
     }
 
     /**
-     * Checks that the national registry number is composed of numbers only and if it is 11 characters long
-     * @param nationalRegisterNumber the user national register number
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
      * @return true or false
      */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
+    private boolean check_BIC(String BIC){
+        boolean isOK = (BIC.length() == 8);
+        return isOK;
     }
 
     /**
@@ -84,7 +83,7 @@ public class ForgotPassword_2Controller implements Initializable {
      */
     @FXML
     private void reset(MouseEvent event) {
-        if(nationalRegisterNumber.getText().isEmpty() ||
+        if(BIC.getText().isEmpty() ||
                 newPassword.getText().isEmpty() ||
                 newPassword2.getText().isEmpty() ||
                 code.getText().isEmpty()){
@@ -92,9 +91,9 @@ public class ForgotPassword_2Controller implements Initializable {
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
 
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas correct");
+            alert.setHeaderText("Votre BIC n'est pas correct");
             alert.showAndWait();
 
         }else if(!check_password(newPassword.getText())){
@@ -116,7 +115,7 @@ public class ForgotPassword_2Controller implements Initializable {
             alert.showAndWait();
 
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
@@ -135,7 +134,7 @@ public class ForgotPassword_2Controller implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

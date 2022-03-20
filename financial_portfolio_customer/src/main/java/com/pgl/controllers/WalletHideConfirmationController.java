@@ -19,7 +19,6 @@ public class WalletHideConfirmationController implements Initializable {
 
     @FXML
     private Button confirmButton;
-
     @FXML
     private Button cancelButton;
 
@@ -31,6 +30,10 @@ public class WalletHideConfirmationController implements Initializable {
         // TODO
     }
 
+    /**
+     * Hide confirmation
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void hide_confirm(MouseEvent event) {
         //TODO
@@ -44,6 +47,10 @@ public class WalletHideConfirmationController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Cancellation of the hidding
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void hide_cancel(MouseEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

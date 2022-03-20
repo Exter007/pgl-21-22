@@ -2,13 +2,13 @@ package com.pgl.controllers;
 
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ModifyPersonnalData_1Controller implements Initializable {
+public class ModifyPersonnalDataController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
@@ -33,7 +33,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //TODO
     }
 
     /**
@@ -52,15 +52,18 @@ public class ModifyPersonnalData_1Controller implements Initializable {
 
 
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ModifyPersonnalData2.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ModifyPersonnalData2.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(ModifyPersonnalData_1Controller.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyPersonnalDataController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            Stage stage = (Stage) password.getScene().getWindow();
+            stage.close();
 
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);

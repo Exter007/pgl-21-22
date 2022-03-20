@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:controller="com.pgl.controllers.DashboardAddClientController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="315.0" prefWidth="420.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="331.0" prefWidth="420.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label layoutX="143.0" layoutY="24.0" text="Ajout d'un client">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="customerNationalRegisterNumber" alignment="CENTER" layoutX="97.0" layoutY="85.0" prefHeight="25.0" prefWidth="225.0" promptText="N° de register national du client" styleClass="field" />
+            <PasswordField fx:id="password" alignment="CENTER" layoutX="97.0" layoutY="180.0" prefHeight="25.0" prefWidth="225.0" promptText="Mot de passe" styleClass="field" />
+            <Line endX="213.66668701171875" layoutX="154.0" layoutY="146.0" startX="-100.0" />
+            <Button layoutX="98.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#add_customer" prefHeight="39.0" prefWidth="225.0" text="Ajouter le client" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
