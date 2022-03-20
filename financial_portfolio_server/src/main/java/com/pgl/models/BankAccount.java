@@ -21,7 +21,7 @@ public abstract class BankAccount extends FinancialProduct {
     private ACCOUNT_TYPE type;
 
     @Column(name="pin_code", nullable = false)
-    private int pin_code;//doit être un string parce que peut commencer par 0
+    private String pin_code;
 
     @Column(name="amount")
     private float amount;
@@ -38,7 +38,7 @@ public abstract class BankAccount extends FinancialProduct {
     public BankAccount() {
     }
 
-    public BankAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
+    public BankAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
         super(state, financialInstitution);
         this.iban = iban;
         this.type = type;
@@ -65,11 +65,11 @@ public abstract class BankAccount extends FinancialProduct {
         this.type = type;
     }
 
-    public int getPin_code() {
+    public String getPin_code() {
         return pin_code;
     }
 
-    public void setPin_code(int pin_code) {
+    public void setPin_code(String pin_code) {
         this.pin_code = pin_code;
     }
 

@@ -11,7 +11,7 @@ class TermAccountTest {
     FinancialInstitution financialInstitution;
     Date maximumDate;
     TermAccount termAccount = new TermAccount("iban", BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT,
-            FinancialProduct.PRODUCT_STATE.ARCHIVED, 0, BankAccount.CURRENCY.EURO, financialInstitution,
+            FinancialProduct.PRODUCT_STATE.ARCHIVED, "pin_code", BankAccount.CURRENCY.EURO, financialInstitution,
             0, 0, maximumDate, 0);
     @Test
     void getMaximumDate() {

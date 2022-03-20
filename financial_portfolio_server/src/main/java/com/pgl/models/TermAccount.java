@@ -18,7 +18,7 @@ public class TermAccount extends BankAccount {
     public TermAccount() {
     }
 
-    public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
+    public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
         super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.setNature(ACCOUNT_NATURE.TERM_ACCOUNT);
         this.maximumDate = maximumDate;

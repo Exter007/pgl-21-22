@@ -10,7 +10,7 @@ class BankAccountTest {
 
     BankAccount bankAccount = new CurrentAccount("iban",
             BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT, FinancialProduct.PRODUCT_STATE.UNARCHIVED,
-            0, BankAccount.CURRENCY.EURO, null, 0, 0);
+            "pin_code", BankAccount.CURRENCY.EURO, null, 0, 0);
 
     @Test
     void getIban() {
@@ -26,22 +26,16 @@ class BankAccountTest {
 
     @Test
     void getPin_code() {
-        //assertEquals("String", bankAccount.getPin_code().getClass().getSimpleName());//test the type
-        assertEquals(0, bankAccount.getPin_code());//test the value
+        assertEquals("String", bankAccount.getPin_code().getClass().getSimpleName());//test the type
+        assertEquals("pin_code", bankAccount.getPin_code());//test the value
     }
 
     @Test
     void setPin_code() {
-        bankAccount.setPin_code(1);
-        int pin = bankAccount.getPin_code();
-        assertNotEquals(0, pin);
-        assertEquals(1, pin);
-        /*
         bankAccount.setPin_code("1999");
         String pin = bankAccount.getPin_code();
         assertNotEquals("0000", pin);
         assertEquals("1999", pin);
-        */
     }
 
     @Test

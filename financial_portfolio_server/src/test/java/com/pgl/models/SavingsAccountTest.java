@@ -11,7 +11,7 @@ class SavingsAccountTest {
     FinancialInstitution financialInstitution;
     Date loyaltyDate;
     SavingsAccount savingsAccount = new SavingsAccount("iban", BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT,
-            FinancialProduct.PRODUCT_STATE.ARCHIVED, 0, BankAccount.CURRENCY.EURO, financialInstitution,
+            FinancialProduct.PRODUCT_STATE.ARCHIVED, "pin_code", BankAccount.CURRENCY.EURO, financialInstitution,
             0, 0, loyaltyDate, 0);
     @Test
     void getLoyaltyDate() {

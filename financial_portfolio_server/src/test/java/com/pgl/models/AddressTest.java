@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
 
-    Address address = new Address("street", "city", 0, "country");
+    Address address = new Address("street", "city", "postalCode", "country");
     /*
     * address attendu après les corrections
     * Address address = new Address("street","streetNumber", "city", "postalCode", "country");
@@ -27,21 +27,16 @@ class AddressTest {
 
     @Test
     void getStreetNumber() {
-        //assertEquals("String", address.getStreetNumber().getClass().getSimpleName());//test the type
-        //assertEquals("streetNumber",address.getStreetNumber());//test the value
-        assertEquals(0, address.getStreetNumber());//test the value
+        assertEquals("String", address.getStreetNumber().getClass().getSimpleName());//test the type
+        assertEquals("streetNumber",address.getStreetNumber());//test the value
     }
 
     @Test
     void setStreetNumber() {
-        //address.setStreetNumber("333A");
-        //String streetNumber = address.getStreetNumber();
-        //assertNotEquals("streetNumber", streetNumber);
-        //assertEquals("333A", streetNumber);
-        address.setStreetNumber(333);
-        int streetNumber = address.getStreetNumber();
-        assertNotEquals(0, streetNumber);
-        assertEquals(333, streetNumber);
+        address.setStreetNumber("333A");
+        String streetNumber = address.getStreetNumber();
+        assertNotEquals("streetNumber", streetNumber);
+        assertEquals("333A", streetNumber);
     }
 
     @Test
@@ -60,21 +55,16 @@ class AddressTest {
 
     @Test
     void getPostalCode() {
-        //assertEquals("String", address.getPostalCode().getClass().getSimpleName());//test the type
-        //assertEquals("postalCode",address.getPostalCode());//test the value
-        assertEquals(0, address.getPostalCode());//test the value
+        assertEquals("String", address.getPostalCode().getClass().getSimpleName());//test the type
+        assertEquals("postalCode",address.getPostalCode());//test the value
     }
 
     @Test
     void setPostalCode() {
-        //address.setPostalCode("777SSS");
-        //String postalCode = address.getPostalCode();
-        //assertNotEquals("postalCode", postalCode);
-        //assertEquals("777SSS", postalCode);
-        address.setPostalCode(777);
-        int postalCode = address.getPostalCode();
-        assertNotEquals(0, postalCode);
-        assertEquals(777, postalCode);
+        address.setPostalCode("777SSS");
+        String postalCode = address.getPostalCode();
+        assertNotEquals("postalCode", postalCode);
+        assertEquals("777SSS", postalCode);
     }
 
     @Test

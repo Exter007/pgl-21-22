@@ -18,7 +18,7 @@ public class SavingsAccount extends BankAccount {
     public SavingsAccount() {
     }
 
-    public SavingsAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, int pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date loyaltyDate, int loyaltyBonus) {
+    public SavingsAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date loyaltyDate, int loyaltyBonus) {
         super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.setNature(ACCOUNT_NATURE.SAVING_ACCOUNT);
         this.loyaltyDate = loyaltyDate;
