@@ -90,10 +90,6 @@ public class LoginController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
-                alert.showAndWait();
             }
         }
     }

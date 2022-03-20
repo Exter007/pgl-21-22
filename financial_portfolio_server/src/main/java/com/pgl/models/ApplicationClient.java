@@ -96,8 +96,8 @@ public class ApplicationClient extends User{
 
     @JsonIgnore
     public String buildLogin() {
-        return  StringUtils.deleteWhitespace((getFirstName() != null ? getFirstName() : "")
-                .concat(getName() != null ? getName(): "")
+        return  StringUtils.deleteWhitespace((getName() != null ? getName() : "")
+                .concat(getFirstName() != null ? getFirstName(): "")
                 .concat(getNationalRegister() != null ? getNationalRegister(): ""));
     }/*Arsène: incohérent car pour être un client de l'application, il faut avoir fourni son nom complet
        et son registre national donc ils ne peuvent pas être null

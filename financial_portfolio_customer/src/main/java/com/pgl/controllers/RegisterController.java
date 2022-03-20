@@ -164,11 +164,6 @@ public class RegisterController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur");
-                alert.setHeaderText("Les informations que vous avez renseigné ne sont pas correct ou sont déjà utilisées");
-                alert.showAndWait();
             }
         }
     }

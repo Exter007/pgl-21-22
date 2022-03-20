@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service()
 public class FinancialInstitutionService {
@@ -24,27 +25,30 @@ public class FinancialInstitutionService {
 
     public FinancialInstitution saveClient(FinancialInstitution user) throws Exception {
 
-        FinancialInstitution userFound = getRepository().findByLogin(user.getLogin());
+        Optional<FinancialInstitution> result = getRepository().findById(user.getBIC());
 
-        //      If a User already exists with this login
-        if(!user.toUpdate && userFound != null){
+        //      if it is a new Institution and already exists with this BIC
+        if(!user.toUpdate && result.isPresent()){
             throw new RuntimeException("This User already exists");
         }
 
-        //      If is a new User
-        if (userFound == null) {
-            user.setCreationDate(new Date());
-            userFound = SerializationUtils.clone(user);
-            String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
-            userFound.setPassword(hashPW);
-            userFound.setLogin(user.getLogin());
-            userFound.setRole(User.ROLE.FINANCIAL_INSTITUTION);
+        FinancialInstitution institution;
 
-        }else {
-            userFound.setModificationDate(new Date());
+        //      if it's a new user and doesn't exist yet
+        if (!result.isPresent()) {
+            user.setCreationDate(new Date());
+            institution = SerializationUtils.clone(user);
+            String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
+            institution.setPassword(hashPW);
+            institution.setLogin(user.getLogin());
+            institution.setRole(User.ROLE.FINANCIAL_INSTITUTION);
+
+        }else { // if the user already exists and update it
+            institution = result.get();
+            institution.setModificationDate(new Date());
         }
 
-        return userFound;
+        return financialInstitutionRepository.save(institution);
     }
 
 }
