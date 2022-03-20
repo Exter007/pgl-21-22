@@ -25,7 +25,7 @@
           <Menu mnemonicParsing="false" text="Compte">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
-                  <MenuItem mnemonicParsing="false" onAction="#diconnect" text="Déconnexion" />
+                  <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Déconnexion" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Langue">

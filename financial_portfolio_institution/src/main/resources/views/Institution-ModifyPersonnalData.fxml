@@ -9,7 +9,7 @@
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="314.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="95.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#next" prefHeight="25.0" prefWidth="124.0" text="Suivant" />
+            <Button layoutX="95.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#check_Password" prefHeight="25.0" prefWidth="124.0" text="Suivant" />
             <PasswordField fx:id="password" alignment="CENTER" layoutX="57.0" layoutY="44.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" styleClass="field" />
       </children>
     </AnchorPane>
