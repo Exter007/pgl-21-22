@@ -38,9 +38,9 @@ public class ForgotPassword_1Controller implements Initializable {
     }
 
     /**
-     * Vérifie que l'e-mail est au bon format (@ et .)
-     * @param email
-     * @return true ou false
+     * Check that the e-mail is in the right format (@ and .)
+     * @param email the user email
+     * @return true or false
      */
     private boolean check_email(String email){
         boolean hasArobase =  email.contains("@");
@@ -48,6 +48,10 @@ public class ForgotPassword_1Controller implements Initializable {
         return hasArobase && hasPoint;
     }
 
+    /**
+     * Check if the e-mail entered is the correct one
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void validate(MouseEvent event) {
         if(email.getText().isEmpty()){
@@ -69,11 +73,15 @@ public class ForgotPassword_1Controller implements Initializable {
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ForgotPassword_1Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -84,7 +92,7 @@ public class ForgotPassword_1Controller implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForgotPassword_1Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

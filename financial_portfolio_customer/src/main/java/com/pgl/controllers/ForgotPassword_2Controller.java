@@ -45,9 +45,9 @@ public class ForgotPassword_2Controller implements Initializable {
     }
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
+     * Checks that the national registry number is composed of numbers only and if it is 11 characters long
+     * @param nationalRegisterNumber the user national register number
+     * @return true or false
      */
     private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
         boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
@@ -56,9 +56,9 @@ public class ForgotPassword_2Controller implements Initializable {
     }
 
     /**
-     * Vérifie si le mot de passe est au bon format (1 lettre et 1 chiffre au minimum)
-     * @param password
-     * @return true ou false
+     * Checks if the password is in the right format (at least 1 letter and 1 number)
+     * @param password the user password
+     * @return true or false
      */
     private boolean check_password(String password){
         char c;
@@ -78,6 +78,10 @@ public class ForgotPassword_2Controller implements Initializable {
         return false;
     }
 
+    /**
+     * Reset the password
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void reset(MouseEvent event) {
         if(nationalRegisterNumber.getText().isEmpty() ||
@@ -119,11 +123,15 @@ public class ForgotPassword_2Controller implements Initializable {
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -134,18 +142,25 @@ public class ForgotPassword_2Controller implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO
     }
-
 }

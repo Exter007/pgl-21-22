@@ -19,7 +19,6 @@ public class WalletDeleteConfirmationController implements Initializable {
 
     @FXML
     private Button confirmButton;
-
     @FXML
     private Button cancelButton;
 
@@ -31,6 +30,10 @@ public class WalletDeleteConfirmationController implements Initializable {
         // TODO
     }
 
+    /**
+     * Delete confirmation
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void delete_confirm(MouseEvent event) {
         //TODO
@@ -44,6 +47,10 @@ public class WalletDeleteConfirmationController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Cancellation of the deletion
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void delete_cancel(MouseEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

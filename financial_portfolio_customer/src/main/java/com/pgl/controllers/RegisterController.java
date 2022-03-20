@@ -59,9 +59,9 @@ public class RegisterController implements Initializable {
     }
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
+     * Checks that the national registry number is composed of numbers only and if it is 11 characters long
+     * @param nationalRegisterNumber the user national register number
+     * @return true or false
      */
     private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
         boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
@@ -70,9 +70,9 @@ public class RegisterController implements Initializable {
     }
 
     /**
-     * Vérifie que l'e-mail est au bon format (@ et .)
-     * @param email
-     * @return true ou false
+     * Check that the e-mail is in the right format (@ and .)
+     * @param email the user email
+     * @return true or false
      */
     private boolean check_email(String email){
         boolean hasArobase =  email.contains("@");
@@ -81,9 +81,9 @@ public class RegisterController implements Initializable {
     }
 
     /**
-     * Vérifie si le mot de passe est au bon format (1 lettre et 1 chiffre au minimum)
-     * @param password
-     * @return true ou false
+     * Checks if the password is in the right format (at least 1 letter and 1 number)
+     * @param password the user password
+     * @return true or false
      */
     private boolean check_password(String password){
         char c;
@@ -103,6 +103,10 @@ public class RegisterController implements Initializable {
         return false;
     }
 
+    /**
+     * Create a new user
+     * @return the user
+     */
     public ApplicationClient build_user(){
         String token = String.valueOf(10000 + (int) (Math.random()*(99999-10000))) ;
         ApplicationClient user = new ApplicationClient(nationalRegisterNumber.getText(),
@@ -113,6 +117,10 @@ public class RegisterController implements Initializable {
         return user;
     }
 
+    /**
+     * Register the new user
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void register(MouseEvent event) {
         if(email.getText().isEmpty() ||
@@ -173,6 +181,10 @@ public class RegisterController implements Initializable {
         }
     }
 
+    /**
+     * Open the login window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void login(MouseEvent event) {
         try {
@@ -186,11 +198,19 @@ public class RegisterController implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO
