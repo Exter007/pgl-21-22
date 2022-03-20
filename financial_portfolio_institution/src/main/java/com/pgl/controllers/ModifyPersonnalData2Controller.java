@@ -20,10 +20,8 @@ public class ModifyPersonnalData2Controller implements Initializable {
 
     @FXML
     private TextField email;
-
     @FXML
     private PasswordField newPassword;
-
     @FXML
     private PasswordField newPassword2;
 
@@ -32,13 +30,13 @@ public class ModifyPersonnalData2Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
+        //TODO
     }
 
-    public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
-    }
-
+    /**
+     * Reset filled fields
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void edit_personnalData(MouseEvent event) {
         //TODO

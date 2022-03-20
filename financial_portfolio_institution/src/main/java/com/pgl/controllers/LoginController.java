@@ -43,10 +43,10 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Supprime les espaces dans le nom
-     * @param name
-     * @param BIC
-     * @return le nom et le BIC concaténé
+     * Remove spaces and concatenated
+     * @param name the financial institution name
+     * @param BIC the financial institution BIC
+     * @return name and BIC concatenated
      */
     private String username(String name, String BIC){
         String clearSpaceName = name.replaceAll("\\s+","");
@@ -54,15 +54,19 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param BIC
-     * @return true ou false
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
+     * @return true or false
      */
     private boolean check_BIC(String BIC){
         boolean isOK = (BIC.length() == 8);
         return isOK;
     }
 
+    /**
+     * Connect the user
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void login(MouseEvent event) {
         if(name.getText().isEmpty() || BIC.getText().isEmpty() || password.getText().isEmpty()){
@@ -97,6 +101,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the registration window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void register(MouseEvent event) {
         try {
@@ -110,6 +118,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the password reset window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void password_reset(MouseEvent event) {
         try {
@@ -123,11 +135,19 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO

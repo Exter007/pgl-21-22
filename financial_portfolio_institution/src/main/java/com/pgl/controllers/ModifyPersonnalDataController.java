@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -32,26 +33,42 @@ public class ModifyPersonnalDataController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
+        //TODO
     }
 
-    public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
-    }
-
+    /**
+     * Check if the password entered is correct
+     * @param event the click of the mouse on the button
+     */
     @FXML
-    private void next(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-ModifyPersonnalData2.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void check_Password(MouseEvent event) {
+        if(password.getText() == ""){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Veuillez entrer un mot de passe !");
+            alert.showAndWait();
 
-        Stage stage = (Stage) password.getScene().getWindow();
-        stage.close();
+        }else if (true) {
+            //TODO
+
+
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ModifyPersonnalData2.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
+
+            } catch (IOException ex) {
+                Logger.getLogger(ModifyPersonnalDataController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Stage stage = (Stage) password.getScene().getWindow();
+            stage.close();
+
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre mot de passe n'est pas correct !");
+            alert.showAndWait();
+        }
     }
 }

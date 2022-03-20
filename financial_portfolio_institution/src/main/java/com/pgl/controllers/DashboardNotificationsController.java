@@ -28,10 +28,8 @@ public class DashboardNotificationsController implements Initializable {
 
     @FXML
     private Label name;
-
     @FXML
     private Label subject;
-
     @FXML
     private Label date;
 
@@ -40,18 +38,22 @@ public class DashboardNotificationsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
+        //TODO
     }
 
-    public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
-    }
-
+    /**
+     * Accept a client request
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void accept_request(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Refuse a client request
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void refuse_request(ActionEvent event) {
         //TODO

@@ -37,6 +37,10 @@ public class AccountActivationController implements Initializable {
         // TODO
     }
 
+    /**
+     * Activate the account that has just been created
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void validate(MouseEvent event) {
 
@@ -80,6 +84,10 @@ public class AccountActivationController implements Initializable {
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {

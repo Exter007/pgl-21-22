@@ -45,9 +45,9 @@ public class ForgotPassword_2Controller implements Initializable {
     }
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param BIC
-     * @return true ou false
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
+     * @return true or false
      */
     private boolean check_BIC(String BIC){
         boolean isOK = (BIC.length() == 8);
@@ -55,9 +55,9 @@ public class ForgotPassword_2Controller implements Initializable {
     }
 
     /**
-     * Vérifie si le mot de passe est au bon format (1 lettre et 1 chiffre au minimum)
-     * @param password
-     * @return true ou false
+     * Checks if the password is in the right format (at least 1 letter and 1 number)
+     * @param password the user password
+     * @return true or false
      */
     private boolean check_password(String password){
         char c;
@@ -77,6 +77,10 @@ public class ForgotPassword_2Controller implements Initializable {
         return false;
     }
 
+    /**
+     * Reset the password
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void reset(MouseEvent event) {
         if(BIC.getText().isEmpty() ||
@@ -123,6 +127,10 @@ public class ForgotPassword_2Controller implements Initializable {
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -137,14 +145,21 @@ public class ForgotPassword_2Controller implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO
     }
-
 }

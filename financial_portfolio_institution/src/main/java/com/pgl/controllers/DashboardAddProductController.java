@@ -19,10 +19,8 @@ public class DashboardAddProductController implements Initializable {
 
     @FXML
     private TextField customerNationalRegisterNumber;
-
     @FXML
     private ComboBox productType;
-
     @FXML
     private PasswordField password;
 
@@ -31,13 +29,13 @@ public class DashboardAddProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
+        //TODO
     }
 
-    public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
-    }
-
+    /**
+     * Creat and add a product to a client's wallet
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void create_product(ActionEvent event) {
         //TODO

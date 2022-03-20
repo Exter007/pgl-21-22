@@ -19,7 +19,6 @@ public class DashboardAddClientController implements Initializable {
 
     @FXML
     private TextField customerNationalRegisterNumber;
-
     @FXML
     private PasswordField password;
 
@@ -28,13 +27,13 @@ public class DashboardAddClientController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
+        //TODO
     }
 
-    public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
-    }
-
+    /**
+     * Add a client to the institution
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void add_customer(ActionEvent event) {
         //TODO
