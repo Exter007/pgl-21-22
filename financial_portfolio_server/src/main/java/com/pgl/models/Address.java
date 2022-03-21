@@ -15,14 +15,13 @@ public class Address extends Persistent{
     private String street;
 
     @Column(name = "street_number")
-    private int streetNumber;//Arsène: Devrait être un string (voir https://www.techno-science.net/definition/7104.html)
+    private String streetNumber;//There is street number with letter within (example: 17A)
 
     @Column(name = "city", nullable = false)
     private String city;
 
     @Column(name = "postal_code", nullable = false)
-    private int postalCode;//Arsène: Devrait être un string vu que les codes postales ne contiennent pas forcément que des chiffres selon le pays (voir pays-bas et royaume-uni)
-
+    private String postalCode;//the postal code in the UK and Nederland contains letter
     @Column(name = "country", nullable = false)
     private String country;
 
@@ -33,36 +32,55 @@ public class Address extends Persistent{
     public Address() {
     }
 
-    public Address(String street, String city, int postalCode, String country) {
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.country = country;
-    }
-
-    /** Builder for all attributes  **///Arsène: Pas de sens vu que les institutions financières s'instancient avec une adresse
-    public Address(String street, int streetNumber, String city, int postalCode, String country, FinancialInstitution financialInstitution) {
+    /***
+     * Class constructor
+     *
+     * @param street a String
+     * @param streetNumber a String
+     * @param city a String
+     * @param postalCode a String
+     * @param country a String
+     */
+    public Address(String street, String streetNumber,String city, String postalCode, String country) {
         this.street = street;
         this.streetNumber = streetNumber;
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
-        this.financialInstitution = financialInstitution;
     }
 
+    /**
+     * Get the street
+     *
+     * @return the street in the form of a string
+     */
     public String getStreet() {
         return street;
     }
 
+    /**
+     * Set the street
+     *
+     * @param street a String
+     */
     public void setStreet(String street) {
         this.street = street;
     }
 
-    public int getStreetNumber() {
+    /**
+     * Get the street number
+     *
+     * @return the street number in the form of an int
+     */
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public void setStreetNumber(int streetNumber) {
+    /**
+     * Set the street number
+     * @param streetNumber an int
+     */
+    public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
@@ -74,11 +92,11 @@ public class Address extends Persistent{
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

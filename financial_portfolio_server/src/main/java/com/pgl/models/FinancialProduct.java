@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "FINANCIAL_PRODUCT")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class FinancialProduct extends Persistent {
 
     @Column(name = "wording")

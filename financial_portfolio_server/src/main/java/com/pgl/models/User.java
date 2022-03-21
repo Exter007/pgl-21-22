@@ -80,16 +80,12 @@ public class User extends PersistentWithoutId {
         this.token = token;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public void setActive(boolean active) {
         this.active = active;
     }
 
     public boolean getActive() {
-        return this.active = active;
+        return active;
     }
 
     public String getEmail() {
