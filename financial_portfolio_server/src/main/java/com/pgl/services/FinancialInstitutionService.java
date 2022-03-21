@@ -2,9 +2,11 @@ package com.pgl.services;
 
 import com.pgl.models.Address;
 import com.pgl.models.FinancialInstitution;
+import com.pgl.models.RequestTransfer;
 import com.pgl.models.User;
 import com.pgl.repositories.AddressRepository;
 import com.pgl.repositories.FinancialInstitutionRepository;
+import com.pgl.repositories.RequestTransferRepository;
 import com.pgl.utils.Code;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.Optional;
 public class FinancialInstitutionService {
     @Autowired
     FinancialInstitutionRepository financialInstitutionRepository;
+
+    @Autowired
+    RequestTransferRepository requestTransferRepository;
 
     @Autowired
     AddressRepository addressRepository;
@@ -59,6 +64,10 @@ public class FinancialInstitutionService {
         institution.setAddress(address);
 
         return financialInstitutionRepository.save(institution);
+    }
+
+    public void answerTransfer(RequestTransfer rqt, int status) {
+        requestTransferRepository.updateRequestedTransfer(rqt.getId(), status);
     }
 
 }

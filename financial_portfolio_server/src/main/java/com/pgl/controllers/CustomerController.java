@@ -3,6 +3,7 @@ package com.pgl.controllers;
 import com.pgl.models.*;
 import com.pgl.repositories.FinancialInstitutionRepository;
 import com.pgl.repositories.FinancialProductRepository;
+import com.pgl.repositories.RequestWalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CustomerController {
 
     @Autowired
     private FinancialInstitutionRepository financialInstitutionRepository;
+
+    @Autowired
+    private RequestWalletRepository requestWalletRepository;
 
     public CustomerController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -52,13 +56,10 @@ public class CustomerController {
         return (List<FinancialInstitution>) financialInstitutionRepository.findAll();
     }
 
-    /*
-    @RequestMapping("requestWallet/{applicationClientID}")
-    public void requestWallet(@PathVariable String applicationClientID) {
-        Wallet w = new Wallet();
-        RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClientID, w.getId());
-
+    @RequestMapping("requestWallet/{applicationClient}/{financialInstitution}")
+    public void requestWallet(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) throws IllegalArgumentException {
+        RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClient, financialInstitution);
+        requestWalletRepository.save(rqw);
     }
-     */
 
 }
