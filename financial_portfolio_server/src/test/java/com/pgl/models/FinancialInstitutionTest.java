@@ -11,8 +11,7 @@ class FinancialInstitutionTest {
 
     List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
     List<Notification> notifications = new ArrayList<>();
-
-    Address address = new Address("street", "city", "postalCode", "country");
+    Address address = new Address("street", "streetNumber","city", "postalCode", "country");
     FinancialInstitution financialInstitution = new FinancialInstitution("BIC", "name", "password", "email", "address", "token", true, "phone", financialProductHolders, address, notifications);
     @Test
     void getBIC() {

@@ -30,9 +30,9 @@ class YoungAccountTest {
 
     @Test
     void setMaxTransactionAmount() {
-        youngAccount.setAgeLimit(100);
+        youngAccount.setMaxTransactionAmount(100);
         float maxTransactionAmount = youngAccount.getMaxTransactionAmount();
         assertNotEquals(50, maxTransactionAmount);
-        assertEquals(20, maxTransactionAmount);
+        assertEquals(100, maxTransactionAmount);
     }
 }

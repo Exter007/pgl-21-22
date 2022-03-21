@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FinancialProductHolderTest {
 
-    ApplicationClient applicationClient;
-    FinancialInstitution financialInstitution;
+    ApplicationClient applicationClient = new ApplicationClient();
+    FinancialInstitution financialInstitution = new FinancialInstitution();
     Date birthDate = new Date();
     FinancialProductHolder financialProductHolder = new FinancialProductHolder("nationalRegister", "name",
             "firstName", birthDate, "sex", "phone", financialInstitution, applicationClient, null);
@@ -43,12 +43,10 @@ class FinancialProductHolderTest {
 
     @Test
     void getBirthDate() {
-        //TODO
     }
 
     @Test
     void setBirthDate() {
-        //TODO
     }
 
     @Test
@@ -87,11 +85,9 @@ class FinancialProductHolderTest {
 
     @Test
     void getFinancialInstitution() {
-        //TODO
     }
 
     @Test
     void getFinancialProducts() {
-        //TODO
     }
 }

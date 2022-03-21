@@ -10,7 +10,7 @@ class RequestTest {
 
     @Test
     void getStatus() {
-        assertEquals("NOTIFICATION_STATUS", request.getStatus().getClass().getSimpleName());//test the type
+        assertEquals("REQUEST_STATUS", request.getStatus().getClass().getSimpleName());//test the type
         assertEquals(Request.REQUEST_STATUS.PENDING, request.getStatus());//test the value
     }
 

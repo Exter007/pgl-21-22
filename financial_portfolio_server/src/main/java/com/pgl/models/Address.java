@@ -36,12 +36,14 @@ public class Address extends Persistent{
      * Class constructor
      *
      * @param street a String
+     * @param streetNumber a String
      * @param city a String
-     * @param postalCode an int
+     * @param postalCode a String
      * @param country a String
      */
-    public Address(String street, String city, String postalCode, String country) {
+    public Address(String street, String streetNumber,String city, String postalCode, String country) {
         this.street = street;
+        this.streetNumber = streetNumber;
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;

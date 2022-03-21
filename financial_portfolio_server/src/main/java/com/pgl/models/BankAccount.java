@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="BANK_ACCOUNT")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="ACCOUNT_NATURE")
 //@MappedSuperclass
 public abstract class BankAccount extends FinancialProduct {
@@ -119,14 +119,14 @@ public abstract class BankAccount extends FinancialProduct {
         ACCOUNT_UNDIVIDED
     }
 
-    public enum CURRENCY {
-        EURO
-    }
-
     public enum ACCOUNT_NATURE {
         CURRENT_ACCOUNT,
         SAVING_ACCOUNT,
         YOUNG_ACCOUNT,
         TERM_ACCOUNT
+    }
+
+    public enum CURRENCY {
+        EURO
     }
 }

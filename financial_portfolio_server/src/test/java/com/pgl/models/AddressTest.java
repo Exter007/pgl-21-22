@@ -6,11 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
 
-    Address address = new Address("street", "city", "postalCode", "country");
-    /*
-    * address attendu après les corrections
-    * Address address = new Address("street","streetNumber", "city", "postalCode", "country");
-    * */
+    Address address = new Address("street", "streetNumber", "city", "postalCode", "country");
+
     @Test
     void getStreet() {
         assertEquals("String", address.getStreet().getClass().getSimpleName());//test the type
