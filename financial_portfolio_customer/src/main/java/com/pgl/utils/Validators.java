@@ -3,9 +3,9 @@ package com.pgl.utils;
 public class Validators {
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
+     * Checks that the national registry number is composed of numbers only and if it is 11 characters long
+     * @param nationalRegisterNumber the user national register number
+     * @return true or false
      */
     public static boolean check_nationalRegisterNumber(String nationalRegisterNumber){
         boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");

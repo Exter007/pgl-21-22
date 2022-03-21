@@ -72,25 +72,25 @@ public class ForgotPassword_2Controller implements Initializable {
      */
     @FXML
     private void reset(MouseEvent event) {
-        if(!check_password(newPassword.getText())){
+        if (!check_password(newPassword.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
 
-        }else if(!newPassword.getText().equals(newPassword2.getText())) {
+        } else if (!newPassword.getText().equals(newPassword2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur");
             alert.setContentText("Les mots de passes ne correspondent pas");
             alert.showAndWait();
 
-        }else{
+        } else {
             User user = new User();
             user.setPassword(newPassword.getText());
             user.setToken(code.getText());
             user.setLogin(UserService.getCurrentUser().getLogin());
             boolean result = userService.resetPassword(user);
 
-            if(result) {
+            if (result) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Votre mot de passe a bien été changé !");
                 alert.showAndWait();
@@ -102,10 +102,11 @@ public class ForgotPassword_2Controller implements Initializable {
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
 
-            } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                } catch (IOException ex) {
+                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+            }
         }
     }
 
