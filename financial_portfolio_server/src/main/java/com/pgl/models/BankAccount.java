@@ -40,7 +40,7 @@ public abstract class BankAccount extends FinancialProduct {
     public BankAccount() {
     }
 
-    /** Class Constructor
+    /** Class constructor
      *
      * @param iban a String object
      * @param type a BankAccount.ACCOUNT_TYPE enum

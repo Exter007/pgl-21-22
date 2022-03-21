@@ -161,10 +161,12 @@ public class ApplicationClient extends User{
 
     /** Method that build the login of this client
      *
-     * the login is the concatenation of the last name, the first name and the national register of this client
+     * The login is the concatenation of the last name, the first name and the national register of this client
      * example:
      * Doe John 97060530075
      * login = DoeJohn97060530075
+     *
+     * @return  the login in the form of a String object
      */
     @JsonIgnore
     public String buildLogin() {

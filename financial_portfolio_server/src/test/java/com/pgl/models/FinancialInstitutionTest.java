@@ -12,7 +12,7 @@ class FinancialInstitutionTest {
     List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
     List<Notification> notifications = new ArrayList<>();
     Address address = new Address("street", "streetNumber","city", "postalCode", "country");
-    FinancialInstitution financialInstitution = new FinancialInstitution("BIC", "name", "password", "email", "address", "token", true, "phone", financialProductHolders, address, notifications);
+    FinancialInstitution financialInstitution = new FinancialInstitution("BIC", "name", "password", "email", address, true, "token","language", "phone", financialProductHolders, notifications);
     @Test
     void getBIC() {
         assertEquals("String", financialInstitution.getBIC().getClass().getSimpleName());//test the type
