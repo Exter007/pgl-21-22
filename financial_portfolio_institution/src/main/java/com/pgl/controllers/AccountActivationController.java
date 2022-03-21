@@ -1,6 +1,5 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -14,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +21,6 @@ import java.util.logging.Logger;
 
 public class AccountActivationController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
 
     @FXML
@@ -50,15 +47,11 @@ public class AccountActivationController implements Initializable {
             alert.showAndWait();
         }else {
             User user = new User();
-            /*
+
             user.setLogin(UserService.getCurrentUser().getLogin());
-            user.setPassword(UserService.getCurrentUser().getPassword());
-            user.setEmail(UserService.getCurrentUser().getEmail());
-            user.setToken(UserService.getCurrentUser().getToken());
-            user.setActive(UserService.getCurrentUser().getActive());
-            user.setRole(UserService.getCurrentUser().getRole());
-            */
-            boolean result = true;
+            user.setToken(code.getText());
+
+            boolean result = userService.accountActivation(user);
 
             if(result){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -66,7 +59,7 @@ public class AccountActivationController implements Initializable {
                 alert.showAndWait();
 
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-login.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -75,11 +68,6 @@ public class AccountActivationController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur de validation");
-                alert.setHeaderText("Le code renseigné est incorrect");
-                alert.showAndWait();
             }
         }
     }

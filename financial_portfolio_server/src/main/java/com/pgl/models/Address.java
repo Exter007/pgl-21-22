@@ -15,13 +15,13 @@ public class Address extends Persistent{
     private String street;
 
     @Column(name = "street_number")
-    private int streetNumber;//Arsène: Devrait être un string (voir https://www.techno-science.net/definition/7104.html)
+    private String streetNumber;
 
     @Column(name = "city", nullable = false)
     private String city;
 
     @Column(name = "postal_code", nullable = false)
-    private int postalCode;//Arsène: Devrait être un string vu que les codes postales ne contiennent pas forcément que des chiffres selon le pays (voir pays-bas et royaume-uni)
+    private String postalCode;
 
     @Column(name = "country", nullable = false)
     private String country;
@@ -33,21 +33,20 @@ public class Address extends Persistent{
     public Address() {
     }
 
-    public Address(String street, String city, int postalCode, String country) {
+    public Address(String street, String city, String postalCode, String country) {
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
     }
 
-    /** Builder for all attributes  **///Arsène: Pas de sens vu que les institutions financières s'instancient avec une adresse
-    public Address(String street, int streetNumber, String city, int postalCode, String country, FinancialInstitution financialInstitution) {
+    /** Builder for all attributes  **/
+    public Address(String street, String streetNumber, String city, String postalCode, String country) {
         this.street = street;
         this.streetNumber = streetNumber;
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
-        this.financialInstitution = financialInstitution;
     }
 
     public String getStreet() {
@@ -58,11 +57,11 @@ public class Address extends Persistent{
         this.street = street;
     }
 
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public void setStreetNumber(int streetNumber) {
+    public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
@@ -74,11 +73,11 @@ public class Address extends Persistent{
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

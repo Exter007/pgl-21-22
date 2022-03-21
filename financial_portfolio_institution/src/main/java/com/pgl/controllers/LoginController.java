@@ -1,8 +1,9 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,13 +25,14 @@ import java.util.logging.Logger;
 
 public class LoginController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
 
     @FXML
     private TextField name;
+
     @FXML
     private TextField BIC;
+
     @FXML
     private PasswordField password;
 
@@ -43,27 +45,6 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Remove spaces and concatenated
-     * @param name the financial institution name
-     * @param BIC the financial institution BIC
-     * @return name and BIC concatenated
-     */
-    private String username(String name, String BIC){
-        String clearSpaceName = name.replaceAll("\\s+","");
-        return clearSpaceName+BIC;
-    }
-
-    /**
-     * Checks that the BIC is composed of 8 characters long
-     * @param BIC the financial institution BIC
-     * @return true or false
-     */
-    private boolean check_BIC(String BIC){
-        boolean isOK = (BIC.length() == 8);
-        return isOK;
-    }
-
-    /**
      * Connect the user
      * @param event the click of the mouse on the button
      */
@@ -73,17 +54,18 @@ public class LoginController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
-        }else if(!check_BIC(BIC.getText())){
+        }else if(!Validators.check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 caractères");
             alert.showAndWait();
         }else{
-            ApplicationClient user = new ApplicationClient();
-            user.setNationalRegister(BIC.getText());
-            user.setFirstName(name.getText());
-            //String login = user.buildLogin();
-            //boolean response = userService.login(login, password.getText());
-            if (true){
+            FinancialInstitution user = new FinancialInstitution();
+            user.setBIC(BIC.getText());
+            user.setName(name.getText());
+            String login = user.buildLogin();
+            boolean response = userService.login(login, password.getText());
+
+            if (response){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
                     Stage newWindow = new Stage();
@@ -93,10 +75,6 @@ public class LoginController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
-                alert.showAndWait();
             }
         }
     }

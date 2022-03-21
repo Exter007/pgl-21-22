@@ -29,7 +29,7 @@ public class HttpClientService<P>{
 
     public void initHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("contextName", ContextName.CLIENT.name());
+        headers.set("contextName", ContextName.INSTITUTION.name());
         headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         this.headers = headers;

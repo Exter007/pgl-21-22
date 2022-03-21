@@ -1,6 +1,7 @@
 package com.pgl.security;
 
 import com.pgl.models.User;
+import com.pgl.services.ContextService;
 import com.pgl.services.UserDetailsServiceImpl;
 import com.pgl.services.UserService;
 import com.pgl.utils.ContextName;
@@ -12,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -31,7 +31,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     public UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    ContextName contextName;
+    public ContextService contextService;
 
     protected Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
 
@@ -41,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        this.contextName = getContext(request.getHeader("contextName"));
+        contextService.setContextName(getContext(request.getHeader("contextName"))); ;
 
         // Get authorization header and validate
         try {

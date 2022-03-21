@@ -4,6 +4,7 @@ import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,35 +45,12 @@ public class ForgotPassword_2Controller implements Initializable {
 
 
     /**
-     * Checks if the password is in the right format (at least 1 letter and 1 number)
-     * @param password the user password
-     * @return true or false
-     */
-    private boolean check_password(String password){
-        char c;
-        boolean alpha = false;
-        boolean number = false;
-        for(int i=0; i < password.length(); i++) {
-            c = password.charAt(i);
-            if( Character.isDigit(c)) {
-                number = true;
-            }
-            if (Character.isUpperCase(c) || Character.isLowerCase(c)) {
-                alpha = true;
-            }
-            if(number && alpha)
-                return true;
-        }
-        return false;
-    }
-
-    /**
      * Reset the password
      * @param event the click of the mouse on the button
      */
     @FXML
     private void reset(MouseEvent event) {
-        if (!check_password(newPassword.getText())) {
+        if (!Validators.check_password(newPassword.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
