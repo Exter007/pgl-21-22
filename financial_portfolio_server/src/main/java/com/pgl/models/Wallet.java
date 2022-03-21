@@ -22,7 +22,9 @@ public class Wallet extends Persistent {
     @JsonIgnore
     private List<WalletFinancialProduct> walletFinancialProducts = new ArrayList<>();
 
-
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public Wallet() {
     }
 

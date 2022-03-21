@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("CURRENT_ACCOUNT")
 public class CurrentAccount extends BankAccount {
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public CurrentAccount() {
     }
 

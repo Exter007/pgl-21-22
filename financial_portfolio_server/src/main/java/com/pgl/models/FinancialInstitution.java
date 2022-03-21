@@ -34,6 +34,9 @@ public class FinancialInstitution extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public FinancialInstitution() {
     }
 

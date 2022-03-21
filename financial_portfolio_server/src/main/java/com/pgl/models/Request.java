@@ -11,6 +11,9 @@ public class Request extends Persistent{
     @Column(name = "status", nullable=false)
     private REQUEST_STATUS status;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public Request() {
     }
 

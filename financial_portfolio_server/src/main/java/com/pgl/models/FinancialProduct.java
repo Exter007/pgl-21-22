@@ -31,6 +31,9 @@ public class FinancialProduct extends Persistent {
         this.financialInstitution = financialInstitution;
     }
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public FinancialProduct() {
     }
 

@@ -18,6 +18,9 @@ public class RequestFinancialProduct extends Request{
     @JoinColumn(name = "financialProduct_id", nullable=false)
     private FinancialProduct financialProduct;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public RequestFinancialProduct() {
     }
 

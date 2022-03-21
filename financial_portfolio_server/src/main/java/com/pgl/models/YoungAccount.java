@@ -14,6 +14,9 @@ public class YoungAccount extends BankAccount {
     @Column(name="max_transaction_amount")
     private float maxTransactionAmount;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public YoungAccount() {
     }
 

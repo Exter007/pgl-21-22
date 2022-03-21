@@ -20,7 +20,10 @@ public class RequestWallet extends Request{
     @ManyToOne()
     @JoinColumn(name = "financial_institution_BIC", nullable=false)
     private FinancialInstitution financialInstitution;
-
+    
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public RequestWallet() {
     }
 

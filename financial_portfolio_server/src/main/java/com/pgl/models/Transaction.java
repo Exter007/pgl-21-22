@@ -39,6 +39,9 @@ public class Transaction extends PersistentWithoutId{
     @Column(name = "status", nullable = false)
     private Request.REQUEST_STATUS status;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public Transaction() {
     }
 

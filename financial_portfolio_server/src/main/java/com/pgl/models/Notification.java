@@ -20,6 +20,9 @@ public class Notification extends Persistent{
     @JoinColumn(name = "financialInstitution")
     private FinancialInstitution financialInstitution;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public Notification() {
     }
 

@@ -15,6 +15,9 @@ public class SavingsAccount extends BankAccount {
     @Column(name="loyalty_bonus")
     private int loyaltyBonus;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public SavingsAccount() {
     }
 

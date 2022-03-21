@@ -17,6 +17,9 @@ public class RequestTransfer extends Request{
     @JoinColumn(name = "bank_account_id", nullable=false)
     private BankAccount bankAccount;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public RequestTransfer() {
     }
 

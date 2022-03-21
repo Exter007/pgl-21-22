@@ -30,17 +30,19 @@ public class Address extends Persistent{
     @OneToOne(mappedBy = "address")
     private FinancialInstitution financialInstitution;
 
+    /*** Default constructor
+     * (persistent classes requirements)
+     */
     public Address() {
     }
 
-    /***
-     * Class constructor
+    /*** Class constructor
      *
-     * @param street a String
-     * @param streetNumber a String
-     * @param city a String
-     * @param postalCode a String
-     * @param country a String
+     * @param street a String object
+     * @param streetNumber a String object
+     * @param city a String object
+     * @param postalCode a String object
+     * @param country a String object
      */
     public Address(String street, String streetNumber,String city, String postalCode, String country) {
         this.street = street;
@@ -50,69 +52,98 @@ public class Address extends Persistent{
         this.country = country;
     }
 
-    /**
-     * Get the street
+    /*** Get the street
      *
-     * @return the street in the form of a string
+     * @return the street in the form of a String object
      */
     public String getStreet() {
         return street;
     }
 
-    /**
-     * Set the street
+    /*** Set the street
      *
-     * @param street a String
+     * @param street a String object
      */
     public void setStreet(String street) {
         this.street = street;
     }
 
-    /**
-     * Get the street number
+    /*** Get the street number
      *
-     * @return the street number in the form of an int
+     * @return the street number in the form of a String object
      */
     public String getStreetNumber() {
         return streetNumber;
     }
 
-    /**
-     * Set the street number
-     * @param streetNumber an int
+    /*** Set the street number
+     *
+     * @param streetNumber a String object
      */
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
+    /*** Get the city
+     *
+     * @return the city in the form of a String object
+     */
     public String getCity() {
         return city;
     }
 
+    /*** Set the city
+     *
+     * @param city a String object
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /*** Get the postal code
+     *
+     * @return the postal code in the form of a String object
+     */
     public String getPostalCode() {
         return postalCode;
     }
 
+    /*** Set the postal code
+     *
+     * @param postalCode a String object
+     */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
+    /*** Get the country
+     *
+     * @return the country in the form of a String object
+     */
     public String getCountry() {
         return country;
     }
 
+    /*** Set the country
+     *
+     * @param country a String object
+     */
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /*** Get the financial institution bound to this address
+     *
+     * @return the financial institution in the form of a FinancialInstitution object
+     */
     public FinancialInstitution getFinancialInstitution() {
         return financialInstitution;
     }
 
+    /*** Set the financial institution that will be bound to this address
+     *
+     * @param financialInstitution a FinancialInstitution object
+     */
     public void setFinancialInstitution(FinancialInstitution financialInstitution) {
         this.financialInstitution = financialInstitution;
     }

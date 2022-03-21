@@ -15,6 +15,9 @@ public class TermAccount extends BankAccount {
     @Column(name="penalty")
     private long penalty;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public TermAccount() {
     }
 
