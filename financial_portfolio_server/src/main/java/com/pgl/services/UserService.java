@@ -34,6 +34,11 @@ public class UserService<P extends User> {
     public UserService() {
     }
 
+    /**
+     * Find a user by login
+     * @param login
+     * @return
+     */
     public User findByLogin(String login){
         if (contextService.getContextName().equals(ContextName.CLIENT) ){
             return applicationClientService.getRepository().findByLogin(login);
@@ -197,7 +202,7 @@ public class UserService<P extends User> {
             if (!userFound.getActive()) {
                 userFound.setActive(user.getActive());
             }
-            return financialInstitutionService.saveClient(userFound);
+            return financialInstitutionService.saveInstitution(userFound);
         }
         return null;
     }

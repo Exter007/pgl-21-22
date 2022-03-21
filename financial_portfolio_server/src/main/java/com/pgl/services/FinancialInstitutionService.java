@@ -29,7 +29,13 @@ public class FinancialInstitutionService {
         return financialInstitutionRepository;
     }
 
-    public FinancialInstitution saveClient(FinancialInstitution user){
+
+    /**
+     * Saving a financial institution
+     * @param user
+     * @return
+     */
+    public FinancialInstitution saveInstitution(FinancialInstitution user){
 
         Optional<FinancialInstitution> result = getRepository().findById(user.getBIC());
 

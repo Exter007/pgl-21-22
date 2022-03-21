@@ -50,6 +50,11 @@ public class AccountController {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
+    /**
+     * User login
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -70,6 +75,12 @@ public class AccountController {
                 roles, user));
     }
 
+    /**
+     * Customer user registration
+     * @param applicationClient
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value = "register/client")
     public ResponseEntity<?> register(@RequestBody ApplicationClient applicationClient) throws Exception {
         applicationClient = applicationClientService.saveClient(applicationClient);
@@ -77,13 +88,25 @@ public class AccountController {
         return ResponseEntity.ok(applicationClient);
     }
 
+    /**
+     * Institution user registration
+     * @param institution
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value = "register/institution")
     public ResponseEntity<?> register(@RequestBody FinancialInstitution institution) throws Exception {
-        institution = financialInstitutionService.saveClient(institution);
+        institution = financialInstitutionService.saveInstitution(institution);
         userService.sendValidateAccount(institution);
         return ResponseEntity.ok(institution);
     }
 
+    /**
+     * Send the account activation code to a user
+     * @param user
+     * @return
+     * @throws Exception
+     */
     @PermitAll
     @PostMapping(value = "register/send-code")
     public ResponseEntity<?> sendAccountActivationCode(@RequestBody User user) throws Exception{
@@ -93,6 +116,12 @@ public class AccountController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Activate an account when creating it with the activation code
+     * @param user
+     * @return
+     * @throws Exception
+     */
     @PermitAll
     @PostMapping(value = "register/activation")
     public ResponseEntity<?> accountActivation(@RequestBody User user) throws Exception{
@@ -102,6 +131,12 @@ public class AccountController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Send password reset code
+     * @param user
+     * @return
+     * @throws Exception
+     */
     @PermitAll
     @PostMapping(value = "reset-password/send-code")
     public ResponseEntity<?> sendPasswordResetCode(@RequestBody User user) throws Exception{
@@ -111,6 +146,12 @@ public class AccountController {
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * Validate the activation code when resetting the password
+     * @param user
+     * @return
+     * @throws Exception
+     */
     @PermitAll
     @PostMapping(value = "reset-password/validation")
     public ResponseEntity<?> passwordValidation(@RequestBody User user) throws Exception{
@@ -118,17 +159,6 @@ public class AccountController {
         boolean result = userService.passwordValidation(user);
 
         return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "getTest", method = RequestMethod.GET)
-    public ResponseEntity<?> getTest(String id){
-        return ResponseEntity.ok("Success");
-    }
-
-    @RolesAllowed("APPLICATION_CLIENT")
-    @RequestMapping(value = "getTestSecu", method = RequestMethod.GET)
-    public ResponseEntity<?> getTestSecu(String id){
-        return ResponseEntity.ok("Success");
     }
 
 }

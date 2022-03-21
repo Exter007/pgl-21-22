@@ -3,6 +3,9 @@ package com.pgl.services;
 import com.pgl.utils.ContextName;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for client application context
+ */
 @Service()
 public class ContextService {
 

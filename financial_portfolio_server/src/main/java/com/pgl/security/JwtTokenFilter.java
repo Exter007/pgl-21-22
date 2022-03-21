@@ -22,6 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * Filter for JWT token
+ */
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -60,6 +64,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    /**
+     * Parse Jwt
+     * @param request
+     * @return
+     */
     private String parseJwt(HttpServletRequest request) {
 
         String headerAuth = request.getHeader("Authorization");
@@ -69,6 +79,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return null;
     }
 
+    /**
+     * Provides the context associated with the client application requesting the services
+     * @param contextName
+     * @return
+     */
     public ContextName getContext(String contextName){
         if (contextName.equals(ContextName.CLIENT.name())){
             return ContextName.CLIENT;
