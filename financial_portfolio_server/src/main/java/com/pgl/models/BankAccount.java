@@ -4,13 +4,9 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="BANK_ACCOUNT")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="ACCOUNT_NATURE")
-//@MappedSuperclass
 public abstract class BankAccount extends FinancialProduct {
 
-//    @Id
     @Column(name="iban",unique = true, nullable = false)
     private String iban;
 
