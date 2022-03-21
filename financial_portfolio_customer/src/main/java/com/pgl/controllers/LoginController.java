@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,16 +54,6 @@ public class LoginController implements Initializable {
         return clearSpaceName+nationalRegisterNumber;
     }
 
-    /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
-     */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
-    }
 
     @FXML
     private void login(MouseEvent event) {
@@ -70,7 +61,7 @@ public class LoginController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
             alert.showAndWait();

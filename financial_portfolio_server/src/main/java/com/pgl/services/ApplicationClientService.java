@@ -3,6 +3,7 @@ package com.pgl.services;
 import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
 import com.pgl.repositories.ApplicationClientRepository;
+import com.pgl.utils.Code;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,11 +44,13 @@ public class ApplicationClientService {
 
         //      if it's a new user and doesn't exist yet
         if (!result.isPresent()) {
+
             user.setCreationDate(new Date());
             client = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             client.setPassword(hashPW);
             client.setLogin(user.getLogin());
+            client.setToken(Code.generateCode());
             client.setRole(User.ROLE.APPLICATION_CLIENT);
 
         }else { // if the user already exists and update it

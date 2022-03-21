@@ -11,11 +11,8 @@ import com.pgl.utils.LoginRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,9 +74,9 @@ public class AccountController {
 
     @PermitAll
     @PostMapping(value = "register/send-code")
-    public ResponseEntity<?> sendAccountResetCode(@RequestBody User user) throws Exception{
+    public ResponseEntity<?> sendAccountActivationCode(@RequestBody User user) throws Exception{
         logger.debug("Call : Send account reset code");
-        boolean result = userService.sendAccountResetCode(user);
+        boolean result = userService.sendAccountActivationCode(user);
 
         return ResponseEntity.ok(result);
     }
@@ -97,9 +94,9 @@ public class AccountController {
     @PostMapping(value = "reset-password/send-code")
     public ResponseEntity<?> sendPasswordResetCode(@RequestBody User user) throws Exception{
         logger.debug("Call : Sent Password Reset Code");
-        boolean result = userService.sendPasswordResetCode(user);
+        user = userService.sendPasswordResetCode(user);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(user);
     }
 
     @PermitAll

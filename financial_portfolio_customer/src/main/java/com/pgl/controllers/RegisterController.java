@@ -104,10 +104,9 @@ public class RegisterController implements Initializable {
     }
 
     public ApplicationClient build_user(){
-        String token = String.valueOf(10000 + (int) (Math.random()*(99999-10000))) ;
         ApplicationClient user = new ApplicationClient(nationalRegisterNumber.getText(),
                 firstName.getText(), lastName.getText(), password.getText(),
-                email.getText(), token,false);
+                email.getText(), null,false);
         user.toUpdate = false;
 
         return user;

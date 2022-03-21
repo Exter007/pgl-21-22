@@ -101,11 +101,11 @@ public class UserService {
             }
         } catch(Exception ex) {
             showException(ex);
-        }finally {
-            ApplicationClient user = new ApplicationClient();
-            user.setLogin(username);
-            currentUser = user;
         }
+
+        ApplicationClient user = new ApplicationClient();
+        user.setLogin(username);
+        currentUser = user;
 
         return false;
     }
@@ -193,18 +193,18 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean sendPasswordResetCode(ApplicationClient user){
+    public User sendPasswordResetCode(User user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
-            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                    httpEntity, boolean.class);
+            ResponseEntity<ApplicationClient> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, ApplicationClient.class);
             System.out.println(response.getStatusCode());
 
-            return response.getBody();
+            return currentUser = response.getBody();
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
@@ -217,7 +217,7 @@ public class UserService {
             showException(ex);
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -225,7 +225,7 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean resetPassword(ApplicationClient user){
+    public boolean resetPassword(User user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
@@ -242,9 +242,12 @@ public class UserService {
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            if (ex.getMessage().contains("Reset code is incorrect")) {
+            if (ex.getMessage().contains("User not found")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur lors de la validation du mot de passe");
+                alert.setHeaderText("Pas de compte associé à ces données");
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("Reset code is incorrect")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Le code saisi est incorrect");
                 alert.showAndWait();
             }else if (ex.getMessage().contains("MailSendException")) {
@@ -265,33 +268,33 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean sendAccountResetCode(ApplicationClient user){
-        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
-        System.out.println("url: "+url);
-
-        HttpEntity<Object> httpEntity = getHttpEntity(user);
-
-        try {
-            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                    httpEntity, boolean.class);
-
-            System.out.println(response.getStatusCode());
-
-            return response.getBody();
-
-        }catch (HttpClientErrorException ex) {
-            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if (ex.getMessage().contains("MailSendException")) {
-                showMailException();
-            } else {
-                showOtherException();
-            }
-        } catch(Exception ex) {
-            showException(ex);
-        }
-
-        return false;
-    }
+//    public boolean sendAccountResetCode(User user){
+//        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
+//        System.out.println("url: "+url);
+//
+//        HttpEntity<Object> httpEntity = getHttpEntity(user);
+//
+//        try {
+//            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+//                    httpEntity, boolean.class);
+//
+//            System.out.println(response.getStatusCode());
+//
+//            return response.getBody();
+//
+//        }catch (HttpClientErrorException ex) {
+//            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+//            if (ex.getMessage().contains("MailSendException")) {
+//                showMailException();
+//            } else {
+//                showOtherException();
+//            }
+//        } catch(Exception ex) {
+//            showException(ex);
+//        }
+//
+//        return false;
+//    }
 
     /**
      *Account activation
