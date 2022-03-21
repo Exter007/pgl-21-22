@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationStartingEvent;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,7 +26,7 @@ import java.util.Properties;
 @EntityScan(basePackages = {"com.pgl.models"})
 @EnableJpaRepositories(basePackages = {"com.pgl.repositories"})
 @SpringBootApplication
-public class ServerApplication {
+public class ServerApplication extends SpringBootServletInitializer {
     protected static Logger logger = LoggerFactory.getLogger(ServerApplication.class);
     protected static String APPLICATION_PROPERTIES_FILE = "application.properties";
 

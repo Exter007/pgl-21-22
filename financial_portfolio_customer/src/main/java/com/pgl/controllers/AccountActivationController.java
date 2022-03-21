@@ -76,7 +76,7 @@ public class AccountActivationController implements Initializable {
                 alert.showAndWait();
 
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
