@@ -1,3 +1,6 @@
+/** Class that represent an address
+ *
+ */
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,13 +33,13 @@ public class Address extends Persistent{
     @OneToOne(mappedBy = "address")
     private FinancialInstitution financialInstitution;
 
-    /*** Default constructor
+    /** Default constructor
      * (persistent classes requirements)
      */
     public Address() {
     }
 
-    /*** Class constructor
+    /** Class constructor
      *
      * @param street a String object
      * @param streetNumber a String object
@@ -52,7 +55,7 @@ public class Address extends Persistent{
         this.country = country;
     }
 
-    /*** Get the street
+    /** Get the street
      *
      * @return the street in the form of a String object
      */
@@ -60,7 +63,7 @@ public class Address extends Persistent{
         return street;
     }
 
-    /*** Set the street
+    /** Set the street
      *
      * @param street a String object
      */
@@ -68,7 +71,7 @@ public class Address extends Persistent{
         this.street = street;
     }
 
-    /*** Get the street number
+    /** Get the street number
      *
      * @return the street number in the form of a String object
      */
@@ -76,7 +79,7 @@ public class Address extends Persistent{
         return streetNumber;
     }
 
-    /*** Set the street number
+    /** Set the street number
      *
      * @param streetNumber a String object
      */
@@ -84,7 +87,7 @@ public class Address extends Persistent{
         this.streetNumber = streetNumber;
     }
 
-    /*** Get the city
+    /** Get the city
      *
      * @return the city in the form of a String object
      */
@@ -92,7 +95,7 @@ public class Address extends Persistent{
         return city;
     }
 
-    /*** Set the city
+    /** Set the city
      *
      * @param city a String object
      */
@@ -100,7 +103,7 @@ public class Address extends Persistent{
         this.city = city;
     }
 
-    /*** Get the postal code
+    /** Get the postal code
      *
      * @return the postal code in the form of a String object
      */
@@ -108,7 +111,7 @@ public class Address extends Persistent{
         return postalCode;
     }
 
-    /*** Set the postal code
+    /** Set the postal code
      *
      * @param postalCode a String object
      */
@@ -116,7 +119,7 @@ public class Address extends Persistent{
         this.postalCode = postalCode;
     }
 
-    /*** Get the country
+    /** Get the country
      *
      * @return the country in the form of a String object
      */
@@ -124,7 +127,7 @@ public class Address extends Persistent{
         return country;
     }
 
-    /*** Set the country
+    /** Set the country
      *
      * @param country a String object
      */
@@ -132,7 +135,7 @@ public class Address extends Persistent{
         this.country = country;
     }
 
-    /*** Get the financial institution bound to this address
+    /** Get the financial institution bound to this address
      *
      * @return the financial institution in the form of a FinancialInstitution object
      */
@@ -140,7 +143,7 @@ public class Address extends Persistent{
         return financialInstitution;
     }
 
-    /*** Set the financial institution that will be bound to this address
+    /** Set the financial institution that will be bound to this address
      *
      * @param financialInstitution a FinancialInstitution object
      */

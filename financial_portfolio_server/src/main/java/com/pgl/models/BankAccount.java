@@ -1,3 +1,6 @@
+/** Abstract class that represent a bank account
+ *
+ */
 package com.pgl.models;
 
 import javax.persistence.*;
@@ -31,13 +34,13 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="annualYield")
     private float annualYield;
 
-    /*** Default constructor
+    /** Default constructor
      * (persistent classes requirements)
      */
     public BankAccount() {
     }
 
-    /*** Class Constructor
+    /** Class Constructor
      *
      * @param iban a String object
      * @param type a BankAccount.ACCOUNT_TYPE enum
@@ -59,7 +62,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.annualYield = annualYield;
     }
 
-    /*** Get the IBAN
+    /** Get the IBAN
      *
      * @return the IBAN in the form of a String object
      */
@@ -67,7 +70,7 @@ public abstract class BankAccount extends FinancialProduct {
         return iban;
     }
 
-    /*** Set the IBAN
+    /** Set the IBAN
      *
      * @param iban a String object
      */
@@ -75,7 +78,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.iban = iban;
     }
 
-    /*** Get the type of account
+    /** Get the type of account
      *
      * @return the type in the form of a BankAccount.ACCOUNT_TYPE enum
      */
@@ -83,7 +86,7 @@ public abstract class BankAccount extends FinancialProduct {
         return type;
     }
 
-    /*** Set the type of account
+    /** Set the type of account
      *
      * @param type a BankAccount.ACCOUNT_TYPE enum
      */
@@ -91,7 +94,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.type = type;
     }
 
-    /*** Get the pin code
+    /** Get the pin code
      *
      * @return the pin code in the form of a String object
      */
@@ -99,7 +102,7 @@ public abstract class BankAccount extends FinancialProduct {
         return pin_code;
     }
 
-    /*** Set the pin code
+    /** Set the pin code
      *
      * @param pin_code a String object
      */
@@ -107,7 +110,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.pin_code = pin_code;
     }
 
-    /*** Get the amount available
+    /** Get the amount available
      *
      * @return the amount available in this account in the form of a float
      */
@@ -115,7 +118,7 @@ public abstract class BankAccount extends FinancialProduct {
         return amount;
     }
 
-    /*** Set the amount available
+    /** Set the amount available
      *
      * @param amount a float
      */
@@ -123,7 +126,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.amount = amount;
     }
 
-    /*** Get the currency of this account
+    /** Get the currency of this account
      *
      * @return the currency in the form of a BankAccount.CURRENCY enum
      */
@@ -131,7 +134,7 @@ public abstract class BankAccount extends FinancialProduct {
         return currency;
     }
 
-    /*** Set the currency of this account
+    /** Set the currency of this account
      *
      * @param currency a BankAccount.CURRENCY enum
      */
@@ -139,7 +142,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.currency = currency;
     }
 
-    /*** Get the monthly fee of this account
+    /** Get the monthly fee of this account
      *
      * @return the monthly fee in the form of a float
      */
@@ -147,7 +150,7 @@ public abstract class BankAccount extends FinancialProduct {
         return monthlyFee;
     }
 
-    /*** Set the monthly fee of this account
+    /** Set the monthly fee of this account
      *
      * @param monthlyFee a float
      */
@@ -155,7 +158,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.monthlyFee = monthlyFee;
     }
 
-    /*** Get the annual yield of this account
+    /** Get the annual yield of this account
      *
      * @return the annual yield in the form of a float
      */
@@ -163,7 +166,7 @@ public abstract class BankAccount extends FinancialProduct {
         return annualYield;
     }
 
-    /*** Set the annual yield of this account
+    /** Set the annual yield of this account
      *
      * @param annualYield a float
      */
@@ -171,7 +174,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.annualYield = annualYield;
     }
 
-    /*** Get the nature of this account
+    /** Get the nature of this account
      *
      * @return the nature in the form of a BankAccount.ACCOUNT_NATURE enum
      */
@@ -179,7 +182,7 @@ public abstract class BankAccount extends FinancialProduct {
         return nature;
     }
 
-    /*** Set the nature of this account
+    /** Set the nature of this account
      *
      * @param nature a BankAccount.ACCOUNT_NATURE enum
      */
@@ -187,7 +190,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.nature = nature;
     }
 
-    /*** Enumeration of account type
+    /** Enumeration of account type
      *
      * INDIVIDUAL_ACCOUNT
      * JOINT_ACCOUNT
@@ -199,7 +202,7 @@ public abstract class BankAccount extends FinancialProduct {
         ACCOUNT_UNDIVIDED
     }
 
-    /*** Enumeration of account nature
+    /** Enumeration of account nature
      *
      * CURRENT_ACCOUNT
      * SAVING_ACCOUNT
@@ -213,7 +216,7 @@ public abstract class BankAccount extends FinancialProduct {
         TERM_ACCOUNT
     }
 
-    /*** Enumeration of currency
+    /** Enumeration of currency
      *
      * EURO
      */

@@ -1,3 +1,6 @@
+/**Class that represent a user of the client application
+ *
+ */
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,13 +32,13 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
-    /*** Default constructor
+    /** Default constructor
      * (persistent classes requirements)
      */
     public ApplicationClient() {
     }
 
-    /*** Class constructor
+    /** Class constructor
      *
      * @param nationalRegister a String object
      * @param firstName a String object
@@ -53,7 +56,7 @@ public class ApplicationClient extends User{
         this.setLogin(buildLogin());
     }
 
-    /*** Class constructor with all attributes
+    /** Class constructor with all attributes
      *
      * @param nationalRegister a String object
      * @param firstName a String object
@@ -76,7 +79,7 @@ public class ApplicationClient extends User{
         this.setLogin(buildLogin());
     }
 
-    /*** Get the national register
+    /** Get the national register
      *
      * @return the national register in the form of a String object
      */
@@ -84,7 +87,7 @@ public class ApplicationClient extends User{
         return nationalRegister;
     }
 
-    /*** Set the national register
+    /** Set the national register
      *
      * @param nationalRegister a String object
      */
@@ -92,7 +95,7 @@ public class ApplicationClient extends User{
         this.nationalRegister = nationalRegister;
     }
 
-    /*** Get the first name
+    /** Get the first name
      *
      * @return the first name in the form of a String object
      */
@@ -100,7 +103,7 @@ public class ApplicationClient extends User{
         return firstName;
     }
 
-    /*** Set the first name
+    /** Set the first name
      *
      * @param firstName a String object
      */
@@ -108,7 +111,7 @@ public class ApplicationClient extends User{
         this.firstName = firstName;
     }
 
-    /*** Get the last name
+    /** Get the last name
      *
      * @return the last name in the form of a String object
      */
@@ -116,7 +119,7 @@ public class ApplicationClient extends User{
         return name;
     }
 
-    /*** Set the last name
+    /** Set the last name
      *
      * @param name a String object
      */
@@ -124,7 +127,7 @@ public class ApplicationClient extends User{
         this.name = name;
     }
 
-    /*** Get the list of financial product holders bound to this client
+    /** Get the list of financial product holders bound to this client
      *
      * @return the list of financial product holders in the form of a List<FinancialProductHolder>
      */
@@ -132,7 +135,7 @@ public class ApplicationClient extends User{
         return financialProductHolders;
     }
 
-    /*** Set the list of financial product holders who will be bound to this client
+    /** Set the list of financial product holders who will be bound to this client
      *
      * @param financialProductHolders a List<FinancialProductHolder>
      */
@@ -140,7 +143,7 @@ public class ApplicationClient extends User{
         this.financialProductHolders = financialProductHolders;
     }
 
-    /*** Get the list of notification of this client
+    /** Get the list of notification of this client
      *
      * @return the list of notification in the form of a List<Notification>
      */
@@ -148,7 +151,7 @@ public class ApplicationClient extends User{
         return notifications;
     }
 
-    /*** Set the list of notification of this client
+    /** Set the list of notification of this client
      *
      * @param notifications a List<Notification>
      */
@@ -156,7 +159,7 @@ public class ApplicationClient extends User{
         this.notifications = notifications;
     }
 
-    /*** Method that build the login of this client
+    /** Method that build the login of this client
      *
      * the login is the concatenation of the last name, the first name and the national register of this client
      * example:
