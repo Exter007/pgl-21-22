@@ -50,10 +50,15 @@ public class AccountActivationController implements Initializable {
             alert.showAndWait();
         }else {
             User user = new User();
+            /*
             user.setLogin(UserService.getCurrentUser().getLogin());
-            user.setToken(code.getText());
-
-            boolean result = userService.accountActivation(user);
+            user.setPassword(UserService.getCurrentUser().getPassword());
+            user.setEmail(UserService.getCurrentUser().getEmail());
+            user.setToken(UserService.getCurrentUser().getToken());
+            user.setActive(UserService.getCurrentUser().getActive());
+            user.setRole(UserService.getCurrentUser().getRole());
+            */
+            boolean result = true;
 
             if(result){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -70,6 +75,11 @@ public class AccountActivationController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur de validation");
+                alert.setHeaderText("Le code renseigné est incorrect");
+                alert.showAndWait();
             }
         }
     }
@@ -81,7 +91,7 @@ public class AccountActivationController implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

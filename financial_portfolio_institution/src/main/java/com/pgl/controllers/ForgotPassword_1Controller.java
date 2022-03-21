@@ -1,10 +1,8 @@
 package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
-import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
-import com.pgl.utils.Validators;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,13 +23,11 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_1Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
 
     @FXML
-    private TextField name;
-
-    @FXML
-    private TextField nationalRegisterNumber;
+    private TextField email;
 
     /**
      * Initializes the controller class.
@@ -41,43 +37,44 @@ public class ForgotPassword_1Controller implements Initializable {
         // TODO
     }
 
+    /**
+     * Check that the e-mail is in the right format (@ and .)
+     * @param email institution email
+     * @return true or false
+     */
+    private boolean check_email(String email){
+        boolean hasArobase =  email.contains("@");
+        boolean hasPoint =  email.contains(".");
+        return hasArobase && hasPoint;
+    }
 
+    /**
+     * Check if the e-mail entered is the correct one
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void validate(MouseEvent event) {
-        if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty()){
+        if(email.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.setHeaderText("Veuillez rentrer votre e-mail");
             alert.showAndWait();
-        }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+
+        }else if(!check_email(email.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText("Votre e-mail n'est pas au bon format");
             alert.showAndWait();
-        }else{
-            ApplicationClient client = new ApplicationClient();
-            client.setNationalRegister(nationalRegisterNumber.getText());
-            client.setFirstName(name.getText());
 
-            User user = new User();
-            user.setLogin(client.buildLogin());
-
-            User result = userService.sendPasswordResetCode(user);
-
-            if(result != null) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Un mail de réinitialisation vous a été envoyé");
-                alert.showAndWait();
-
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_2.fxml"));
-                    Stage newWindow = new Stage();
-                    Scene scene = new Scene(root);
-                    newWindow.setScene(scene);
-                    GlobalStage.setStage(newWindow);
+        }else {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ForgotPassword_2.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ForgotPassword_1Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 
@@ -88,7 +85,7 @@ public class ForgotPassword_1Controller implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

@@ -1,6 +1,5 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
@@ -53,10 +52,10 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Change the user name in the welcome label
+     * Change the institution name in the welcome label
      */
     public void loadUserConnected(){
-        welcome.setText(UserService.getCurrentUser().getLogin());
+        //welcome.setText(UserService.getCurrentUser().getLogin());
     }
 
     /**
@@ -66,7 +65,7 @@ public class DashboardController implements Initializable {
     @FXML
     private void edit_profil(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-ModifyPersonnalData.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -81,20 +80,20 @@ public class DashboardController implements Initializable {
      * @param event the click of the mouse on the menu
      */
     @FXML
-    private void diconnect(ActionEvent event) {
+    private void disconnect(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la déconnexion ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            userService.logout();
+            //userService.logout();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-login.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -118,13 +117,13 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Open a window allowing you to request access to a wallet from an institution
+     * Open a window showing all notifications
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void ask_wallet(MouseEvent event) {
+    private void show_Notifications(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-AskWalletToInstitution.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-Notifications.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -135,13 +134,22 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Open a window allowing you to request access to the transfer functionality from an institution
+     * Search for products according to the chosen filters
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void transfer(MouseEvent event) {
+    private void search_Product(MouseEvent event) {
+        //TODO
+    }
+
+    /**
+     * Open a window allowing you to add a client to the institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void add_Client(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-Transfer.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-AddClient.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -152,142 +160,84 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Redirect to the wallet 1 window
+     * Open a window allowing you to delete a client to the institution
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void wallet_1(MouseEvent event) {
+    private void delete_User(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Êtes vous sûr de vouloir supprimer ce client ?");
+        Optional<ButtonType> result = alert.showAndWait();
+    }
+
+    /**
+     * Export all clients' data from the institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void export_ClientData(MouseEvent event) {
+        //TODO
+    }
+
+    /**
+     * Import clients' data
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void import_ClientData(MouseEvent event) {
+        //TODO
+    }
+
+    /**
+     * Open a window allowing you to add product to a client of the institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void add_Product(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Wallet.fxml"));
-            Stage newWindow = new Stage();
-            Scene scene = new Scene(root);
-            newWindow.setScene(scene);
-            GlobalStage.setStage(newWindow);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-AddProduct.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * Redirect to the wallet 2 window
+     * Open a window allowing you to edit a product of a client of the institution
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void wallet_2(MouseEvent event) {
-
+    private void edit_Product(MouseEvent event) {
+        //TODO
     }
 
     /**
-     * Redirect to the wallet 3 window
+     * Open a window asking for a delete confirmation
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void wallet_3(MouseEvent event) {
-
+    private void delete_Product(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Êtes vous sûr de vouloir supprimer ce produit ?");
+        Optional<ButtonType> result = alert.showAndWait();
     }
 
     /**
-     * Redirect to the wallet 4 window
+     * Export all clients' products data
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void wallet_4(MouseEvent event) {
-
+    private void export_ProductsData(MouseEvent event) {
+        //TODO
     }
 
     /**
-     * Redirect to the wallet 5 window
+     * Import clients' products data
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void wallet_5(MouseEvent event) {
-
-    }
-
-    /**
-     * Redirect to the wallet 6 window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void wallet_6(MouseEvent event) {
-
-    }
-
-    /**
-     * Change the time granularity to day
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void day(MouseEvent event) {
-
-    }
-
-    /**
-     * Change the time granularity to week
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void week(MouseEvent event) {
-
-    }
-
-    /**
-     * Change the time granularity to month
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void month(MouseEvent event) {
-
-    }
-
-    /**
-     * Change the time granularity to year
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void year(MouseEvent event) {
-
-    }
-
-    /**
-     * Display data in graphical form
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void graph(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(false);
-        products_listview.visibleProperty().setValue(false);
-        products_linechart.visibleProperty().setValue(true);
-    }
-
-    /**
-     * Display data in list form
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void list(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(false);
-        products_listview.visibleProperty().setValue(true);
-        products_linechart.visibleProperty().setValue(false);
-    }
-
-    /**
-     * Display data in table form
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void tableview(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(true);
-        products_listview.visibleProperty().setValue(false);
-        products_linechart.visibleProperty().setValue(false);
-    }
-
-    /**
-     * Export all data from the client's wallets
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void export(MouseEvent event) {
-
+    private void import_ProductsData(MouseEvent event) {
+        //TODO
     }
 }

@@ -1,7 +1,6 @@
 package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
-import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
@@ -25,8 +24,11 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_2Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
 
+    @FXML
+    private TextField BIC;
     @FXML
     private PasswordField newPassword;
     @FXML
@@ -42,6 +44,15 @@ public class ForgotPassword_2Controller implements Initializable {
         // TODO
     }
 
+    /**
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
+     * @return true or false
+     */
+    private boolean check_BIC(String BIC){
+        boolean isOK = (BIC.length() == 8);
+        return isOK;
+    }
 
     /**
      * Checks if the password is in the right format (at least 1 letter and 1 number)
@@ -72,7 +83,20 @@ public class ForgotPassword_2Controller implements Initializable {
      */
     @FXML
     private void reset(MouseEvent event) {
-        if(!check_password(newPassword.getText())){
+        if(BIC.getText().isEmpty() ||
+                newPassword.getText().isEmpty() ||
+                newPassword2.getText().isEmpty() ||
+                code.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.showAndWait();
+
+        }else if(!check_BIC(BIC.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Votre BIC n'est pas correct");
+            alert.showAndWait();
+
+        }else if(!check_password(newPassword.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
@@ -84,28 +108,22 @@ public class ForgotPassword_2Controller implements Initializable {
             alert.showAndWait();
 
         }else{
-            User user = new User();
-            user.setPassword(newPassword.getText());
-            user.setToken(code.getText());
-            user.setLogin(UserService.getCurrentUser().getLogin());
-            boolean result = userService.resetPassword(user);
+            //TODO
 
-            if(result) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Votre mot de passe a bien été changé !");
-                alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Votre mot de passe a bien été changé !");
+            alert.showAndWait();
 
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
-                    Stage newWindow = new Stage();
-                    Scene scene = new Scene(root);
-                    newWindow.setScene(scene);
-                    GlobalStage.setStage(newWindow);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 
@@ -116,7 +134,7 @@ public class ForgotPassword_2Controller implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
@@ -144,5 +162,4 @@ public class ForgotPassword_2Controller implements Initializable {
     private void languageEN(ActionEvent event) {
         //TODO
     }
-
 }

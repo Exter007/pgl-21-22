@@ -154,7 +154,6 @@ public class UserService<P extends User> {
      * @param receiverAdress
      * @param mailSubject
      * @param message
-     * @throws Exception
      */
     public void sendMail(String receiverAdress, String mailSubject, String message){
             emailService.sendSimpleMessage(receiverAdress, mailSubject, message);

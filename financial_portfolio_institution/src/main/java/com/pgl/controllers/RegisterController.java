@@ -37,13 +37,21 @@ public class RegisterController implements Initializable {
     static UserService userService = new UserService();
 
     @FXML
-    private TextField firstName;
+    private TextField institutionName;
     @FXML
-    private TextField lastName;
-    @FXML
-    private TextField nationalRegisterNumber;
+    private TextField BIC;
     @FXML
     private TextField email;
+    @FXML
+    private TextField number;
+    @FXML
+    private TextField street;
+    @FXML
+    private TextField zipCode;
+    @FXML
+    private TextField city;
+    @FXML
+    private TextField country;
     @FXML
     private PasswordField password;
     @FXML
@@ -59,14 +67,13 @@ public class RegisterController implements Initializable {
     }
 
     /**
-     * Checks that the national registry number is composed of numbers only and if it is 11 characters long
-     * @param nationalRegisterNumber the user national register number
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
      * @return true or false
      */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
+    private boolean check_BIC(String BIC){
+        boolean isOK = (BIC.length() == 8);
+        return isOK;
     }
 
     /**
@@ -108,11 +115,16 @@ public class RegisterController implements Initializable {
      * @return the user
      */
     public ApplicationClient build_user(){
+        /*
+        String token = String.valueOf(10000 + (int) (Math.random()*(99999-10000))) ;
         ApplicationClient user = new ApplicationClient(nationalRegisterNumber.getText(),
                 firstName.getText(), lastName.getText(), password.getText(),
-                email.getText(), null,false);
+                email.getText(), token,false);
         user.toUpdate = false;
 
+        return user;
+        */
+        ApplicationClient user = new ApplicationClient();
         return user;
     }
 
@@ -123,9 +135,13 @@ public class RegisterController implements Initializable {
     @FXML
     private void register(MouseEvent event) {
         if(email.getText().isEmpty() ||
-                nationalRegisterNumber.getText().isEmpty() ||
-                firstName.getText().isEmpty() ||
-                lastName.getText().isEmpty() ||
+                BIC.getText().isEmpty() ||
+                institutionName.getText().isEmpty() ||
+                number.getText().isEmpty() ||
+                street.getText().isEmpty() ||
+                zipCode.getText().isEmpty() ||
+                city.getText().isEmpty() ||
+                country.getText().isEmpty() ||
                 password.getText().isEmpty() ||
                 password2.getText().isEmpty()){
 
@@ -134,9 +150,9 @@ public class RegisterController implements Initializable {
             alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
             alert.showAndWait();
 
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 chiffres");
             alert.showAndWait();
 
         }else if(!check_email(email.getText())){
@@ -157,13 +173,15 @@ public class RegisterController implements Initializable {
 
         }else {
             ApplicationClient user = build_user();
-
+            //TODO
+            /*
             user = userService.register(user);
             UserService.setCurrentUser(user);
+            */
 
             if (user != null){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -171,6 +189,11 @@ public class RegisterController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur");
+                alert.setHeaderText("Les informations que vous avez renseigné ne sont pas correct ou sont déjà utilisées");
+                alert.showAndWait();
             }
         }
     }
@@ -182,7 +205,7 @@ public class RegisterController implements Initializable {
     @FXML
     private void login(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

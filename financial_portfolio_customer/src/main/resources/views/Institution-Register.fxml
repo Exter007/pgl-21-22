@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="550.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.RegisterController">
+    <stylesheets>
+        <URL value="@../stylesheet/Style.css" />
+    </stylesheets>
+    <children>
+      <MenuBar style="-fx-background-color: #FFF;">
+        <menus>
+          <Menu mnemonicParsing="false" text="Langue">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
+                  <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="314.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Button layoutX="195.0" layoutY="476.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="45.0" prefWidth="170.0" text="Créer mon compte" />
+            <PasswordField fx:id="password" alignment="CENTER" layoutX="63.0" layoutY="392.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe*" styleClass="field" />
+            <TextField fx:id="streetNumber" alignment="CENTER" layoutX="288.0" layoutY="231.0" prefHeight="28.0" prefWidth="52.0" promptText="N°" styleClass="field" />
+            <ImageView fitHeight="123.0" fitWidth="200.0" layoutX="219.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo-login.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="lastName" alignment="CENTER" layoutX="63.0" layoutY="178.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom de l'institution" styleClass="field" />
+            <Hyperlink layoutX="237.0" layoutY="542.0" onMouseClicked="#login" text="Se connecter">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Hyperlink>
+            <TextField fx:id="BIC" alignment="CENTER" layoutX="288.0" layoutY="178.0" prefHeight="25.0" prefWidth="200.0" promptText="BIC" styleClass="field" />
+            <PasswordField fx:id="password2" alignment="CENTER" layoutX="287.0" layoutY="392.0" prefHeight="25.0" prefWidth="200.0" promptText="Répéter le mot de passe" styleClass="field" />
+            <TextField fx:id="email" alignment="CENTER" layoutX="64.0" layoutY="231.0" prefHeight="25.0" prefWidth="200.0" promptText="Adresse e-mail" styleClass="field" />
+            <Label layoutX="78.0" layoutY="420.0" text="*Doit contenir au moins 1 chiffre et 1 lettre" textFill="#f42525">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Label>
+            <TextField fx:id="street" alignment="CENTER" layoutX="349.0" layoutY="231.0" prefHeight="28.0" prefWidth="139.0" promptText="Rue" styleClass="field" />
+            <TextField fx:id="zipCode" alignment="CENTER" layoutX="64.0" layoutY="286.0" prefHeight="28.0" prefWidth="200.0" promptText="Code postal" styleClass="field" />
+            <TextField fx:id="city" alignment="CENTER" layoutX="288.0" layoutY="286.0" prefHeight="28.0" prefWidth="200.0" promptText="Ville" styleClass="field" />
+            <TextField fx:id="country" alignment="CENTER" layoutX="63.0" layoutY="339.0" prefHeight="28.0" prefWidth="200.0" promptText="Pays" styleClass="field" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>

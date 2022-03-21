@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:controller="com.pgl.controllers.DashboardNotificationsController" prefHeight="718.0" prefWidth="1440.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <ScrollPane prefHeight="706.0" prefWidth="1333.0" style="-fx-background-color: #fff;">
+         <content>
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="909.0" prefWidth="1273.0" style="-fx-background-color: #fff;">
+               <children>
+                  <VBox prefHeight="792.0" prefWidth="1240.0" style="-fx-background-color: #fff;">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1355.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Notifications" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="41.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="55.0" prefWidth="1300.0">
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <AnchorPane prefHeight="141.0" prefWidth="1300.0">
+                                 <children>
+                                    <VBox prefHeight="809.0" prefWidth="1297.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="156.0" prefWidth="1197.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
+                                             <children>
+                                                <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Doe John">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="658.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="subject" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Création d'un compte courant">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="date" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="03/01/2022">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onMouseClicked="#accept_request" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" onMouseClicked="#refuse_request" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="165.0" prefWidth="1197.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Delplanque Nicolas">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="658.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="105.0" prefWidth="423.0" text="Activer la fonctionalité virement pour le produit financié #15721818" textAlignment="CENTER" wrapText="true">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="02/01/2022">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="50.0" right="50.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="172.0" prefWidth="1197.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Doe John">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="658.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="77.0" prefWidth="423.0" text="Fermer le produit financier #25272829" textAlignment="CENTER" wrapText="true">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="01/01/2022">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="50.0" right="50.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="149.0" prefWidth="1197.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="D'Agostino Pierre-Louis">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="658.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Accès à ses produits financiers">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
+                                                         <font>
+                                                            <Font size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="01/01/2022">
+                                                         <font>
+                                                            <Font name="System Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" left="50.0" right="50.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+          </AnchorPane>
+         </content>
+      </ScrollPane>
+  </children>
+</VBox>

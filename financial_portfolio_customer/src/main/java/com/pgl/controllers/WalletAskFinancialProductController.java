@@ -26,10 +26,8 @@ public class WalletAskFinancialProductController implements Initializable {
 
     @FXML
     private ChoiceBox institution;
-
     @FXML
     private ChoiceBox productType;
-
     @FXML
     private Button sendButton;
 
@@ -41,6 +39,10 @@ public class WalletAskFinancialProductController implements Initializable {
         // TODO
     }
 
+    /**
+     * Send a request to add a financial product
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void send_request(MouseEvent event) {
         if(institution.getValue() != null && productType.getValue() != null){

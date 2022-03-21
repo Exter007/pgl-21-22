@@ -33,7 +33,7 @@
       <children>
             <Button onMouseClicked="#login" layoutX="98.0" layoutY="363.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
             <PasswordField fx:id="password" alignment="CENTER" layoutX="80.0" layoutY="279.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" styleClass="field" />
-            <TextField fx:id="nationalRegisterNumber" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="N° de registre national" styleClass="field" />
+            <TextField fx:id="BIC" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="BIC" styleClass="field" />
             <ImageView fitHeight="123.0" fitWidth="211.0" layoutX="119.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/logo-login.png" />
@@ -44,7 +44,7 @@
                   <Font size="9.0" />
                </font>
             </Hyperlink>
-            <TextField fx:id="name" alignment="CENTER" layoutX="80.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom complet (Ex. : Doe John)" styleClass="field" />
+            <TextField fx:id="name" alignment="CENTER" layoutX="80.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom de l'institution (Ex. : ING)" styleClass="field" />
             <Hyperlink onMouseClicked="#register" layoutX="125.0" layoutY="445.0" text="Créer un compte">
                <font>
                   <Font name="System Bold" size="13.0" />

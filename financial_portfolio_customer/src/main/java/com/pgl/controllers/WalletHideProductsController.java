@@ -32,6 +32,10 @@ public class WalletHideProductsController implements Initializable {
         // TODO
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -42,17 +46,35 @@ public class WalletHideProductsController implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletHideProductsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Redisplay the hidden product
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void show_Product(MouseEvent event) {
         //TODO
     }
 
+    /**
+     * Open a window asking for a delete confirmation
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void delete_Product(MouseEvent event) {
         //TODO
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-DeleteConfirmation.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(WalletHideProductsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

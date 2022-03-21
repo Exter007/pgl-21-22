@@ -44,10 +44,10 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Supprime les espaces dans le nom
-     * @param name
-     * @param nationalRegisterNumber
-     * @return le nom et le numéro de registre national concaténé
+     * Remove spaces and concatenated
+     * @param name the user name
+     * @param nationalRegisterNumber the user national register number
+     * @return name and national registry number concatenated
      */
     private String username(String name, String nationalRegisterNumber){
         String clearSpaceName = name.replaceAll("\\s+","");
@@ -55,6 +55,10 @@ public class LoginController implements Initializable {
     }
 
 
+    /**
+     * Connect the user
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void login(MouseEvent event) {
         if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
@@ -85,6 +89,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the registration window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void register(MouseEvent event) {
         try {
@@ -98,6 +106,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the password reset window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void password_reset(MouseEvent event) {
         try {
@@ -111,11 +123,19 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO
