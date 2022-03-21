@@ -16,7 +16,24 @@ public class Dashboard_TransferController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
+    @FXML
+    private Label Label_SEPA;
+    @FXML
+    private Label my_institution;
+    @FXML
+    private Label amount_label;
+    @FXML
+    private Label structured_comm;
+    @FXML
+    private Label free_comm;
+    @FXML
+    private Label or_label;
+    @FXML
+    private Label institutionFrom_label;
+    @FXML
+    private Label accountTo_label;
     @FXML
     private ChoiceBox institutionFrom;
     @FXML
@@ -35,12 +52,34 @@ public class Dashboard_TransferController implements Initializable {
     private Button transferButton;
 
     /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText() {
+        Label_SEPA.setText(bundle.getString("Label_SEPA"));
+        my_institution.setText(bundle.getString("my_institution"));
+        institutionFrom_label.setText(bundle.getString("institutionFrom_label"));
+        accountTo_label.setText(bundle.getString("accountTo_label"));
+        accountTo.setPromptText(bundle.getString("accountTo"));
+        amount_label.setText(bundle.getString("amount_label"));
+        amount.setPromptText(bundle.getString("amount"));
+        structured_comm.setText(bundle.getString("structured_comm"));
+        structuredCommunication.setPromptText(bundle.getString("structuredCommunication"));
+        or_label.setText(bundle.getString("or_label"));
+        free_comm.setText(bundle.getString("free_comm"));
+        freeCommunication.setPromptText(bundle.getString("freeCommunication"));
+        password.setPromptText(bundle.getString("Mot.de.passe_field"));
+        transferButton.setText(bundle.getString("transferButton"));
+    }
+
+    /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         institutionFrom.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
         accountFrom.setItems(FXCollections.observableArrayList("BE68 5390 0754 7034", "BE87 2345 9864 0181", "BE02 8929 2456 0186"));
+        bundle = DashboardController.bundle;
+        setText();
     }
 
     /**
@@ -51,8 +90,7 @@ public class Dashboard_TransferController implements Initializable {
     private void transfer(MouseEvent event) {
         if(structuredCommunication.getText() != "" && freeCommunication.getText() != ""){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Veuillez choisir un seul type de communication");
+            alert.setHeaderText(bundle.getString("error10"));
             alert.showAndWait();
 
         }else if(institutionFrom.getValue() != null &&
@@ -65,8 +103,7 @@ public class Dashboard_TransferController implements Initializable {
             //TODO
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Confirmation");
-            alert.setHeaderText("Votre virement a bien été efféctué !");
+            alert.setHeaderText(bundle.getString("succes5"));
             alert.showAndWait();
 
             Stage stage = (Stage) transferButton.getScene().getWindow();
@@ -79,14 +116,12 @@ public class Dashboard_TransferController implements Initializable {
                 (structuredCommunication.getText() == "" && freeCommunication.getText() == "") ||
                 password.getText() == ""){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
 
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Il s'est produit une erreur lors de votre demande, veuillez réessayer");
+            alert.setHeaderText(bundle.getString("error6"));
             alert.showAndWait();
         }
     }

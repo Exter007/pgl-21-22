@@ -122,7 +122,7 @@ public class DashboardController implements Initializable {
         menu2.setText(bundle.getString("Compte_menu"));
         menu21.setText(bundle.getString("EditProfil_menu"));
         menu22.setText(bundle.getString("Disconnect_menu"));
-        welcome.setText(bundle.getString("Welcome"));
+        welcome.setText(bundle.getString("Welcome") + ' ' + UserService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet"));
         Wallet_label1.setText(bundle.getString("Wallet"));
         Wallet_label2.setText(bundle.getString("Wallet"));
@@ -163,14 +163,6 @@ public class DashboardController implements Initializable {
         //TODO: Récupérer la préférence de langue dans la BDD
         bundle = LoginController.bundle;
         setText();
-        loadUserConnected();
-    }
-
-    /**
-     * Change the user name in the welcome label
-     */
-    public void loadUserConnected(){
-        welcome.setText(UserService.getCurrentUser().getFirstName());
     }
 
     /**

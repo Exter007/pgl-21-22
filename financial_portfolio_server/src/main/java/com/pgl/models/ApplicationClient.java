@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Class that represent a user of the client application
+ *
+ */
 @Entity
 @Table(name = "APPLICATION_CLIENT")
 public class ApplicationClient extends User{
@@ -29,9 +32,22 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    /** Default constructor
+     * (persistent classes requirements)
+     */
     public ApplicationClient() {
     }
 
+    /** Class constructor
+     *
+     * @param nationalRegister a String object
+     * @param firstName a String object
+     * @param name a String object that contains the client's last name
+     * @param password a String object
+     * @param email a String object
+     * @param token a String object
+     * @param active a boolean
+     */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT);
         this.nationalRegister = nationalRegister;
@@ -40,7 +56,19 @@ public class ApplicationClient extends User{
         this.setLogin(buildLogin());
     }
 
-    /** Builder for all attributes  **/
+    /** Class constructor with all attributes
+     *
+     * @param nationalRegister a String object
+     * @param firstName a String object
+     * @param name a String object that contains the client's last name
+     * @param password a String object
+     * @param email a String object
+     * @param active a String object
+     * @param language a String object
+     * @param token a String object
+     * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders who are bound to this client
+     * @param notifications a List<Notification> that contains the notifications bound to this client
+     */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
         this.nationalRegister = nationalRegister;
@@ -51,47 +79,95 @@ public class ApplicationClient extends User{
         this.setLogin(buildLogin());
     }
 
+    /** Get the national register
+     *
+     * @return the national register in the form of a String object
+     */
     public String getNationalRegister() {
         return nationalRegister;
     }
 
+    /** Set the national register
+     *
+     * @param nationalRegister a String object
+     */
     public void setNationalRegister(String nationalRegister) {
         this.nationalRegister = nationalRegister;
     }
 
+    /** Get the first name
+     *
+     * @return the first name in the form of a String object
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /** Set the first name
+     *
+     * @param firstName a String object
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /** Get the last name
+     *
+     * @return the last name in the form of a String object
+     */
     public String getName() {
         return name;
     }
 
+    /** Set the last name
+     *
+     * @param name a String object
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-
+    /** Get the list of financial product holders bound to this client
+     *
+     * @return the list of financial product holders in the form of a List<FinancialProductHolder>
+     */
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
     }
 
+    /** Set the list of financial product holders who will be bound to this client
+     *
+     * @param financialProductHolders a List<FinancialProductHolder>
+     */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
     }
 
+    /** Get the list of notification of this client
+     *
+     * @return the list of notification in the form of a List<Notification>
+     */
     public List<Notification> getNotifications() {
         return notifications;
     }
 
+    /** Set the list of notification of this client
+     *
+     * @param notifications a List<Notification>
+     */
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
+    /** Method that build the login of this client
+     *
+     * The login is the concatenation of the last name, the first name and the national register of this client
+     * example:
+     * Doe John 97060530075
+     * login = DoeJohn97060530075
+     *
+     * @return  the login in the form of a String object
+     */
     @JsonIgnore
     public String buildLogin() {
         return  StringUtils.deleteWhitespace((getName() != null ? getName() : "")

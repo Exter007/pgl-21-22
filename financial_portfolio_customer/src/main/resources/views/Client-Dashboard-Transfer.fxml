@@ -20,7 +20,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1300.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="708.0" text="Virement en zone SEPA" textAlignment="CENTER">
+                        <Label fx:id="Label_SEPA" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="708.0" text="Virement en zone SEPA" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font>
@@ -35,59 +35,59 @@
                   </HBox>
                   <AnchorPane prefHeight="658.0" prefWidth="705.0">
                      <children>
-                        <Label layoutX="295.0" layoutY="24.0" text="Mon institution :">
+                        <Label fx:id="my_institution" layoutX="295.0" layoutY="24.0" text="Mon institution :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="institutionFrom" layoutX="163.0" layoutY="54.0" prefHeight="37.0" prefWidth="392.0" styleClass="button" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css" />
-                        <Label layoutX="59.0" layoutY="125.0" text="Depuis :">
+                        <ChoiceBox fx:id="institutionFrom" layoutX="163.0" layoutY="54.0" prefHeight="37.0" prefWidth="392.0" styleClass="button" />
+                        <Label fx:id="institutionFrom_label" layoutX="59.0" layoutY="125.0" text="Depuis :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="accountFrom" layoutX="58.0" layoutY="153.0" prefHeight="37.0" prefWidth="270.0" styleClass="button" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css" />
-                        <Label layoutX="384.0" layoutY="125.0" text="Vers (Zone SEPA) :">
+                        <ChoiceBox fx:id="accountFrom" layoutX="58.0" layoutY="153.0" prefHeight="37.0" prefWidth="270.0" styleClass="button" />
+                        <Label fx:id="accountTo_label" layoutX="384.0" layoutY="125.0" text="Vers (Zone SEPA) :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="accountTo" alignment="CENTER" layoutX="384.0" layoutY="153.0" prefHeight="37.0" prefWidth="270.0" promptText="N° de compte du déstinataire" styleClass="field" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css">
+                        <TextField fx:id="accountTo" alignment="CENTER" layoutX="384.0" layoutY="153.0" prefHeight="37.0" prefWidth="270.0" promptText="N° de compte du déstinataire" styleClass="field" >
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="59.0" layoutY="221.0" text="Montant ( € ) :">
+                        <Label fx:id="amount_label" layoutX="59.0" layoutY="221.0" text="Montant ( € ) :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="amount" alignment="CENTER_RIGHT" layoutX="58.0" layoutY="247.0" prefHeight="37.0" prefWidth="270.0" promptText="0" styleClass="field" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css">
+                        <TextField fx:id="amount" alignment="CENTER_RIGHT" layoutX="58.0" layoutY="247.0" prefHeight="37.0" prefWidth="270.0" promptText="0" styleClass="field" >
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="60.0" layoutY="329.0" text="Communication structuré :">
+                        <Label fx:id="structured_comm" layoutX="60.0" layoutY="329.0" text="Communication structuré :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="structuredCommunication" alignment="CENTER" layoutX="59.0" layoutY="356.0" prefHeight="37.0" prefWidth="270.0" promptText="+++ 000 / 0000 / 000XX +++" styleClass="field" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css">
+                        <TextField fx:id="structuredCommunication" alignment="CENTER" layoutX="59.0" layoutY="356.0" prefHeight="37.0" prefWidth="270.0" promptText="+++ 000 / 0000 / 000XX +++" styleClass="field" >
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="385.0" layoutY="330.0" text="Communication libre :">
+                        <Label fx:id="free_comm" layoutX="385.0" layoutY="330.0" text="Communication libre :">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="freeCommunication" alignment="CENTER" layoutX="384.0" layoutY="356.0" prefHeight="37.0" prefWidth="270.0" promptText="Message" styleClass="field" stylesheets="@../../../../../../../../Desktop/FXML-PGL/Style.css">
+                        <TextField fx:id="freeCommunication" alignment="CENTER" layoutX="384.0" layoutY="356.0" prefHeight="37.0" prefWidth="270.0" promptText="Message" styleClass="field" >
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="345.0" layoutY="361.0" text="OU">
+                        <Label fx:id="or_label" layoutX="345.0" layoutY="361.0" text="OU">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
