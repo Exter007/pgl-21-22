@@ -173,21 +173,6 @@ public class UserService {
         return null;
     }
 
-
-
-    public void requestSecu(){
-//        String token = "Bearer " + authenticationResponse.getBody().getAccessToken();
-//        HttpHeaders headers = getHeaders();
-//        headers.set("Authorization", token);
-//        HttpEntity<String> jwtEntity = new HttpEntity<String>(headers);
-//        // Use Token to get Response
-//        ResponseEntity<String> helloResponse = restTemplate.exchange(HELLO_URL, HttpMethod.GET, jwtEntity,
-//                String.class);
-//        if (helloResponse.getStatusCode().equals(HttpStatus.OK)) {
-//            response = helloResponse.getBody();
-//        }
-    }
-
     /**
      * Send verification code for password reset
      * @param user

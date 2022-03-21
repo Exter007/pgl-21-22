@@ -56,6 +56,12 @@ public class CustomerController {
         return (List<FinancialInstitution>) financialInstitutionRepository.findAll();
     }
 
+    /**
+     * Request Wallet
+     * @param applicationClient
+     * @param financialInstitution
+     * @throws IllegalArgumentException
+     */
     @RequestMapping("requestWallet/{applicationClient}/{financialInstitution}")
     public void requestWallet(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) throws IllegalArgumentException {
         RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClient, financialInstitution);

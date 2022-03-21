@@ -285,6 +285,11 @@ public class HttpClientService<P>{
         alert.showAndWait();
     }
 
+    /**
+     * Provide Http Entity
+     * @param entity
+     * @return
+     */
     public HttpEntity getHttpEntity(P entity){
         HttpEntity<P> httpEntity = new HttpEntity<>(entity, headers);
         return httpEntity;
