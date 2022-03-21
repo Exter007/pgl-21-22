@@ -21,6 +21,19 @@ public class TermAccount extends BankAccount {
     public TermAccount() {
     }
 
+    /** Class constructor
+     *
+     * @param iban a String object
+     * @param type a BankAccount.ACCOUNT_TYPE enum
+     * @param state a BankAccount.PRODUCT_STATE enum
+     * @param pin_code a String object
+     * @param currency a BankAccount.CURRENCY enum
+     * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
+     * @param monthlyFee a float
+     * @param annualYield a float
+     * @param maximumDate a Date
+     * @param penalty a long
+     */
     public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
         super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.setNature(ACCOUNT_NATURE.TERM_ACCOUNT);

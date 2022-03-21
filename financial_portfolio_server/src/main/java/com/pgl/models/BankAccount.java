@@ -1,11 +1,10 @@
-/** Abstract class that represent a bank account
- *
- */
 package com.pgl.models;
 
 import javax.persistence.*;
 
-
+/** Abstract class that represent a bank account
+ *
+ */
 @Entity
 @DiscriminatorColumn(name="ACCOUNT_NATURE")
 public abstract class BankAccount extends FinancialProduct {
@@ -40,11 +39,11 @@ public abstract class BankAccount extends FinancialProduct {
     public BankAccount() {
     }
 
-    /** Class Constructor
+    /** Class constructor
      *
      * @param iban a String object
      * @param type a BankAccount.ACCOUNT_TYPE enum
-     * @param state a BankAccount.PRODUCT_STATE enum
+     * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param pin_code a String object
      * @param currency a BankAccount.CURRENCY enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
@@ -190,11 +189,7 @@ public abstract class BankAccount extends FinancialProduct {
         this.nature = nature;
     }
 
-    /** Enumeration of account type
-     *
-     * INDIVIDUAL_ACCOUNT
-     * JOINT_ACCOUNT
-     * ACCOUNT_UNDIVIDED
+    /** Represent the account type
      */
     public enum ACCOUNT_TYPE {
         INDIVIDUAL_ACCOUNT,
@@ -202,12 +197,7 @@ public abstract class BankAccount extends FinancialProduct {
         ACCOUNT_UNDIVIDED
     }
 
-    /** Enumeration of account nature
-     *
-     * CURRENT_ACCOUNT
-     * SAVING_ACCOUNT
-     * YOUNG_ACCOUNT
-     * TERM_ACCOUNT
+    /** Represent the account nature
      */
     public enum ACCOUNT_NATURE {
         CURRENT_ACCOUNT,
@@ -216,9 +206,7 @@ public abstract class BankAccount extends FinancialProduct {
         TERM_ACCOUNT
     }
 
-    /** Enumeration of currency
-     *
-     * EURO
+    /** Represent the currency
      */
     public enum CURRENCY {
         EURO
