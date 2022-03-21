@@ -208,7 +208,7 @@ public class DashboardController implements Initializable {
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

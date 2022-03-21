@@ -34,11 +34,6 @@ public class ServerApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    ContextName getContext (){
-        return ContextName.CLIENT;
-    }
-
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(ServerApplication.class);
         application.setBannerMode(Banner.Mode.OFF);
@@ -50,7 +45,6 @@ public class ServerApplication {
             }
         });
         application.run(args);
-//        SpringApplication.run(Application.class, args);
     }
 
     public static void startDbServer() {

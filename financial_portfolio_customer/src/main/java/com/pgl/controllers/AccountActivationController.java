@@ -15,8 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import javax.inject.Inject;
+;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +24,6 @@ import java.util.logging.Logger;
 
 public class AccountActivationController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -98,7 +96,7 @@ public class AccountActivationController implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

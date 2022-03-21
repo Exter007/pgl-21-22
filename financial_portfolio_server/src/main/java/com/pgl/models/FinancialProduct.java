@@ -23,7 +23,7 @@ public class FinancialProduct extends Persistent {
     private List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
 
     @ManyToOne()
-    @JoinColumn(name = "financial_institution_id", nullable = false)
+    @JoinColumn(name = "financial_institution_BIC", nullable = false)
     private FinancialInstitution financialInstitution;
 
     public FinancialProduct(PRODUCT_STATE state, FinancialInstitution financialInstitution) {
@@ -31,6 +31,9 @@ public class FinancialProduct extends Persistent {
         this.financialInstitution = financialInstitution;
     }
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public FinancialProduct() {
     }
 

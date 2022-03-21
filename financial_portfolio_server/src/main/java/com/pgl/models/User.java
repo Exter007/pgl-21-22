@@ -27,6 +27,9 @@ public class User extends PersistentWithoutId {
     @Column(name = "role")
     private ROLE role;
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public User() {
     }
 

@@ -1,8 +1,11 @@
 package com.pgl.services;
 
+import com.pgl.models.Address;
 import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
+import com.pgl.repositories.AddressRepository;
 import com.pgl.repositories.FinancialInstitutionRepository;
+import com.pgl.utils.Code;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,13 +20,16 @@ public class FinancialInstitutionService {
     FinancialInstitutionRepository financialInstitutionRepository;
 
     @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     FinancialInstitutionRepository getRepository(){
         return financialInstitutionRepository;
     }
 
-    public FinancialInstitution saveClient(FinancialInstitution user) throws Exception {
+    public FinancialInstitution saveClient(FinancialInstitution user){
 
         Optional<FinancialInstitution> result = getRepository().findById(user.getBIC());
 
@@ -40,13 +46,17 @@ public class FinancialInstitutionService {
             institution = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             institution.setPassword(hashPW);
-            institution.setLogin(user.getLogin());
+            institution.setToken(Code.generateCode());
             institution.setRole(User.ROLE.FINANCIAL_INSTITUTION);
 
         }else { // if the user already exists and update it
             institution = result.get();
             institution.setModificationDate(new Date());
         }
+
+        // Save Institution Address
+        Address address = addressRepository.save(institution.getAddress());
+        institution.setAddress(address);
 
         return financialInstitutionRepository.save(institution);
     }

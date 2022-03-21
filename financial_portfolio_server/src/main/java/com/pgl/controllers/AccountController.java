@@ -1,9 +1,11 @@
 package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
 import com.pgl.security.UserDetailsImpl;
 import com.pgl.services.ApplicationClientService;
+import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.UserService;
 import com.pgl.utils.JwtResponse;
 import com.pgl.utils.JwtUtils;
@@ -40,6 +42,9 @@ public class AccountController {
     @Autowired
     ApplicationClientService applicationClientService;
 
+    @Autowired
+    FinancialInstitutionService financialInstitutionService;
+
     public AccountController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -70,6 +75,13 @@ public class AccountController {
         applicationClient = applicationClientService.saveClient(applicationClient);
         userService.sendValidateAccount(applicationClient);
         return ResponseEntity.ok(applicationClient);
+    }
+
+    @PostMapping(value = "register/institution")
+    public ResponseEntity<?> register(@RequestBody FinancialInstitution institution) throws Exception {
+        institution = financialInstitutionService.saveClient(institution);
+        userService.sendValidateAccount(institution);
+        return ResponseEntity.ok(institution);
     }
 
     @PermitAll

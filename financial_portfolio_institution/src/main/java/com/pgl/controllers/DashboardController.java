@@ -55,7 +55,7 @@ public class DashboardController implements Initializable {
      * Change the institution name in the welcome label
      */
     public void loadUserConnected(){
-        //welcome.setText(UserService.getCurrentUser().getLogin());
+        welcome.setText(UserService.getCurrentUser().getLogin());
     }
 
     /**
@@ -84,7 +84,7 @@ public class DashboardController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la déconnexion ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            //userService.logout();
+            userService.logout();
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-login.fxml"));
                 Stage newWindow = new Stage();

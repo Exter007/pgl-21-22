@@ -1,20 +1,20 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
+import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,11 +23,13 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_1Controller implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
 
     @FXML
-    private TextField email;
+    private TextField name;
+
+    @FXML
+    private TextField BIC;
 
     /**
      * Initializes the controller class.
@@ -37,16 +39,6 @@ public class ForgotPassword_1Controller implements Initializable {
         // TODO
     }
 
-    /**
-     * Check that the e-mail is in the right format (@ and .)
-     * @param email institution email
-     * @return true or false
-     */
-    private boolean check_email(String email){
-        boolean hasArobase =  email.contains("@");
-        boolean hasPoint =  email.contains(".");
-        return hasArobase && hasPoint;
-    }
 
     /**
      * Check if the e-mail entered is the correct one
@@ -54,27 +46,41 @@ public class ForgotPassword_1Controller implements Initializable {
      */
     @FXML
     private void validate(MouseEvent event) {
-        if(email.getText().isEmpty()){
+        if(name.getText().isEmpty() || BIC.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez rentrer votre e-mail");
+            alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
-
-        }else if(!check_email(email.getText())){
+        }else if(!Validators.check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre e-mail n'est pas au bon format");
+            alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 caractères");
             alert.showAndWait();
-
         }else {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ForgotPassword_2.fxml"));
-                Stage newWindow = new Stage();
-                Scene scene = new Scene(root);
-                newWindow.setScene(scene);
-                GlobalStage.setStage(newWindow);
+            FinancialInstitution institution = new FinancialInstitution();
+            institution.setBIC(BIC.getText());
+            institution.setName(name.getText());
 
-            } catch (IOException ex) {
-                Logger.getLogger(ForgotPassword_1Controller.class.getName()).log(Level.SEVERE, null, ex);
+            User user = new User();
+            user.setLogin(institution.buildLogin());
+
+            User result = userService.sendPasswordResetCode(user);
+
+            if (result != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Un mail de réinitialisation vous a été envoyé");
+                alert.showAndWait();
+
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ForgotPassword_2.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(ForgotPassword_1Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
         }
     }
 

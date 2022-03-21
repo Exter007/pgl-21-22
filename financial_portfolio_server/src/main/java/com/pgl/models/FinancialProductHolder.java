@@ -42,6 +42,9 @@ public class FinancialProductHolder extends PersistentWithoutId {
     @JsonIgnore
     private List<FinancialProduct> financialProducts = new ArrayList<>();
 
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public FinancialProductHolder() {
     }
 

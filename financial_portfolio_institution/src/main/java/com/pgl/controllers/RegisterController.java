@@ -7,16 +7,15 @@ package com.pgl.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.pgl.models.ApplicationClient;
+import com.pgl.models.Address;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,15 +24,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import javax.inject.Inject;
 
 
 public class RegisterController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
 
     @FXML
@@ -67,68 +62,6 @@ public class RegisterController implements Initializable {
     }
 
     /**
-     * Checks that the BIC is composed of 8 characters long
-     * @param BIC the financial institution BIC
-     * @return true or false
-     */
-    private boolean check_BIC(String BIC){
-        boolean isOK = (BIC.length() == 8);
-        return isOK;
-    }
-
-    /**
-     * Check that the e-mail is in the right format (@ and .)
-     * @param email the user email
-     * @return true or false
-     */
-    private boolean check_email(String email){
-        boolean hasArobase =  email.contains("@");
-        boolean hasPoint =  email.contains(".");
-        return hasArobase && hasPoint;
-    }
-
-    /**
-     * Checks if the password is in the right format (at least 1 letter and 1 number)
-     * @param password the user password
-     * @return true or false
-     */
-    private boolean check_password(String password){
-        char c;
-        boolean alpha = false;
-        boolean number = false;
-        for(int i=0; i < password.length(); i++) {
-            c = password.charAt(i);
-            if( Character.isDigit(c)) {
-                number = true;
-            }
-            if (Character.isUpperCase(c) || Character.isLowerCase(c)) {
-                alpha = true;
-            }
-            if(number && alpha)
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Create a new user
-     * @return the user
-     */
-    public ApplicationClient build_user(){
-        /*
-        String token = String.valueOf(10000 + (int) (Math.random()*(99999-10000))) ;
-        ApplicationClient user = new ApplicationClient(nationalRegisterNumber.getText(),
-                firstName.getText(), lastName.getText(), password.getText(),
-                email.getText(), token,false);
-        user.toUpdate = false;
-
-        return user;
-        */
-        ApplicationClient user = new ApplicationClient();
-        return user;
-    }
-
-    /**
      * Register the new user
      * @param event the click of the mouse on the button
      */
@@ -150,17 +83,17 @@ public class RegisterController implements Initializable {
             alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
             alert.showAndWait();
 
-        }else if(!check_BIC(BIC.getText())){
+        }else if(!Validators.check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 chiffres");
             alert.showAndWait();
 
-        }else if(!check_email(email.getText())){
+        }else if(!Validators.check_email(email.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre e-mail n'est pas au bon format");
             alert.showAndWait();
 
-        }else if(!check_password(password.getText())){
+        }else if(!Validators.check_password(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
@@ -172,12 +105,10 @@ public class RegisterController implements Initializable {
             alert.showAndWait();
 
         }else {
-            ApplicationClient user = build_user();
-            //TODO
-            /*
+            FinancialInstitution user = build_user();
+
             user = userService.register(user);
             UserService.setCurrentUser(user);
-            */
 
             if (user != null){
                 try {
@@ -189,11 +120,6 @@ public class RegisterController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur");
-                alert.setHeaderText("Les informations que vous avez renseigné ne sont pas correct ou sont déjà utilisées");
-                alert.showAndWait();
             }
         }
     }
@@ -231,5 +157,24 @@ public class RegisterController implements Initializable {
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO
+    }
+
+    /**
+     * Build a new user
+     * @return the user
+     */
+    public FinancialInstitution build_user(){
+
+        Address address = new Address(
+                street.getText(), number.getText(), city.getText(), zipCode.getText() , country.getText()
+        );
+
+        FinancialInstitution user = new FinancialInstitution(
+                BIC.getText(), institutionName.getText(), password.getText(), email.getText(),address,false,null
+        );
+
+        user.toUpdate = false;
+
+        return user;
     }
 }

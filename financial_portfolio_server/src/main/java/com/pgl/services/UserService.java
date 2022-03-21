@@ -7,11 +7,9 @@ import com.pgl.utils.Code;
 import com.pgl.utils.ContextName;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service()
 public class UserService<P extends User> {
@@ -27,7 +25,7 @@ public class UserService<P extends User> {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private ContextName contextName;
+    private ContextService contextService;
 
     @Autowired
     EmailService emailService;
@@ -37,9 +35,9 @@ public class UserService<P extends User> {
     }
 
     public User findByLogin(String login){
-        if (this.contextName.equals(ContextName.CLIENT) ){
+        if (contextService.getContextName().equals(ContextName.CLIENT) ){
             return applicationClientService.getRepository().findByLogin(login);
-        }else if(this.contextName.equals(ContextName.INSTITUTION)){
+        }else if(contextService.getContextName().equals(ContextName.INSTITUTION)){
             return financialInstitutionService.getRepository().findByLogin(login);
         }
         return null;
@@ -164,10 +162,14 @@ public class UserService<P extends User> {
      * @param user
      * @throws Exception
      */
-    private User updateTokenOrStatusOrPwd(User user) throws Exception {
-        if (this.contextName.name().equals(ContextName.CLIENT.name())){
+    private User updateTokenOrStatusOrPwd(User user){
+        if (contextService.getContextName().equals(ContextName.CLIENT)){
             ApplicationClient userFound = applicationClientService.getRepository()
                     .findByLogin(user.getLogin());
+
+            if (userFound == null ){
+                throw new RuntimeException("User not found");
+            }
             if (user.getToken() != null){
                 userFound.setToken(user.getToken());
             }
@@ -179,10 +181,13 @@ public class UserService<P extends User> {
             }
             return applicationClientService.saveClient(userFound);
 
-        }else if(this.contextName.name().equals(ContextName.INSTITUTION.name())){
+        }else if(contextService.getContextName().equals(ContextName.INSTITUTION)){
             FinancialInstitution userFound = financialInstitutionService.getRepository()
                     .findByLogin(user.getLogin());
 
+            if (userFound == null ){
+                throw new RuntimeException("User not found");
+            }
             if (user.getToken() != null){
                 userFound.setToken(user.getToken());
             }

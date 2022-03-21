@@ -17,13 +17,21 @@ public class RequestWallet extends Request{
     @JoinColumn(name = "wallet_id", nullable=false)
     private Wallet wallet;
 
+    @ManyToOne()
+    @JoinColumn(name = "financial_institution_BIC", nullable=false)
+    private FinancialInstitution financialInstitution;
+    
+    /**
+     * Default constructor (persistent classes requirements)
+     */
     public RequestWallet() {
     }
 
-    public RequestWallet(REQUEST_STATUS status, ApplicationClient applicationClient, Wallet wallet) {
+    public RequestWallet(REQUEST_STATUS status, ApplicationClient applicationClient, Wallet wallet, FinancialInstitution financialInstitution) {
         super(status);
         this.applicationClient = applicationClient;
         this.wallet = wallet;
+        this.financialInstitution = financialInstitution;
     }
 
     public ApplicationClient getApplicationClient() {
@@ -40,5 +48,13 @@ public class RequestWallet extends Request{
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public FinancialInstitution getFinancialInstitution() {
+        return financialInstitution;
+    }
+
+    public void setFinancialInstitution(FinancialInstitution financialInstitution) {
+        this.financialInstitution = financialInstitution;
     }
 }

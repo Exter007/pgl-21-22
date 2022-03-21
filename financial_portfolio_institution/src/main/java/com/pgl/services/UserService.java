@@ -1,5 +1,6 @@
 package com.pgl.services;
 
+import com.pgl.controllers.RegisterController;
 import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
 import com.pgl.utils.GlobalStage;
@@ -12,9 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -22,7 +23,6 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    @Inject
     HttpClientService httpClientService = new HttpClientService<FinancialInstitution>();
 
     RestTemplate restTemplate = new RestTemplate();
@@ -47,6 +47,7 @@ public class UserService {
      */
     public boolean login(String username, String password){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/login");
+
         // create user authentication object
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(username);
@@ -57,47 +58,54 @@ public class UserService {
         HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest,
                 authenticationHeaders);
 
-        ResponseEntity<JwtResponse> response = null;
-
         try{
             // Authenticate User and get JWT
-            response = restTemplate.exchange(url,
+            ResponseEntity<JwtResponse> response = restTemplate.exchange(url,
                     HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
             FinancialInstitution user = new FinancialInstitution();
-            user.setLogin(response.getBody().getLogin());
-            this.currentUser = user;
-            String token = "Bearer " + Objects.requireNonNull(response.getBody()).getAccessToken();
+            user.setLogin(Objects.requireNonNull(response.getBody()).getLogin());
+            currentUser = user;
+            String token = "Bearer " + response.getBody().getAccessToken();
             HttpHeaders headers = httpClientService.getHeaders();
             headers.set("Authorization", token);
             httpClientService.setHeaders(headers);
 
             return true;
 
-        }catch (RuntimeException e){
-            System.out.println("Response : "+response.getStatusCode() + " - " + response.getBody());
-            if(e.equals("Account not activated")){
+        }catch (HttpClientErrorException ex){
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+            if(ex.getMessage().contains("Bad credentials")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Les données fournies ne sont pas correct");
+                alert.showAndWait();
+            } else if(ex.getMessage().contains("Account not activated")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Compte non activé");
-                alert.setContentText("Veuillez le validé avec le code envoyé à votre email");
+                alert.setContentText("Veuillez valider votre compte avec le code envoyé par email");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
-                } catch (IOException ex) {
-//                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException exc) {
+                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, exc);
                 }
+            } else {
+                System.out.println("Error: "+ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur inconnue ! Veuillez contacter un administrateur");
+                alert.showAndWait();
             }
+        } catch(Exception ex) {
+            showException(ex);
         }
-        catch(Exception e){
-            System.out.println("Error: "+e);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
-            alert.showAndWait();
-        }
+
+        FinancialInstitution user = new FinancialInstitution();
+        user.setLogin(username);
+        currentUser = user;
 
         return false;
     }
@@ -116,51 +124,55 @@ public class UserService {
      * @return registered user
      */
     public FinancialInstitution register(FinancialInstitution user){
-        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/client");
+        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/institution");
 
-        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<FinancialInstitution> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, FinancialInstitution.class);
+        try {
+            ResponseEntity<FinancialInstitution> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, FinancialInstitution.class);
 
-        System.out.println(response);
+            System.out.println(response);
 
-        Alert alert;
-        // if the registration is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            String error= response.toString();
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'enregistrement");
-            if(error.equals("This User already exists")){
-                alert.setHeaderText("Erreur email");
-                alert.setContentText("Un compte avec cet email existe deja");
-            } else{
-                alert.setHeaderText("Erreur lors de la création du compte");
-            }
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Compte creé avec succés");
+            alert.setContentText("Une mail de confirmation vous a étè envoyè. \n Veuillez validè votre compte pour vous connectez");
             alert.showAndWait();
-            return null;
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+               showNotAuthException();
+            } else if (ex.getMessage().contains("This User already exists")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Un compte avec ce BIC existe déjà");
+                alert.showAndWait();
+            } else if (ex.getMessage().contains("MailSendException")) {
+                System.out.println("Error : "+ ex.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur lors de l'envoi du mail de confirmation \n Veuillez vous connectez pour activer votre compte");
+                alert.showAndWait();
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
+                } catch (IOException exc) {
+                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, exc);
+                }
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Client enregistré avec succés");
-        alert.setContentText("Une mail de confirmation vous a étè envoyè.  Veuillez validè votre compte pour vous connectez");
-        alert.showAndWait();
 
-        return response.getBody();
-    }
-
-
-
-    public void requestSecu(){
-//        String token = "Bearer " + authenticationResponse.getBody().getAccessToken();
-//        HttpHeaders headers = getHeaders();
-//        headers.set("Authorization", token);
-//        HttpEntity<String> jwtEntity = new HttpEntity<String>(headers);
-//        // Use Token to get Response
-//        ResponseEntity<String> helloResponse = restTemplate.exchange(HELLO_URL, HttpMethod.GET, jwtEntity,
-//                String.class);
-//        if (helloResponse.getStatusCode().equals(HttpStatus.OK)) {
-//            response = helloResponse.getBody();
-//        }
+        return null;
     }
 
     /**
@@ -168,33 +180,35 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean sendPasswordResetCode(FinancialInstitution user){
+    public User sendPasswordResetCode(User user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
-        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, boolean.class);
+        try {
+            ResponseEntity<FinancialInstitution> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, FinancialInstitution.class);
+            System.out.println(response.getStatusCode());
 
-        System.out.println(response.getStatusCode());
+            return currentUser = response.getBody();
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'envoi du code de reinitialisation");
-            alert.showAndWait();
-
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
-
-            String error= response.getBody().toString();
-            System.out.println("Error: "+error);
-
-            return false;
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+            if (ex.getMessage().contains("User not found")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Pas de compte associé à ces données");
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("MailSendException")) {
+                showMailException();
+            }else {
+                showOtherException();
+            }
+        } catch(Exception ex) {
+            showException(ex);
         }
 
-        return response.getBody();
-
+        return null;
     }
 
     /**
@@ -202,70 +216,42 @@ public class UserService {
      * @param user
      * @return a boolean status result
      */
-    public boolean resetPassword(FinancialInstitution user){
+    public boolean resetPassword(User user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
-        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, boolean.class);
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, boolean.class);
 
-        System.out.println(response.getStatusCode());
+            System.out.println(response.getStatusCode());
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
+            return response.getBody();
 
-            String error= response.getBody().toString();
-            System.out.println("Error: "+error);
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de la validation du mot de passe");
-            if(error.equals("Reset code is incorrect")){
-                alert.setContentText("Le code saisi est incorrect");
+            if (ex.getMessage().contains("User not found")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Pas de compte associé à ces données");
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("Reset code is incorrect")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Le code saisi est incorrect");
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("MailSendException")) {
+                showMailException();
+            }else {
+                showOtherException();
             }
-            alert.showAndWait();
 
-
-            return false;
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return response.getBody();
-    }
-
-    /**
-     * Send account reset code
-     * @param user
-     * @return a boolean status result
-     */
-    public boolean sendAccountResetCode(FinancialInstitution user){
-        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
-        System.out.println("url: "+url);
-
-        HttpEntity<FinancialInstitution> httpEntity = getHttpEntity(user);
-
-        ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, boolean.class);
-
-        System.out.println(response.getStatusCode());
-
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'envoi du code d'activation");
-            alert.showAndWait();
-
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
-
-            String error= response.getBody().toString();
-            System.out.println("Error: "+error);
-
-            return false;
-        }
-
-        return response.getBody();
-
+        return false;
     }
 
     /**
@@ -277,40 +263,67 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/activation");
         System.out.println("url: "+url);
 
-        HttpEntity<User> httpEntity = getHttpEntity(user);
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
 
-        ResponseEntity<Boolean> response = null;
         try{
-            response = restTemplate.exchange(url, HttpMethod.POST,
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
                     httpEntity, boolean.class);
 
             System.out.println(response.getStatusCode());
 
-            // if request is not successful
-            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getMessage().contains("Reset code is incorrect")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur lors de l'activation du compte ");
+                alert.setHeaderText("Erreur lors de la validation du mot de passe");
+                alert.setHeaderText("Le code saisi est incorrect");
                 alert.showAndWait();
-
-                System.out.println("Failed : HTTP error code : " + response.getStatusCode());
-
-                String error= response.getBody().toString();
-                System.out.println("Error: "+error);
-
-                return false;
+            } else if(ex.getMessage().contains("MailSendException")) {
+                showMailException();
+            } else {
+                showOtherException();
             }
 
-        }catch(RuntimeException e){
-
+        } catch(Exception ex) {
+            showException(ex);
         }
 
-        return response.getBody();
+        return false;
     }
 
-    public HttpEntity getHttpEntity(Object entity){
+    public HttpEntity<Object> getHttpEntity(Object entity){
         HttpHeaders headers = httpClientService.getHeaders();
-        HttpEntity<Object> httpEntity = new HttpEntity<>(entity, headers);
-        return httpEntity;
+        return new HttpEntity<>(entity, headers);
     }
 
+    public void showMailException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Erreur lors de l'envoi du mail de confirmation");
+        alert.showAndWait();
+    }
+
+    public void showException(Exception ex){
+        if (ex.getMessage().contains("Connection refused: connect")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Serveur indisponible");
+            alert.showAndWait();
+        } else {
+            showOtherException();
+        }
+    }
+
+    public void showOtherException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Erreur inconnue ! Veuillez contacter un administrateur");
+        alert.showAndWait();
+    }
+
+    public void showNotAuthException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Accès non autorisé");
+        alert.showAndWait();
+    }
 }

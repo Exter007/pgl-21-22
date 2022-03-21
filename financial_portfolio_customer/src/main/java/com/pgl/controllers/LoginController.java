@@ -69,17 +69,6 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Remove spaces and concatenated
-     * @param name the user name
-     * @param nationalRegisterNumber the user national register number
-     * @return name and national registry number concatenated
-     */
-    private String username(String name, String nationalRegisterNumber){
-        String clearSpaceName = name.replaceAll("\\s+","");
-        return clearSpaceName+nationalRegisterNumber;
-    }
-
-    /**
      * Connect the user
      * @param event the click of the mouse on the button
      */
@@ -94,14 +83,13 @@ public class LoginController implements Initializable {
             alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         }else{
-            /*
             ApplicationClient user = new ApplicationClient();
             user.setNationalRegister(nationalRegisterNumber.getText());
             user.setFirstName(name.getText());
             String login = user.buildLogin();
             boolean response = userService.login(login, password.getText());
-            */
-            if (true /*response*/){
+
+            if (response){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();

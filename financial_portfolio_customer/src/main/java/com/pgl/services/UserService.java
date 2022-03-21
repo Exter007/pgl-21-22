@@ -48,6 +48,7 @@ public class UserService {
      */
     public boolean login(String username, String password){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/login");
+
         // create user authentication object
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(username);
@@ -262,39 +263,6 @@ public class UserService {
 
         return false;
     }
-
-    /**
-     * Send account reset code
-     * @param user
-     * @return a boolean status result
-     */
-//    public boolean sendAccountResetCode(User user){
-//        String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/send-code");
-//        System.out.println("url: "+url);
-//
-//        HttpEntity<Object> httpEntity = getHttpEntity(user);
-//
-//        try {
-//            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
-//                    httpEntity, boolean.class);
-//
-//            System.out.println(response.getStatusCode());
-//
-//            return response.getBody();
-//
-//        }catch (HttpClientErrorException ex) {
-//            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-//            if (ex.getMessage().contains("MailSendException")) {
-//                showMailException();
-//            } else {
-//                showOtherException();
-//            }
-//        } catch(Exception ex) {
-//            showException(ex);
-//        }
-//
-//        return false;
-//    }
 
     /**
      *Account activation
