@@ -14,10 +14,6 @@ public class RequestWallet extends Request{
     private ApplicationClient applicationClient;
 
     @ManyToOne()
-    @JoinColumn(name = "wallet_id", nullable=false)
-    private Wallet wallet;
-
-    @ManyToOne()
     @JoinColumn(name = "financial_institution_BIC", nullable=false)
     private FinancialInstitution financialInstitution;
 
@@ -27,10 +23,9 @@ public class RequestWallet extends Request{
     public RequestWallet() {
     }
 
-    public RequestWallet(REQUEST_STATUS status, ApplicationClient applicationClient, Wallet wallet, FinancialInstitution financialInstitution) {
+    public RequestWallet(REQUEST_STATUS status, ApplicationClient applicationClient, FinancialInstitution financialInstitution) {
         super(status);
         this.applicationClient = applicationClient;
-        this.wallet = wallet;
         this.financialInstitution = financialInstitution;
     }
 
@@ -40,14 +35,6 @@ public class RequestWallet extends Request{
 
     public void setApplicationClient(ApplicationClient applicationClient) {
         this.applicationClient = applicationClient;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
     }
 
     public FinancialInstitution getFinancialInstitution() {
