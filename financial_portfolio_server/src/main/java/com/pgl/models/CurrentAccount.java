@@ -1,11 +1,11 @@
-/** Class that represent a banking current account
- *
- */
 package com.pgl.models;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+/** Class that represent a banking current account
+ *
+ */
 @Entity
 @DiscriminatorValue("CURRENT_ACCOUNT")
 public class CurrentAccount extends BankAccount {
@@ -20,7 +20,7 @@ public class CurrentAccount extends BankAccount {
      *
      * @param iban a String object
      * @param type a BankAccount.ACCOUNT_TYPE enum
-     * @param state a BankAccount.PRODUCT_STATE enum
+     * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param pin_code a String object
      * @param currency a BankAccount.CURRENCY enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account

@@ -1,6 +1,3 @@
-/** Class that represent a financial institution
- *
- */
 package com.pgl.models;
 
 
@@ -11,6 +8,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Class that represent a financial institution
+ *
+ */
 @Entity
 @Table(name = "FINANCIAL_INSTITUTION")
 public class FinancialInstitution extends User{
@@ -61,7 +61,7 @@ public class FinancialInstitution extends User{
         this.setLogin(buildLogin());
     }
 
-    /** Class constructor for all attributes
+    /** Class constructor with all attributes
      *
      * @param BIC a String object
      * @param name a String object
@@ -73,7 +73,7 @@ public class FinancialInstitution extends User{
      * @param language a String object
      * @param phone a String object
      * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders of this institution
-     * @param notifications a List<Notification> that contains the notification bound to this institution
+     * @param notifications a List<Notification> that contains the notifications bound to this institution
      */
     public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token, String language, String phone, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION, language);

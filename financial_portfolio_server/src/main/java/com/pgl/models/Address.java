@@ -1,6 +1,3 @@
-/** Class that represent an address
- *
- */
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/** Class that represent an address
+ *
+ */
 @Entity
 @Table(name = "ADDRESS")
 public class Address extends Persistent{

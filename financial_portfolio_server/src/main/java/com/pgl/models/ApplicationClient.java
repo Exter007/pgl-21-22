@@ -1,6 +1,3 @@
-/**Class that represent a user of the client application
- *
- */
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Class that represent a user of the client application
+ *
+ */
 @Entity
 @Table(name = "APPLICATION_CLIENT")
 public class ApplicationClient extends User{
@@ -67,7 +67,7 @@ public class ApplicationClient extends User{
      * @param language a String object
      * @param token a String object
      * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders who are bound to this client
-     * @param notifications a List<Notification> that contains the notification bound to this client
+     * @param notifications a List<Notification> that contains the notifications bound to this client
      */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
