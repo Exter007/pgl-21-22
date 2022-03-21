@@ -72,8 +72,8 @@ public class FinancialInstitution extends User{
      * @param token a String object
      * @param language a String object
      * @param phone a String object
-     * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders of this institution
-     * @param notifications a List<Notification> that contains the notifications bound to this institution
+     * @param financialProductHolders
+     * @param notifications
      */
     public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token, String language, String phone, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION, language);
@@ -152,7 +152,7 @@ public class FinancialInstitution extends User{
 
     /** Get the list of financial product holders of this institution
      *
-     * @return the list of financial product holders in the form of a List<FinancialProductHolder>
+     * @return the list of financial product holders in the form of a List
      */
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
@@ -160,7 +160,7 @@ public class FinancialInstitution extends User{
 
     /** Set the list of financial product holders of this institution
      *
-     * @param financialProductHolders a List<FinancialProductHolder>
+     * @param financialProductHolders a List
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
@@ -168,7 +168,7 @@ public class FinancialInstitution extends User{
 
     /** Get the list of notification of this institution
      *
-     * @return the list of notification in the form of a List<Notification>
+     * @return the list of notification in the form of a List
      */
     public List<Notification> getNotifications() {
         return notifications;
@@ -176,7 +176,7 @@ public class FinancialInstitution extends User{
 
     /** Set the list of notification of this institution
      *
-     * @param notifications a List<Notification>
+     * @param notifications a List
      */
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;

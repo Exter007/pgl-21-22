@@ -50,7 +50,7 @@ public class FinancialProduct extends Persistent {
      * @param wording a String object
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
-     * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders who have this product
+     * @param financialProductHolders a List that contains the financial product holders who have this product
      */
     public FinancialProduct(String wording, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
         this.wording = wording;
@@ -109,7 +109,7 @@ public class FinancialProduct extends Persistent {
 
     /** Get the list of financial product holders of this product
      *
-     * @return the list of financial product holders in the form of a List<FinancialProductHolder>
+     * @return the list of financial product holders in the form of a List
      */
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
@@ -117,7 +117,7 @@ public class FinancialProduct extends Persistent {
 
     /** Set the list of financial product holders of this product
      *
-     * @param financialProductHolders a List<FinancialProductHolder>
+     * @param financialProductHolders a List
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;

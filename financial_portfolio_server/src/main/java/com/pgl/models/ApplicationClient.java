@@ -66,8 +66,8 @@ public class ApplicationClient extends User{
      * @param active a String object
      * @param language a String object
      * @param token a String object
-     * @param financialProductHolders a List<FinancialProductHolder> that contains the financial product holders who are bound to this client
-     * @param notifications a List<Notification> that contains the notifications bound to this client
+     * @param financialProductHolders a List that contains the financial product holders who are bound to this client
+     * @param notifications a List that contains the notifications bound to this client
      */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
@@ -129,7 +129,7 @@ public class ApplicationClient extends User{
 
     /** Get the list of financial product holders bound to this client
      *
-     * @return the list of financial product holders in the form of a List<FinancialProductHolder>
+     * @return the list of financial product holders in the form of a List
      */
     public List<FinancialProductHolder> getFinancialProductHolders() {
         return financialProductHolders;
@@ -137,7 +137,7 @@ public class ApplicationClient extends User{
 
     /** Set the list of financial product holders who will be bound to this client
      *
-     * @param financialProductHolders a List<FinancialProductHolder>
+     * @param financialProductHolders a List
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
@@ -145,7 +145,7 @@ public class ApplicationClient extends User{
 
     /** Get the list of notification of this client
      *
-     * @return the list of notification in the form of a List<Notification>
+     * @return the list of notification in the form of a List
      */
     public List<Notification> getNotifications() {
         return notifications;
@@ -153,7 +153,7 @@ public class ApplicationClient extends User{
 
     /** Set the list of notification of this client
      *
-     * @param notifications a List<Notification>
+     * @param notifications a List
      */
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;

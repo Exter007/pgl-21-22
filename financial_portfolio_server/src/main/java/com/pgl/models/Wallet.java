@@ -44,7 +44,7 @@ public class Wallet extends Persistent {
      *
      * @param name a String object
      * @param financialInstitution a FinancialInstitution object
-     * @param walletFinancialProducts a List<WalletFinancialProduct>
+     * @param walletFinancialProducts a List
      */
     public Wallet(String name, FinancialInstitution financialInstitution, List<WalletFinancialProduct> walletFinancialProducts) {
         this.name = name;
@@ -86,7 +86,7 @@ public class Wallet extends Persistent {
 
     /** Get the list of FinancialProducts of this wallet
      *
-     * @return the list in the form of a List<WalletFinancialProduct>
+     * @return the list in the form of a List
      */
     public List<WalletFinancialProduct> getWalletFinancialProducts() {
         return walletFinancialProducts;
@@ -94,7 +94,7 @@ public class Wallet extends Persistent {
 
     /** Set the list of FinancialProducts of this wallet
      *
-     * @param walletFinancialProducts a List<WalletFinancialProduct>
+     * @param walletFinancialProducts a List
      */
     public void setWalletFinancialProducts(List<WalletFinancialProduct> walletFinancialProducts) {
         this.walletFinancialProducts = walletFinancialProducts;

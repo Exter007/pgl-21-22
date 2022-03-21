@@ -79,7 +79,7 @@ public class FinancialProductHolder extends PersistentWithoutId {
      * @param phone a String object
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide the product of this holder
      * @param applicationClient an ApplicationClient object that represent the user of the client application bound to this holder
-     * @param financialProducts a List<FinancialProduct> that contains the financial products held by this holder
+     * @param financialProducts a List that contains the financial products held by this holder
      */
     public FinancialProductHolder(String nationalRegister, String name, String firstName, Date birthDate, String sex, String phone, FinancialInstitution financialInstitution, ApplicationClient applicationClient, List<FinancialProduct> financialProducts) {
         this.nationalRegister = nationalRegister;
@@ -228,7 +228,7 @@ public class FinancialProductHolder extends PersistentWithoutId {
 
     /** Get the list of financial products held by this holder
      *
-     * @return the list of financial products in the form of a List<FinancialProduct>
+     * @return the list of financial products in the form of a List
      */
     public List<FinancialProduct> getFinancialProducts() {
         return financialProducts;
@@ -236,7 +236,7 @@ public class FinancialProductHolder extends PersistentWithoutId {
 
     /** Set the list of financial products held by this holder
      *
-     * @param financialProducts a List<FinancialProduct>
+     * @param financialProducts a List
      */
     public void setFinancialProducts(List<FinancialProduct> financialProducts) {
         this.financialProducts = financialProducts;

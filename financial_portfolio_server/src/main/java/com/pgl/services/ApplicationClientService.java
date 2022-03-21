@@ -29,7 +29,6 @@ public class ApplicationClientService {
      * Create a new user or update
      * @param user
      * @return
-     * @throws Exception
      */
     public ApplicationClient saveClient(ApplicationClient user){
 
