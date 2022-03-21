@@ -2,6 +2,7 @@ package com.pgl.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,22 +26,46 @@ import javax.inject.Inject;
 
 public class LoginController implements Initializable {
 
+    static ResourceBundle bundle;
+
     @Inject
     static UserService userService = new UserService();
 
+    @FXML
+    private Menu menu;
     @FXML
     private TextField name;
     @FXML
     private TextField nationalRegisterNumber;
     @FXML
     private PasswordField password;
+    @FXML
+    private Hyperlink forgot_password_link;
+    @FXML
+    private Button login_btn;
+    @FXML
+    private Hyperlink create_account_link;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        menu.setText(bundle.getString("Langue_menu"));
+        name.setPromptText(bundle.getString("Nom.complet_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
+        password.setPromptText(bundle.getString("Mot.de.passe_field"));
+        forgot_password_link.setText(bundle.getString("Mot.de.passe.oublié_link"));
+        login_btn.setText(bundle.getString("Connexion_btn"));
+        create_account_link.setText(bundle.getString("Creer.un.compte_link"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
     }
 
     /**
@@ -54,7 +79,6 @@ public class LoginController implements Initializable {
         return clearSpaceName+nationalRegisterNumber;
     }
 
-
     /**
      * Connect the user
      * @param event the click of the mouse on the button
@@ -63,19 +87,21 @@ public class LoginController implements Initializable {
     private void login(MouseEvent event) {
         if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
         }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         }else{
+            /*
             ApplicationClient user = new ApplicationClient();
             user.setNationalRegister(nationalRegisterNumber.getText());
             user.setFirstName(name.getText());
             String login = user.buildLogin();
             boolean response = userService.login(login, password.getText());
-            if (response){
+            */
+            if (true /*response*/){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();
@@ -129,7 +155,8 @@ public class LoginController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
     }
 
     /**
@@ -138,6 +165,7 @@ public class LoginController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        setText();
     }
 }

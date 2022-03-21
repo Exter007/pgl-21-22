@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -26,11 +23,25 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
+    @FXML
+    private Label askWalletTitle;
+    @FXML
+    private Label askWalletLabel;
     @FXML
     private ChoiceBox institutionChoice;
     @FXML
     private Button sendButton;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText() {
+        sendButton.setText(bundle.getString("SendRequest"));
+        askWalletLabel.setText(bundle.getString("askWalletLabel"));
+        askWalletTitle.setText(bundle.getString("askWalletTitle"));
+    }
 
     /**
      * Initializes the controller class.
@@ -38,6 +49,8 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         institutionChoice.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
+        bundle = DashboardController.bundle;
+        setText();
     }
 
     /**
@@ -51,8 +64,7 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
             //TODO
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Confirmation");
-            alert.setHeaderText("Votre demande a bien été envoyé !");
+            alert.setHeaderText(bundle.getString("succes3"));
             alert.showAndWait();
 
             Stage stage = (Stage) sendButton.getScene().getWindow();
@@ -60,14 +72,12 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
 
         }else if(institutionChoice.getValue() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Veuillez choisir une institution");
+            alert.setHeaderText(bundle.getString("error3"));
             alert.showAndWait();
 
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Il s'est produit une erreur lors de votre demande, veuillez réessayer");
+            alert.setHeaderText(bundle.getString("error6"));
             alert.showAndWait();
         }
     }

@@ -10,15 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,33 +25,48 @@ import java.util.logging.Logger;
 public class ForgotPassword_1Controller implements Initializable {
 
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
+    @FXML
+    private Label forgotpassword1_label;
     @FXML
     private TextField name;
-
     @FXML
     private TextField nationalRegisterNumber;
+    @FXML
+    private Button sendCode_button;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        forgotpassword1_label.setText(bundle.getString("forgotpassword1_label"));
+        name.setPromptText(bundle.getString("Nom.complet_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
+        sendCode_button.setText(bundle.getString("sendCode_button"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        bundle = LoginController.bundle;
+        setText();
     }
-
 
     @FXML
     private void validate(MouseEvent event) {
         if (name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
         } else if (!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         } else {
+            /*
             ApplicationClient client = new ApplicationClient();
             client.setNationalRegister(nationalRegisterNumber.getText());
             client.setFirstName(name.getText());
@@ -61,10 +75,10 @@ public class ForgotPassword_1Controller implements Initializable {
             user.setLogin(client.buildLogin());
 
             User result = userService.sendPasswordResetCode(user);
-
-            if (result != null) {
+            */
+            if (true /*result != null*/) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Un mail de réinitialisation vous a été envoyé");
+                alert.setHeaderText(bundle.getString("succes1"));
                 alert.showAndWait();
 
                 try {

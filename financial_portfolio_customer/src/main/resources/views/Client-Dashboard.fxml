@@ -34,14 +34,14 @@
    <children>
     <MenuBar style="-fx-background-color: #fff;" VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Compte">
+        <Menu fx:id="menu2" mnemonicParsing="false" text="Compte">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
+            <MenuItem fx:id="menu21" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#diconnect" text="Deconnexion" />
+            <MenuItem fx:id="menu22" mnemonicParsing="false" onAction="#diconnect" text="Deconnexion" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Langue">
+        <Menu fx:id="menu" mnemonicParsing="false" text="Langue">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
             <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
@@ -88,7 +88,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos portefeuilles :" textAlignment="CENTER">
+                              <Label fx:id="YourWallet_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos portefeuilles :" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -119,7 +119,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -136,7 +136,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -153,7 +153,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -192,7 +192,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -209,7 +209,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -226,7 +226,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -265,7 +265,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -282,7 +282,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -299,7 +299,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -338,7 +338,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -355,7 +355,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -372,7 +372,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -411,7 +411,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -428,7 +428,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -445,7 +445,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -484,7 +484,7 @@
                                              <children>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
+                                                      <Label fx:id="Wallet_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -501,7 +501,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
+                                                      <Label fx:id="Institution_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -518,7 +518,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="25.0" prefWidth="316.0">
                                                    <children>
-                                                      <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
+                                                      <Label fx:id="FinancialProduct_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
                                                          <font>
                                                             <Font size="16.0" />
                                                          </font>
@@ -559,8 +559,8 @@
                                        <children>
                                           <TableView fx:id="wallet_tableview" prefHeight="530.0" prefWidth="1163.0" style="-fx-background-color: #fff;">
                                             <columns>
-                                              <TableColumn prefWidth="174.00001513957977" style="-fx-background-color: #fff;" text="Visualiser" />
-                                              <TableColumn prefWidth="272.00001525878906" style="-fx-background-color: #fff;" text="Portefeuille" />
+                                                <TableColumn prefWidth="174.00001513957977" style="-fx-background-color: #fff;" text="Visualiser" />
+                                                <TableColumn prefWidth="272.00001525878906" style="-fx-background-color: #fff;" text="Portefeuille" />
                                                 <TableColumn prefWidth="334.6668395996094" style="-fx-background-color: #fff;" text="Institution" />
                                                 <TableColumn minWidth="0.0" prefWidth="472.66644287109375" style="-fx-background-color: #fff;" text="Produit financié" />
                                             </columns>
@@ -574,27 +574,27 @@
                               </ScrollPane>
                               <HBox alignment="CENTER" prefHeight="48.0" prefWidth="1180.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#day" prefHeight="44.0" prefWidth="136.0" text="Journalier">
+                                    <Button fx:id="Day" mnemonicParsing="false" onMouseClicked="#day" prefHeight="44.0" prefWidth="136.0" text="Journalier">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#week" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire">
+                                    <Button fx:id="Week" mnemonicParsing="false" onMouseClicked="#week" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#month" prefHeight="44.0" prefWidth="136.0" text="Mensuel">
+                                    <Button fx:id="Month" mnemonicParsing="false" onMouseClicked="#month" prefHeight="44.0" prefWidth="136.0" text="Mensuel">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#year" prefHeight="44.0" prefWidth="136.0" text="Annuel">
+                                    <Button fx:id="Year" mnemonicParsing="false" onMouseClicked="#year" prefHeight="44.0" prefWidth="136.0" text="Annuel">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Label text="Du">
+                                    <Label fx:id="from" text="Du">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -607,7 +607,7 @@
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </DatePicker>
-                                    <Label text="au">
+                                    <Label fx:id="to" text="au">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -627,17 +627,17 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="1180.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#graph" prefHeight="44.0" prefWidth="136.0" text="Graphique">
+                                    <Button fx:id="Graph" mnemonicParsing="false" onMouseClicked="#graph" prefHeight="44.0" prefWidth="136.0" text="Graphique">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#list" prefHeight="44.0" prefWidth="136.0" text="Liste">
+                                    <Button fx:id="List" mnemonicParsing="false" onMouseClicked="#list" prefHeight="44.0" prefWidth="136.0" text="Liste">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#tableview" prefHeight="44.0" prefWidth="136.0" text="Tableau">
+                                    <Button fx:id="Tab" mnemonicParsing="false" onMouseClicked="#tableview" prefHeight="44.0" prefWidth="136.0" text="Tableau">
                                        <HBox.margin>
                                           <Insets left="10.0" right="320.0" />
                                        </HBox.margin>
@@ -647,7 +647,7 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </ChoiceBox>
-                                    <Button mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données">
+                                    <Button fx:id="Export" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données">
                                        <HBox.margin>
                                           <Insets left="10.0" right="20.0" />
                                        </HBox.margin>

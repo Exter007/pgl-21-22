@@ -12,16 +12,16 @@
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="314.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="95.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#modify" prefHeight="25.0" prefWidth="124.0" text="Modifier" />
+            <Button fx:id="edit_btn" layoutX="95.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#modify" prefHeight="25.0" prefWidth="124.0" text="Modifier" />
             <PasswordField fx:id="newPassword" alignment="CENTER" layoutX="57.0" layoutY="161.0" prefHeight="25.0" prefWidth="200.0" promptText="Nouveau mot de passe*" styleClass="field" />
             <PasswordField fx:id="newPassword2" alignment="CENTER" layoutX="57.0" layoutY="225.0" prefHeight="25.0" prefWidth="200.0" promptText="Répéter le mot de passe" styleClass="field" />
             <TextField fx:id="email" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="25.0" prefWidth="200.0" promptText="Adresse e-mail" styleClass="field" />
-            <Label layoutX="72.0" layoutY="188.0" text="*Doit contenir au moins 1 chiffre et 1 lettre" textFill="#f42525">
+            <Label fx:id="password_label" layoutX="72.0" layoutY="188.0" text="*Doit contenir au moins 1 chiffre et 1 lettre" textFill="#f42525">
                <font>
                   <Font size="9.0" />
                </font>
             </Label>
-            <Label layoutX="37.0" layoutY="41.0" text="Modifiez vos données ci-dessous :">
+            <Label fx:id="title_label" layoutX="37.0" layoutY="41.0" text="Modifiez vos données ci-dessous :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

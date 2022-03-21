@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -25,16 +27,31 @@ public class AccountActivationController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
+    private Button check_btn;
+    @FXML
+    private Label check_label;
+    @FXML
     private TextField code;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText() {
+        code.setPromptText(bundle.getString("code_field"));
+        check_btn.setText(bundle.getString("check_btn"));
+        check_label.setText(bundle.getString("check_label"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        bundle = LoginController.bundle;
+        setText();
     }
 
     /**
@@ -46,7 +63,7 @@ public class AccountActivationController implements Initializable {
 
         if(code.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez rentrer le code que vous avez reçu par e-mail");
+            alert.setHeaderText(bundle.getString("error7"));
             alert.showAndWait();
         }else {
             User user = new User();
@@ -57,7 +74,7 @@ public class AccountActivationController implements Initializable {
 
             if(result){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Compte activé avec sucés");
+                alert.setHeaderText(bundle.getString("succes4"));
                 alert.showAndWait();
 
                 try {
