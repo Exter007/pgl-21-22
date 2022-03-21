@@ -160,17 +160,17 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadUserConnected();
         //TODO: Récupérer la préférence de langue dans la BDD
         bundle = LoginController.bundle;
         setText();
+        loadUserConnected();
     }
 
     /**
      * Change the user name in the welcome label
      */
     public void loadUserConnected(){
-        welcome.setText(welcome.getText() /*+ UserService.getCurrentUser().getLogin()*/);
+        welcome.setText(UserService.getCurrentUser().getFirstName());
     }
 
     /**
@@ -199,7 +199,7 @@ public class DashboardController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            //userService.logout();
+            userService.logout();
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
                 Stage newWindow = new Stage();

@@ -1,5 +1,6 @@
 package com.pgl.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pgl.controllers.RegisterController;
 import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
@@ -63,9 +64,8 @@ public class UserService {
             ResponseEntity<JwtResponse> response = restTemplate.exchange(url,
                     HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
-            FinancialInstitution user = new FinancialInstitution();
-            user.setLogin(Objects.requireNonNull(response.getBody()).getLogin());
-            currentUser = user;
+            currentUser = new ObjectMapper().convertValue(response.getBody().getUser(), FinancialInstitution.class);
+
             String token = "Bearer " + response.getBody().getAccessToken();
             HttpHeaders headers = httpClientService.getHeaders();
             headers.set("Authorization", token);

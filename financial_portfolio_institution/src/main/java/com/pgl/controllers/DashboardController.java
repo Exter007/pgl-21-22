@@ -55,7 +55,7 @@ public class DashboardController implements Initializable {
      * Change the institution name in the welcome label
      */
     public void loadUserConnected(){
-        welcome.setText(UserService.getCurrentUser().getLogin());
+        welcome.setText(UserService.getCurrentUser().getName());
     }
 
     /**

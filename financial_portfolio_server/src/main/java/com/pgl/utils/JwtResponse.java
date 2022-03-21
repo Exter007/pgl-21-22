@@ -1,5 +1,6 @@
 package com.pgl.utils;
 
+
 import java.util.List;
 
 public class JwtResponse {
@@ -8,6 +9,7 @@ public class JwtResponse {
     private String type = "Bearer";
     private String login;
     private List<String> roles;
+    private Object user;
 
     public JwtResponse() {
     }
@@ -16,6 +18,13 @@ public class JwtResponse {
         this.token = accessToken;
         this.login = login;
         this.roles = roles;
+    }
+
+    public JwtResponse(String accessToken, String login, List<String> roles, Object user) {
+        this.token = accessToken;
+        this.login = login;
+        this.roles = roles;
+        this.user = user;
     }
 
     public String getAccessToken() {
@@ -44,5 +53,13 @@ public class JwtResponse {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public Object getUser() {
+        return user;
+    }
+
+    public void setUser(Object user) {
+        this.user = user;
     }
 }
