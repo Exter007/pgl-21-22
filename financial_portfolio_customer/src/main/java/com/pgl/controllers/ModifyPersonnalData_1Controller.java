@@ -36,6 +36,10 @@ public class ModifyPersonnalData_1Controller implements Initializable {
         // TODO
     }
 
+    /**
+     * Check if the password entered is correct
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void check_Password(MouseEvent event) {
         if(password.getText() == ""){
@@ -55,7 +59,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyPersonnalData_1Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }else{

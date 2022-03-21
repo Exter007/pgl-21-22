@@ -30,7 +30,7 @@ public class LoginController implements Initializable {
     @FXML
     private TextField name;
     @FXML
-    private TextField nationalRegisterNumber;
+    private TextField BIC;
     @FXML
     private PasswordField password;
 
@@ -43,46 +43,49 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Supprime les espaces dans le nom
-     * @param name
-     * @param nationalRegisterNumber
-     * @return le nom et le numéro de registre national concaténé
+     * Remove spaces and concatenated
+     * @param name the financial institution name
+     * @param BIC the financial institution BIC
+     * @return name and BIC concatenated
      */
-    private String username(String name, String nationalRegisterNumber){
+    private String username(String name, String BIC){
         String clearSpaceName = name.replaceAll("\\s+","");
-        return clearSpaceName+nationalRegisterNumber;
+        return clearSpaceName+BIC;
     }
 
     /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
+     * Checks that the BIC is composed of 8 characters long
+     * @param BIC the financial institution BIC
+     * @return true or false
      */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
+    private boolean check_BIC(String BIC){
+        boolean isOK = (BIC.length() == 8);
+        return isOK;
     }
 
+    /**
+     * Connect the user
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void login(MouseEvent event) {
-        if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
+        if(name.getText().isEmpty() || BIC.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 caractères");
             alert.showAndWait();
         }else{
             ApplicationClient user = new ApplicationClient();
-            user.setNationalRegister(nationalRegisterNumber.getText());
+            user.setNationalRegister(BIC.getText());
             user.setFirstName(name.getText());
-            String login = user.buildLogin();
-            boolean response = userService.login(login, password.getText());
-            if (response){
+            //String login = user.buildLogin();
+            //boolean response = userService.login(login, password.getText());
+            if (true){
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -98,10 +101,14 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the registration window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void register(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Register.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Register.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
@@ -111,10 +118,14 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the password reset window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void password_reset(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_1.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ForgotPassword_1.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
@@ -124,11 +135,19 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO

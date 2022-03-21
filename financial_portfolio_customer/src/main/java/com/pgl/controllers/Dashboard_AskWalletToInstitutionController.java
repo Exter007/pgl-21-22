@@ -29,7 +29,6 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
 
     @FXML
     private ChoiceBox institutionChoice;
-
     @FXML
     private Button sendButton;
 
@@ -41,6 +40,10 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
         institutionChoice.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
     }
 
+    /**
+     * Sends a request to access the transfer functionality
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void send_request(MouseEvent event) {
         if(institutionChoice.getValue() != null){

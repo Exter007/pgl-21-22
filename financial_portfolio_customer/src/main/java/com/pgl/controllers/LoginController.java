@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,34 +44,28 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Supprime les espaces dans le nom
-     * @param name
-     * @param nationalRegisterNumber
-     * @return le nom et le numéro de registre national concaténé
+     * Remove spaces and concatenated
+     * @param name the user name
+     * @param nationalRegisterNumber the user national register number
+     * @return name and national registry number concatenated
      */
     private String username(String name, String nationalRegisterNumber){
         String clearSpaceName = name.replaceAll("\\s+","");
         return clearSpaceName+nationalRegisterNumber;
     }
 
-    /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
-     */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
-    }
 
+    /**
+     * Connect the user
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void login(MouseEvent event) {
         if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Veuillez remplir tout les champs");
             alert.showAndWait();
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
             alert.showAndWait();
@@ -90,14 +85,14 @@ public class LoginController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données que vous avez renseigné ne sont pas correct");
-                alert.showAndWait();
             }
         }
     }
 
+    /**
+     * Open the registration window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void register(MouseEvent event) {
         try {
@@ -111,6 +106,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Open the password reset window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void password_reset(MouseEvent event) {
         try {
@@ -124,11 +123,19 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO

@@ -3,12 +3,14 @@ package com.pgl.services;
 import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
 import com.pgl.repositories.ApplicationClientRepository;
+import com.pgl.utils.Code;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service()
 public class ApplicationClientService {
@@ -23,29 +25,40 @@ public class ApplicationClientService {
         return applicationClientRepository;
     }
 
-    public ApplicationClient saveClient(ApplicationClient user) throws Exception {
+    /**
+     * Create a new user or update
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public ApplicationClient saveClient(ApplicationClient user){
 
-        ApplicationClient userFound = getRepository().findByLogin(user.getLogin());
+        Optional<ApplicationClient> result = getRepository().findById(user.getNationalRegister());
 
-        //      If a User already exists with this login
-        if(!user.toUpdate && userFound != null){
+        //      if it is a new Client and already exists with this national register number
+        if(!user.toUpdate && result.isPresent()){
             throw new RuntimeException("This User already exists");
         }
 
-        //      If is a new User
-        if (userFound == null) {
-            user.setCreationDate(new Date());
-            userFound = SerializationUtils.clone(user);
-            String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
-            userFound.setPassword(hashPW);
-            userFound.setLogin(user.getLogin());
-            userFound.setRole(User.ROLE.APPLICATION_CLIENT);
+        ApplicationClient client;
 
-        }else {
-            userFound.setModificationDate(new Date());
+        //      if it's a new user and doesn't exist yet
+        if (!result.isPresent()) {
+
+            user.setCreationDate(new Date());
+            client = SerializationUtils.clone(user);
+            String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
+            client.setPassword(hashPW);
+            client.setLogin(user.getLogin());
+            client.setToken(Code.generateCode());
+            client.setRole(User.ROLE.APPLICATION_CLIENT);
+
+        }else { // if the user already exists and update it
+            client = result.get();
+            client.setModificationDate(new Date());
         }
 
-        return applicationClientRepository.save(userFound);
+        return applicationClientRepository.save(client);
     }
 
 }

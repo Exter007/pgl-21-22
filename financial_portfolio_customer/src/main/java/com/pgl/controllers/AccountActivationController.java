@@ -37,6 +37,10 @@ public class AccountActivationController implements Initializable {
         // TODO
     }
 
+    /**
+     * Activate the account that has just been created
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void validate(MouseEvent event) {
 
@@ -47,11 +51,7 @@ public class AccountActivationController implements Initializable {
         }else {
             User user = new User();
             user.setLogin(UserService.getCurrentUser().getLogin());
-            user.setPassword(UserService.getCurrentUser().getPassword());
-            user.setEmail(UserService.getCurrentUser().getEmail());
-            user.setToken(UserService.getCurrentUser().getToken());
-            user.setActive(UserService.getCurrentUser().getActive());
-            user.setRole(UserService.getCurrentUser().getRole());
+            user.setToken(code.getText());
 
             boolean result = userService.accountActivation(user);
 
@@ -70,15 +70,14 @@ public class AccountActivationController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Erreur de validation");
-                alert.setHeaderText("Le code renseigné est incorrect");
-                alert.showAndWait();
             }
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -89,7 +88,7 @@ public class AccountActivationController implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

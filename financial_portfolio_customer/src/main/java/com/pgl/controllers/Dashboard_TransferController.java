@@ -19,25 +19,18 @@ public class Dashboard_TransferController implements Initializable {
 
     @FXML
     private ChoiceBox institutionFrom;
-
     @FXML
     private ChoiceBox accountFrom;
-
     @FXML
     private TextField accountTo;
-
     @FXML
     private TextField amount;
-
     @FXML
     private TextField structuredCommunication;
-
     @FXML
     private TextField freeCommunication;
-
     @FXML
     private PasswordField password;
-
     @FXML
     private Button transferButton;
 
@@ -50,6 +43,10 @@ public class Dashboard_TransferController implements Initializable {
         accountFrom.setItems(FXCollections.observableArrayList("BE68 5390 0754 7034", "BE87 2345 9864 0181", "BE02 8929 2456 0186"));
     }
 
+    /**
+     * Make a transfer
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void transfer(MouseEvent event) {
         if(structuredCommunication.getText() != "" && freeCommunication.getText() != ""){

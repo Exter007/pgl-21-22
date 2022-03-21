@@ -8,17 +8,21 @@ class RequestFinancialProductTest {
 
     @Test
     void getApplicationClient() {
+        //TODO
     }
 
     @Test
     void setApplicationClient() {
+        //TODO
     }
 
     @Test
     void getFinancialProduct() {
+        //TODO
     }
 
     @Test
     void setFinancialProduct() {
+        //TODO
     }
 }

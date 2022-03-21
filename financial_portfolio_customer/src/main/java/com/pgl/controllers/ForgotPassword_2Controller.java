@@ -1,6 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
@@ -24,11 +25,8 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_2Controller implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
 
-    @FXML
-    private TextField nationalRegisterNumber;
     @FXML
     private PasswordField newPassword;
     @FXML
@@ -44,21 +42,11 @@ public class ForgotPassword_2Controller implements Initializable {
         // TODO
     }
 
-    /**
-     * Vérifie que le numéro de registre national n'est composé que de nombres et si il fait 11 caractères
-     * @param nationalRegisterNumber
-     * @return true ou false
-     */
-    private boolean check_nationalRegisterNumber(String nationalRegisterNumber){
-        boolean isNumeric =  nationalRegisterNumber.matches("[+-]?\\d*(\\.\\d+)?");
-        isNumeric = (nationalRegisterNumber.length() == 11);
-        return isNumeric;
-    }
 
     /**
-     * Vérifie si le mot de passe est au bon format (1 lettre et 1 chiffre au minimum)
-     * @param password
-     * @return true ou false
+     * Checks if the password is in the right format (at least 1 letter and 1 number)
+     * @param password the user password
+     * @return true or false
      */
     private boolean check_password(String password){
         char c;
@@ -78,52 +66,54 @@ public class ForgotPassword_2Controller implements Initializable {
         return false;
     }
 
+    /**
+     * Reset the password
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void reset(MouseEvent event) {
-        if(nationalRegisterNumber.getText().isEmpty() ||
-                newPassword.getText().isEmpty() ||
-                newPassword2.getText().isEmpty() ||
-                code.getText().isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez remplir tout les champs");
-            alert.showAndWait();
-
-        }else if(!check_nationalRegisterNumber(nationalRegisterNumber.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas correct");
-            alert.showAndWait();
-
-        }else if(!check_password(newPassword.getText())){
+        if (!check_password(newPassword.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
 
-        }else if(!newPassword.getText().equals(newPassword2.getText())) {
+        } else if (!newPassword.getText().equals(newPassword2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur");
             alert.setContentText("Les mots de passes ne correspondent pas");
             alert.showAndWait();
 
-        }else{
-            //TODO
+        } else {
+            User user = new User();
+            user.setPassword(newPassword.getText());
+            user.setToken(code.getText());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            boolean result = userService.resetPassword(user);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Votre mot de passe a bien été changé !");
-            alert.showAndWait();
+            if (result) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Votre mot de passe a bien été changé !");
+                alert.showAndWait();
 
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
-                Stage newWindow = new Stage();
-                Scene scene = new Scene(root);
-                newWindow.setScene(scene);
-                GlobalStage.setStage(newWindow);
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
 
-            } catch (IOException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
     }
 
+    /**
+     * Back to previous window
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void goBack(MouseEvent event) {
         try {
@@ -134,15 +124,23 @@ public class ForgotPassword_2Controller implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Change the language to French
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageFR(ActionEvent event) {
         //TODO
     }
 
+    /**
+     * Change the language to English
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void languageEN(ActionEvent event) {
         //TODO

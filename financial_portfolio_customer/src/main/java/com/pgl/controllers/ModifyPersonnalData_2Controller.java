@@ -27,10 +27,8 @@ public class ModifyPersonnalData_2Controller implements Initializable {
 
     @FXML
     private TextField email;
-
     @FXML
     private PasswordField newPassword;
-
     @FXML
     private PasswordField newPassword2;
 
@@ -42,6 +40,10 @@ public class ModifyPersonnalData_2Controller implements Initializable {
         // TODO
     }
 
+    /**
+     * Reset filled fields
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void modify(MouseEvent event) {
         if(email.getText() == "" && newPassword.getText() == "" && newPassword2.getText() == ""){

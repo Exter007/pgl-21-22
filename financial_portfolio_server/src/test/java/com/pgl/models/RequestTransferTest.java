@@ -8,17 +8,21 @@ class RequestTransferTest {
 
     @Test
     void getApplicationClient() {
+        //TODO
     }
 
     @Test
     void setApplicationClient() {
+        //TODO
     }
 
     @Test
     void getBankAccount() {
+        //TODO
     }
 
     @Test
     void setBankAccount() {
+        //TODO
     }
 }
