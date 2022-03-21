@@ -1,7 +1,6 @@
 package com.pgl.controllers;
 
-import com.pgl.models.FinancialInstitution;
-import com.pgl.models.FinancialProduct;
+import com.pgl.models.*;
 import com.pgl.repositories.FinancialInstitutionRepository;
 import com.pgl.repositories.FinancialProductRepository;
 import org.slf4j.Logger;
@@ -52,5 +51,14 @@ public class CustomerController {
     public List<FinancialInstitution> getAllFinancialInstitutions() {
         return (List<FinancialInstitution>) financialInstitutionRepository.findAll();
     }
+
+    /*
+    @RequestMapping("requestWallet/{applicationClientID}")
+    public void requestWallet(@PathVariable String applicationClientID) {
+        Wallet w = new Wallet();
+        RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClientID, w.getId());
+
+    }
+     */
 
 }
