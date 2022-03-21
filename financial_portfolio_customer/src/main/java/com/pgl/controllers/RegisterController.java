@@ -7,10 +7,7 @@ package com.pgl.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +34,11 @@ public class RegisterController implements Initializable {
     @Inject
     static UserService userService = new UserService();
 
+    static String lang;
+    static ResourceBundle bundle;
+
+    @FXML
+    private Menu menu;
     @FXML
     private TextField firstName;
     @FXML
@@ -49,14 +51,37 @@ public class RegisterController implements Initializable {
     private PasswordField password;
     @FXML
     private PasswordField password2;
+    @FXML
+    private Hyperlink login_link;
+    @FXML
+    private Label Password_label;
+    @FXML
+    private Button register_button;
 
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        menu.setText(bundle.getString("Langue_menu"));
+        firstName.setPromptText(bundle.getString("firstName"));
+        lastName.setPromptText(bundle.getString("lastName"));
+        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
+        email.setPromptText(bundle.getString("email"));
+        password.setPromptText(bundle.getString("Mot.de.passe_field"));
+        Password_label.setText(bundle.getString("Password.label"));
+        password2.setPromptText(bundle.getString("Mot.de.passe_field2"));
+        login_link.setText(bundle.getString("login_link"));
+        register_button.setText(bundle.getString("register_btn"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+        //TODO: récupérer de la BDD la préférence de l'utilisateur
+        bundle = LoginController.bundle;
+        setText();
     }
 
     /**
@@ -73,7 +98,6 @@ public class RegisterController implements Initializable {
                 password2.getText().isEmpty()){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
             alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
             alert.showAndWait();
 
@@ -94,7 +118,6 @@ public class RegisterController implements Initializable {
 
         }else if(!password.getText().equals(password2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
             alert.setContentText("Les mots de passes ne correspondent pas");
             alert.showAndWait();
 
@@ -141,7 +164,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO
+        lang = "fr";
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
     }
 
     /**
@@ -150,7 +175,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO
+        lang = "en";
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        setText();
     }
 
     /**

@@ -12,13 +12,13 @@
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="314.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="sendButton" layoutX="85.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#send_request" prefHeight="29.0" prefWidth="144.0" text="Envoyer ma demande" />
-            <Label layoutX="27.0" layoutY="24.0" text="Demande d'accès à un portefeuille">
+            <Label fx:id="askWalletTitle" layoutX="27.0" layoutY="24.0" text="Demande d'accès à un portefeuille">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
             <ChoiceBox fx:id="institutionChoice" layoutX="57.0" layoutY="90.0" prefHeight="25.0" prefWidth="200.0" styleClass="button" />
-            <Label layoutX="90.0" layoutY="69.0" text="Choisissez une institution" />
+            <Label fx:id="askWalletLabel" layoutX="90.0" layoutY="69.0" text="Choisissez une institution" />
       </children>
     </AnchorPane>
   </children>

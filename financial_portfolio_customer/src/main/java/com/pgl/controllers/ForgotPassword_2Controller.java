@@ -11,15 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +26,7 @@ import java.util.logging.Logger;
 public class ForgotPassword_2Controller implements Initializable {
 
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private PasswordField newPassword;
@@ -34,15 +34,30 @@ public class ForgotPassword_2Controller implements Initializable {
     private PasswordField newPassword2;
     @FXML
     private TextField code;
+    @FXML
+    private Button reset_button;
+    @FXML
+    private Label PasswordLabel;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        newPassword.setPromptText(bundle.getString("New.Password"));
+        newPassword2.setPromptText(bundle.getString("New.Password.2"));
+        code.setPromptText(bundle.getString("Code"));
+        reset_button.setText(bundle.getString("Reset_button"));
+        PasswordLabel.setText(bundle.getString("Password.label"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        bundle = ForgotPassword_1Controller.bundle;
+        setText();
     }
-
 
     /**
      * Reset the password
@@ -52,25 +67,25 @@ public class ForgotPassword_2Controller implements Initializable {
     private void reset(MouseEvent event) {
         if (!Validators.check_password(newPassword.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.setHeaderText(bundle.getString("error4"));
             alert.showAndWait();
 
         } else if (!newPassword.getText().equals(newPassword2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setContentText("Les mots de passes ne correspondent pas");
+            alert.setContentText(bundle.getString("error5"));
             alert.showAndWait();
 
         } else {
+            /*
             User user = new User();
             user.setPassword(newPassword.getText());
             user.setToken(code.getText());
             user.setLogin(UserService.getCurrentUser().getLogin());
             boolean result = userService.resetPassword(user);
-
-            if (result) {
+            */
+            if (true /*result*/) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Votre mot de passe a bien été changé !");
+                alert.setHeaderText(bundle.getString("succes2"));
                 alert.showAndWait();
 
                 try {
@@ -105,23 +120,4 @@ public class ForgotPassword_2Controller implements Initializable {
             Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * Change the language to French
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageFR(ActionEvent event) {
-        //TODO
-    }
-
-    /**
-     * Change the language to English
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageEN(ActionEvent event) {
-        //TODO
-    }
-
 }

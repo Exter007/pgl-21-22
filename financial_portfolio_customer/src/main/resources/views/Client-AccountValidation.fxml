@@ -17,9 +17,9 @@
     <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="269.0" prefWidth="314.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button onMouseClicked="#validate" layoutX="97.0" layoutY="164.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Vérifier" />
+            <Button fx:id="check_btn" onMouseClicked="#validate" layoutX="97.0" layoutY="164.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Vérifier" />
             <TextField fx:id="code" alignment="CENTER" layoutX="57.0" layoutY="104.0" prefHeight="25.0" prefWidth="200.0" promptText="Code" styleClass="field" />
-            <Label layoutX="57.0" layoutY="32.0" prefHeight="57.0" prefWidth="200.0" text="Veuillez entrer le code que vous avez reçu dans votre boite mail" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="check_label" layoutX="57.0" layoutY="32.0" prefHeight="57.0" prefWidth="200.0" text="Veuillez entrer le code que vous avez reçu dans votre boite mail" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="13.0" />
                </font>

@@ -15,13 +15,13 @@ public class Address extends Persistent{
     private String street;
 
     @Column(name = "street_number")
-    private String streetNumber;
+    private String streetNumber;//There is street number with letter within (example: 17A)
 
     @Column(name = "city", nullable = false)
     private String city;
 
     @Column(name = "postal_code", nullable = false)
-    private String postalCode;
+    private String postalCode;//the postal code in the UK and Nederland contains letter
 
     @Column(name = "country", nullable = false)
     private String country;
@@ -33,15 +33,16 @@ public class Address extends Persistent{
     public Address() {
     }
 
-    public Address(String street, String city, String postalCode, String country) {
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.country = country;
-    }
-
-    /** Builder for all attributes  **/
-    public Address(String street, String streetNumber, String city, String postalCode, String country) {
+    /***
+     * Class constructor
+     *
+     * @param street a String
+     * @param streetNumber a String
+     * @param city a String
+     * @param postalCode a String
+     * @param country a String
+     */
+    public Address(String street, String streetNumber,String city, String postalCode, String country) {
         this.street = street;
         this.streetNumber = streetNumber;
         this.city = city;
@@ -49,18 +50,37 @@ public class Address extends Persistent{
         this.country = country;
     }
 
+    /**
+     * Get the street
+     *
+     * @return the street in the form of a string
+     */
     public String getStreet() {
         return street;
     }
 
+    /**
+     * Set the street
+     *
+     * @param street a String
+     */
     public void setStreet(String street) {
         this.street = street;
     }
 
+    /**
+     * Get the street number
+     *
+     * @return the street number in the form of an int
+     */
     public String getStreetNumber() {
         return streetNumber;
     }
 
+    /**
+     * Set the street number
+     * @param streetNumber an int
+     */
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
