@@ -32,6 +32,10 @@ public class ApplicationClient extends User{
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy ="applicationClient")
+    @JsonIgnore
+    private List<Wallet> wallets = new ArrayList<>();
+
     /** Default constructor
      * (persistent classes requirements)
      */
@@ -69,7 +73,7 @@ public class ApplicationClient extends User{
      * @param financialProductHolders a List that contains the financial product holders who are bound to this client
      * @param notifications a List that contains the notifications bound to this client
      */
-    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
+    public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications, List<Wallet> wallets) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);
         this.nationalRegister = nationalRegister;
         this.firstName = firstName;
@@ -77,6 +81,7 @@ public class ApplicationClient extends User{
         this.financialProductHolders = financialProductHolders;
         this.notifications = notifications;
         this.setLogin(buildLogin());
+        this.wallets = wallets;
     }
 
     /** Get the national register
@@ -151,10 +156,29 @@ public class ApplicationClient extends User{
         return notifications;
     }
 
+    /**
+     *  Get the list of client-owned wallet
+     * @return
+     */
+    public List<Wallet> getWallets() {
+        return wallets;
+    }
+
+    /**
+     * Set the list of client-owned wallet
+     * @param wallets
+     */
+    public void setWallets(List<Wallet> wallets) {
+        this.wallets = wallets;
+    }
+
     /** Set the list of notification of this client
      *
      * @param notifications a List
      */
+
+
+
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }

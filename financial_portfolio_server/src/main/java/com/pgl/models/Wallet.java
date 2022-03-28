@@ -20,6 +20,10 @@ public class Wallet extends Persistent {
     @JoinColumn(name = "financial_institution_BIC", nullable=false)
     private FinancialInstitution financialInstitution;
 
+    @ManyToOne()
+    @JoinColumn(name = "application_client_id")
+    private ApplicationClient applicationClient;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy ="wallet")
     @JsonIgnore
     private List<WalletFinancialProduct> walletFinancialProducts = new ArrayList<>();
@@ -32,23 +36,27 @@ public class Wallet extends Persistent {
 
     /** Class constructor
      *
-     * @param name a String object
-     * @param financialInstitution a FinancialInstitution object
+     * @param name
+     * @param financialInstitution
+     * @param applicationClient
      */
-    public Wallet(String name, FinancialInstitution financialInstitution) {
+    public Wallet(String name, FinancialInstitution financialInstitution, ApplicationClient applicationClient) {
         this.name = name;
         this.financialInstitution = financialInstitution;
+        this.applicationClient = applicationClient;
     }
 
     /** Class constructor with all attributes
      *
-     * @param name a String object
-     * @param financialInstitution a FinancialInstitution object
-     * @param walletFinancialProducts a List
+     * @param name
+     * @param financialInstitution
+     * @param applicationClient
+     * @param walletFinancialProducts
      */
-    public Wallet(String name, FinancialInstitution financialInstitution, List<WalletFinancialProduct> walletFinancialProducts) {
+    public Wallet(String name, FinancialInstitution financialInstitution, ApplicationClient applicationClient, List<WalletFinancialProduct> walletFinancialProducts) {
         this.name = name;
         this.financialInstitution = financialInstitution;
+        this.applicationClient = applicationClient;
         this.walletFinancialProducts = walletFinancialProducts;
     }
 
@@ -66,6 +74,22 @@ public class Wallet extends Persistent {
      */
     public void setFinancialInstitution(FinancialInstitution financialInstitution) {
         this.financialInstitution = financialInstitution;
+    }
+
+    /**
+     * Get the application client who owns the wallet
+     * @return
+     */
+    public ApplicationClient getApplicationClient() {
+        return applicationClient;
+    }
+
+    /**
+     * Set the application client who owns the wallet
+     * @param applicationClient
+     */
+    public void setApplicationClient(ApplicationClient applicationClient) {
+        this.applicationClient = applicationClient;
     }
 
     /** Get the name

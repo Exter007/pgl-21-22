@@ -1,8 +1,11 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
+import com.pgl.helpers.DynamicViews;
+import com.pgl.models.Wallet;
 import com.pgl.services.UserService;
+import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,12 +16,15 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import javax.swing.table.TableColumn;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -27,8 +33,13 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
+
+    WalletService walletService = new WalletService();
+
+    ObservableList list = FXCollections.observableArrayList();
+    List<Wallet> walletList = new ArrayList<>();
+
     static ResourceBundle bundle;
 
     @FXML
@@ -114,6 +125,12 @@ public class DashboardController implements Initializable {
     @FXML
     private LineChart products_linechart;
 
+    @FXML
+    private BorderPane border_pane;
+
+    @FXML
+    private ListView<String> walletListView;
+
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
@@ -124,24 +141,24 @@ public class DashboardController implements Initializable {
         menu22.setText(bundle.getString("Disconnect_menu"));
         welcome.setText(bundle.getString("Welcome") + ' ' + UserService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet"));
-        Wallet_label1.setText(bundle.getString("Wallet"));
-        Wallet_label2.setText(bundle.getString("Wallet"));
-        Wallet_label3.setText(bundle.getString("Wallet"));
-        Wallet_label4.setText(bundle.getString("Wallet"));
-        Wallet_label5.setText(bundle.getString("Wallet"));
-        Wallet_label6.setText(bundle.getString("Wallet"));
-        Institution_label1.setText(bundle.getString("Institution"));
-        Institution_label2.setText(bundle.getString("Institution"));
-        Institution_label3.setText(bundle.getString("Institution"));
-        Institution_label4.setText(bundle.getString("Institution"));
-        Institution_label5.setText(bundle.getString("Institution"));
-        Institution_label6.setText(bundle.getString("Institution"));
-        FinancialProduct_label1.setText(bundle.getString("FinancialProduct_number"));
-        FinancialProduct_label2.setText(bundle.getString("FinancialProduct_number"));
-        FinancialProduct_label3.setText(bundle.getString("FinancialProduct_number"));
-        FinancialProduct_label4.setText(bundle.getString("FinancialProduct_number"));
-        FinancialProduct_label5.setText(bundle.getString("FinancialProduct_number"));
-        FinancialProduct_label6.setText(bundle.getString("FinancialProduct_number"));
+//        Wallet_label1.setText(bundle.getString("Wallet"));
+//        Wallet_label2.setText(bundle.getString("Wallet"));
+//        Wallet_label3.setText(bundle.getString("Wallet"));
+//        Wallet_label4.setText(bundle.getString("Wallet"));
+//        Wallet_label5.setText(bundle.getString("Wallet"));
+//        Wallet_label6.setText(bundle.getString("Wallet"));
+//        Institution_label1.setText(bundle.getString("Institution"));
+//        Institution_label2.setText(bundle.getString("Institution"));
+//        Institution_label3.setText(bundle.getString("Institution"));
+//        Institution_label4.setText(bundle.getString("Institution"));
+//        Institution_label5.setText(bundle.getString("Institution"));
+//        Institution_label6.setText(bundle.getString("Institution"));
+//        FinancialProduct_label1.setText(bundle.getString("FinancialProduct_number"));
+//        FinancialProduct_label2.setText(bundle.getString("FinancialProduct_number"));
+//        FinancialProduct_label3.setText(bundle.getString("FinancialProduct_number"));
+//        FinancialProduct_label4.setText(bundle.getString("FinancialProduct_number"));
+//        FinancialProduct_label5.setText(bundle.getString("FinancialProduct_number"));
+//        FinancialProduct_label6.setText(bundle.getString("FinancialProduct_number"));
         //TODO : Les nom des collums du tableau
         Day.setText(bundle.getString("Day"));
         Week.setText(bundle.getString("Week"));
@@ -163,6 +180,30 @@ public class DashboardController implements Initializable {
         //TODO: Récupérer la préférence de langue dans la BDD
         bundle = LoginController.bundle;
         setText();
+        DynamicViews.border_pane = border_pane;
+        loadWallets();
+    }
+
+    public void loadWallets(){
+        clear();
+        walletList = walletService.getWalletsByClient();
+        if (walletList != null && walletList.size()>0){
+            walletList.forEach(wallet -> {
+                String label = wallet.getFinancialInstitution().getBIC() + " : "
+                        + wallet.getFinancialInstitution().getName();
+                list.add(label);
+//            index.add(portfolio.getId());
+            });
+
+            walletListView.getItems().addAll(list);
+        }
+    }
+
+    public void clear(){
+        walletList.clear();
+        list.clear();
+        walletListView.getItems().clear();
+        walletService.moveCurrentWallet();
     }
 
     /**
@@ -187,13 +228,13 @@ public class DashboardController implements Initializable {
      * @param event the click of the mouse on the menu
      */
     @FXML
-    private void diconnect(ActionEvent event) {
+    private void disconnect(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             userService.logout();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
@@ -264,66 +305,57 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Redirect to the wallet 1 window
-     * @param event the click of the mouse on the button
+     * Selectionner un element de la liste pour effectuer une action
+     * @param event
      */
     @FXML
-    private void wallet_1(MouseEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Wallet.fxml"));
-            Stage newWindow = new Stage();
-            Scene scene = new Scene(root);
-            newWindow.setScene(scene);
-            GlobalStage.setStage(newWindow);
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+    private void selectedItem(MouseEvent event){
+        String label = walletListView.getSelectionModel().getSelectedItem();
+        int index = walletListView.getItems().indexOf(label);
+        Long id = walletList.get(index).getId();
+
+        Wallet wallet = walletService.findById(id);
+
+        WalletService.setCurrentWallet(wallet);;
+    }
+
+    /**
+     * Acceder aux details d'un element de la liste
+     * @param event
+     */
+    @FXML
+    private void on_display(MouseEvent event){
+        if(WalletService.getCurrentWallet() != null){
+            DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
+        }else{
+            walletService.not_selected_error();
         }
-    }
-
-    /**
-     * Redirect to the wallet 2 window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void wallet_2(MouseEvent event) {
 
     }
 
     /**
-     * Redirect to the wallet 3 window
-     * @param event the click of the mouse on the button
+     * Supprimer un element de la liste
+     * @param event
      */
     @FXML
-    private void wallet_3(MouseEvent event) {
+    private void on_delete(MouseEvent event) {
+        if(WalletService.getCurrentWallet() != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du portefeuille ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                boolean status = walletService.deleteById(WalletService.getCurrentWallet().getId());
+                // if successful deletion
+                if (status){
+                    walletService.moveCurrentWallet();
+                    loadWallets();
+                }
+            }
+        }else{
+            walletService.not_selected_error();
+        }
 
     }
 
-    /**
-     * Redirect to the wallet 4 window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void wallet_4(MouseEvent event) {
-
-    }
-
-    /**
-     * Redirect to the wallet 5 window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void wallet_5(MouseEvent event) {
-
-    }
-
-    /**
-     * Redirect to the wallet 6 window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void wallet_6(MouseEvent event) {
-
-    }
 
     /**
      * Change the time granularity to day

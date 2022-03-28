@@ -67,6 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/register/activation").permitAll()
                 .antMatchers("/account/reset-password/send-code").permitAll()
                 .antMatchers("/account/reset-password/validation").permitAll()
+                .antMatchers("/customer/**").hasAnyAuthority("APPLICATION_CLIENT")
+//                .antMatchers("/customer/**").hasAnyRole("APPLICATION_CLIENT")
+//                .antMatchers("/customer/**").permitAll()
+
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

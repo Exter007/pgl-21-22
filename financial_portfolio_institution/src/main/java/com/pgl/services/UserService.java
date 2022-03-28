@@ -18,7 +18,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,6 +54,7 @@ public class UserService {
         loginRequest.setPassword(password);
 
         // create headers specifying that it is JSON request
+        httpClientService.initHeaders();
         HttpHeaders authenticationHeaders = httpClientService.getHeaders();
         HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest,
                 authenticationHeaders);
@@ -65,7 +65,6 @@ public class UserService {
                     HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
             currentUser = new ObjectMapper().convertValue(response.getBody().getUser(), FinancialInstitution.class);
-
             String token = "Bearer " + response.getBody().getAccessToken();
             HttpHeaders headers = httpClientService.getHeaders();
             headers.set("Authorization", token);
@@ -85,7 +84,7 @@ public class UserService {
                 alert.setContentText("Veuillez valider votre compte avec le code envoyé par email");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-AccountValidation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -126,6 +125,7 @@ public class UserService {
     public FinancialInstitution register(FinancialInstitution user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/institution");
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
@@ -145,11 +145,9 @@ public class UserService {
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-               showNotAuthException();
-            } else if (ex.getMessage().contains("This User already exists")) {
+            if (ex.getMessage().contains("This User already exists")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Un compte avec ce BIC existe déjà");
+                alert.setHeaderText("Un compte avec ce numéro de registre existe déjà");
                 alert.showAndWait();
             } else if (ex.getMessage().contains("MailSendException")) {
                 System.out.println("Error : "+ ex.getMessage());
@@ -157,7 +155,7 @@ public class UserService {
                 alert.setHeaderText("Erreur lors de l'envoi du mail de confirmation \n Veuillez vous connectez pour activer votre compte");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -195,13 +193,9 @@ public class UserService {
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if (ex.getMessage().contains("User not found")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Pas de compte associé à ces données");
-                alert.showAndWait();
-            }else if (ex.getMessage().contains("MailSendException")) {
+            if (ex.getMessage().contains("MailSendException")) {
                 showMailException();
-            }else {
+            } else {
                 showOtherException();
             }
         } catch(Exception ex) {
@@ -318,12 +312,6 @@ public class UserService {
     public void showOtherException(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Erreur inconnue ! Veuillez contacter un administrateur");
-        alert.showAndWait();
-    }
-
-    public void showNotAuthException(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Accès non autorisé");
         alert.showAndWait();
     }
 }

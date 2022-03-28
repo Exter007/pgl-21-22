@@ -9,8 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class WalletTest {
 
     FinancialInstitution financialInstitution;
+    ApplicationClient applicationClient;
     List<WalletFinancialProduct> walletFinancialProducts;
-    Wallet wallet = new Wallet("name", financialInstitution, walletFinancialProducts);
+    Wallet wallet = new Wallet("name", financialInstitution,applicationClient, walletFinancialProducts);
 
     @Test
     void getFinancialInstitution() {

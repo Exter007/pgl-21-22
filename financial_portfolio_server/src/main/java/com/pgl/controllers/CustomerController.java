@@ -4,12 +4,14 @@ import com.pgl.models.*;
 import com.pgl.repositories.FinancialInstitutionRepository;
 import com.pgl.repositories.FinancialProductRepository;
 import com.pgl.repositories.RequestWalletRepository;
+import com.pgl.repositories.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -26,8 +28,36 @@ public class CustomerController {
     @Autowired
     private RequestWalletRepository requestWalletRepository;
 
+    @Autowired
+    private WalletRepository walletRepository;
+
     public CustomerController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
+    }
+
+
+    @RolesAllowed("APPLICATION_CLIENT")
+    @GetMapping(value = "wallet/find-by-id/{id}")
+    public ResponseEntity<?> findWalletById(@PathVariable Long id){
+        logger.debug("Call : Get Wallet by id");
+        Wallet entity = walletRepository.findById(id).get();
+        return ResponseEntity.ok(entity);
+    }
+
+//    @RolesAllowed("APPLICATION_CLIENT")
+    @GetMapping(value = "wallet/get-by-client/{idClient}")
+    public ResponseEntity<?> getWalletByClient(@PathVariable String idClient){
+        logger.debug("Call : Get Wallet by Client national number");
+        List<Wallet> entities = walletRepository.findWalletsByClient(idClient);
+        return ResponseEntity.ok(entities);
+    }
+
+    @RolesAllowed("APPLICATION_CLIENT")
+    @DeleteMapping(value = "wallet/delete-by-id/{id}")
+    public ResponseEntity<?> deleteWalletById(@PathVariable Long id){
+        logger.debug("Call : delete Wallet by id");
+        walletRepository.deleteById(id);
+        return ResponseEntity.ok(true);
     }
 
     /**
@@ -39,11 +69,10 @@ public class CustomerController {
         return financialProductRepository.findAllByFinancialInstitution_BIC(bic);
     }
 
-
     /**
      * @return List of all the FinancialProducts of all FinancialInstitutions
      */
-    @RequestMapping("financialProducts")
+    @RequestMapping("financialProduct/list")
     public List<FinancialProduct> getAllFinancialProducts() {
         return (List<FinancialProduct>) financialProductRepository.findAll();
     }

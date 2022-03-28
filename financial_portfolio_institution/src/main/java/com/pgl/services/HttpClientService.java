@@ -4,6 +4,7 @@ import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
 import javafx.scene.control.Alert;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class HttpClientService<P>{
 
     RestTemplate restTemplate = new RestTemplate();
 
-    private HttpHeaders headers;
+    private static HttpHeaders headers;
 
     /**
      * Reference du service web (url)
@@ -20,7 +21,6 @@ public class HttpClientService<P>{
     private String referencePath;
 
     public HttpClientService() {
-        initHeaders();
     }
 
     public HttpClientService(String referencePath){
@@ -28,11 +28,10 @@ public class HttpClientService<P>{
     }
 
     public void initHeaders() {
-        HttpHeaders headers = new HttpHeaders();
+        headers = new HttpHeaders();
         headers.set("contextName", ContextName.INSTITUTION.name());
         headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-        this.headers = headers;
     }
 
     public HttpHeaders getHeaders() {
@@ -40,7 +39,7 @@ public class HttpClientService<P>{
     }
 
     public void setHeaders(HttpHeaders headers) {
-        this.headers = headers;
+        HttpClientService.headers = headers;
     }
 
     /**
@@ -50,37 +49,40 @@ public class HttpClientService<P>{
      */
     public P save(P entity){
         String savePath = "/save";
-        String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO.concat(referencePath).concat(savePath);
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION.concat(referencePath).concat(savePath);
         System.out.println("url: "+url);
 
         HttpEntity<P> httpEntity = getHttpEntity(entity);
 
-        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, Object.class);
+        try {
 
-        System.out.println(response.getStatusCode());
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, Object.class);
 
-        // if creation request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.CREATED)) {
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
-
-            String error= response.getBody().toString();
-            System.out.println("Error: "+error);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-
-            if(error.equals("save.fail.data.integrity.violation.duplicate.error")){
-                alert.setHeaderText("Erreur duplication");
-                alert.setContentText("L'élément existe déjà");
-            }else{
-                alert.setHeaderText("Erreur lors de la sauvegarde");
-//            alert.setContentText(error);
-            }
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Elément créé avec succès");
             alert.showAndWait();
 
-            return null;
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else if (ex.getMessage().contains("save.fail.data.integrity.violation.duplicate.error")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Erreur de duplication");
+                alert.setContentText("L'élément existe déjà");
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (P)response.getBody();
+        return null;
     }
 
 
@@ -91,30 +93,31 @@ public class HttpClientService<P>{
      */
     public P findById(Long id){
         String findByIdPath = "/find-by-id/";
-        String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + findByIdPath + id;
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + findByIdPath + id;
         System.out.println(url);
 
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET,
-                httpEntity, Object.class);
+        try {
 
-        System.out.println(response.getStatusCode());
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, Object.class);
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
+            return response.getBody();
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de la consultation");
-            alert.showAndWait();
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            return null;
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (P)response.getBody();
+        return null;
     }
 
     /**
@@ -125,30 +128,34 @@ public class HttpClientService<P>{
     public boolean deleteById(Long id) {
         String deleteByIdPath = "/delete-by-id/";
 
-        String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + deleteByIdPath + id;
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + deleteByIdPath + id;
 
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.DELETE,
-                httpEntity, Object.class);
+        try {
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.DELETE,
+                    httpEntity, Object.class);
 
-
-        System.out.println(response.getStatusCode());
-
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de la suppression");
+            Alert alert;
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Elément supprimé avec succès");
             alert.showAndWait();
 
-            return false;
+            return true;
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return true;
+        return false;
 
     }
 
@@ -159,30 +166,32 @@ public class HttpClientService<P>{
     public List<P> getList() {
         String listPath = "/list";
 
-        String url = GlobalVariables.CONTEXT_PATH_PORTFOLIO + referencePath + listPath;
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + listPath;
 
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
-                httpEntity, Object.class);
+        try{
 
-        System.out.println(response.getStatusCode());
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, Object.class);
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
+            System.out.println(response.getStatusCode());
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de listing");
-//            alert.setContentText(error);
-            alert.showAndWait();
+            return (List<P>) response.getBody();
 
-            return null;
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (List<P>) response.getBody();
+        return null;
     }
 
 
@@ -195,27 +204,27 @@ public class HttpClientService<P>{
 
         HttpEntity<P> httpEntity = getHttpEntity(entity);
 
-        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.POST,
-                httpEntity, Object.class);
+        try {
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, Object.class);
 
-        System.out.println(response.getStatusCode());
+            System.out.println(response.getStatusCode());
 
-        // if creation request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed : HTTP error code : " + response.getStatusCode());
+            return (P) response.getBody();
 
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'opération");
-//            alert.setContentText(error);
-            alert.showAndWait();
-
-            return null;
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (P) response.getBody();
+        return null;
     }
 
     /**
@@ -227,25 +236,27 @@ public class HttpClientService<P>{
 
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
-                httpEntity, Object.class);
+        try {
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, Object.class);
 
-        System.out.println(response.getStatusCode());
+            System.out.println(response.getStatusCode());
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
+            return (P) response.getBody();
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors de l'opération");
-            alert.showAndWait();
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            return null;
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (P) response.getBody();
+        return null;
     }
 
     /**
@@ -258,31 +269,27 @@ public class HttpClientService<P>{
 
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET,
-                httpEntity, Object.class);
+        try {
+            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, Object.class);
 
-        System.out.println(response.getStatusCode());
+            System.out.println(response.getStatusCode());
 
-        // if request is not successful
-        if (!response.getStatusCode().equals(HttpStatus.OK)) {
-            System.out.println("Failed with HTTP Error code: " + response.getStatusCode());
-            String error= response.getStatusCode().toString();
-            System.out.println("Error: "+error);
+            return (List<P>) response.getBody();
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur lors du listing");
-            alert.showAndWait();
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            return null;
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED) || ex.getMessage().contains("AccessDenied")) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
         }
 
-        return (List<P>) response.getBody();
-    }
-
-    public void not_selected_error(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Aucun élément sélectionné");
-        alert.showAndWait();
+        return null;
     }
 
     /**
@@ -295,4 +302,45 @@ public class HttpClientService<P>{
         return httpEntity;
     }
 
+    /**
+     * Error when server is unavailable or unknown error
+     * @param ex
+     */
+    public void showException(Exception ex){
+        if (ex.getMessage().contains("Connection refused: connect")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Serveur indisponible");
+            alert.showAndWait();
+        } else {
+            showOtherException();
+        }
+    }
+
+    /**
+     * Unauthorized access error on a resource
+     */
+    public void showNotAuthException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Accès non autorisé");
+        alert.showAndWait();
+    }
+
+    /**
+     * Error for unknown behavior
+     */
+    public void showOtherException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Erreur inconnue ! Veuillez contacter un administrateur");
+        alert.showAndWait();
+    }
+
+
+    /**
+     * Unselected element error during an action that requires a selection before
+     */
+    public void not_selected_error(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Aucun élément sélectionné");
+        alert.showAndWait();
+    }
 }

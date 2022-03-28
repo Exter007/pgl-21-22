@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -20,14 +21,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.pgl.controllers.DashboardController" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
    <stylesheets>
       <URL value="@../stylesheet/Style.css" />
    </stylesheets>
@@ -38,7 +36,7 @@
           <items>
             <MenuItem fx:id="menu21" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="menu22" mnemonicParsing="false" onAction="#diconnect" text="Deconnexion" />
+            <MenuItem fx:id="menu22" mnemonicParsing="false" onAction="#disconnect" text="Deconnexion" />
           </items>
         </Menu>
         <Menu fx:id="menu" mnemonicParsing="false" text="Langue">
@@ -61,7 +59,7 @@
                                  <children>
                                     <Label fx:id="welcome" prefHeight="59.0" prefWidth="1135.0" text="Bienvenue Nicolas !">
                                        <font>
-                                          <Font name="System Bold" size="34.0" />
+                                          <Font name="System Bold" size="24.0" />
                                        </font>
                                        <opaqueInsets>
                                           <Insets />
@@ -88,7 +86,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label fx:id="YourWallet_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos portefeuilles :" textAlignment="CENTER">
+                              <Label fx:id="YourWallet_label" contentDisplay="CENTER" prefHeight="61.0" prefWidth="1240.0" text="Vos portefeuilles :" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -96,463 +94,43 @@
                                     <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <GridPane prefHeight="614.0" prefWidth="1072.0">
-                                <columnConstraints>
-                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="500.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="40.0" />
-                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="500.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <VBox.margin>
-                                    <Insets left="120.0" right="120.0" top="20.0" />
-                                 </VBox.margin>
+                              <HBox prefHeight="107.0" prefWidth="1280.0">
                                  <children>
-                                    <HBox onMouseClicked="#wallet_1" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#1">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="ING">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label1" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="3">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/ing_logo.jpg" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox onMouseClicked="#wallet_2" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.columnIndex="2">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#2">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="AXA">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label2" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="5">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/axa_logo.png" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox onMouseClicked="#wallet_3" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.rowIndex="2">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#3">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="KBC">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label3" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="2">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/kbc_logo.png" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox onMouseClicked="#wallet_4" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#4">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="CRELAN">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label4" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="1">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/crelan_logo.jpg" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox onMouseClicked="#wallet_5" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.rowIndex="4">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#5">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="BNP PARIBAS">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label5" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="3">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/bnp_logo.png" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox onMouseClicked="#wallet_6" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="209.0" prefWidth="532.0">
-                                             <children>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Wallet_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Portefeuille :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="#6">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="Institution_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Institution :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="BELFIUS">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox prefHeight="25.0" prefWidth="316.0">
-                                                   <children>
-                                                      <Label fx:id="FinancialProduct_label6" contentDisplay="CENTER" prefHeight="25.0" prefWidth="550.0" text="Produits financiés :">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="2">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                             </children>
-                                             <padding>
-                                                <Insets left="20.0" right="20.0" />
-                                             </padding>
-                                          </VBox>
-                                          <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/belfius_logo.png" />
-                                             </image>
-                                             <HBox.margin>
-                                                <Insets top="30.0" />
-                                             </HBox.margin>
-                                          </ImageView>
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
+                                    <ListView fx:id="walletListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="135.0" prefWidth="1276.0">
+                                       <HBox.margin>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </HBox.margin>
+                                       <styleClass>
+                                          <String fx:value="back-blue" />
+                                          <String fx:value="fn-16" />
+                                          <String fx:value="border-listView" />
+                                          <String fx:value="list-cell" />
+                                       </styleClass>
+                                    </ListView>
                                  </children>
-                              </GridPane>
+                              </HBox>
+                              <HBox prefHeight="35.0" prefWidth="1084.0" />
+                              <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="1280.0">
+                                 <children>
+                                    <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 17;" text="Consulter">
+                                       <styleClass>
+                                          <String fx:value="fn-14" />
+                                          <String fx:value="back-blue" />
+                                          <String fx:value="border-2px" />
+                                          <String fx:value="fill-white" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 17;" text="Supprimer">
+                                       <styleClass>
+                                          <String fx:value="fn-14" />
+                                          <String fx:value="back-blue" />
+                                          <String fx:value="border-2px" />
+                                          <String fx:value="fill-white" />
+                                       </styleClass>
+                                    </Button>
+                                    <VBox prefHeight="27.0" prefWidth="100.0" />
+                                 </children>
+                              </HBox>
                               <ScrollPane prefHeight="513.0" prefWidth="1280.0" style="-fx-background-color: #fff;">
                                  <content>
                                     <AnchorPane prefHeight="773.0" prefWidth="1163.0" style="-fx-background-color: #fff;">

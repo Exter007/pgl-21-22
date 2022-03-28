@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ApplicationClientTest {
 
     ApplicationClient appClient = new ApplicationClient("nationalRegister", "firstName",  "name",
-            "password", "email", false, "language", "token", null, null);
+            "password", "email", false, "language", "token", null, null,null);
 
     @Test
     void getNationalRegister() {

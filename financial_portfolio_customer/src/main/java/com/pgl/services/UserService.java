@@ -56,6 +56,7 @@ public class UserService {
         loginRequest.setPassword(password);
 
         // create headers specifying that it is JSON request
+        httpClientService.initHeaders();
         HttpHeaders authenticationHeaders = httpClientService.getHeaders();
         HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest,
                 authenticationHeaders);
@@ -126,6 +127,7 @@ public class UserService {
     public ApplicationClient register(ApplicationClient user){
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/client");
 
+		httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {

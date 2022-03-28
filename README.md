@@ -14,11 +14,15 @@ L'auhentification est basé sur JWT (Json Web Token).
 
 ### 2) financial_portfolio_customer:
 Application cliente permettant à un client d'institution financière de gerer ses portefeuilles financier.
-C'est un projet qui utilise JavaFX et qui sollicite ses services de l'application serveur
+C'est un projet gradle qui se base de JavaFX pour le design des interfaces graphiques utilisateur et qui sollicite ses services de l'application serveur
 
 ### 3) financial_portfolio_server:
 Application cliente permettant à une institution financière de gerer ses produits financier.
-C'est un projet qui utilise JavaFX et qui sollicite ses services de l'application serveur
+C'est un projet gradle qui se base de JavaFX pour le design des interfaces graphiques utilisateur et qui sollicite ses services de l'application serveur
+
+
+## Lien GitHub du projet:
+	https://github.com/Exter007/pgl-21-22
 
 
 ## Membres Groupe 2 :
