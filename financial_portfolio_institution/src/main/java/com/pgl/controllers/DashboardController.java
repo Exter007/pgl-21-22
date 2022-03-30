@@ -1,7 +1,12 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
+import com.pgl.models.FinancialProductHolder;
+import com.pgl.services.ProductHolderService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,8 +31,12 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
+
+    ProductHolderService productHolderService = new ProductHolderService();
+
+    ObservableList list = FXCollections.observableArrayList();
+    List<FinancialProductHolder> clientList = new ArrayList<>();
 
     @FXML
     private Label welcome;
@@ -43,19 +55,114 @@ public class DashboardController implements Initializable {
     @FXML
     private LineChart products_linechart;
 
+    @FXML
+    private ListView<String> clientListView;
+
+    @FXML
+    private BorderPane border_pane;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        DynamicViews.border_pane = border_pane;
         loadUserConnected();
+        loadClients();
     }
 
     /**
      * Change the institution name in the welcome label
      */
     public void loadUserConnected(){
-        welcome.setText(UserService.getCurrentUser().getName());
+        welcome.setText("Bienvenue" + ' ' + userService.getCurrentUser().getName());
+    }
+
+    /**
+     * Load customers of the financial institution
+     */
+    public void loadClients(){
+        clear();
+        clientList = productHolderService.getHolderByInstitution();
+        if (clientList != null && clientList.size()>0){
+            clientList.forEach(holder -> {
+                String label = holder.getNationalRegister() + " : "
+                        + holder.getFirstName() + ' ' + holder.getName();
+                list.add(label);
+            });
+
+            clientListView.getItems().addAll(list);
+        }
+    }
+
+    /**
+     * Clear items in the list
+     */
+    public void clear(){
+        clientList.clear();
+        list.clear();
+        clientListView.getItems().clear();
+        productHolderService.moveCurrentClient();
+    }
+
+    /**
+     * Open a window allowing you to add a client to the institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void add_Client(MouseEvent event) {
+        productHolderService.setEdit(false);
+        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
+    }
+
+    @FXML
+    private void selectedItem(MouseEvent event){
+        String label = clientListView.getSelectionModel().getSelectedItem();
+        int index = clientListView.getItems().indexOf(label);
+
+        productHolderService.setCurrentClient(clientList.get(index));
+    }
+
+    @FXML
+    private void on_display(MouseEvent event){
+        if(productHolderService.getCurrentClient() != null){
+            DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
+        }else{
+            productHolderService.not_selected_error();
+        }
+
+    }
+
+    @FXML
+    private void on_edit(MouseEvent event){
+        if(productHolderService.getCurrentClient() != null){
+            productHolderService.setEdit(true);
+            DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
+        }else{
+            productHolderService.not_selected_error();
+        }
+    }
+
+    /**
+     * Open a window allowing you to delete a client to the institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_delete(MouseEvent event) {
+        if(productHolderService.getCurrentClient() != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                boolean status = productHolderService.deleteById(productHolderService.getCurrentClient().getId());
+                // if successful deletion
+                if (status){
+                    productHolderService.moveCurrentClient();
+                    loadClients();
+                }
+            }
+        }else{
+            productHolderService.not_selected_error();
+        }
     }
 
     /**
@@ -64,15 +171,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void edit_profil(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-ModifyPersonnalData.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter(border_pane,"Institution-ModifyPersonnalData");
     }
 
     /**
@@ -86,7 +185,7 @@ public class DashboardController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             userService.logout();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
                 newWindow.setScene(scene);
@@ -116,6 +215,19 @@ public class DashboardController implements Initializable {
         //TODO
     }
 
+    @FXML
+    private void on_wallet(ActionEvent event){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Open a window showing all notifications
      * @param event the click of the mouse on the button
@@ -143,33 +255,6 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Open a window allowing you to add a client to the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void add_Client(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-AddClient.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Open a window allowing you to delete a client to the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void delete_User(MouseEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Êtes vous sûr de vouloir supprimer ce client ?");
-        Optional<ButtonType> result = alert.showAndWait();
-    }
-
-    /**
      * Export all clients' data from the institution
      * @param event the click of the mouse on the button
      */
@@ -193,15 +278,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void add_Product(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-AddProduct.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddProduct");
     }
 
     /**

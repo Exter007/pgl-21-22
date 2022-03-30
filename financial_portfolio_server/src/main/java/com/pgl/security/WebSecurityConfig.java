@@ -1,5 +1,6 @@
 package com.pgl.security;
 
+import com.pgl.models.User;
 import com.pgl.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -67,17 +68,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/register/activation").permitAll()
                 .antMatchers("/account/reset-password/send-code").permitAll()
                 .antMatchers("/account/reset-password/validation").permitAll()
-                .antMatchers("/customer/**").hasAnyAuthority("APPLICATION_CLIENT")
-//                .antMatchers("/customer/**").hasAnyRole("APPLICATION_CLIENT")
-//                .antMatchers("/customer/**").permitAll()
-
+                .antMatchers("/customer/**").hasAnyAuthority(User.ROLE.APPLICATION_CLIENT.name())
+//                .antMatchers("/institution/**").permitAll()
+                .antMatchers("/institution/**").hasAnyAuthority(User.ROLE.FINANCIAL_INSTITUTION.name())
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
-
-//    @Bean
-//    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-//        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
-//    }
 }

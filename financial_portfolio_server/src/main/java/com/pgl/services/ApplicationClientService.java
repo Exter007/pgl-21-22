@@ -56,7 +56,7 @@ public class ApplicationClientService {
             client.setModificationDate(new Date());
         }
 
-        return applicationClientRepository.save(client);
+        return getRepository().save(client);
     }
 
 }

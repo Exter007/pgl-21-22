@@ -62,7 +62,7 @@ public class ForgotPassword_2Controller implements Initializable {
             User user = new User();
             user.setPassword(newPassword.getText());
             user.setToken(code.getText());
-            user.setLogin(UserService.getCurrentUser().getLogin());
+            user.setLogin(userService.getCurrentUser().getLogin());
             boolean result = userService.resetPassword(user);
 
             if (result) {

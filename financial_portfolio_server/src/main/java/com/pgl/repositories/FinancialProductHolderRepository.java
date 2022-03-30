@@ -5,8 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface FinancialProductHolderRepository extends CrudRepository<FinancialProductHolder, String> {
+import java.util.List;
 
-    @Query("SELECT r FROM FinancialProductHolder r where r.nationalRegister=:n and r.financialInstitution=:b ")
-    FinancialProductHolder getFinancialProductHolderByID_BIC(@Param("n") String nationalRegister, @Param("b")String BIC);
+public interface FinancialProductHolderRepository extends CrudRepository<FinancialProductHolder, Long> {
+
+    @Query("SELECT r FROM FinancialProductHolder r where r.financialInstitution.BIC=:b ")
+    List<FinancialProductHolder> findHoldersByInstitution(@Param("b")String BIC);
+
+    @Query("SELECT r FROM FinancialProductHolder r where r.financialInstitution.BIC=:b and r.nationalRegister=:n ")
+    FinancialProductHolder findHolderByInstitutionAndClient(@Param("b")String BIC, @Param("n") String nationalRegister);
 }

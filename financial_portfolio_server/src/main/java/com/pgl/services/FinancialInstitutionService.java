@@ -76,4 +76,14 @@ public class FinancialInstitutionService {
         requestTransferRepository.updateRequestedTransfer(rqt.getId(), status);
     }
 
+    /**
+     * Check if the password provided by the financial institution is correct
+     * @param institution
+     * @return
+     */
+    public boolean checkPassword(FinancialInstitution institution){
+        FinancialInstitution result = getRepository().findById(institution.getBIC()).get();
+        return bCryptPasswordEncoder.matches(institution.getPassword(), result.getPassword());
+    }
+
 }

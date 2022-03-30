@@ -12,10 +12,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "FINANCIAL_PRODUCT_HOLDER")
-public class FinancialProductHolder extends PersistentWithoutId {
+public class FinancialProductHolder extends Persistent {
 
-    @Id
-    @Column(name = "national_register", unique = true, nullable = false)
+    @Column(name = "national_register", nullable = false)
     private String nationalRegister;
 
     @Column(name = "name", nullable = false)

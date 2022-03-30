@@ -1,6 +1,14 @@
 package com.pgl.utils;
 
+import com.pgl.controllers.LoginController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GlobalStage {
 

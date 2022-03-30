@@ -192,7 +192,6 @@ public class DashboardController implements Initializable {
                 String label = wallet.getFinancialInstitution().getBIC() + " : "
                         + wallet.getFinancialInstitution().getName();
                 list.add(label);
-//            index.add(portfolio.getId());
             });
 
             walletListView.getItems().addAll(list);

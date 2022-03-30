@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    HttpClientService httpClientService = new HttpClientService<FinancialInstitution>();
+    HttpClientService httpClientService = new HttpClientService<>();
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -31,11 +31,11 @@ public class UserService {
 
     public UserService(){}
 
-    public static FinancialInstitution getCurrentUser() {
+    public FinancialInstitution getCurrentUser() {
         return currentUser;
     }
 
-    public static void setCurrentUser(FinancialInstitution currentUser) {
+    public void setCurrentUser(FinancialInstitution currentUser) {
         UserService.currentUser = currentUser;
     }
 

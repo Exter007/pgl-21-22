@@ -1,8 +1,11 @@
 package com.pgl.services;
 
+import com.pgl.models.FinancialProductHolder;
 import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
 import javafx.scene.control.Alert;
+import org.springframework.cglib.core.TypeUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -15,16 +18,21 @@ public class HttpClientService<P>{
 
     private static HttpHeaders headers;
 
+    private Class<P> pClass;
+
+    private ParameterizedTypeReference typeReference = new ParameterizedTypeReference<List<P>>() {};
+
     /**
      * Reference du service web (url)
      */
     private String referencePath;
 
-    public HttpClientService() {
-    }
+    public HttpClientService() { }
 
-    public HttpClientService(String referencePath){
+    public HttpClientService(String referencePath, Class<P> pClass, ParameterizedTypeReference typeReference){
         this.referencePath = referencePath;
+        this.pClass = pClass;
+        this.typeReference = typeReference;
     }
 
     public void initHeaders() {
@@ -56,8 +64,8 @@ public class HttpClientService<P>{
 
         try {
 
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.POST,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, pClass);
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
@@ -71,11 +79,16 @@ public class HttpClientService<P>{
 
             if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
                 showNotAuthException();
-            } else if (ex.getMessage().contains("save.fail.data.integrity.violation.duplicate.error")) {
+            } else if (ex.getMessage().contains("This element already exists")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Erreur de duplication");
                 alert.setContentText("L'élément existe déjà");
-            } else {
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("Password mismatch")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Mot de passe incorrect");
+                alert.showAndWait();
+            }else {
                 showOtherException();
             }
         }catch(Exception ex) {
@@ -100,8 +113,8 @@ public class HttpClientService<P>{
 
         try {
 
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, pClass);
 
             return response.getBody();
 
@@ -133,8 +146,8 @@ public class HttpClientService<P>{
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.DELETE,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.DELETE,
+                    httpEntity, pClass);
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
@@ -172,8 +185,8 @@ public class HttpClientService<P>{
 
         try{
 
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, typeReference);
 
             System.out.println(response.getStatusCode());
 
@@ -205,8 +218,8 @@ public class HttpClientService<P>{
         HttpEntity<P> httpEntity = getHttpEntity(entity);
 
         try {
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.POST,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, pClass);
 
             System.out.println(response.getStatusCode());
 
@@ -237,8 +250,8 @@ public class HttpClientService<P>{
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
-                    httpEntity, Object.class);
+            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, pClass);
 
             System.out.println(response.getStatusCode());
 
@@ -270,12 +283,12 @@ public class HttpClientService<P>{
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<P> response = (ResponseEntity<P>) restTemplate.exchange(url, HttpMethod.GET,
-                    httpEntity, Object.class);
+            ResponseEntity<List<P>> response = restTemplate.exchange(url, HttpMethod.GET,
+                    httpEntity, typeReference);
 
             System.out.println(response.getStatusCode());
 
-            return (List<P>) response.getBody();
+            return response.getBody();
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());

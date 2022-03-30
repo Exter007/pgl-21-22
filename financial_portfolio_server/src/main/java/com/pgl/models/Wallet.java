@@ -21,7 +21,7 @@ public class Wallet extends Persistent {
     private FinancialInstitution financialInstitution;
 
     @ManyToOne()
-    @JoinColumn(name = "application_client_id")
+    @JoinColumn(name = "application_client_id", nullable=false)
     private ApplicationClient applicationClient;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy ="wallet")

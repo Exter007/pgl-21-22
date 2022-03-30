@@ -48,7 +48,7 @@ public class AccountActivationController implements Initializable {
         }else {
             User user = new User();
 
-            user.setLogin(UserService.getCurrentUser().getLogin());
+            user.setLogin(userService.getCurrentUser().getLogin());
             user.setToken(code.getText());
 
             boolean result = userService.accountActivation(user);

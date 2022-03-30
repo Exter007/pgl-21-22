@@ -1,16 +1,1 @@
-package com.pgl.services;
-
-import com.pgl.repositories.FinancialProductHolderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service()
-public class FinancialProductHolderService {
-
-    @Autowired
-    FinancialProductHolderRepository financialProductHolderRepository;
-
-    FinancialProductHolderRepository getRepository(){
-        return financialProductHolderRepository;
-    }
-}
+package com.pgl.services;import com.pgl.models.FinancialProductHolder;import com.pgl.repositories.FinancialProductHolderRepository;import org.apache.commons.lang3.SerializationUtils;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Service;import java.util.Date;@Service()public class FinancialProductHolderService {    @Autowired    FinancialProductHolderRepository financialProductHolderRepository;    public FinancialProductHolderRepository getRepository(){        return financialProductHolderRepository;    }    /**     * Create a new Financial Product Holder or update     * @param financialProductHolder     * @return     */    public FinancialProductHolder saveHolder(FinancialProductHolder financialProductHolder){        FinancialProductHolder result = getRepository().findHolderByInstitutionAndClient(financialProductHolder.getFinancialInstitution().getBIC(),                financialProductHolder.getNationalRegister());        //      if it is a new financial product holder and already exists for this Financial Institution        if(!financialProductHolder.toUpdate && result != null){            throw new RuntimeException("This element already exists");        }        FinancialProductHolder holder;        //      if it's a new holder and doesn't exist yet        if (result == null) {            financialProductHolder.setCreationDate(new Date());            holder = SerializationUtils.clone(financialProductHolder);        }else { // if the holder already exists and update it            holder = result;            holder.setModificationDate(new Date());        }        return getRepository().save(holder);    }}

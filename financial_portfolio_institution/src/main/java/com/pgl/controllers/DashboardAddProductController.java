@@ -14,8 +14,7 @@ import java.util.ResourceBundle;
 
 public class DashboardAddProductController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
 
     @FXML
     private TextField customerNationalRegisterNumber;

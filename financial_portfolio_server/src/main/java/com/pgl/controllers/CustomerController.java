@@ -35,8 +35,8 @@ public class CustomerController {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
+    // Ressources for Wallet
 
-    @RolesAllowed("APPLICATION_CLIENT")
     @GetMapping(value = "wallet/find-by-id/{id}")
     public ResponseEntity<?> findWalletById(@PathVariable Long id){
         logger.debug("Call : Get Wallet by id");
@@ -52,7 +52,7 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
-    @RolesAllowed("APPLICATION_CLIENT")
+//    @RolesAllowed("APPLICATION_CLIENT")
     @DeleteMapping(value = "wallet/delete-by-id/{id}")
     public ResponseEntity<?> deleteWalletById(@PathVariable Long id){
         logger.debug("Call : delete Wallet by id");
@@ -60,41 +60,49 @@ public class CustomerController {
         return ResponseEntity.ok(true);
     }
 
+    // Ressources for Financial Product
+
     /**
      * @param bic A FinancialInstitution's BIC
      * @return List of all the FinancialProducts held by a certain FinancialInstitution
      */
-    @RequestMapping("financialProducts/{bic}")
-    public List<FinancialProduct> getFinancialProductsByInstitutionBIC(@PathVariable String bic) {
-        return financialProductRepository.findAllByFinancialInstitution_BIC(bic);
+    @GetMapping("product/gett-financial-products-by-institution/{bic}")
+    public ResponseEntity<?>  getFinancialProductsByInstitutionBIC(@PathVariable String bic) {
+        List<FinancialProduct> entities = financialProductRepository.findProductsByInstitution(bic);
+        return ResponseEntity.ok(entities);
     }
 
     /**
      * @return List of all the FinancialProducts of all FinancialInstitutions
      */
-    @RequestMapping("financialProduct/list")
-    public List<FinancialProduct> getAllFinancialProducts() {
-        return (List<FinancialProduct>) financialProductRepository.findAll();
+    @GetMapping("product/list")
+    public ResponseEntity<?> getAllFinancialProducts() {
+        List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findAll();
+        return ResponseEntity.ok(entities);
     }
 
     /**
      * @return List of all the FinancialInstitutions
      */
-    @RequestMapping("financialInstitutions")
-    public List<FinancialInstitution> getAllFinancialInstitutions() {
-        return (List<FinancialInstitution>) financialInstitutionRepository.findAll();
+    @GetMapping("institution/list")
+    public ResponseEntity<?> getAllFinancialInstitutions() {
+        List<FinancialInstitution> entities = (List<FinancialInstitution>) financialInstitutionRepository.findAll();
+        return ResponseEntity.ok(entities);
     }
+
+    // Ressources from Request Wallet
 
     /**
      * Request Wallet
      * @param applicationClient
      * @param financialInstitution
-     * @throws IllegalArgumentException
      */
     @RequestMapping("requestWallet/{applicationClient}/{financialInstitution}")
-    public void requestWallet(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) throws IllegalArgumentException {
+    public ResponseEntity<?> requestWallet(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) {
         RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClient, financialInstitution);
         requestWalletRepository.save(rqw);
+
+        return ResponseEntity.ok(rqw);
     }
 
 }

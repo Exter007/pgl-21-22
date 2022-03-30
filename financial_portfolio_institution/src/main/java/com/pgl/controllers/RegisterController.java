@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 
 public class RegisterController implements Initializable {
 
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
 
     @FXML
     private TextField institutionName;
@@ -108,7 +108,7 @@ public class RegisterController implements Initializable {
             FinancialInstitution user = build_user();
 
             user = userService.register(user);
-            UserService.setCurrentUser(user);
+            userService.setCurrentUser(user);
 
             if (user != null){
                 try {
