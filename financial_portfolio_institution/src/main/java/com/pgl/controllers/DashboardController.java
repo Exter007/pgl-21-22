@@ -33,11 +33,6 @@ public class DashboardController implements Initializable {
 
     UserService userService = new UserService();
 
-    ProductHolderService productHolderService = new ProductHolderService();
-
-    ObservableList list = FXCollections.observableArrayList();
-    List<FinancialProductHolder> clientList = new ArrayList<>();
-
     @FXML
     private Label welcome;
     @FXML
@@ -56,9 +51,6 @@ public class DashboardController implements Initializable {
     private LineChart products_linechart;
 
     @FXML
-    private ListView<String> clientListView;
-
-    @FXML
     private BorderPane border_pane;
 
     /**
@@ -68,7 +60,6 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         DynamicViews.border_pane = border_pane;
         loadUserConnected();
-        loadClients();
     }
 
     /**
@@ -78,92 +69,6 @@ public class DashboardController implements Initializable {
         welcome.setText("Bienvenue" + ' ' + userService.getCurrentUser().getName());
     }
 
-    /**
-     * Load customers of the financial institution
-     */
-    public void loadClients(){
-        clear();
-        clientList = productHolderService.getHolderByInstitution();
-        if (clientList != null && clientList.size()>0){
-            clientList.forEach(holder -> {
-                String label = holder.getNationalRegister() + " : "
-                        + holder.getFirstName() + ' ' + holder.getName();
-                list.add(label);
-            });
-
-            clientListView.getItems().addAll(list);
-        }
-    }
-
-    /**
-     * Clear items in the list
-     */
-    public void clear(){
-        clientList.clear();
-        list.clear();
-        clientListView.getItems().clear();
-        productHolderService.moveCurrentClient();
-    }
-
-    /**
-     * Open a window allowing you to add a client to the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void add_Client(MouseEvent event) {
-        productHolderService.setEdit(false);
-        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
-    }
-
-    @FXML
-    private void selectedItem(MouseEvent event){
-        String label = clientListView.getSelectionModel().getSelectedItem();
-        int index = clientListView.getItems().indexOf(label);
-
-        productHolderService.setCurrentClient(clientList.get(index));
-    }
-
-    @FXML
-    private void on_display(MouseEvent event){
-        if(productHolderService.getCurrentHolder() != null){
-            DynamicViews.loadBorderCenter(border_pane,"Institution-ViewClient");
-        }else{
-            productHolderService.not_selected_error();
-        }
-
-    }
-
-    @FXML
-    private void on_edit(MouseEvent event){
-        if(productHolderService.getCurrentHolder() != null){
-            productHolderService.setEdit(true);
-            DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
-        }else{
-            productHolderService.not_selected_error();
-        }
-    }
-
-    /**
-     * Open a window allowing you to delete a client to the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void on_delete(MouseEvent event) {
-        if(productHolderService.getCurrentHolder() != null){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = productHolderService.deleteById(productHolderService.getCurrentHolder().getId());
-                // if successful deletion
-                if (status){
-                    productHolderService.moveCurrentClient();
-                    loadClients();
-                }
-            }
-        }else{
-            productHolderService.not_selected_error();
-        }
-    }
 
     /**
      * Open a window allowing you to modify your personal data
@@ -228,6 +133,11 @@ public class DashboardController implements Initializable {
         }
     }
 
+    @FXML
+    private void on_client(ActionEvent event){
+        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-Client");
+    }
+
     /**
      * Open a window showing all notifications
      * @param event the click of the mouse on the button
@@ -251,24 +161,6 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void search_Product(MouseEvent event) {
-        //TODO
-    }
-
-    /**
-     * Export all clients' data from the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void export_ClientData(MouseEvent event) {
-        //TODO
-    }
-
-    /**
-     * Import clients' data
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void import_ClientData(MouseEvent event) {
         //TODO
     }
 

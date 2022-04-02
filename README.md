@@ -1,5 +1,5 @@
 # Projet de gestion de portefeuilles financier
-Le projet comporte comme fonctionnalités de base une application serveur et deux applications clientes : une permettant la gestion de portefeuille(s) financier par un client d'institution financière ; l'autre permettant la gestion des produits financier par une institution financière et l'application serveur qui fourni des services web pour les applications clientes.
+Le projet comporte comme fonctionnalités de base une application serveur et deux applications clientes : une permettant la gestion de portefeuille(s) financier(s) par un client d'institution financière ; l'autre permettant la gestion des produits financiers par une institution financière et l'application serveur qui fourni des services web pour les applications clientes.
 À cela seront rattachés les extensions de chaque membre du projet.
 
 
@@ -13,11 +13,11 @@ La base de données est basée sur DerbyServerEmbedded, donc embarquée dans le 
 L'auhentification est basé sur JWT (Json Web Token).
 
 ### 2) financial_portfolio_customer:
-Application cliente permettant à un client d'institution financière de gerer ses portefeuilles financier.
+Application cliente permettant à un client d'institution financière de gerer ses portefeuilles financiers.
 C'est un projet gradle qui se base de JavaFX pour le design des interfaces graphiques utilisateur et qui sollicite ses services de l'application serveur
 
 ### 3) financial_portfolio_server:
-Application cliente permettant à une institution financière de gerer ses produits financier.
+Application cliente permettant à une institution financière de gerer ses produits financiers.
 C'est un projet gradle qui se base de JavaFX pour le design des interfaces graphiques utilisateur et qui sollicite ses services de l'application serveur
 
 

@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
 import com.pgl.models.FinancialInstitution;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.ProductHolderService;
@@ -90,20 +91,9 @@ public class DashboardAddClientController implements Initializable {
             FinancialProductHolder result = productHolderService.save(holder);
 
             if (result != null){
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
-                    Stage newWindow = new Stage();
-                    Scene scene = new Scene(root);
-                    newWindow.setScene(scene);
-                    GlobalStage.setStage(newWindow);
-
-                    productHolderService.moveCurrentClient();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-                }
+                DynamicViews.loadBorderCenter("Institution-Dashboard-Client");
+                productHolderService.moveCurrentClient();
             }
-
         }
     }
 

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -21,19 +19,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="border_pane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
+<BorderPane fx:id="border_pane" prefHeight="746.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
    <center>
-      <VBox prefHeight="819.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css">
+      <VBox prefHeight="972.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css">
         <children>
-            <ScrollPane prefHeight="797.0" prefWidth="1300.0">
+            <ScrollPane prefHeight="939.0" prefWidth="1300.0">
                <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1719.0" prefWidth="1283.0" style="-fx-background-color: #fff;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="1283.0" style="-fx-background-color: #fff;">
                      <children>
                         <HBox prefHeight="74.0" prefWidth="1300.0">
                            <children>
                               <Label fx:id="welcome" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1300.0" text="Bienvenue ING !" textAlignment="CENTER">
                                  <font>
-                                    <Font name="System Bold" size="41.0" />
+                                    <Font name="System Bold" size="25.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets left="50.0" top="10.0" />
@@ -52,24 +50,16 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutY="99.0" prefHeight="82.0" prefWidth="1300.0">
+                        <HBox alignment="CENTER_LEFT" layoutY="77.0" prefHeight="82.0" prefWidth="1300.0">
                            <children>
                               <Label text="Filtres :">
                                  <font>
-                                    <Font size="22.0" />
+                                    <Font size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets left="50.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="productClientName" prefHeight="40.0" prefWidth="171.0" promptText="Nom du client" styleClass="field">
-                                 <HBox.margin>
-                                    <Insets left="50.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </TextField>
                               <ChoiceBox fx:id="productInstitutionName" prefHeight="40.0" prefWidth="201.0" styleClass="field">
                                  <HBox.margin>
                                     <Insets left="30.0" />
@@ -90,101 +80,16 @@
                               </DatePicker>
                               <Button mnemonicParsing="false" onMouseClicked="#search_Product" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
                                  <font>
-                                    <Font size="20.0" />
+                                    <Font size="15.0" />
                                  </font>
                               </Button>
                            </children>
                         </HBox>
-                        <VBox layoutX="-2.0" layoutY="218.0" prefHeight="439.0" prefWidth="1300.0">
+                        <HBox layoutX="37.0" layoutY="164.0" prefHeight="76.0" prefWidth="1230.0">
                            <children>
-                              <HBox prefHeight="55.0" prefWidth="1300.0">
-                                 <children>
-                                    <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1161.0" text="Vos clients :" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="26.0" />
-                                       </font>
-                                    </Label>
-                                    <ImageView fitHeight="37.0" fitWidth="35.0" onMouseClicked="#add_Client" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_add-user.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </ImageView>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="50.0" right="50.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <VBox prefHeight="352.0" prefWidth="1199.0">
-                                 <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="30.0" />
-                                 </VBox.margin>
-                                 <children>
-                                    <HBox prefHeight="267.0" prefWidth="1199.0">
-                                       <children>
-                                          <ListView fx:id="clientListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="213.0" prefWidth="1194.0" style="-fx-font-size: 17;">
-                                             <HBox.margin>
-                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                             </HBox.margin>
-                                             <styleClass>
-                                                <String fx:value="back-blue" />
-                                                <String fx:value="fn-16" />
-                                                <String fx:value="border-listView" />
-                                                <String fx:value="fill-white" />
-                                             </styleClass>
-                                          </ListView>
-                                       </children>
-                                       <styleClass>
-                                          <String fx:value="back-blue" />
-                                          <String fx:value="fn-16" />
-                                          <String fx:value="border-listView" />
-                                          <String fx:value="list-cell" />
-                                       </styleClass>
-                                    </HBox>
-                                    <HBox prefHeight="35.0" prefWidth="1084.0" />
-                                    <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="1199.0">
-                                       <children>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
-                                             <styleClass>
-                                                <String fx:value="fn-14" />
-                                                <String fx:value="back-blue" />
-                                                <String fx:value="border-2px" />
-                                                <String fx:value="fill-white" />
-                                             </styleClass>
-                                          </Button>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
-                                             <styleClass>
-                                                <String fx:value="fn-14" />
-                                                <String fx:value="back-blue" />
-                                                <String fx:value="border-2px" />
-                                                <String fx:value="fill-white" />
-                                             </styleClass>
-                                          </Button>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
-                                             <styleClass>
-                                                <String fx:value="fn-14" />
-                                                <String fx:value="back-blue" />
-                                                <String fx:value="border-2px" />
-                                                <String fx:value="fill-white" />
-                                             </styleClass>
-                                          </Button>
-                                          <VBox prefHeight="27.0" prefWidth="100.0" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <Button layoutX="1047.0" layoutY="782.0" mnemonicParsing="false" onMouseClicked="#export_ClientData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
-                        <ChoiceBox fx:id="export_ClientFormat" layoutX="871.0" layoutY="791.0" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
-                        <Button layoutX="1047.0" layoutY="852.0" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
-                        <HBox layoutX="48.0" layoutY="944.0" prefHeight="55.0" prefWidth="1300.0">
-                           <children>
-                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1161.0" text="Tout les produits financiers de l'institution :" textAlignment="CENTER">
+                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tout vos produits financiers:" textAlignment="CENTER">
                                  <font>
-                                    <Font name="System Bold" size="26.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets />
@@ -203,7 +108,7 @@
                               <Insets top="30.0" />
                            </padding>
                         </HBox>
-                        <VBox layoutX="41.0" layoutY="1035.0" prefHeight="479.0" prefWidth="1199.0">
+                        <VBox layoutX="39.0" layoutY="255.0" prefHeight="277.0" prefWidth="1199.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1200.0">
                                  <children>
@@ -376,184 +281,18 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1200.0">
-                                 <children>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="#8829272">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Compte courant">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="195.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Etat :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Actif">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="406.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Client :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="D'Agostino Pierre-Louis">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_settings.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_trash.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1200.0">
-                                 <children>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="#4272829">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Compte joint">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="195.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Etat :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Archivé" textFill="RED">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="CENTER" prefHeight="84.0" prefWidth="405.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Client :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Delplanque Nicolas">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Delplanque Julien">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_settings.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_trash.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1200.0">
-                                 <children>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="#9101729">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <Label contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Compte épargne">
-                                       <font>
-                                          <Font size="19.0" />
-                                       </font>
-                                    </Label>
-                                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="195.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Etat :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Actif">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="410.0">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Client :">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="272.0" text="Amter Alice">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_settings.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/icons/source_icons_trash.jpg" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
                            </children>
                            <padding>
                               <Insets top="10.0" />
                            </padding>
                         </VBox>
-                        <Button layoutX="1052.0" layoutY="1558.0" mnemonicParsing="false" onMouseClicked="#export_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
-                        <ChoiceBox fx:id="export_ProductsFormat" layoutX="870.0" layoutY="1567.0" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
-                        <Button layoutX="1055.0" layoutY="1632.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
+                        <HBox alignment="CENTER" layoutX="893.0" layoutY="557.0">
+                           <children>
+                              <ChoiceBox fx:id="export_ProductsFormat" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
+                              <Button mnemonicParsing="false" onMouseClicked="#export_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+                           </children>
+                        </HBox>
+                        <Button layoutX="1049.0" layoutY="625.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
                      </children>
                   </AnchorPane>
                </content>
@@ -578,7 +317,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Acceuil">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#on_wallet" text="Portefeuilles" />
+                <MenuItem mnemonicParsing="false" onAction="#on_wallet" text="Produits financiers" />
+                  <MenuItem mnemonicParsing="false" onAction="#on_client" text="Clients" />
               </items>
             </Menu>
         </menus>
