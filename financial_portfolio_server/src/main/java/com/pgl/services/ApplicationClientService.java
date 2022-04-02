@@ -43,7 +43,6 @@ public class ApplicationClientService {
 
         //      if it's a new user and doesn't exist yet
         if (!result.isPresent()) {
-
             user.setCreationDate(new Date());
             client = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
@@ -52,8 +51,8 @@ public class ApplicationClientService {
             client.setRole(User.ROLE.APPLICATION_CLIENT);
 
         }else { // if the user already exists and update it
-            client = result.get();
-            client.setModificationDate(new Date());
+            user.setModificationDate(new Date());
+            client = SerializationUtils.clone(user);
         }
 
         return getRepository().save(client);

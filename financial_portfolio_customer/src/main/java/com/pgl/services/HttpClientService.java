@@ -146,8 +146,8 @@ public class HttpClientService<P>{
         HttpEntity<P> httpEntity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.DELETE,
-                    httpEntity, pClass);
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.DELETE,
+                    httpEntity, boolean.class);
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);

@@ -118,7 +118,7 @@ public class RegisterController implements Initializable {
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
                 } catch (IOException ex) {
-                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -137,7 +137,7 @@ public class RegisterController implements Initializable {
             newWindow.setScene(scene);
             GlobalStage.setStage(newWindow);
         } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 

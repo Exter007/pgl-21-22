@@ -125,8 +125,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void on_display(MouseEvent event){
-        if(productHolderService.getCurrentClient() != null){
-            DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
+        if(productHolderService.getCurrentHolder() != null){
+            DynamicViews.loadBorderCenter(border_pane,"Institution-ViewClient");
         }else{
             productHolderService.not_selected_error();
         }
@@ -135,7 +135,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void on_edit(MouseEvent event){
-        if(productHolderService.getCurrentClient() != null){
+        if(productHolderService.getCurrentHolder() != null){
             productHolderService.setEdit(true);
             DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddClient");
         }else{
@@ -149,11 +149,11 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void on_delete(MouseEvent event) {
-        if(productHolderService.getCurrentClient() != null){
+        if(productHolderService.getCurrentHolder() != null){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = productHolderService.deleteById(productHolderService.getCurrentClient().getId());
+                boolean status = productHolderService.deleteById(productHolderService.getCurrentHolder().getId());
                 // if successful deletion
                 if (status){
                     productHolderService.moveCurrentClient();
@@ -192,7 +192,7 @@ public class DashboardController implements Initializable {
                 GlobalStage.setStage(newWindow);
 
             } catch (IOException ex) {
-                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -224,7 +224,7 @@ public class DashboardController implements Initializable {
             newWindow.setScene(scene);
             GlobalStage.setStage(newWindow);
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -241,7 +241,7 @@ public class DashboardController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,19 @@ public class DashboardAddClientController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+
+         // Load interface in edit mode
+        if(productHolderService.isEdit()){
+            setCurrentHolder();
+        }
+    }
+
+    private void setCurrentHolder(){
+        FinancialProductHolder holder = productHolderService.getCurrentHolder();
+        firstName.setText(holder.getFirstName());
+        lastName.setText(String.valueOf(holder.getName()));
+        nationalRegisterNumber.setText(holder.getNationalRegister());
+        birthDate.setValue(holder.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
     /**
@@ -87,15 +100,27 @@ public class DashboardAddClientController implements Initializable {
                     productHolderService.moveCurrentClient();
 
                 } catch (IOException ex) {
-                    Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
         }
     }
 
+    /**
+     * Build Financial Product Holder from the interface to save
+     * @return FinancialProductHolder
+     */
     public FinancialProductHolder build_holder(){
-        FinancialProductHolder holder = new FinancialProductHolder();
+        FinancialProductHolder holder;
+        // If edit mode
+        if(productHolderService.isEdit()){
+            holder = productHolderService.getCurrentHolder();
+        }else {
+            holder = new FinancialProductHolder();
+            holder.toUpdate = false;
+        }
+
         holder.setFirstName(firstName.getText());
         holder.setName(lastName.getText());
         holder.setNationalRegister(nationalRegisterNumber.getText());
@@ -104,7 +129,6 @@ public class DashboardAddClientController implements Initializable {
         // Set password to be able to check it
         currentUser.setPassword(password.getText());
         holder.setFinancialInstitution((currentUser));
-        holder.toUpdate = false;
 
         return holder;
     }

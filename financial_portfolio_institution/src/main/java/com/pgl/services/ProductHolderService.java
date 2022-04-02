@@ -10,22 +10,21 @@ public class ProductHolderService extends HttpClientService<FinancialProductHold
 
     UserService userService = new UserService();
 
-    private static FinancialProductHolder currentClient;
+    private static FinancialProductHolder currentHolder;
 
     /**
-     *
-     * Pour définir l'action à effectuer sur un object
+     * To define the action to perform on an object
      * false si création d'un nouvel object
-     * true si modification d'un objet déjà existant
+     * true if modifying an existing object
      */
     private static boolean edit = false;
 
     private static final String referencePath = "/holder";
 
     /**
-     * Constructor vide
-     * ParameterizedTypeReference pour la deserialisation du JSON recu de Rest API en Liste de Financial Product Holder
-     * FinancialProductHolder.class pour la deserialisation du JSON recu de Rest API en Financial Product Holder
+     * Empty constructor
+     * ParameterizedTypeReference for deserializing JSON received from Rest API to List of Financial Product Holder
+     * FinancialProductHolder.class for deserializing JSON received from Rest API to Financial Product Holder
      */
     public ProductHolderService() {
         super(referencePath, FinancialProductHolder.class,
@@ -36,16 +35,16 @@ public class ProductHolderService extends HttpClientService<FinancialProductHold
      * Get the current customer selected in the list
      * @return
      */
-    public FinancialProductHolder getCurrentClient() {
-        return currentClient;
+    public FinancialProductHolder getCurrentHolder() {
+        return currentHolder;
     }
 
     /**
      * Set the current customer selected in the list
-     * @param currentClient
+     * @param currentHolder
      */
-    public void setCurrentClient(FinancialProductHolder currentClient) {
-        ProductHolderService.currentClient = currentClient;
+    public void setCurrentClient(FinancialProductHolder currentHolder) {
+        ProductHolderService.currentHolder = currentHolder;
     }
 
     public boolean isEdit() {

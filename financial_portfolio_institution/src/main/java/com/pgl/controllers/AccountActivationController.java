@@ -66,7 +66,7 @@ public class AccountActivationController implements Initializable {
                     GlobalStage.setStage(newWindow);
 
                 } catch (IOException ex) {
-                    Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -86,7 +86,7 @@ public class AccountActivationController implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(AccountActivationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -61,8 +61,8 @@ public class FinancialInstitutionService {
             institution.setRole(User.ROLE.FINANCIAL_INSTITUTION);
 
         }else { // if the user already exists and update it
-            institution = result.get();
-            institution.setModificationDate(new Date());
+            user.setModificationDate(new Date());
+            institution = SerializationUtils.clone(user);
         }
 
         // Save Institution Address
