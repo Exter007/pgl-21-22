@@ -3,7 +3,9 @@ package com.pgl.controllers;
 import com.pgl.models.FinancialInstitution;
 import com.pgl.models.FinancialProduct;
 import com.pgl.models.FinancialProductHolder;
+import com.pgl.models.RequestWallet;
 import com.pgl.repositories.FinancialProductRepository;
+import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.FinancialProductHolderService;
 import org.slf4j.Logger;
@@ -28,6 +30,10 @@ public class InstitutionController {
 
     @Autowired
     FinancialInstitutionService financialInstitutionService;
+
+    @Autowired
+    RequestWalletRepository requestWalletRepository;
+
 
     public InstitutionController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -123,5 +129,11 @@ public class InstitutionController {
     public ResponseEntity<?> getProductsByInstitution(@PathVariable String bic) {
         List<FinancialProduct> products = financialProductRepository.findProductsByInstitution(bic);
         return ResponseEntity.ok(products);
+    }
+
+    @RequestMapping("request-wallet/update")
+    public ResponseEntity<?> updateRequestWallet(@RequestBody RequestWallet requestWallet){
+        requestWalletRepository.deleteById(requestWallet.getId().toString());
+        return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
     }
 }

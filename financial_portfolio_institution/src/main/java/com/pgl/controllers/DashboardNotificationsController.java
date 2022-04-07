@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
@@ -11,11 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,6 +29,9 @@ public class DashboardNotificationsController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
+
+    RequestWalletService requestWalletService = new RequestWalletService();
 
     @FXML
     private Label name;
@@ -32,6 +39,10 @@ public class DashboardNotificationsController implements Initializable {
     private Label subject;
     @FXML
     private Label date;
+    @FXML
+    private VBox vbox;
+    @FXML
+    private List<HBox> hBoxList;
 
     /**
      * Initializes the controller class.
@@ -48,6 +59,8 @@ public class DashboardNotificationsController implements Initializable {
     @FXML
     private void accept_request(ActionEvent event) {
         //TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.showAndWait();
     }
 
     /**
