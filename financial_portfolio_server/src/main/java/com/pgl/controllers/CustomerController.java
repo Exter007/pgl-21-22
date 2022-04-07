@@ -92,17 +92,25 @@ public class CustomerController {
 
     // Ressources from Request Wallet
 
+    @GetMapping("financialInstitution/{name}")
+    public ResponseEntity<?> getFinancialInstitutionByName(@PathVariable String name) {
+        logger.debug("Call : Get FinancialInstitution by name");
+        FinancialInstitution entity = financialInstitutionRepository.findByName(name);
+        return ResponseEntity.ok(entity);
+    }
+
     /**
      * Request Wallet
-     * @param applicationClient
-     * @param financialInstitution
+     * @param requestWallet RequestWallet to be created
      */
-    @RequestMapping("requestWallet/{applicationClient}/{financialInstitution}")
-    public ResponseEntity<?> requestWallet(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) {
-        RequestWallet rqw = new RequestWallet(Request.REQUEST_STATUS.PENDING, applicationClient, financialInstitution);
-        requestWalletRepository.save(rqw);
-
-        return ResponseEntity.ok(rqw);
+    @PostMapping("request-wallet/save")
+    public ResponseEntity<?> requestWallet(@RequestBody RequestWallet requestWallet) {
+        logger.debug("Call : Create RequestWallet");
+        if(requestWalletRepository.existsByApplicationClientAndFinancialInstitution(requestWallet.getApplicationClient(), requestWallet.getFinancialInstitution()) != null) {
+            return ResponseEntity.ok(null);
+        } else{
+            return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
+        }
     }
 
 }
