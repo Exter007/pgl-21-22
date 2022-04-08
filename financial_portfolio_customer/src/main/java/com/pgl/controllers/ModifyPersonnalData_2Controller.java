@@ -82,7 +82,10 @@ public class ModifyPersonnalData_2Controller implements Initializable {
             alert.showAndWait();
 
         }else if(email.getText() != "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            UserService.getCurrentUser().setEmail(email.getText());
+            User user = new User();
+            user.setEmail(email.getText());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            boolean result = userService.editUser(user);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Votre email a bien été changé !");
