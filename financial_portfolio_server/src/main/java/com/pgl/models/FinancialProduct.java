@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "FINANCIAL_PRODUCT")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="ACCOUNT_NATURE")
 public class FinancialProduct extends Persistent {
 
     @Column(name = "wording")
