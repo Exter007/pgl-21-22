@@ -78,7 +78,7 @@ public class UserService {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
             if(ex.getMessage().contains("Bad credentials")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données fournies ne sont pas correct");
+                alert.setHeaderText("Les données fournies ne sont pas correctes");
                 alert.showAndWait();
             } else if(ex.getMessage().contains("Account not activated")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
