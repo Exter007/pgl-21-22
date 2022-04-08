@@ -161,4 +161,19 @@ public class AccountController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Validate the activation code when resetting the password
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    @PermitAll
+    @PutMapping(value = "edit")
+    public ResponseEntity<?> editAccount(@RequestBody User user) throws Exception{
+        logger.debug("Call : Edit personnal informations");
+        boolean result = userService.editData(user);
+
+        return ResponseEntity.ok(result);
+    }
+
 }

@@ -76,14 +76,12 @@ public class ForgotPassword_2Controller implements Initializable {
             alert.showAndWait();
 
         } else {
-            /*
             User user = new User();
             user.setPassword(newPassword.getText());
             user.setToken(code.getText());
             user.setLogin(UserService.getCurrentUser().getLogin());
             boolean result = userService.resetPassword(user);
-            */
-            if (true /*result*/) {
+            if (result) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes2"));
                 alert.showAndWait();

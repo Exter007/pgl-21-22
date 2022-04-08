@@ -1,5 +1,8 @@
 package com.pgl.controllers;
 
+import com.pgl.models.ApplicationClient;
+import com.pgl.models.User;
+import com.pgl.services.FinancialProductHolderService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +26,7 @@ import java.util.logging.Logger;
 public class ModifyPersonnalData_2Controller implements Initializable {
 
     @Inject
+    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -55,7 +60,13 @@ public class ModifyPersonnalData_2Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = DashboardController.bundle;
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
         setText();
     }
 
@@ -71,7 +82,7 @@ public class ModifyPersonnalData_2Controller implements Initializable {
             alert.showAndWait();
 
         }else if(email.getText() != "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            //TODO
+            UserService.getCurrentUser().setEmail(email.getText());
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Votre email a bien été changé !");
@@ -85,13 +96,17 @@ public class ModifyPersonnalData_2Controller implements Initializable {
             alert.showAndWait();
 
         }else if(email.getText() == "" &&
-                (newPassword.getText() != newPassword2.getText())){
+                (!newPassword.getText().equals(newPassword2.getText()))){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Les mots de passes ne correspondent pas !");
             alert.showAndWait();
 
         }else{
-            //TODO
+            User user = new User();
+            user.setPassword(newPassword.getText());
+            user.setEmail(email.getText());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            boolean result = userService.editUser(user);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Vos données ont bien été changées !");

@@ -79,7 +79,6 @@ public class RegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO: récupérer de la BDD la préférence de l'utilisateur
         bundle = LoginController.bundle;
         setText();
     }
@@ -123,6 +122,7 @@ public class RegisterController implements Initializable {
 
         }else {
             ApplicationClient user = build_user();
+            user.setLanguage(lang);
 
             user = userService.register(user);
             UserService.setCurrentUser(user);
