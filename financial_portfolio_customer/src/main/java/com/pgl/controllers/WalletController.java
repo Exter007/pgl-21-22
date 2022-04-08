@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,6 +27,7 @@ public class WalletController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private TableView products_tableview;
@@ -41,12 +44,27 @@ public class WalletController implements Initializable {
     @FXML
     private LineChart financialProduct_linechart;
 
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
+        setText();
     }
 
     /**
@@ -113,7 +131,12 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
+        User user = new User();
+        user.setLanguage("fr");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
@@ -122,7 +145,12 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        setText();
+        User user = new User();
+        user.setLanguage("en");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**

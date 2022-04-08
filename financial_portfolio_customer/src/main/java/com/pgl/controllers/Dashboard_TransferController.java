@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Dashboard_TransferController implements Initializable {
@@ -76,10 +77,17 @@ public class Dashboard_TransferController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
+        setText();
+        
         institutionFrom.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
         accountFrom.setItems(FXCollections.observableArrayList("BE68 5390 0754 7034", "BE87 2345 9864 0181", "BE02 8929 2456 0186"));
-        bundle = DashboardController.bundle;
-        setText();
     }
 
     /**

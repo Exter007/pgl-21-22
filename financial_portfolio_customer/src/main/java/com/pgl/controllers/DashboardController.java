@@ -34,14 +34,15 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    UserService userService = new UserService();
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
 
     ObservableList list = FXCollections.observableArrayList();
     List<Wallet> walletList = new ArrayList<>();
 
-    static ResourceBundle bundle;
 
     @FXML
     private Menu menu;
@@ -186,6 +187,7 @@ public class DashboardController implements Initializable {
             bundle = null;
         }
         setText();
+
         DynamicViews.border_pane = border_pane;
         loadWallets();
     }
@@ -339,7 +341,6 @@ public class DashboardController implements Initializable {
         }else{
             walletService.not_selected_error();
         }
-
     }
 
     /**

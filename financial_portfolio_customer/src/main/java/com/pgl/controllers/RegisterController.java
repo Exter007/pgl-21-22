@@ -33,9 +33,8 @@ public class RegisterController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
-
-    static String lang;
     static ResourceBundle bundle;
+    static String lang;
 
     @FXML
     private Menu menu;

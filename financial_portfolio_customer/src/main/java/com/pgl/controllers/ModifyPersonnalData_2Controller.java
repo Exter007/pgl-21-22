@@ -26,8 +26,8 @@ import java.util.logging.Logger;
 public class ModifyPersonnalData_2Controller implements Initializable {
 
     @Inject
-    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static UserService userService = new UserService();
+    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static ResourceBundle bundle;
 
     @FXML

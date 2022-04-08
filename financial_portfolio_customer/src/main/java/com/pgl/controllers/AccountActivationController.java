@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 ;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +25,7 @@ import java.util.logging.Logger;
 
 public class AccountActivationController implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 

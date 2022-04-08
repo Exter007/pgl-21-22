@@ -26,10 +26,9 @@ import javax.inject.Inject;
 
 public class LoginController implements Initializable {
 
-    static ResourceBundle bundle;
-
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private Menu menu;

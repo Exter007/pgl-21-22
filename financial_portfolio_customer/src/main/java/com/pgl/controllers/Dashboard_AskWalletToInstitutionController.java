@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,14 +61,21 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
+        setText();
+
         List<FinancialInstitution> financialInstitutions = financialInstitutionService.getAllFinancialInstitutions();
         ObservableList<String> institutions = FXCollections.observableArrayList();
         for(FinancialInstitution f : financialInstitutions){
             institutions.add(f.getName());
         }
         institutionChoice.setItems(institutions);
-        bundle = DashboardController.bundle;
-        setText();
     }
 
     /**

@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_1Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 

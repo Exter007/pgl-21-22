@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +27,8 @@ import java.util.logging.Logger;
 public class ModifyPersonnalData_1Controller implements Initializable {
 
     @Inject
-    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static UserService userService = new UserService();
+    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static ResourceBundle bundle;
 
     @FXML
@@ -48,7 +49,13 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = DashboardController.bundle;
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
         setText();
     }
 
