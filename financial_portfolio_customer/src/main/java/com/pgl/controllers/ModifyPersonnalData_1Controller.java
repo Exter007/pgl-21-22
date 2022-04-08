@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.services.FinancialProductHolderService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -21,9 +22,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class ModifyPersonnalData_1Controller implements Initializable {
 
     @Inject
+    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -59,11 +62,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error9"));
             alert.showAndWait();
-
-        }else if (true) {
-            //TODO
-
-
+        }else if (financialProductHolderService.checkPassword(UserService.getCurrentUser(), password.getText())) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData2.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();

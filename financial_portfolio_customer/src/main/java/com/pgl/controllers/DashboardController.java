@@ -1,6 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
+import com.pgl.models.User;
 import com.pgl.models.Wallet;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
@@ -177,8 +178,13 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO: Récupérer la préférence de langue dans la BDD
-        bundle = LoginController.bundle;
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
         setText();
         DynamicViews.border_pane = border_pane;
         loadWallets();
@@ -251,10 +257,12 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO: sauvegarder dans la BDD
-
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
+        User user = new User();
+        user.setLanguage("fr");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
@@ -263,10 +271,12 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO: sauvegarder dans la BDD
-
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
+        User user = new User();
+        user.setLanguage("en");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**

@@ -66,7 +66,6 @@ public class ForgotPassword_1Controller implements Initializable {
             alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         } else {
-            /*
             ApplicationClient client = new ApplicationClient();
             client.setNationalRegister(nationalRegisterNumber.getText());
             client.setFirstName(name.getText());
@@ -75,8 +74,7 @@ public class ForgotPassword_1Controller implements Initializable {
             user.setLogin(client.buildLogin());
 
             User result = userService.sendPasswordResetCode(user);
-            */
-            if (true /*result != null*/) {
+            if (result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes1"));
                 alert.showAndWait();
