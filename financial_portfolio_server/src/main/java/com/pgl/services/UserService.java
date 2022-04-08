@@ -56,7 +56,7 @@ public class UserService<P extends User> {
     public void sendValidateAccount(User user)throws Exception{
         String mailSubject = "Validation de votre compte";
         String token = user.getToken();
-        String message = "Bonjour,\n\n Votre compte a bien étè créé.\n Veuillez utiliser ce code pour valider votre compte : "
+        String message = "Bonjour,\n\n Votre compte a bien été créé.\n Veuillez utiliser ce code pour valider votre compte : "
                 + token + "\n\n Merci,";
 
         sendMail(user.getEmail(), mailSubject, message);

@@ -6,7 +6,6 @@ import javax.persistence.*;
  *
  */
 @Entity
-@DiscriminatorColumn(name="ACCOUNT_NATURE")
 public abstract class BankAccount extends FinancialProduct {
 
     @Column(name="iban",unique = true, nullable = false)

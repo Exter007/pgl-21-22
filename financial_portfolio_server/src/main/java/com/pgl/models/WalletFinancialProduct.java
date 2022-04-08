@@ -2,6 +2,7 @@ package com.pgl.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /** Class that represent a wallet financial product
  *
@@ -92,4 +93,16 @@ class WalletFinancialProductKey implements Serializable {
     @Column(name = "financial_product_id")
     Long financialProductId;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WalletFinancialProductKey)) return false;
+        WalletFinancialProductKey that = (WalletFinancialProductKey) o;
+        return walletId.equals(that.walletId) && financialProductId.equals(that.financialProductId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(walletId, financialProductId);
+    }
 }
