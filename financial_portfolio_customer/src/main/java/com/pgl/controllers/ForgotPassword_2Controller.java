@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_2Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -43,11 +44,11 @@ public class ForgotPassword_2Controller implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        newPassword.setPromptText(bundle.getString("New.Password"));
-        newPassword2.setPromptText(bundle.getString("New.Password.2"));
-        code.setPromptText(bundle.getString("Code"));
-        reset_button.setText(bundle.getString("Reset_button"));
-        PasswordLabel.setText(bundle.getString("Password.label"));
+        newPassword.setPromptText(bundle.getString("NewPassword_field"));
+        newPassword2.setPromptText(bundle.getString("NewPassword2_field"));
+        code.setPromptText(bundle.getString("Code_field"));
+        reset_button.setText(bundle.getString("Reset_btn"));
+        PasswordLabel.setText(bundle.getString("Password_label"));
     }
 
     /**
@@ -76,14 +77,12 @@ public class ForgotPassword_2Controller implements Initializable {
             alert.showAndWait();
 
         } else {
-            /*
             User user = new User();
             user.setPassword(newPassword.getText());
             user.setToken(code.getText());
             user.setLogin(UserService.getCurrentUser().getLogin());
             boolean result = userService.resetPassword(user);
-            */
-            if (true /*result*/) {
+            if (result) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes2"));
                 alert.showAndWait();

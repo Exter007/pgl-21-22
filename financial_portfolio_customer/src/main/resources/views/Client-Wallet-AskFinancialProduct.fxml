@@ -12,15 +12,15 @@
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="241.0" prefWidth="314.0" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="sendButton" layoutX="105.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#send_request" prefHeight="25.0" prefWidth="104.0" text="Envoyer" />
-            <Label layoutX="11.0" layoutY="21.0" text="Demande d'un nouveau produit financier">
+            <Label fx:id="AskProduct_label" layoutX="11.0" layoutY="21.0" text="Demande d'un nouveau produit financier">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
             <ChoiceBox fx:id="institution" layoutX="57.0" layoutY="95.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
-            <Label layoutX="130.0" layoutY="73.0" text="Institution" />
+            <Label fx:id="Institution_label" layoutX="130.0" layoutY="73.0" text="Institution" />
             <ChoiceBox fx:id="productType" layoutX="57.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
-            <Label layoutX="138.0" layoutY="150.0" text="Produit" />
+            <Label fx:id="Product_label" layoutX="138.0" layoutY="150.0" text="Produit :" />
       </children>
     </AnchorPane>
   </children>

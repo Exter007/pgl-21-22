@@ -1,8 +1,14 @@
 package com.pgl.controllers;
 
+import com.pgl.models.FinancialInstitution;
+import com.pgl.models.Request;
+import com.pgl.models.RequestWallet;
+import com.pgl.services.FinancialInstitutionService;
+import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
-import com.pgl.utils.GlobalStage;
+import com.pgl.services.WalletService;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +21,9 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +33,10 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
+
+    WalletService walletService = new WalletService();
+    RequestWalletService requestWalletService = new RequestWalletService();
+    FinancialInstitutionService financialInstitutionService = new FinancialInstitutionService();
 
     @FXML
     private Label askWalletTitle;
@@ -38,9 +51,9 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        sendButton.setText(bundle.getString("SendRequest"));
-        askWalletLabel.setText(bundle.getString("askWalletLabel"));
-        askWalletTitle.setText(bundle.getString("askWalletTitle"));
+        sendButton.setText(bundle.getString("Send_Request"));
+        askWalletTitle.setText(bundle.getString("AskWalletTitle"));
+        askWalletLabel.setText(bundle.getString("AskWalletLabel"));
     }
 
     /**
@@ -48,9 +61,15 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        institutionChoice.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
         bundle = DashboardController.bundle;
         setText();
+
+        List<FinancialInstitution> financialInstitutions = financialInstitutionService.getAllFinancialInstitutions();
+        ObservableList<String> institutions = FXCollections.observableArrayList();
+        for(FinancialInstitution f : financialInstitutions){
+            institutions.add(f.getName());
+        }
+        institutionChoice.setItems(institutions);
     }
 
     /**
@@ -63,9 +82,23 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
 
             //TODO
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(bundle.getString("succes3"));
-            alert.showAndWait();
+            FinancialInstitution f = financialInstitutionService.getFinancialInstitutionByName((String) institutionChoice.getValue());
+
+            RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, UserService.getCurrentUser(), f);
+            try {
+                if(requestWalletService.createRequestWallet(requestWallet) != null){
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText(bundle.getString("succes3"));
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(bundle.getString("error11"));
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             Stage stage = (Stage) sendButton.getScene().getWindow();
             stage.close();

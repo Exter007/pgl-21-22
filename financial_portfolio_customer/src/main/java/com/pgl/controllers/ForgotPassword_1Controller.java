@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_1Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -40,10 +41,10 @@ public class ForgotPassword_1Controller implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        forgotpassword1_label.setText(bundle.getString("forgotpassword1_label"));
-        name.setPromptText(bundle.getString("Nom.complet_field"));
-        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
-        sendCode_button.setText(bundle.getString("sendCode_button"));
+        forgotpassword1_label.setText(bundle.getString("ForgotPassword1_label"));
+        name.setPromptText(bundle.getString("Name_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("NationalRegister_field"));
+        sendCode_button.setText(bundle.getString("SendCode_btn"));
     }
 
     /**
@@ -66,7 +67,6 @@ public class ForgotPassword_1Controller implements Initializable {
             alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         } else {
-            /*
             ApplicationClient client = new ApplicationClient();
             client.setNationalRegister(nationalRegisterNumber.getText());
             client.setFirstName(name.getText());
@@ -75,8 +75,7 @@ public class ForgotPassword_1Controller implements Initializable {
             user.setLogin(client.buildLogin());
 
             User result = userService.sendPasswordResetCode(user);
-            */
-            if (true /*result != null*/) {
+            if (result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes1"));
                 alert.showAndWait();

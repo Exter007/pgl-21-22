@@ -78,7 +78,7 @@ public class UserService {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
             if(ex.getMessage().contains("Bad credentials")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Les données fournies ne sont pas correct");
+                alert.setHeaderText("Les données fournies ne sont pas correctes");
                 alert.showAndWait();
             } else if(ex.getMessage().contains("Account not activated")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -242,6 +242,35 @@ public class UserService {
             }else {
                showOtherException();
             }
+
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
+    }
+
+    /**
+     * Edit user data
+     * @param user
+     * @return a boolean status result
+     */
+    public boolean editUser(User user){
+        String url = GlobalVariables.CONTEXT_PATH.concat("/account/edit");
+        System.out.println("url: "+url);
+
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
+
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.PUT,
+                    httpEntity, boolean.class);
+
+            System.out.println(response.getStatusCode());
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
         }catch(Exception ex) {
             showException(ex);

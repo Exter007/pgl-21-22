@@ -67,7 +67,7 @@
                                           <Insets left="10.0" top="25.0" />
                                        </HBox.margin>
                                     </ImageView>
-                                    <Label prefHeight="59.0" prefWidth="1135.0" text="Portefeuille #1">
+                                    <Label fx:id="Wallet_label" prefHeight="59.0" prefWidth="1135.0" text="Portefeuille #1">
                                        <font>
                                           <Font name="System Bold" size="34.0" />
                                        </font>
@@ -113,7 +113,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos produits financiers :" textAlignment="CENTER">
+                              <Label fx:id="YourFinancialProducts_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos produits financiers :" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -464,27 +464,27 @@
                               </ScrollPane>
                               <HBox alignment="CENTER" prefHeight="48.0" prefWidth="1180.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#day" prefHeight="44.0" prefWidth="136.0" text="Journalier">
+                                    <Button fx:id="Day_btn" mnemonicParsing="false" onMouseClicked="#day" prefHeight="44.0" prefWidth="136.0" text="Journalier">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#week" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire">
+                                    <Button fx:id="Week_btn" mnemonicParsing="false" onMouseClicked="#week" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#month" prefHeight="44.0" prefWidth="136.0" text="Mensuel">
+                                    <Button fx:id="Month_btn" mnemonicParsing="false" onMouseClicked="#month" prefHeight="44.0" prefWidth="136.0" text="Mensuel">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#year" prefHeight="44.0" prefWidth="136.0" text="Annuel">
+                                    <Button fx:id="Year_btn" mnemonicParsing="false" onMouseClicked="#year" prefHeight="44.0" prefWidth="136.0" text="Annuel">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Label text="Du">
+                                    <Label fx:id="From_label" text="Du">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -497,7 +497,7 @@
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </DatePicker>
-                                    <Label text="au">
+                                    <Label fx:id="To_label" text="au">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -517,17 +517,17 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="1180.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#graph" prefHeight="44.0" prefWidth="136.0" text="Graphique">
+                                    <Button fx:id="Graph_btn" mnemonicParsing="false" onMouseClicked="#graph" prefHeight="44.0" prefWidth="136.0" text="Graphique">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#list" prefHeight="44.0" prefWidth="136.0" text="Liste">
+                                    <Button fx:id="List_btn" mnemonicParsing="false" onMouseClicked="#list" prefHeight="44.0" prefWidth="136.0" text="Liste">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#tableview" prefHeight="44.0" prefWidth="136.0" text="Tableau">
+                                    <Button fx:id="Tab_btn" mnemonicParsing="false" onMouseClicked="#tableview" prefHeight="44.0" prefWidth="136.0" text="Tableau">
                                        <HBox.margin>
                                           <Insets left="10.0" right="320.0" />
                                        </HBox.margin>
@@ -537,7 +537,7 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </ChoiceBox>
-                                    <Button mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données">
+                                    <Button fx:id="Export_btn" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données">
                                        <HBox.margin>
                                           <Insets left="10.0" right="20.0" />
                                        </HBox.margin>

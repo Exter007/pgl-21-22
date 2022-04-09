@@ -4,15 +4,18 @@ import com.pgl.models.*;
 import com.pgl.repositories.BankAccountRepository;
 import com.pgl.repositories.FinancialProductHolderRepository;
 import com.pgl.repositories.FinancialProductRepository;
+import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.FinancialProductHolderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +32,10 @@ public class InstitutionController {
 
     @Autowired
     FinancialInstitutionService financialInstitutionService;
+
+    @Autowired
+    RequestWalletRepository requestWalletRepository;
+
 
     @Autowired
     BankAccountRepository bankAccountRepository;
@@ -206,5 +213,35 @@ public class InstitutionController {
     public ResponseEntity<?> getProductByInstitutionAndIBAN(@PathVariable String bic, @PathVariable String iban) {
         FinancialProduct account = financialProductRepository.findProductByInstitutionAndIBAN(bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
         return ResponseEntity.ok(account);
+    }
+
+    @RequestMapping("request-wallet/update")
+    public ResponseEntity<?> updateRequestWallet(@RequestBody RequestWallet requestWallet){
+        requestWalletRepository.deleteById(requestWallet.getId());
+        requestWallet.setModificationDate(new Date());
+        return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
+    }
+
+    /**
+     * @return List of all the requested wallets
+     */
+    @GetMapping("request-wallet/list/{bic}")
+    public ResponseEntity<?> getAllFinancialInstitutions(@PathVariable String bic){
+        List<RequestWallet> entities = (List<RequestWallet>) requestWalletRepository.findAllByFinancialInstitution(bic);
+        return ResponseEntity.ok(entities);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @GetMapping("request-wallet/find-by-id/{id}")
+    public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
+        if(requestWalletRepository.findById(id).isPresent()){
+            RequestWallet entity = requestWalletRepository.findById(id).get();
+            return ResponseEntity.ok(entity);
+        } else {
+            return ResponseEntity.ok(null);
+        }
     }
 }

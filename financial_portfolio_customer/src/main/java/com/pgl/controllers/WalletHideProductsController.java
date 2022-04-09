@@ -9,12 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,13 +25,28 @@ public class WalletHideProductsController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
+
+    @FXML
+    private Label HideProductTitle;
+    @FXML
+    private Label HideProductSubTitle;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        HideProductTitle.setText(bundle.getString("HideProductTitle_label"));
+        HideProductSubTitle.setText(bundle.getString("HideProductSubTitle_label"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        bundle = WalletController.bundle;
+        setText();
     }
 
     /**

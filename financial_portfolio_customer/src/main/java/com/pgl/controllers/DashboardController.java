@@ -1,6 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
+import com.pgl.models.User;
 import com.pgl.models.Wallet;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
@@ -33,14 +34,15 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    UserService userService = new UserService();
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
 
     ObservableList list = FXCollections.observableArrayList();
     List<Wallet> walletList = new ArrayList<>();
 
-    static ResourceBundle bundle;
 
     @FXML
     private Menu menu;
@@ -135,41 +137,41 @@ public class DashboardController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        menu.setText(bundle.getString("Langue_menu"));
-        menu2.setText(bundle.getString("Compte_menu"));
+        menu.setText(bundle.getString("Language_menu"));
+        menu2.setText(bundle.getString("Account_menu"));
         menu21.setText(bundle.getString("EditProfil_menu"));
         menu22.setText(bundle.getString("Disconnect_menu"));
-        welcome.setText(bundle.getString("Welcome") + ' ' + UserService.getCurrentUser().getFirstName());
-        YourWallet_label.setText(bundle.getString("YourWallet"));
-//        Wallet_label1.setText(bundle.getString("Wallet"));
-//        Wallet_label2.setText(bundle.getString("Wallet"));
-//        Wallet_label3.setText(bundle.getString("Wallet"));
-//        Wallet_label4.setText(bundle.getString("Wallet"));
-//        Wallet_label5.setText(bundle.getString("Wallet"));
-//        Wallet_label6.setText(bundle.getString("Wallet"));
-//        Institution_label1.setText(bundle.getString("Institution"));
-//        Institution_label2.setText(bundle.getString("Institution"));
-//        Institution_label3.setText(bundle.getString("Institution"));
-//        Institution_label4.setText(bundle.getString("Institution"));
-//        Institution_label5.setText(bundle.getString("Institution"));
-//        Institution_label6.setText(bundle.getString("Institution"));
-//        FinancialProduct_label1.setText(bundle.getString("FinancialProduct_number"));
-//        FinancialProduct_label2.setText(bundle.getString("FinancialProduct_number"));
-//        FinancialProduct_label3.setText(bundle.getString("FinancialProduct_number"));
-//        FinancialProduct_label4.setText(bundle.getString("FinancialProduct_number"));
-//        FinancialProduct_label5.setText(bundle.getString("FinancialProduct_number"));
-//        FinancialProduct_label6.setText(bundle.getString("FinancialProduct_number"));
+        welcome.setText(bundle.getString("Welcome_label") + ' ' + UserService.getCurrentUser().getFirstName());
+        YourWallet_label.setText(bundle.getString("YourWallet_label"));
+//        Wallet_label1.setText(bundle.getString("Wallet_label"));
+//        Wallet_label2.setText(bundle.getString("Wallet_label"));
+//        Wallet_label3.setText(bundle.getString("Wallet_label"));
+//        Wallet_label4.setText(bundle.getString("Wallet_label"));
+//        Wallet_label5.setText(bundle.getString("Wallet_label"));
+//        Wallet_label6.setText(bundle.getString("Wallet_label"));
+//        Institution_label1.setText(bundle.getString("Institution_label"));
+//        Institution_label2.setText(bundle.getString("Institution_label"));
+//        Institution_label3.setText(bundle.getString("Institution_label"));
+//        Institution_label4.setText(bundle.getString("Institution_label"));
+//        Institution_label5.setText(bundle.getString("Institution_label"));
+//        Institution_label6.setText(bundle.getString("Institution_label"));
+//        FinancialProduct_label1.setText(bundle.getString("FinancialProductNumber_label"));
+//        FinancialProduct_label2.setText(bundle.getString("FinancialProductNumber_label"));
+//        FinancialProduct_label3.setText(bundle.getString("FinancialProductNumber_label"));
+//        FinancialProduct_label4.setText(bundle.getString("FinancialProductNumber_label"));
+//        FinancialProduct_label5.setText(bundle.getString("FinancialProductNumber_label"));
+//        FinancialProduct_label6.setText(bundle.getString("FinancialProductNumber_label"));
         //TODO : Les nom des collums du tableau
-        Day.setText(bundle.getString("Day"));
-        Week.setText(bundle.getString("Week"));
-        Month.setText(bundle.getString("Month"));
-        Year.setText(bundle.getString("Year"));
-        from.setText(bundle.getString("From"));
-        to.setText(bundle.getString("To"));
-        Graph.setText(bundle.getString("Graph"));
-        List.setText(bundle.getString("List"));
-        Tab.setText(bundle.getString("Tab"));
-        Export.setText(bundle.getString("Export"));
+        Day.setText(bundle.getString("Day_btn"));
+        Week.setText(bundle.getString("Week_btn"));
+        Month.setText(bundle.getString("Month_btn"));
+        Year.setText(bundle.getString("Year_btn"));
+        from.setText(bundle.getString("From_label"));
+        to.setText(bundle.getString("To_label"));
+        Graph.setText(bundle.getString("Graph_btn"));
+        List.setText(bundle.getString("List_btn"));
+        Tab.setText(bundle.getString("Tab_btn"));
+        Export.setText(bundle.getString("Export_btn"));
     }
 
     /**
@@ -177,9 +179,15 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO: Récupérer la préférence de langue dans la BDD
-        bundle = LoginController.bundle;
+        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
         setText();
+
         DynamicViews.border_pane = border_pane;
         loadWallets();
     }
@@ -228,7 +236,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void disconnect(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection"));
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection_text"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             userService.logout();
@@ -251,10 +259,12 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO: sauvegarder dans la BDD
-
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
+        User user = new User();
+        user.setLanguage("fr");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
@@ -263,10 +273,12 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO: sauvegarder dans la BDD
-
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
+        User user = new User();
+        user.setLanguage("en");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
@@ -329,7 +341,6 @@ public class DashboardController implements Initializable {
         }else{
             walletService.not_selected_error();
         }
-
     }
 
     /**

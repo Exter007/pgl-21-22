@@ -26,10 +26,9 @@ import javax.inject.Inject;
 
 public class LoginController implements Initializable {
 
-    static ResourceBundle bundle;
-
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private Menu menu;
@@ -50,13 +49,13 @@ public class LoginController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        menu.setText(bundle.getString("Langue_menu"));
-        name.setPromptText(bundle.getString("Nom.complet_field"));
-        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
-        password.setPromptText(bundle.getString("Mot.de.passe_field"));
-        forgot_password_link.setText(bundle.getString("Mot.de.passe.oublié_link"));
+        menu.setText(bundle.getString("Language_menu"));
+        name.setPromptText(bundle.getString("Name_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("NationalRegister_field"));
+        password.setPromptText(bundle.getString("Password_field"));
+        forgot_password_link.setText(bundle.getString("PasswordForget_link"));
         login_btn.setText(bundle.getString("Connexion_btn"));
-        create_account_link.setText(bundle.getString("Creer.un.compte_link"));
+        create_account_link.setText(bundle.getString("CreateAccount_link"));
     }
 
     /**

@@ -97,9 +97,7 @@ public class User extends PersistentWithoutId {
      *
      * @param password a String object
      */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public void setPassword(String password) { this.password = password; }
 
     /** Get the favorite language of this user
      *

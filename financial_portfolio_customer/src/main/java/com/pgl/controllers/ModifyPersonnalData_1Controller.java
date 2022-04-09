@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.services.FinancialProductHolderService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -17,14 +18,17 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class ModifyPersonnalData_1Controller implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static ResourceBundle bundle;
 
     @FXML
@@ -36,8 +40,8 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        password.setPromptText(bundle.getString("Mot.de.passe_field"));
-        checkPassword.setText(bundle.getString("check_btn"));
+        password.setPromptText(bundle.getString("Password_field"));
+        checkPassword.setText(bundle.getString("Check_btn"));
     }
 
     /**
@@ -59,11 +63,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error9"));
             alert.showAndWait();
-
-        }else if (true) {
-            //TODO
-
-
+        }else if (financialProductHolderService.checkPassword(UserService.getCurrentUser(), password.getText())) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData2.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();

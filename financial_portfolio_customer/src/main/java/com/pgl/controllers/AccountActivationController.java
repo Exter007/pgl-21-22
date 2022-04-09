@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 ;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +25,7 @@ import java.util.logging.Logger;
 
 public class AccountActivationController implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -38,9 +40,9 @@ public class AccountActivationController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        code.setPromptText(bundle.getString("code_field"));
-        check_btn.setText(bundle.getString("check_btn"));
-        check_label.setText(bundle.getString("check_label"));
+        check_label.setText(bundle.getString("Check_label"));
+        code.setPromptText(bundle.getString("Code_field"));
+        check_btn.setText(bundle.getString("Check_btn"));
     }
 
     /**
@@ -48,7 +50,7 @@ public class AccountActivationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = LoginController.bundle;
+        bundle = RegisterController.bundle;
         setText();
     }
 
