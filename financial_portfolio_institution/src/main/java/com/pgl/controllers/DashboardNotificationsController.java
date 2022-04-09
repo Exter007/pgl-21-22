@@ -103,7 +103,7 @@ public class DashboardNotificationsController implements Initializable {
      */
     @FXML
     private void refuse_wallet_request(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Confirmation");
         alert.setContentText("Êtes-vous sûr de vouloir supprimer cette demande ?");
         Optional<ButtonType> result = alert.showAndWait();
