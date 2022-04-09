@@ -56,20 +56,20 @@ public class Dashboard_TransferController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        Label_SEPA.setText(bundle.getString("Label_SEPA"));
-        my_institution.setText(bundle.getString("my_institution"));
-        institutionFrom_label.setText(bundle.getString("institutionFrom_label"));
-        accountTo_label.setText(bundle.getString("accountTo_label"));
-        accountTo.setPromptText(bundle.getString("accountTo"));
-        amount_label.setText(bundle.getString("amount_label"));
-        amount.setPromptText(bundle.getString("amount"));
-        structured_comm.setText(bundle.getString("structured_comm"));
-        structuredCommunication.setPromptText(bundle.getString("structuredCommunication"));
-        or_label.setText(bundle.getString("or_label"));
-        free_comm.setText(bundle.getString("free_comm"));
-        freeCommunication.setPromptText(bundle.getString("freeCommunication"));
-        password.setPromptText(bundle.getString("Mot.de.passe_field"));
-        transferButton.setText(bundle.getString("transferButton"));
+        Label_SEPA.setText(bundle.getString("SEPA_label"));
+        my_institution.setText(bundle.getString("MyInstitution_label"));
+        institutionFrom_label.setText(bundle.getString("InstitutionFrom_label"));
+        accountTo_label.setText(bundle.getString("AccountTo_label"));
+        accountTo.setPromptText(bundle.getString("AccountTo_field"));
+        amount_label.setText(bundle.getString("Amount_label"));
+        amount.setPromptText(bundle.getString("Amount_field"));
+        structured_comm.setText(bundle.getString("Structured_label"));
+        structuredCommunication.setPromptText(bundle.getString("Structured_field"));
+        or_label.setText(bundle.getString("OR_label"));
+        free_comm.setText(bundle.getString("Free_label"));
+        freeCommunication.setPromptText(bundle.getString("Free_field"));
+        password.setPromptText(bundle.getString("Password_field"));
+        transferButton.setText(bundle.getString("Transfer_btn"));
     }
 
     /**
@@ -77,15 +77,9 @@ public class Dashboard_TransferController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = DashboardController.bundle;
         setText();
-        
+
         institutionFrom.setItems(FXCollections.observableArrayList("ING", "AXA", "KBC", "CRELAN", "BNP PARIBAS", "BELFIUS"));
         accountFrom.setItems(FXCollections.observableArrayList("BE68 5390 0754 7034", "BE87 2345 9864 0181", "BE02 8929 2456 0186"));
     }

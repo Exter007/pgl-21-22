@@ -30,6 +30,31 @@ public class WalletController implements Initializable {
     static ResourceBundle bundle;
 
     @FXML
+    private Label Wallet_label;
+    @FXML
+    private Label YourFinancialProducts_label;
+    @FXML
+    private Button Day_btn;
+    @FXML
+    private Button Week_btn;
+    @FXML
+    private Button Month_btn;
+    @FXML
+    private Button Year_btn;
+    @FXML
+    private Label From_label;
+    @FXML
+    private Label To_label;
+    @FXML
+    private Button Graph_btn;
+    @FXML
+    private Button List_btn;
+    @FXML
+    private Button Tab_btn;
+    @FXML
+    private Button Export_btn;
+
+    @FXML
     private TableView products_tableview;
     @FXML
     private DatePicker from_date;
@@ -49,7 +74,18 @@ public class WalletController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-
+        Wallet_label.setText(bundle.getString("WalletTitle_label"));
+        YourFinancialProducts_label.setText(bundle.getString("YourFinancialProducts_label"));
+        Day_btn.setText(bundle.getString("Day_btn"));
+        Week_btn.setText(bundle.getString("Week_btn"));
+        Month_btn.setText(bundle.getString("Month_btn"));
+        Year_btn.setText(bundle.getString("Year_btn"));
+        From_label.setText(bundle.getString("From_label"));
+        To_label.setText(bundle.getString("To_label"));
+        Graph_btn.setText(bundle.getString("Graph_btn"));
+        List_btn.setText(bundle.getString("List_btn"));
+        Tab_btn.setText(bundle.getString("Tab_btn"));
+        Export_btn.setText(bundle.getString("Export_btn"));
     }
 
     /**
@@ -108,7 +144,7 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void diconnect(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la déconnexion ?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection_text"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             userService.logout();

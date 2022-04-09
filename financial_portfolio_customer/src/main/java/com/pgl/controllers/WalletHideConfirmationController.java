@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -23,13 +24,17 @@ public class WalletHideConfirmationController implements Initializable {
     private Button confirmButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label confirmHide_label;
 
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-
+        confirmButton.setText(bundle.getString("Yes_btn"));
+        cancelButton.setText(bundle.getString("No_btn"));
+        confirmHide_label.setText(bundle.getString("ValidationHide_label"));
     }
 
     /**
@@ -37,13 +42,7 @@ public class WalletHideConfirmationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = WalletController.bundle;
         setText();
     }
 
@@ -56,8 +55,7 @@ public class WalletHideConfirmationController implements Initializable {
         //TODO
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Confirmation");
-        alert.setHeaderText("Votre compte a bien été masqué !");
+        alert.setHeaderText(bundle.getString("succes10"));
         alert.showAndWait();
 
         Stage stage = (Stage) confirmButton.getScene().getWindow();

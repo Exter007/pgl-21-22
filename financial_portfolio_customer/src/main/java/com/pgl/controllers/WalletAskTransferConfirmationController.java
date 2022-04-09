@@ -3,10 +3,7 @@ package com.pgl.controllers;
 import com.pgl.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -25,12 +22,16 @@ public class WalletAskTransferConfirmationController implements Initializable {
     private Button confirmButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label Validation_label;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-
+        confirmButton.setText(bundle.getString("Yes_btn"));
+        cancelButton.setText(bundle.getString("No_btn"));
+        Validation_label.setText(bundle.getString("ValidationAsk_label"));
     }
 
     /**
@@ -38,15 +39,8 @@ public class WalletAskTransferConfirmationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = WalletController.bundle;
         setText();
-        // TODO
     }
 
     /**
@@ -58,8 +52,7 @@ public class WalletAskTransferConfirmationController implements Initializable {
         //TODO
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Confirmation");
-        alert.setHeaderText("Votre demande d'accès aux virements pour ce compte a bien été envoyé !");
+        alert.setHeaderText(bundle.getString("succes8"));
         alert.showAndWait();
 
         Stage stage = (Stage) confirmButton.getScene().getWindow();

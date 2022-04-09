@@ -51,9 +51,9 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        sendButton.setText(bundle.getString("SendRequest"));
-        askWalletLabel.setText(bundle.getString("askWalletLabel"));
-        askWalletTitle.setText(bundle.getString("askWalletTitle"));
+        sendButton.setText(bundle.getString("Send_Request"));
+        askWalletTitle.setText(bundle.getString("AskWalletTitle"));
+        askWalletLabel.setText(bundle.getString("AskWalletLabel"));
     }
 
     /**
@@ -61,13 +61,7 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = DashboardController.bundle;
         setText();
 
         List<FinancialInstitution> financialInstitutions = financialInstitutionService.getAllFinancialInstitutions();
@@ -98,7 +92,7 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
                     alert.showAndWait();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("errorAlready"));
+                    alert.setHeaderText(bundle.getString("error11"));
                     alert.showAndWait();
                 }
             } catch (Exception e) {

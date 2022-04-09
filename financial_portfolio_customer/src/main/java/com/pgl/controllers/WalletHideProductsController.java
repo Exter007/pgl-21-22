@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -26,12 +27,17 @@ public class WalletHideProductsController implements Initializable {
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
+    @FXML
+    private Label HideProductTitle;
+    @FXML
+    private Label HideProductSubTitle;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-
+        HideProductTitle.setText(bundle.getString("HideProductTitle_label"));
+        HideProductSubTitle.setText(bundle.getString("HideProductSubTitle_label"));
     }
 
     /**
@@ -39,13 +45,7 @@ public class WalletHideProductsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = WalletController.bundle;
         setText();
     }
 

@@ -3,6 +3,7 @@ package com.pgl.controllers;
 import com.pgl.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
@@ -16,12 +17,14 @@ public class WalletNotificationsController implements Initializable {
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
+    @FXML
+    private Label NotificationsTitle;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-
+        NotificationsTitle.setText(bundle.getString("NotificationsTitle_label"));
     }
 
     /**
@@ -29,13 +32,7 @@ public class WalletNotificationsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = WalletController.bundle;
         setText();
     }
 }

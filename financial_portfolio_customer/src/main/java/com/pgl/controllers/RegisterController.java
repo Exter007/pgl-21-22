@@ -61,16 +61,16 @@ public class RegisterController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        menu.setText(bundle.getString("Langue_menu"));
-        firstName.setPromptText(bundle.getString("firstName"));
-        lastName.setPromptText(bundle.getString("lastName"));
-        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
-        email.setPromptText(bundle.getString("email"));
-        password.setPromptText(bundle.getString("Mot.de.passe_field"));
-        Password_label.setText(bundle.getString("Password.label"));
-        password2.setPromptText(bundle.getString("Mot.de.passe_field2"));
-        login_link.setText(bundle.getString("login_link"));
-        register_button.setText(bundle.getString("register_btn"));
+        menu.setText(bundle.getString("Language_menu"));
+        firstName.setPromptText(bundle.getString("FirstName_field"));
+        lastName.setPromptText(bundle.getString("LastName_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("NationalRegister_field"));
+        email.setPromptText(bundle.getString("Email_field"));
+        password.setPromptText(bundle.getString("Password_field"));
+        Password_label.setText(bundle.getString("Password_label"));
+        password2.setPromptText(bundle.getString("Password2_field"));
+        login_link.setText(bundle.getString("Login_link"));
+        register_button.setText(bundle.getString("Register_btn"));
     }
 
     /**
@@ -96,27 +96,27 @@ public class RegisterController implements Initializable {
                 password2.getText().isEmpty()){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
+            alert.setHeaderText(bundle.getString("error13"));
             alert.showAndWait();
 
         }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText(bundle.getString("error12"));
             alert.showAndWait();
 
         }else if(!Validators.check_email(email.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre e-mail n'est pas au bon format");
+            alert.setHeaderText(bundle.getString("error14"));
             alert.showAndWait();
 
         }else if(!Validators.check_password(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.setHeaderText(bundle.getString("error4"));
             alert.showAndWait();
 
         }else if(!password.getText().equals(password2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Les mots de passes ne correspondent pas");
+            alert.setContentText(bundle.getString("error5"));
             alert.showAndWait();
 
         }else {

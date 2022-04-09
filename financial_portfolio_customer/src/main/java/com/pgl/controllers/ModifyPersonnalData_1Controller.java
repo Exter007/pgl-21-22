@@ -40,8 +40,8 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        password.setPromptText(bundle.getString("Mot.de.passe_field"));
-        checkPassword.setText(bundle.getString("check_btn"));
+        password.setPromptText(bundle.getString("Password_field"));
+        checkPassword.setText(bundle.getString("Check_btn"));
     }
 
     /**
@@ -49,13 +49,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
-            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        }else{
-            bundle = null;
-        }
+        bundle = DashboardController.bundle;
         setText();
     }
 

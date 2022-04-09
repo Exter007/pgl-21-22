@@ -41,10 +41,10 @@ public class ForgotPassword_1Controller implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        forgotpassword1_label.setText(bundle.getString("forgotpassword1_label"));
-        name.setPromptText(bundle.getString("Nom.complet_field"));
-        nationalRegisterNumber.setPromptText(bundle.getString("N.de.registre.national_field"));
-        sendCode_button.setText(bundle.getString("sendCode_button"));
+        forgotpassword1_label.setText(bundle.getString("ForgotPassword1_label"));
+        name.setPromptText(bundle.getString("Name_field"));
+        nationalRegisterNumber.setPromptText(bundle.getString("NationalRegister_field"));
+        sendCode_button.setText(bundle.getString("SendCode_btn"));
     }
 
     /**

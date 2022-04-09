@@ -30,7 +30,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Produits masqués" textAlignment="CENTER">
+                        <Label fx:id="HideProductTitle" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Produits masqués" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="41.0" />
                            </font>
@@ -45,7 +45,7 @@
                   </HBox>
                   <HBox prefHeight="55.0" prefWidth="1300.0">
                      <children>
-                        <Label contentDisplay="CENTER" prefHeight="55.0" prefWidth="1121.0" text="Vos produits financiers masqués :" textAlignment="CENTER">
+                        <Label fx:id="HideProductSubTitle" contentDisplay="CENTER" prefHeight="55.0" prefWidth="1121.0" text="Vos produits financiers masqués :" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="23.0" />
                            </font>
