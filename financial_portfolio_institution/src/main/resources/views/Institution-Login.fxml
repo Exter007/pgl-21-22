@@ -21,7 +21,7 @@
   <children>
       <MenuBar style="-fx-background-color: #FFF;">
         <menus>
-          <Menu mnemonicParsing="false" text="Langue">
+          <Menu fx:id="Menu" mnemonicParsing="false" text="Langue">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
                   <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
@@ -31,21 +31,21 @@
       </MenuBar>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <children>
-            <Button onMouseClicked="#login" layoutX="98.0" layoutY="363.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
-            <PasswordField fx:id="password" alignment="CENTER" layoutX="80.0" layoutY="279.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" styleClass="field" />
-            <TextField fx:id="BIC" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="BIC" styleClass="field" />
+            <Button fx:id="Connexion_btn" onMouseClicked="#login" layoutX="98.0" layoutY="363.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
+            <PasswordField fx:id="Password_field" alignment="CENTER" layoutX="80.0" layoutY="279.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" styleClass="field" />
+            <TextField fx:id="BIC_field" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="BIC" styleClass="field" />
             <ImageView fitHeight="123.0" fitWidth="211.0" layoutX="119.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/logo-login.png" />
                </image>
             </ImageView>
-            <Hyperlink layoutX="133.0" layoutY="307.0" onMouseClicked="#password_reset" text="Mot de passe oublié ?">
+            <Hyperlink fx:id="PasswordForget_link" layoutX="133.0" layoutY="307.0" onMouseClicked="#password_reset" text="Mot de passe oublié ?">
                <font>
                   <Font size="9.0" />
                </font>
             </Hyperlink>
-            <TextField fx:id="name" alignment="CENTER" layoutX="80.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom de l'institution (Ex. : ING)" styleClass="field" />
-            <Hyperlink onMouseClicked="#register" layoutX="125.0" layoutY="445.0" text="Créer un compte">
+            <TextField fx:id="Name_field" alignment="CENTER" layoutX="80.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom de l'institution (Ex. : ING)" styleClass="field" />
+            <Hyperlink fx:id="CreateAccount_link" onMouseClicked="#register" layoutX="125.0" layoutY="445.0" text="Créer un compte">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

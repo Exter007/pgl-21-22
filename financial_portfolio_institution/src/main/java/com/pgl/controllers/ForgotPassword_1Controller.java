@@ -11,10 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,20 +26,36 @@ import java.util.logging.Logger;
 
 public class ForgotPassword_1Controller implements Initializable {
 
+    @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private TextField name;
-
     @FXML
     private TextField BIC;
+    @FXML
+    private Label forgotpassword1_label;
+    @FXML
+    private Button sendCode_button;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        forgotpassword1_label.setText(bundle.getString("ForgotPassword1_label"));
+        name.setPromptText(bundle.getString("Name_field"));
+        BIC.setPromptText(bundle.getString("BIC_field"));
+        sendCode_button.setText(bundle.getString("SendCode_btn"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        bundle = LoginController.bundle;
+        setText();
     }
 
 

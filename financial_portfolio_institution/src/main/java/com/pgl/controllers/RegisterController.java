@@ -7,6 +7,7 @@ package com.pgl.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +27,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
+
 
 public class RegisterController implements Initializable {
 
-    UserService userService = new UserService();
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
+    static String lang;
 
+    @FXML
+    private Menu menu;
     @FXML
     private TextField institutionName;
     @FXML
@@ -51,14 +59,40 @@ public class RegisterController implements Initializable {
     private PasswordField password;
     @FXML
     private PasswordField password2;
+    @FXML
+    private Hyperlink login_link;
+    @FXML
+    private Label Password_label;
+    @FXML
+    private Button register_button;
 
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        menu.setText(bundle.getString("Language_menu"));
+        BIC.setPromptText(bundle.getString("BIC_field"));
+        institutionName.setPromptText(bundle.getString("InstitutionName_field"));
+        number.setPromptText(bundle.getString("Number_field"));
+        street.setPromptText(bundle.getString("Street_field"));
+        zipCode.setPromptText(bundle.getString("ZipCode_field"));
+        city.setPromptText(bundle.getString("City_field"));
+        country.setPromptText(bundle.getString("Country_field"));
+        email.setPromptText(bundle.getString("Email_field"));
+        password.setPromptText(bundle.getString("Password_field"));
+        Password_label.setText(bundle.getString("Password_label"));
+        password2.setPromptText(bundle.getString("Password2_field"));
+        login_link.setText(bundle.getString("Login_link"));
+        register_button.setText(bundle.getString("Register_btn"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+        bundle = LoginController.bundle;
+        setText();
     }
 
     /**
@@ -79,33 +113,32 @@ public class RegisterController implements Initializable {
                 password2.getText().isEmpty()){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setHeaderText("Un ou plusieurs champs sont invalides, veuillez réessayer");
+            alert.setHeaderText(bundle.getString("error3"));
             alert.showAndWait();
 
         }else if(!Validators.check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 chiffres");
+            alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
 
         }else if(!Validators.check_email(email.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre e-mail n'est pas au bon format");
+            alert.setHeaderText(bundle.getString("error4"));
             alert.showAndWait();
 
         }else if(!Validators.check_password(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.setHeaderText(bundle.getString("error5"));
             alert.showAndWait();
 
         }else if(!password.getText().equals(password2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur");
-            alert.setContentText("Les mots de passes ne correspondent pas");
+            alert.setContentText(bundle.getString("error6"));
             alert.showAndWait();
 
         }else {
             FinancialInstitution user = build_user();
+            user.setLanguage(lang);
 
             user = userService.register(user);
             userService.setCurrentUser(user);
@@ -147,7 +180,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO
+        lang = "fr";
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
     }
 
     /**
@@ -156,7 +191,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO
+        lang = "en";
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        setText();
     }
 
     /**
