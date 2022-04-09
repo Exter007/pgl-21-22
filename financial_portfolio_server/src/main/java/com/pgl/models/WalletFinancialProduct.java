@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "WALLET_FINANCIAL_PRODUCT")
-public class WalletFinancialProduct {
+public class WalletFinancialProduct implements Serializable {
 
     @EmbeddedId
     WalletFinancialProductKey invitationKey;

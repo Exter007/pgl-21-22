@@ -68,4 +68,14 @@ public class Validators {
         isNumeric = (nationalRegisterNumber.length() == 11);
         return isNumeric;
     }
+
+    /**
+     * Checks that the IBAN is composed of at least 14 characters
+     * @param IBAN the bank account numbering
+     * @return true or false
+     */
+    public static boolean check_IBAN(String IBAN){
+        boolean length = (IBAN.length() >= 14);
+        return length;
+    }
 }

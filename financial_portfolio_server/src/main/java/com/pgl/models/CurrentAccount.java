@@ -1,5 +1,7 @@
 package com.pgl.models;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -8,12 +10,14 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue("CURRENT_ACCOUNT")
+@DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class CurrentAccount extends BankAccount {
 
     /** Default constructor
      * (persistent classes requirements)
      */
     public CurrentAccount() {
+        super(ACCOUNT_NATURE.CURRENT_ACCOUNT);
     }
 
     /** Class constructor
@@ -30,7 +34,6 @@ public class CurrentAccount extends BankAccount {
     public CurrentAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency,
                           FinancialInstitution financialInstitution,
                           float monthlyFee, float annualYield) {
-        super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
-        this.setNature(ACCOUNT_NATURE.CURRENT_ACCOUNT);
+        super(iban, ACCOUNT_NATURE.CURRENT_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
     }
 }

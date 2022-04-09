@@ -1,8 +1,6 @@
 package com.pgl.models;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Date;
 
 /** Class that represent a banking saving account
@@ -10,18 +8,24 @@ import java.util.Date;
  */
 @Entity
 @DiscriminatorValue("SAVING_ACCOUNT")
+@DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class SavingsAccount extends BankAccount {
 
     @Column(name="loyalty_date")
     private Date loyaltyDate;
 
     @Column(name="loyalty_bonus")
-    private int loyaltyBonus;
+    private float loyaltyBonus;
+
+    @Column(name="annual_interest")
+    private float annualInterest;
+
 
     /** Default constructor
      * (persistent classes requirements)
      */
     public SavingsAccount() {
+        super(ACCOUNT_NATURE.SAVING_ACCOUNT);
     }
 
     /** Class constructor
@@ -35,13 +39,14 @@ public class SavingsAccount extends BankAccount {
      * @param monthlyFee a float
      * @param annualYield a float
      * @param loyaltyDate a Date object
-     * @param loyaltyBonus an int
+     * @param loyaltyBonus an float
+     * @param annualInterest an float
      */
-    public SavingsAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date loyaltyDate, int loyaltyBonus) {
-        super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
-        this.setNature(ACCOUNT_NATURE.SAVING_ACCOUNT);
+    public SavingsAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date loyaltyDate, float loyaltyBonus, float annualInterest) {
+        super(iban, ACCOUNT_NATURE.SAVING_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.loyaltyDate = loyaltyDate;
         this.loyaltyBonus = loyaltyBonus;
+        this.annualInterest = annualInterest;
     }
 
     /** Get the loyalty date of this account
@@ -62,17 +67,33 @@ public class SavingsAccount extends BankAccount {
 
     /** Get the loyalty bonus of this account
      *
-     * @return the loyalty bonus in the form of an int
+     * @return the loyalty bonus in the form of an float
      */
-    public int getLoyaltyBonus() {
+    public float getLoyaltyBonus() {
         return loyaltyBonus;
     }
 
     /** Set the loyalty bonus of this account
      *
-     * @param loyaltyBonus an int
+     * @param loyaltyBonus an float
      */
-    public void setLoyaltyBonus(int loyaltyBonus) {
+    public void setLoyaltyBonus(float loyaltyBonus) {
         this.loyaltyBonus = loyaltyBonus;
+    }
+
+    /**
+     * Get the Annual Interest of this account
+     * @return
+     */
+    public float getAnnualInterest() {
+        return annualInterest;
+    }
+
+    /**
+     * Set the Annual Interest of this account
+     * @param annualInterest
+     */
+    public void setAnnualInterest(float annualInterest) {
+        this.annualInterest = annualInterest;
     }
 }

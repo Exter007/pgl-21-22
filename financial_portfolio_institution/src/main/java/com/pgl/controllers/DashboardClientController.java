@@ -73,6 +73,10 @@ public class DashboardClientController implements Initializable {
         DynamicViews.loadBorderCenter("Institution-Dashboard-AddClient");
     }
 
+    /**
+     * Select an item from the list
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void selectedItem(MouseEvent event){
         String label = clientListView.getSelectionModel().getSelectedItem();
@@ -81,6 +85,10 @@ public class DashboardClientController implements Initializable {
         productHolderService.setCurrentClient(clientList.get(index));
     }
 
+    /**
+     * Show selected item
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void on_display(MouseEvent event){
         if(productHolderService.getCurrentHolder() != null){
@@ -91,6 +99,10 @@ public class DashboardClientController implements Initializable {
 
     }
 
+    /**
+     * Modify a selected item in the list
+     * @param event event the click of the mouse on the button
+     */
     @FXML
     private void on_edit(MouseEvent event){
         if(productHolderService.getCurrentHolder() != null){
@@ -111,7 +123,7 @@ public class DashboardClientController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = productHolderService.deleteById(productHolderService.getCurrentHolder().getId());
+                boolean status = productHolderService.deleteById(String.valueOf(productHolderService.getCurrentHolder().getId()));
                 // if successful deletion
                 if (status){
                     productHolderService.moveCurrentClient();

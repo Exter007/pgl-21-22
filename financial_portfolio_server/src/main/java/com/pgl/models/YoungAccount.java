@@ -1,14 +1,13 @@
 package com.pgl.models;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 /** Class that represent a banking young account
  *
  */
 @Entity
 @DiscriminatorValue("YOUNG_ACCOUNT")
+@DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class YoungAccount extends BankAccount {
 
     @Column(name="age_limit")
@@ -21,6 +20,7 @@ public class YoungAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public YoungAccount() {
+        super(ACCOUNT_NATURE.YOUNG_ACCOUNT);
     }
 
     /** Class constructor
@@ -37,8 +37,7 @@ public class YoungAccount extends BankAccount {
      * @param maxTransactionAmount a float
      */
     public YoungAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, int ageLimit, float maxTransactionAmount) {
-        super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
-        this.setNature(ACCOUNT_NATURE.YOUNG_ACCOUNT);
+        super(iban, ACCOUNT_NATURE.YOUNG_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.ageLimit = ageLimit;
         this.maxTransactionAmount = maxTransactionAmount;
     }

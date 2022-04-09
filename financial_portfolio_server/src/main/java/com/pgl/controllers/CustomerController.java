@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="customer/")
@@ -40,8 +41,8 @@ public class CustomerController {
     @GetMapping(value = "wallet/find-by-id/{id}")
     public ResponseEntity<?> findWalletById(@PathVariable Long id){
         logger.debug("Call : Get Wallet by id");
-        Wallet entity = walletRepository.findById(id).get();
-        return ResponseEntity.ok(entity);
+        Optional<Wallet> result = walletRepository.findById(id);
+        return result.map(ResponseEntity::ok).orElse(null);
     }
 
 //    @RolesAllowed("APPLICATION_CLIENT")

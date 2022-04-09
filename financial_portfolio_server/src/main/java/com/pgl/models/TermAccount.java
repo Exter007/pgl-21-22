@@ -1,8 +1,6 @@
 package com.pgl.models;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Date;
 
 /** Class that represent a banking term account
@@ -10,6 +8,7 @@ import java.util.Date;
  */
 @Entity
 @DiscriminatorValue("TERM_ACCOUNT")
+@DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class TermAccount extends BankAccount {
 
     @Column(name="maximum_date")
@@ -22,6 +21,7 @@ public class TermAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public TermAccount() {
+        super(ACCOUNT_NATURE.TERM_ACCOUNT);
     }
 
     /** Class constructor
@@ -38,8 +38,7 @@ public class TermAccount extends BankAccount {
      * @param penalty a long
      */
     public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
-        super(iban, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
-        this.setNature(ACCOUNT_NATURE.TERM_ACCOUNT);
+        super(iban, ACCOUNT_NATURE.TERM_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.maximumDate = maximumDate;
         this.penalty = penalty;
     }

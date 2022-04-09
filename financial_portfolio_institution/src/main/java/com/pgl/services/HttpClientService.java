@@ -1,6 +1,8 @@
 package com.pgl.services;
 
 import com.pgl.models.FinancialProductHolder;
+import com.pgl.models.Persistent;
+import com.pgl.models.PersistentWithoutId;
 import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
 import javafx.scene.control.Alert;
@@ -10,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 public class HttpClientService<P>{
@@ -79,14 +82,11 @@ public class HttpClientService<P>{
 
             if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
                 showNotAuthException();
-            } else if (ex.getMessage().contains("This element already exists")) {
+            } else if (ex.getMessage().contains("This element already exists")
+                    || ex.getMessage().contains("ConstraintViolationException")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Erreur de duplication");
                 alert.setContentText("L'élément existe déjà");
-                alert.showAndWait();
-            }else if (ex.getMessage().contains("Password mismatch")){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Mot de passe incorrect");
                 alert.showAndWait();
             }else {
                 showOtherException();
@@ -98,13 +98,12 @@ public class HttpClientService<P>{
         return null;
     }
 
-
     /**
      * Find an entity by id
      * @param id
      * @return entity retrieved
      */
-    public P findById(Long id){
+    public P findById(String id){
         String findByIdPath = "/find-by-id/";
         String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + findByIdPath + id;
         System.out.println(url);
@@ -138,7 +137,7 @@ public class HttpClientService<P>{
      * @param id
      * @return a boolean status result
      */
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         String deleteByIdPath = "/delete-by-id/";
 
         String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + deleteByIdPath + id;
@@ -223,7 +222,7 @@ public class HttpClientService<P>{
 
             System.out.println(response.getStatusCode());
 
-            return (P) response.getBody();
+            return response.getBody();
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
@@ -241,6 +240,38 @@ public class HttpClientService<P>{
     }
 
     /**
+     * Post request with specific url
+     * @return boolean
+     */
+    public boolean post2(String url, P entity){
+        System.out.println("url: "+url);
+
+        HttpEntity<P> httpEntity = getHttpEntity(entity);
+
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, boolean.class);
+
+            System.out.println(response.getStatusCode());
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
+    }
+
+    /**
      * Retrieve an entity with specific url
      * @return entity retrieved
      */
@@ -255,7 +286,7 @@ public class HttpClientService<P>{
 
             System.out.println(response.getStatusCode());
 
-            return (P) response.getBody();
+            return response.getBody();
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());

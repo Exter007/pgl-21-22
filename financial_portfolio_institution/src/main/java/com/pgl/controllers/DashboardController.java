@@ -1,12 +1,10 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
-import com.pgl.models.FinancialProductHolder;
-import com.pgl.services.ProductHolderService;
+
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,11 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -120,8 +116,12 @@ public class DashboardController implements Initializable {
         //TODO
     }
 
+    /**
+     * Access the financial products management interface
+     * @param event the click of the mouse on the menu
+     */
     @FXML
-    private void on_wallet(ActionEvent event){
+    private void on_product(ActionEvent event){
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
             Stage newWindow = new Stage();
@@ -133,9 +133,27 @@ public class DashboardController implements Initializable {
         }
     }
 
+    /**
+     * Access the Client management interface
+     * @param event the click of the mouse on the menu
+     */
     @FXML
     private void on_client(ActionEvent event){
         DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-Client");
+    }
+
+    @FXML
+    private void on_accounts(ActionEvent event){
+        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-BankAccount");
+    }
+
+    /**
+     * Access the Insurance management interface
+     * @param event the click of the mouse on the menu
+     */
+    @FXML
+    private void on_insurances(ActionEvent event){
+       //TODO
     }
 
     /**

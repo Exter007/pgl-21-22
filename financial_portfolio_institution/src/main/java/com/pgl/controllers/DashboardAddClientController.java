@@ -1,33 +1,26 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
-import com.pgl.models.FinancialInstitution;
 import com.pgl.models.FinancialProductHolder;
+import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.ProductHolderService;
 import com.pgl.services.UserService;
-import com.pgl.utils.GlobalStage;
 import com.pgl.utils.Validators;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DashboardAddClientController implements Initializable {
 
     UserService userService = new UserService();
     ProductHolderService productHolderService = new ProductHolderService();
+    FinancialInstitutionService institutionService = new FinancialInstitutionService();
 
     @FXML
     private TextField firstName;
@@ -52,6 +45,9 @@ public class DashboardAddClientController implements Initializable {
         }
     }
 
+    /**
+     *  Load Current Holder data on the interface for edit mode
+     */
     private void setCurrentHolder(){
         FinancialProductHolder holder = productHolderService.getCurrentHolder();
         firstName.setText(holder.getFirstName());
@@ -80,14 +76,21 @@ public class DashboardAddClientController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
             alert.showAndWait();
-
         }else if(!Validators.check_password(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
             alert.showAndWait();
-        }else{
+        }else if (!institutionService.checkPassword(password.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Le mot de passe est incorrect");
+            alert.showAndWait();
+        } else if(!productHolderService.isEdit() && (productHolderService
+                .getHolderByInstitutionAndRegisterNum(nationalRegisterNumber.getText())) != null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Un client avec ce registre national existe deja");
+            alert.showAndWait();
+        } else{
             FinancialProductHolder holder = build_holder();
-
             FinancialProductHolder result = productHolderService.save(holder);
 
             if (result != null){
@@ -106,19 +109,16 @@ public class DashboardAddClientController implements Initializable {
         // If edit mode
         if(productHolderService.isEdit()){
             holder = productHolderService.getCurrentHolder();
+            holder.setModificationDate(new Date());
         }else {
             holder = new FinancialProductHolder();
-            holder.toUpdate = false;
         }
 
         holder.setFirstName(firstName.getText());
         holder.setName(lastName.getText());
         holder.setNationalRegister(nationalRegisterNumber.getText());
         holder.setBirthDate(java.sql.Date.valueOf(birthDate.getValue()));
-        FinancialInstitution currentUser = userService.getCurrentUser();
-        // Set password to be able to check it
-        currentUser.setPassword(password.getText());
-        holder.setFinancialInstitution((currentUser));
+        holder.setFinancialInstitution(userService.getCurrentUser());
 
         return holder;
     }

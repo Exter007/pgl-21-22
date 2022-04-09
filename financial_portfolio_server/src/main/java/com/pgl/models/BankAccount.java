@@ -6,17 +6,18 @@ import javax.persistence.*;
  *
  */
 @Entity
-@DiscriminatorColumn(name="ACCOUNT_NATURE")
+@DiscriminatorValue(value="BANK_ACCOUNT")
+@DiscriminatorColumn(name="TYPE",discriminatorType=DiscriminatorType.STRING)
 public abstract class BankAccount extends FinancialProduct {
 
-    @Column(name="iban",unique = true, nullable = false)
+    @Column(name="iban")
     private String iban;
 
     @Column(name="nature", nullable = false)
     private ACCOUNT_NATURE nature;
 
-    @Column(name="type", nullable = false)
-    private ACCOUNT_TYPE type;
+    @Column(name="account_type")
+    private ACCOUNT_TYPE accountType;
 
     @Column(name="pin_code", nullable = false)
     private String pin_code;
@@ -33,10 +34,25 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="annualYield")
     private float annualYield;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "joint_iban", referencedColumnName = "id")
+    private CurrentAccount jointIban;
+
+
     /** Default constructor
      * (persistent classes requirements)
      */
     public BankAccount() {
+        super(PRODUCT_TYPE.BANK_ACCOUNT);
+    }
+
+    /** Class constructor
+     *
+     * @param nature
+     */
+    public BankAccount(ACCOUNT_NATURE nature) {
+        super(PRODUCT_TYPE.BANK_ACCOUNT);
+        this.nature = nature;
     }
 
     /** Class constructor
@@ -50,15 +66,16 @@ public abstract class BankAccount extends FinancialProduct {
      * @param monthlyFee a float
      * @param annualYield a float
      */
-    public BankAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
-        super(state, financialInstitution);
+    public BankAccount(String iban, ACCOUNT_NATURE nature, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
+        super(PRODUCT_TYPE.BANK_ACCOUNT, state, financialInstitution);
         this.iban = iban;
-        this.type = type;
+        this.accountType = type;
         this.pin_code = pin_code;
         this.amount = 0;
         this.currency = currency;
         this.monthlyFee = monthlyFee;
         this.annualYield = annualYield;
+        this.nature = nature;
     }
 
     /** Get the IBAN
@@ -81,16 +98,16 @@ public abstract class BankAccount extends FinancialProduct {
      *
      * @return the type in the form of a BankAccount.ACCOUNT_TYPE enum
      */
-    public ACCOUNT_TYPE getType() {
-        return type;
+    public ACCOUNT_TYPE getAccountType() {
+        return accountType;
     }
 
     /** Set the type of account
      *
      * @param type a BankAccount.ACCOUNT_TYPE enum
      */
-    public void setType(ACCOUNT_TYPE type) {
-        this.type = type;
+    public void setAccountType(ACCOUNT_TYPE type) {
+        this.accountType = type;
     }
 
     /** Get the pin code
@@ -187,6 +204,22 @@ public abstract class BankAccount extends FinancialProduct {
      */
     protected void setNature(ACCOUNT_NATURE nature) {
         this.nature = nature;
+    }
+
+    /** Get the IBAN joint of this account
+     *
+     * @return
+     */
+    public CurrentAccount getJointIban() {
+        return jointIban;
+    }
+
+    /** Set the IBAN joint of this account
+     *
+     * @param jointIban
+     */
+    public void setJointIban(CurrentAccount jointIban) {
+        this.jointIban = jointIban;
     }
 
     /** Represent the account type

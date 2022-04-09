@@ -87,7 +87,7 @@
                         </HBox>
                         <HBox layoutX="37.0" layoutY="164.0" prefHeight="76.0" prefWidth="1230.0">
                            <children>
-                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tout vos produits financiers:" textAlignment="CENTER">
+                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tous les produits financiers:" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -317,8 +317,14 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Acceuil">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#on_wallet" text="Produits financiers" />
+                <MenuItem mnemonicParsing="false" onAction="#on_product" text="Produits financiers" />
                   <MenuItem mnemonicParsing="false" onAction="#on_client" text="Clients" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Produits">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#on_accounts" text="Comptes bancaires" />
+                  <MenuItem mnemonicParsing="false" onAction="#on_insurances" text="Assurances" />
               </items>
             </Menu>
         </menus>

@@ -10,12 +10,16 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name = "FINANCIAL_PRODUCT")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="TYPE",discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue(value="FINANCIAL_PRODUCT")
 public class FinancialProduct extends Persistent {
 
     @Column(name = "wording")
     private String wording;
+
+    @Column(name = "product_type")
+    private PRODUCT_TYPE productType;
 
     @Column(name = "state", nullable = false)
     private PRODUCT_STATE state;
@@ -33,30 +37,46 @@ public class FinancialProduct extends Persistent {
      * (persistent classes requirements)
      */
     public FinancialProduct() {
+        this.state = PRODUCT_STATE.UNARCHIVED;
     }
 
     /** Class constructor
      *
+     * @param productType
+     */
+    public FinancialProduct(PRODUCT_TYPE productType) {
+        this.productType = productType;
+        this.state = PRODUCT_STATE.UNARCHIVED;
+    }
+
+    /** Class constructor
+     *
+     * @param productType
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      */
-    public FinancialProduct(PRODUCT_STATE state, FinancialInstitution financialInstitution) {
+    public FinancialProduct(PRODUCT_TYPE productType, PRODUCT_STATE state, FinancialInstitution financialInstitution) {
         this.state = state;
         this.financialInstitution = financialInstitution;
+        this.productType = productType;
+        this.state = PRODUCT_STATE.UNARCHIVED;
     }
 
     /** Class constructor with all attributes
      *
      * @param wording a String object
+     * @param productType
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      * @param financialProductHolders a List that contains the financial product holders who have this product
      */
-    public FinancialProduct(String wording, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
+    public FinancialProduct(String wording, PRODUCT_TYPE productType, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
         this.wording = wording;
         this.state = state;
         this.financialProductHolders = financialProductHolders;
         this.financialInstitution = financialInstitution;
+        this.productType = productType;
+        this.state = PRODUCT_STATE.UNARCHIVED;
     }
 
     /** Get the wording of this product
@@ -73,6 +93,22 @@ public class FinancialProduct extends Persistent {
      */
     public void setWording(String wording) {
         this.wording = wording;
+    }
+
+    /**
+     * Set the type of financial product
+     * @return
+     */
+    public PRODUCT_TYPE getProductType() {
+        return productType;
+    }
+
+    /**
+     *  Get the type of financial product
+     * @param productType a FinancialProduct.PRODUCT_TYPE enum
+     */
+    public void setProductType(PRODUCT_TYPE productType) {
+        this.productType = productType;
     }
 
     /** Get the state of this product
@@ -121,6 +157,13 @@ public class FinancialProduct extends Persistent {
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
+    }
+
+    /** Represent the product type
+     */
+    public enum PRODUCT_TYPE{
+        BANK_ACCOUNT,
+        INSURANCE,
     }
 
     /** Represent the product state

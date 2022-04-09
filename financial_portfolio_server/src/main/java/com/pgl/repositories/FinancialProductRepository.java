@@ -11,4 +11,10 @@ public interface FinancialProductRepository extends CrudRepository<FinancialProd
 
     @Query("SELECT r FROM FinancialProduct r where r.financialInstitution.BIC=:f")
     List<FinancialProduct> findProductsByInstitution(@Param("f") String bic);
+
+    @Query("SELECT r FROM FinancialProduct r where r.financialInstitution.BIC=:b and r.productType =:t ")
+    List<FinancialProduct> findProductsByInstitutionAndProductType(@Param("b")String bic, @Param("t") FinancialProduct.PRODUCT_TYPE productType);
+
+    @Query("SELECT r FROM BankAccount r where r.financialInstitution.BIC=:b and r.productType =:t and r.iban=:i ")
+    FinancialProduct findProductByInstitutionAndIBAN(@Param("b")String bic, @Param("i")String iban, @Param("t") FinancialProduct.PRODUCT_TYPE productType);
 }

@@ -20,8 +20,8 @@ class BankAccountTest {
 
     @Test
     void getType() {
-        assertEquals("ACCOUNT_TYPE", bankAccount.getType().getClass().getSimpleName());//test the type
-        assertEquals(BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT, bankAccount.getType());//test the value
+        assertEquals("ACCOUNT_TYPE", bankAccount.getAccountType().getClass().getSimpleName());//test the type
+        assertEquals(BankAccount.ACCOUNT_TYPE.INDIVIDUAL_ACCOUNT, bankAccount.getAccountType());//test the value
     }
 
     @Test

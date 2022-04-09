@@ -1,8 +1,8 @@
 package com.pgl.controllers;
 
-import com.pgl.models.FinancialInstitution;
-import com.pgl.models.FinancialProduct;
-import com.pgl.models.FinancialProductHolder;
+import com.pgl.models.*;
+import com.pgl.repositories.BankAccountRepository;
+import com.pgl.repositories.FinancialProductHolderRepository;
 import com.pgl.repositories.FinancialProductRepository;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.FinancialProductHolderService;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "institution/")
@@ -24,10 +25,13 @@ public class InstitutionController {
     FinancialProductRepository financialProductRepository;
 
     @Autowired
-    FinancialProductHolderService financialProductHolderService;
+    FinancialProductHolderRepository productHolderRepository;
 
     @Autowired
     FinancialInstitutionService financialInstitutionService;
+
+    @Autowired
+    BankAccountRepository bankAccountRepository;
 
     public InstitutionController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -43,12 +47,7 @@ public class InstitutionController {
      */
     @PostMapping(value = "holder/save")
     public ResponseEntity<?> saveHolder(@RequestBody FinancialProductHolder holder){
-        boolean check = financialInstitutionService.checkPassword(holder.getFinancialInstitution());
-        if (!check){
-            throw new RuntimeException("Password mismatch");
-        }
-        holder = financialProductHolderService.saveHolder(holder);
-        return ResponseEntity.ok(holder);
+        return ResponseEntity.ok(productHolderRepository.save(holder));
     }
 
     /**
@@ -60,8 +59,8 @@ public class InstitutionController {
     @GetMapping(value = "holder/find-by-id/{id}")
     public ResponseEntity<?> findHolderById(@PathVariable Long id){
         logger.debug("Call : Get holder by id");
-        FinancialProductHolder entity = financialProductHolderService.getRepository().findById(id).get();
-        return ResponseEntity.ok(entity);
+        Optional<FinancialProductHolder> result = productHolderRepository.findById(id);
+        return result.map(ResponseEntity::ok).orElse(null);
     }
 
     /**
@@ -73,7 +72,7 @@ public class InstitutionController {
     @DeleteMapping(value = "holder/delete-by-id/{id}")
     public ResponseEntity<?> deleteHolderById(@PathVariable Long id){
         logger.debug("Call : delete holder by id");
-        financialProductHolderService.getRepository().deleteById(id);
+        productHolderRepository.deleteById(id);
         return ResponseEntity.ok(true);
     }
 
@@ -83,9 +82,7 @@ public class InstitutionController {
      */
     @GetMapping(value = "holder/get-by-institution/{bic}")
     public ResponseEntity<?> getHoldersByInstitution(@PathVariable String bic) {
-        List<FinancialProductHolder> holders = financialProductHolderService
-                .getRepository().findHoldersByInstitution(bic);
-        return ResponseEntity.ok(holders);
+        return ResponseEntity.ok(productHolderRepository.findHoldersByInstitution(bic));
     }
 
     /** Retrieve Financial product holder by Financial institution BIC and National register of a Client
@@ -95,9 +92,8 @@ public class InstitutionController {
      */
     @GetMapping("holder/get-by-institution-and-client/{bic}/{nationalRegister}")
     public ResponseEntity<?> getHolderByInstitutionAndClient(@PathVariable String bic, @PathVariable String nationalRegister) {
-        FinancialProductHolder holder = financialProductHolderService.getRepository()
-                .findHolderByInstitutionAndClient(bic, nationalRegister);
-        return ResponseEntity.ok(holder);
+        return ResponseEntity.ok(productHolderRepository
+                .findHolderByInstitutionAndClient(bic, nationalRegister));
     }
 
     // Ressources for Financial Institution
@@ -106,10 +102,10 @@ public class InstitutionController {
      * @param institution
      * @return
      */
-    @PostMapping(value = "institution/check-password")
+    @PostMapping(value = "check-password")
     public ResponseEntity<?> checkPassword(@RequestBody FinancialInstitution institution){
 
-        return ResponseEntity.ok(institution);
+        return ResponseEntity.ok(financialInstitutionService.checkPassword(institution));
     }
 
 
@@ -123,5 +119,92 @@ public class InstitutionController {
     public ResponseEntity<?> getProductsByInstitution(@PathVariable String bic) {
         List<FinancialProduct> products = financialProductRepository.findProductsByInstitution(bic);
         return ResponseEntity.ok(products);
+    }
+
+    // Ressources for Bank Account
+
+    /**
+     * Save Current Account
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "current-account/save")
+    public ResponseEntity<?> saveCurrentAccount(@RequestBody CurrentAccount account){
+        return ResponseEntity.ok(bankAccountRepository.save(account));
+    }
+
+    /**
+     * Save Saving Account
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "saving-account/save")
+    public ResponseEntity<?> saveAccount(@RequestBody SavingsAccount account){
+        return ResponseEntity.ok(bankAccountRepository.save(account));
+    }
+
+    /**
+     * Save Young Account
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "young-account/save")
+    public ResponseEntity<?> saveYoungAccount(@RequestBody YoungAccount account){
+        return ResponseEntity.ok(bankAccountRepository.save(account));
+    }
+
+    /**
+     * Save Term Account
+     * @param account
+     * @return
+     */
+    @PostMapping(value = "term-account/save")
+    public ResponseEntity<?> saveTermAccount(@RequestBody TermAccount account){
+        return ResponseEntity.ok(bankAccountRepository.save(account));
+    }
+
+    /**
+     * Find Bank Account by ID
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "account/find-by-id/{id}")
+    public ResponseEntity<?> findAccountById(@PathVariable Long id){
+        logger.debug("Call : Get Bank Account by id");
+        Optional<BankAccount> result = bankAccountRepository.findById(id);
+        return result.map(ResponseEntity::ok).orElse(null);
+    }
+
+    /**
+     * Delete Bank Account by ID
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "account/delete-by-id/{id}")
+    public ResponseEntity<?> deleteAccountById(@PathVariable Long id){
+        logger.debug("Call : delete Bank Account by id");
+        bankAccountRepository.deleteById(id);
+        return ResponseEntity.ok(true);
+    }
+
+    /** Retrieve Bank Account by Financial institution BIC
+     * @param bic A FinancialInstitution's BIC
+     * @return List of all the BankAccount of a certain FinancialInstitution
+     */
+    @GetMapping(value = "account/get-by-institution/{bic}")
+    public ResponseEntity<?> getAccountByInstitution(@PathVariable String bic) {
+        List<FinancialProduct> accounts = financialProductRepository.findProductsByInstitutionAndProductType(bic, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+        return ResponseEntity.ok(accounts);
+    }
+
+    /** Retrieve Bank Account by IBAN for a Financial Holder
+     * @param bic A FinancialInstitution's BIC
+     * @param iban A BankAccount IBAN
+     * @return List of all the BankAccount of a certain FinancialInstitution
+     */
+    @GetMapping(value = "account/get-by-institution-iban/{bic}/{iban}")
+    public ResponseEntity<?> getProductByInstitutionAndIBAN(@PathVariable String bic, @PathVariable String iban) {
+        FinancialProduct account = financialProductRepository.findProductByInstitutionAndIBAN(bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+        return ResponseEntity.ok(account);
     }
 }

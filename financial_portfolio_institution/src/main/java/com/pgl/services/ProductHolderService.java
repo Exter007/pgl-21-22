@@ -14,7 +14,7 @@ public class ProductHolderService extends HttpClientService<FinancialProductHold
 
     /**
      * To define the action to perform on an object
-     * false si création d'un nouvel object
+     * false if creation of a new object
      * true if modifying an existing object
      */
     private static boolean edit = false;
@@ -47,14 +47,25 @@ public class ProductHolderService extends HttpClientService<FinancialProductHold
         ProductHolderService.currentHolder = currentHolder;
     }
 
+    /**
+     * Determine interface access mode
+     * @return Mode of access to the interface represented by a boolean
+     */
     public boolean isEdit() {
         return edit;
     }
 
+    /**
+     * Define the mode of access to the interface
+     * @param edit
+     */
     public void setEdit(boolean edit) {
         ProductHolderService.edit = edit;
     }
 
+    /**
+     * Remove the currently selected element
+     */
     public void moveCurrentClient(){
         setCurrentClient(null);
     }
@@ -68,5 +79,17 @@ public class ProductHolderService extends HttpClientService<FinancialProductHold
                 + userService.getCurrentUser().getBIC();
 
         return getListByURL(url);
+    }
+
+    /**
+     * Retrieve Customer from his National Register number an a Financial Institution BIC
+     * @return
+     */
+    public FinancialProductHolder getHolderByInstitutionAndRegisterNum(String registerNumber){
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath +"/get-by-institution-and-client/"
+                + userService.getCurrentUser().getBIC() + "/"
+                + registerNumber;
+
+        return getByURL(url);
     }
 }

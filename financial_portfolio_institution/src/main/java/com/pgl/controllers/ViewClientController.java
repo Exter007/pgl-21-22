@@ -43,6 +43,9 @@ public class ViewClientController implements Initializable {
         loadHolder();
     }
 
+    /**
+     * Load Financial Holder data to the interface
+     */
     public void loadHolder(){
         holder = productHolderService.getCurrentHolder();
         lastName.setText(holder.getName());
@@ -52,6 +55,10 @@ public class ViewClientController implements Initializable {
         birthDate.setText(dateFormat.format(holder.getBirthDate()));
     }
 
+    /**
+     * Access the interface for modifying the Financial Holder selected
+     * @param event the click of the mouse on the button
+     */
     @FXML
     private void on_edit(MouseEvent event){
         if(productHolderService.getCurrentHolder() != null){
@@ -62,18 +69,22 @@ public class ViewClientController implements Initializable {
         }
     }
 
+    /**
+     *  Delete Financial Holder selected
+     * @param event
+     */
     @FXML
     private void on_delete(MouseEvent event) {
         if(productHolderService.getCurrentHolder() != null){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = productHolderService.deleteById(productHolderService.getCurrentHolder().getId());
+                boolean status = productHolderService.deleteById(String.valueOf(productHolderService.getCurrentHolder().getId()));
                 // if successful deletion
                 if (status){
                     productHolderService.moveCurrentClient();
                     try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard.fxml"));
+                        Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Dashboard-Client.fxml"));
                         Stage newWindow = new Stage();
                         Scene scene = new Scene(root);
                         newWindow.setScene(scene);
