@@ -39,8 +39,9 @@
                            <children>
                               <AnchorPane prefHeight="141.0" prefWidth="1300.0">
                                  <children>
-                                    <VBox prefHeight="809.0" prefWidth="1297.0">
+                                    <VBox fx:id="vbox" prefHeight="809.0" prefWidth="1297.0">
                                        <children>
+                                          <!--
                                           <HBox alignment="CENTER" prefHeight="156.0" prefWidth="1197.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
                                              <children>
                                                 <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Doe John">
@@ -78,12 +79,12 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" onAction="#accept_request" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
+                                                      <Button fx:id="accept" mnemonicParsing="false" onAction="#accept_request" prefHeight="52.0" prefWidth="214.0" text="Accepter" textFill="#00d23f">
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
                                                          </VBox.margin>
                                                       </Button>
-                                                      <Button mnemonicParsing="false" onAction="#refuse_request" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
+                                                      <Button fx:id="decline" mnemonicParsing="false" onAction="#refuse_request" prefHeight="48.0" prefWidth="216.0" text="Refuser" textFill="RED" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -244,6 +245,7 @@
                                                 <Insets bottom="30.0" left="50.0" right="50.0" />
                                              </VBox.margin>
                                           </HBox>
+                                          -->
                                        </children>
                                     </VBox>
                                  </children>

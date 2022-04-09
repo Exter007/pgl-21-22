@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -133,7 +135,31 @@ public class InstitutionController {
 
     @RequestMapping("request-wallet/update")
     public ResponseEntity<?> updateRequestWallet(@RequestBody RequestWallet requestWallet){
-        requestWalletRepository.deleteById(requestWallet.getId().toString());
+        requestWalletRepository.deleteById(requestWallet.getId());
+        requestWallet.setModificationDate(new Date());
         return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
+    }
+
+    /**
+     * @return List of all the requested wallets
+     */
+    @GetMapping("request-wallet/list/{bic}")
+    public ResponseEntity<?> getAllFinancialInstitutions(@PathVariable String bic){
+        List<RequestWallet> entities = (List<RequestWallet>) requestWalletRepository.findAllByFinancialInstitution(bic);
+        return ResponseEntity.ok(entities);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @GetMapping("request-wallet/find-by-id/{id}")
+    public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
+        if(requestWalletRepository.findById(id).isPresent()){
+            RequestWallet entity = requestWalletRepository.findById(id).get();
+            return ResponseEntity.ok(entity);
+        } else {
+            return ResponseEntity.ok(null);
+        }
     }
 }

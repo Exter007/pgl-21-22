@@ -1,6 +1,7 @@
 package com.pgl.services;
 
 import com.pgl.models.RequestWallet;
+import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.utils.GlobalVariables;
 import org.springframework.core.ParameterizedTypeReference;
 
@@ -17,5 +18,15 @@ public class RequestWalletService  extends HttpClientService<RequestWallet>{
     public RequestWallet updateRequestWallet(RequestWallet requestWallet){
         String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/update";
         return post(url, requestWallet);
+    }
+
+    public List<RequestWallet> getAllRequestWallet(String bic) {
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/list/" + bic;
+        return getListByURL(url);
+    }
+
+    public RequestWallet findById(Long id) {
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/find-by-id/" + id;
+        return getByURL(url);
     }
 }
