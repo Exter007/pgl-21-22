@@ -6,12 +6,10 @@ import com.pgl.repositories.FinancialProductHolderRepository;
 import com.pgl.repositories.FinancialProductRepository;
 import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.services.FinancialInstitutionService;
-import com.pgl.services.FinancialProductHolderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -221,6 +219,9 @@ public class InstitutionController {
         requestWallet.setModificationDate(new Date());
         return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
     }
+
+
+    // Ressources for Request Wallet
 
     /**
      * @return List of all the requested wallets

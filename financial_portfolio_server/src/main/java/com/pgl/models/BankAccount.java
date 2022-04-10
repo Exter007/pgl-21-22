@@ -19,7 +19,7 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="account_type")
     private ACCOUNT_TYPE accountType;
 
-    @Column(name="pin_code", nullable = false)
+    @Column(name="pin_code")
     private String pin_code;
 
     @Column(name="amount")

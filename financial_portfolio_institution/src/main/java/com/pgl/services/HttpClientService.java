@@ -6,13 +6,11 @@ import com.pgl.models.PersistentWithoutId;
 import com.pgl.utils.ContextName;
 import com.pgl.utils.GlobalVariables;
 import javafx.scene.control.Alert;
-import org.springframework.cglib.core.TypeUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.List;
 
 public class HttpClientService<P>{

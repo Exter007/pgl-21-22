@@ -44,7 +44,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1078.0">
                      <children>
-                        <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="930.0" text="Vos comptes bancaires :" textAlignment="CENTER">
+                        <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="930.0" text="Tous les comptes bancaires :" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
