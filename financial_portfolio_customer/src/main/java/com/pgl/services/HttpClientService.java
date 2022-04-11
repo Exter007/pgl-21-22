@@ -172,6 +172,34 @@ public class HttpClientService<P>{
 
     }
 
+    public boolean deleteRequestWallet(String financialInstitutionID, String applicationClientID) {
+        String deleteByIdPath = "/delete/";
+
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/" + deleteByIdPath +applicationClientID + "/" + financialInstitutionID;
+
+        HttpEntity<P> httpEntity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.DELETE,
+                    httpEntity, boolean.class);
+            return true;
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
+
+    }
+
     /**
      * Retrieve the full entities list
      * @return entities list retrieved

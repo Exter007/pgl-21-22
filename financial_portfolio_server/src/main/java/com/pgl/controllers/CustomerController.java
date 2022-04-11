@@ -118,10 +118,11 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping("request-wallet/delete-by-id/{id}")
-    public ResponseEntity<?> deleteRequestWalletById(@PathVariable Long id){
+    @DeleteMapping("request-wallet/delete/{applicationClientID}/{financialInstitutionBIC}")
+    public ResponseEntity<?> deleteRequestWallet(@PathVariable String applicationClientID, @PathVariable String financialInstitutionBIC) {
         logger.debug("Call : delete RequestWallet by id");
-        requestWalletRepository.deleteById(id);
+        RequestWallet rq = requestWalletRepository.findByApplicationClientAndFinancialInstitution(applicationClientID, financialInstitutionBIC);
+        requestWalletRepository.deleteById(rq.getId());
         return ResponseEntity.ok(true);
     }
 

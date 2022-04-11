@@ -20,4 +20,8 @@ public class RequestWalletService extends HttpClientService<RequestWallet>{
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/save";
         return post(url, requestWallet);
     }
+
+    public boolean deleteByInstitutionBICAndApplicationID(String financialInstitutionBIC, String applicationClientID){
+        return deleteRequestWallet(financialInstitutionBIC, applicationClientID);
+    }
 }
