@@ -1,10 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
-import com.pgl.repositories.BankAccountRepository;
-import com.pgl.repositories.FinancialProductHolderRepository;
-import com.pgl.repositories.FinancialProductRepository;
-import com.pgl.repositories.RequestWalletRepository;
+import com.pgl.repositories.*;
 import com.pgl.services.FinancialInstitutionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +31,15 @@ public class InstitutionController {
     @Autowired
     RequestWalletRepository requestWalletRepository;
 
+    @Autowired
+    RequestTransferRepository requestTransferRepository;
+
 
     @Autowired
     BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    WalletRepository walletRepository;
 
     public InstitutionController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -240,6 +243,52 @@ public class InstitutionController {
     public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
         if(requestWalletRepository.findById(id).isPresent()){
             RequestWallet entity = requestWalletRepository.findById(id).get();
+            return ResponseEntity.ok(entity);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    /**
+     * @param wallet The wallet that must be created
+     * @return The created wallet
+     */
+    @PostMapping("wallet/save")
+    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet) {
+        logger.debug("Call : Create Wallet");
+        if(walletRepository.existsByApplicationClientAndFinancialInstitution(wallet.getApplicationClient(), wallet.getFinancialInstitution()) != null) {
+            return ResponseEntity.ok(null);
+        } else{
+            return ResponseEntity.ok(walletRepository.save(wallet));
+        }
+    }
+
+    // TRANSFER
+
+    @RequestMapping("request-transfer/update")
+    public ResponseEntity<?> updateRequestTransfer(@RequestBody RequestTransfer requestTransfer){
+        requestTransferRepository.deleteById(requestTransfer.getId());
+        requestTransfer.setModificationDate(new Date());
+        return ResponseEntity.ok(requestTransferRepository.save(requestTransfer));
+    }
+
+    /**
+     * @return List of all the requested transfers by institution
+     */
+    @GetMapping("request-transfer/list/{bic}")
+    public ResponseEntity<?> getAllTransferByFinancialInstitutions(@PathVariable String bic){
+        List<RequestTransfer> entities = (List<RequestTransfer>) requestTransferRepository.findAllByFinancialInstitution(bic);
+        return ResponseEntity.ok(entities);
+    }
+
+    /**
+     * @param id RequestTransfer's id
+     * @return RequestTransfer by id
+     */
+    @GetMapping("request-transfer/find-by-id/{id}")
+    public ResponseEntity<?> findRequestTransferById(@PathVariable Long id){
+        if(requestTransferRepository.findById(id).isPresent()){
+            RequestTransfer entity = requestTransferRepository.findById(id).get();
             return ResponseEntity.ok(entity);
         } else {
             return ResponseEntity.ok(null);

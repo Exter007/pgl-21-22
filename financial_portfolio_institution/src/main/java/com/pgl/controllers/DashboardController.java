@@ -72,9 +72,9 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+        if(userService.getCurrentUser().getLanguage().equals("fr")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+        }else if(userService.getCurrentUser().getLanguage().equals("en")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         }else{
             bundle = null;

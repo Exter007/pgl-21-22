@@ -1,11 +1,11 @@
 package com.pgl.services;
 
+import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.models.RequestWallet;
-import com.pgl.repositories.RequestWalletRepository;
+import com.pgl.models.Wallet;
 import com.pgl.utils.GlobalVariables;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
