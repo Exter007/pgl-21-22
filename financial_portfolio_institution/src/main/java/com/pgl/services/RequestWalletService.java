@@ -1,7 +1,6 @@
 package com.pgl.services;
 
 import com.pgl.models.RequestWallet;
-import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.utils.GlobalVariables;
 import org.springframework.core.ParameterizedTypeReference;
 

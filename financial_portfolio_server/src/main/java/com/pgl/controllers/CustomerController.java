@@ -1,10 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
-import com.pgl.repositories.FinancialInstitutionRepository;
-import com.pgl.repositories.FinancialProductRepository;
-import com.pgl.repositories.RequestWalletRepository;
-import com.pgl.repositories.WalletRepository;
+import com.pgl.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,9 @@ public class CustomerController {
 
     @Autowired
     private WalletRepository walletRepository;
+
+    @Autowired
+    private RequestTransferRepository requestTransferRepository;
 
     public CustomerController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -93,6 +93,10 @@ public class CustomerController {
 
     // Ressources from Request Wallet
 
+    /**
+     * @param name A FinancialInstitution's name
+     * @return The financial institution with the given name
+     */
     @GetMapping("financialInstitution/{name}")
     public ResponseEntity<?> getFinancialInstitutionByName(@PathVariable String name) {
         logger.debug("Call : Get FinancialInstitution by name");
@@ -111,6 +115,23 @@ public class CustomerController {
             return ResponseEntity.ok(null);
         } else{
             return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
+        }
+    }
+
+    @DeleteMapping("request-wallet/delete-by-id/{id}")
+    public ResponseEntity<?> deleteRequestWalletById(@PathVariable Long id){
+        logger.debug("Call : delete RequestWallet by id");
+        requestWalletRepository.deleteById(id);
+        return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("request-transfer/save")
+    public ResponseEntity<?> requestTransfer(@RequestBody RequestTransfer requestTransfer) {
+        logger.debug("Call : Create RequestTransfer");
+        if(requestTransferRepository.existsByApplicationClientAndFinancialInstitution(requestTransfer.getApplicationClient(), requestTransfer.getBankAccount().getFinancialInstitution()) != null) {
+            return ResponseEntity.ok(null);
+        } else{
+            return ResponseEntity.ok(requestTransferRepository.save(requestTransfer));
         }
     }
 
