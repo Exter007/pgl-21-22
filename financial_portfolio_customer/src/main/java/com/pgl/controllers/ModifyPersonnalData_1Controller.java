@@ -63,15 +63,13 @@ public class ModifyPersonnalData_1Controller implements Initializable {
             alert.setHeaderText(bundle.getString("error9"));
             alert.showAndWait();
         }
+        /*ApplicationClient client = new ApplicationClient();
+        client.setLogin(UserService.getCurrentUser().getLogin());
+        client.setPassword(password.getText());
 
-        ApplicationClient user = new ApplicationClient();
-        user.setNationalRegister(UserService.getCurrentUser().getNationalRegister());
-        user.setFirstName(UserService.getCurrentUser().getName());
-        String login = user.buildLogin();
+        boolean response = userService.checkPassword(client);*/
 
-        boolean response = userService.login(login, password.getText());
-
-        if (response) {
+        if (true /*response*/) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData2.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
