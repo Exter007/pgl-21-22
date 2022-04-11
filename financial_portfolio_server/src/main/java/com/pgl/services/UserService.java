@@ -184,7 +184,7 @@ public class UserService<P extends User> {
             if (!userFound.getActive()){
                 userFound.setActive(user.getActive());
             }
-            return applicationClientService.saveClient(userFound);
+            return applicationClientService.getRepository().save(userFound);
 
         }else if(contextService.getContextName().equals(ContextName.INSTITUTION)){
             FinancialInstitution userFound = financialInstitutionService.getRepository()
@@ -202,7 +202,7 @@ public class UserService<P extends User> {
             if (!userFound.getActive()) {
                 userFound.setActive(user.getActive());
             }
-            return financialInstitutionService.saveInstitution(userFound);
+            return financialInstitutionService.getRepository().save(userFound);
         }
         return null;
     }
