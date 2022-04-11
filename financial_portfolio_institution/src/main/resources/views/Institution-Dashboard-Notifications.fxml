@@ -19,7 +19,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1355.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Notifications" textAlignment="CENTER">
+                              <Label fx:id="Title_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Notifications" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="41.0" />
                                  </font>
