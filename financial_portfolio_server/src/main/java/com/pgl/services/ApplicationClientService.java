@@ -47,6 +47,7 @@ public class ApplicationClientService {
             client = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             client.setPassword(hashPW);
+            client.setLanguage(user.getLanguage());
             client.setToken(Code.generateCode());
             client.setRole(User.ROLE.APPLICATION_CLIENT);
 

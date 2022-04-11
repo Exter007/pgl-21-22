@@ -93,6 +93,7 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         bundle = LoginController.bundle;
         setText();
+        lang = LoginController.lang;
     }
 
     /**
@@ -180,9 +181,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        lang = "fr";
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
+        lang = "fr";
     }
 
     /**
@@ -191,9 +192,9 @@ public class RegisterController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        lang = "en";
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
+        lang = "en";
     }
 
     /**

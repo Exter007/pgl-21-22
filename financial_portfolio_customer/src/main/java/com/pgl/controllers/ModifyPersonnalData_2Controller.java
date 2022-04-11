@@ -2,7 +2,6 @@ package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
-import com.pgl.services.FinancialProductHolderService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -27,7 +26,6 @@ public class ModifyPersonnalData_2Controller implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
-    static FinancialProductHolderService financialProductHolderService = new FinancialProductHolderService();
     static ResourceBundle bundle;
 
     @FXML
