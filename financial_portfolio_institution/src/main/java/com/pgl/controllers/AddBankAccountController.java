@@ -12,6 +12,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -21,7 +22,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddBankAccountController implements Initializable {
-    UserService userService = new UserService();
+
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
     BankAccountService bankAccountService = new BankAccountService();
     CurrentAccountService currentAccountService = new CurrentAccountService();
     SavingAccountService savingAccountService = new SavingAccountService();
@@ -33,6 +37,8 @@ public class AddBankAccountController implements Initializable {
     FinancialProductHolder tutor;
     CurrentAccount jointAccount;
 
+    @FXML
+    private Label AddBankAccount_label;
     @FXML
     private TextField clientRegisterNumber;
     @FXML
@@ -59,9 +65,32 @@ public class AddBankAccountController implements Initializable {
     private TextField penalty;
     @FXML
     private PasswordField password;
+    @FXML
+    private Button Valid_btn;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        AddBankAccount_label.setText(bundle.getString("AddBankAccount_label"));
+        clientRegisterNumber.setPromptText(bundle.getString("ClientNationalRegisterNumber_field"));
+        monthlyFee.setPromptText(bundle.getString("MontlyFee_field"));
+        annualYield.setPromptText(bundle.getString("AnnualYeld_field"));
+        ibanLinked.setPromptText(bundle.getString("IBAN_field"));
+        interest.setPromptText(bundle.getString("Interest_field"));
+        loyaltyBonus.setPromptText(bundle.getString("LoyaltyBonus_field"));
+        tutorRegisterNumber.setPromptText(bundle.getString("TutorRegisterNumber_field"));
+        maxTransactionAmount.setPromptText(bundle.getString("MaxTransaction_field"));
+        deadline.setPromptText(bundle.getString("Deadline_field"));
+        penalty.setPromptText(bundle.getString("Penalty_field"));
+        password.setPromptText(bundle.getString("Password_field"));
+        Valid_btn.setText(bundle.getString("Valid_btn"));
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        bundle = DashboardController.bundle;
+        setText();
         loadComboBoxDatas();
         BankAccount bankAccount = bankAccountService.getCurrentBankAccount();
 
@@ -250,25 +279,25 @@ public class AddBankAccountController implements Initializable {
             show_error();
         }else if(!Validators.check_nationalRegisterNumber(clientRegisterNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+            alert.setHeaderText(bundle.getString("error11"));
             alert.showAndWait();
         }else if(!Validators.check_IBAN(ibanLinked.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Le numéro IBAN n'est pas au bon format ! \n - 14 caractères minimum");
+            alert.setHeaderText(bundle.getString("error13"));
             alert.showAndWait();
         }else if(!Validators.check_password(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.setHeaderText(bundle.getString("error5"));
             alert.showAndWait();
 
         } else if(!institutionService.checkPassword(password.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Le mot de passe est incorrect");
+            alert.setHeaderText(bundle.getString("error8"));
             alert.showAndWait();
         } else if(( holder = productHolderService
                 .getHolderByInstitutionAndRegisterNum(clientRegisterNumber.getText())) == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Le client renseigné n'existe pas");
+            alert.setHeaderText(bundle.getString("error14"));
             alert.showAndWait();
         }else if (accountNatureComboBox.getSelectionModel().getSelectedItem().equals(
                 BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT.name())){
@@ -276,7 +305,7 @@ public class AddBankAccountController implements Initializable {
             if( !bankAccountService.isEdit() && (jointAccount = (CurrentAccount) bankAccountService
                     .getBankAccountsByInstitutionAndIBAN(ibanLinked.getText())) != null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Un compte courant avec ce IBAN existe deja");
+                alert.setHeaderText(bundle.getString("error15"));
                 alert.showAndWait();
             }else if ( monthlyFee.getText().isEmpty()){
                show_error();
@@ -289,7 +318,7 @@ public class AddBankAccountController implements Initializable {
         }else if((jointAccount = (CurrentAccount) bankAccountService
                 .getBankAccountsByInstitutionAndIBAN(ibanLinked.getText())) == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Le compte courant à lier n'existe pas");
+            alert.setHeaderText(bundle.getString("error16"));
             alert.showAndWait();
         } else if (accountNatureComboBox.getSelectionModel().getSelectedItem().equals(
                 BankAccount.ACCOUNT_NATURE.SAVING_ACCOUNT.name())){
@@ -309,12 +338,12 @@ public class AddBankAccountController implements Initializable {
                show_error();
             }else if(!Validators.check_nationalRegisterNumber(tutorRegisterNumber.getText())){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Votre n° de registre national n'est pas au bon format ! \n - 11 chiffres\n - Pas de lettres");
+                alert.setHeaderText(bundle.getString("error11"));
                 alert.showAndWait();
             } else if((tutor = productHolderService
                     .getHolderByInstitutionAndRegisterNum(tutorRegisterNumber.getText())) == null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Le tuteur renseigné n'existe pas");
+                alert.setHeaderText(bundle.getString("error17"));
                 alert.showAndWait();
             }else{
                 YoungAccount result = youngAccountService.save(buildYoungAccount());
@@ -466,7 +495,7 @@ public class AddBankAccountController implements Initializable {
      */
     private void show_error(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Tous les champs sont obligatoires");
+        alert.setHeaderText(bundle.getString("error1"));
         alert.showAndWait();
     }
 
@@ -497,8 +526,7 @@ public class AddBankAccountController implements Initializable {
             return floatValue;
         }catch (Exception ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Erreur sur le type de valeur");
-            alert.setContentText("La valeur "+value+" doit être un flottant \n La valeur 0 a été attribué par défaut");
+            alert.setContentText(bundle.getString("error181") + value + bundle.getString("error182"));
             alert.showAndWait();
         }
         return 0;

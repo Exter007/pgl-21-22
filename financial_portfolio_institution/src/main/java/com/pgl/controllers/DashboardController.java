@@ -65,6 +65,7 @@ public class DashboardController implements Initializable {
         AllFinancialProduct_label.setText(bundle.getString("AllFinancialProduct_label"));
         export_btn.setText(bundle.getString("Export_btn"));
         import_btn.setText(bundle.getString("Import_btn"));
+        welcome_label.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getName());
     }
 
     /**
@@ -81,14 +82,6 @@ public class DashboardController implements Initializable {
         }
         setText();
         DynamicViews.border_pane = border_pane;
-        loadUserConnected();
-    }
-
-    /**
-     * Change the institution name in the welcome label
-     */
-    public void loadUserConnected(){
-        welcome_label.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getName());
     }
 
 
