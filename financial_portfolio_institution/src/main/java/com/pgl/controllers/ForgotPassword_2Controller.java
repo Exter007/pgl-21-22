@@ -66,13 +66,13 @@ public class ForgotPassword_2Controller implements Initializable {
     private void reset(MouseEvent event) {
         if(!Validators.check_password(newPassword.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe doit comporter au moins 1 lettre et 1 chiffre");
+            alert.setHeaderText(bundle.getString("error5"));
             alert.showAndWait();
 
         }else if(!newPassword.getText().equals(newPassword2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Erreur");
-            alert.setContentText("Les mots de passes ne correspondent pas");
+            alert.setContentText(bundle.getString("error6"));
             alert.showAndWait();
 
         }else {
@@ -84,7 +84,7 @@ public class ForgotPassword_2Controller implements Initializable {
 
             if (result) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Votre mot de passe a bien été changé !");
+                alert.setHeaderText(bundle.getString("succes2"));
                 alert.showAndWait();
 
                 try {
@@ -117,23 +117,5 @@ public class ForgotPassword_2Controller implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ForgotPassword_2Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    /**
-     * Change the language to French
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageFR(ActionEvent event) {
-        //TODO
-    }
-
-    /**
-     * Change the language to English
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageEN(ActionEvent event) {
-        //TODO
     }
 }

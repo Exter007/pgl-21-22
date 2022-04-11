@@ -67,11 +67,11 @@ public class ForgotPassword_1Controller implements Initializable {
     private void validate(MouseEvent event) {
         if(name.getText().isEmpty() || BIC.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez remplir tout les champs");
+            alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
         }else if(!Validators.check_BIC(BIC.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre BIC n'est pas au bon format ! \n - 8 caractères");
+            alert.setHeaderText(bundle.getString("error2"));
             alert.showAndWait();
         }else {
             FinancialInstitution institution = new FinancialInstitution();
@@ -85,7 +85,7 @@ public class ForgotPassword_1Controller implements Initializable {
 
             if (result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Un mail de réinitialisation vous a été envoyé");
+                alert.setHeaderText(bundle.getString("succes1"));
                 alert.showAndWait();
 
                 try {
