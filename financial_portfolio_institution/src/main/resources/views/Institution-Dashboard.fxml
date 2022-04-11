@@ -29,7 +29,7 @@
                      <children>
                         <HBox prefHeight="74.0" prefWidth="1300.0">
                            <children>
-                              <Label fx:id="welcome" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1300.0" text="Bienvenue ING !" textAlignment="CENTER">
+                              <Label fx:id="welcome_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1300.0" text="Bienvenue ING !" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
@@ -52,7 +52,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutY="77.0" prefHeight="82.0" prefWidth="1300.0">
                            <children>
-                              <Label text="Filtres :">
+                              <Label fx:id="filters_label" text="Filtres :">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -78,7 +78,7 @@
                                     <Insets left="30.0" right="50.0" />
                                  </HBox.margin>
                               </DatePicker>
-                              <Button mnemonicParsing="false" onMouseClicked="#search_Product" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
+                              <Button fx:id="Search_btn" mnemonicParsing="false" onMouseClicked="#search_Product" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -87,7 +87,7 @@
                         </HBox>
                         <HBox layoutX="37.0" layoutY="164.0" prefHeight="76.0" prefWidth="1230.0">
                            <children>
-                              <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tous les produits financiers:" textAlignment="CENTER">
+                              <Label fx:id="AllFinancialProduct_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tous les produits financiers:" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -289,10 +289,10 @@
                         <HBox alignment="CENTER" layoutX="893.0" layoutY="557.0">
                            <children>
                               <ChoiceBox fx:id="export_ProductsFormat" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
-                              <Button mnemonicParsing="false" onMouseClicked="#export_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+                              <Button fx:id="export_btn" mnemonicParsing="false" onMouseClicked="#export_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
                            </children>
                         </HBox>
-                        <Button layoutX="1049.0" layoutY="625.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
+                        <Button fx:id="import_btn" layoutX="1049.0" layoutY="625.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
                      </children>
                   </AnchorPane>
                </content>
