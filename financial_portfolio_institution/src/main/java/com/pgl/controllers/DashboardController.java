@@ -2,6 +2,7 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 
+import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 
@@ -155,6 +156,10 @@ public class DashboardController implements Initializable {
     private void languageFR(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
+        User user = new User();
+        user.setLanguage("fr");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
@@ -165,6 +170,10 @@ public class DashboardController implements Initializable {
     private void languageEN(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
+        User user = new User();
+        user.setLanguage("en");
+        user.setLogin(UserService.getCurrentUser().getLogin());
+        boolean result = userService.editUser(user);
     }
 
     /**
