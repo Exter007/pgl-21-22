@@ -100,7 +100,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void disconnect(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la déconnexion ?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection_text"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             userService.logout();
@@ -227,7 +227,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void delete_Product(MouseEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Êtes vous sûr de vouloir supprimer ce produit ?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("question5"));
         Optional<ButtonType> result = alert.showAndWait();
     }
 

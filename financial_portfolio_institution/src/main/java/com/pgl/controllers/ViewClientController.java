@@ -3,6 +3,7 @@ package com.pgl.controllers;
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.ProductHolderService;
+import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ViewClientController implements Initializable {
+
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private Label firstName;
@@ -40,6 +46,7 @@ public class ViewClientController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        bundle = DashboardController.bundle;
         loadHolder();
     }
 
@@ -76,7 +83,7 @@ public class ViewClientController implements Initializable {
     @FXML
     private void on_delete(MouseEvent event) {
         if(productHolderService.getCurrentHolder() != null){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("question3"));
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 boolean status = productHolderService.deleteById(String.valueOf(productHolderService.getCurrentHolder().getId()));
