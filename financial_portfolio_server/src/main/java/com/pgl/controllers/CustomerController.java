@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,4 +135,15 @@ public class CustomerController {
         }
     }
 
+    /** Get the financial products of a wallet by using id
+     *
+     * @param id a wallet id
+     * @return a ReponseEntity
+     */
+    @GetMapping(value = "wallet/{id}/product/list")
+    public ResponseEntity<?> getAllFinancialProductsOfAWallet(@PathVariable Long id){
+        logger.debug("Call : Get Financial Products by id");
+        List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findProductsByWallet(id);
+        return ResponseEntity.ok(entities);
+    }
 }
