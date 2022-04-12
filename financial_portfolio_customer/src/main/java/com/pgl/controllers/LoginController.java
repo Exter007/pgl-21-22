@@ -29,6 +29,7 @@ public class LoginController implements Initializable {
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
+    static String lang = "fr";
 
     @FXML
     private Menu menu;
@@ -144,6 +145,7 @@ public class LoginController implements Initializable {
     private void languageFR(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
+        lang = "fr";
     }
 
     /**
@@ -154,5 +156,6 @@ public class LoginController implements Initializable {
     private void languageEN(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
+        lang = "en";
     }
 }

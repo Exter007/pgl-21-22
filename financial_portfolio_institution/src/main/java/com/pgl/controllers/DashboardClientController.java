@@ -8,11 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,9 @@ import java.util.ResourceBundle;
 
 public class DashboardClientController implements Initializable {
 
-    UserService userService = new UserService();
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     ProductHolderService productHolderService = new ProductHolderService();
 
@@ -30,9 +32,46 @@ public class DashboardClientController implements Initializable {
 
     @FXML
     private ListView<String> clientListView;
+    @FXML
+    private Label filters_label;
+    @FXML
+    private TextField productClientName;
+    @FXML
+    private ChoiceBox productInstitutionName;
+    @FXML
+    private Button Search_btn;
+    @FXML
+    private Label YourClients_label;
+    @FXML
+    private Button export_btn;
+    @FXML
+    private Button import_btn;
+    @FXML
+    private Button Consult_btn;
+    @FXML
+    private Button Edit_btn;
+    @FXML
+    private Button Delete_btn;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        filters_label.setText(bundle.getString("Filters_label"));
+        productClientName.setPromptText(bundle.getString("ProductClientName_field"));
+        Search_btn.setText(bundle.getString("Search_btn"));
+        YourClients_label.setText(bundle.getString("YourClients_label"));
+        export_btn.setText(bundle.getString("Export_btn"));
+        import_btn.setText(bundle.getString("Import_btn"));
+        Consult_btn.setText(bundle.getString("Consult_btn"));
+        Edit_btn.setText(bundle.getString("Edit_btn"));
+        Delete_btn.setText(bundle.getString("Delete_btn"));
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        bundle = DashboardController.bundle;
+        setText();
         loadClients();
     }
 
@@ -120,7 +159,7 @@ public class DashboardClientController implements Initializable {
     @FXML
     private void on_delete(MouseEvent event) {
         if(productHolderService.getCurrentHolder() != null){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du client?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("question3"));
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 boolean status = productHolderService.deleteById(String.valueOf(productHolderService.getCurrentHolder().getId()));

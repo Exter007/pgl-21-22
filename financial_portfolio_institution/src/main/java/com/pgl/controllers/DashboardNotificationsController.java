@@ -2,9 +2,13 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.Request;
+import com.pgl.models.RequestTransfer;
 import com.pgl.models.RequestWallet;
+import com.pgl.models.Wallet;
+import com.pgl.services.RequestTransferService;
 import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
+import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,9 +44,13 @@ public class DashboardNotificationsController implements Initializable {
     static ResourceBundle bundle;
 
     RequestWalletService requestWalletService = new RequestWalletService();
+    RequestTransferService requestTransferService = new RequestTransferService();
+    WalletService walletService = new WalletService();
 
     @FXML
     private Label name;
+    @FXML
+    private Label Title_label;
     @FXML
     private Label subject;
     @FXML
@@ -55,16 +63,44 @@ public class DashboardNotificationsController implements Initializable {
     private Button decline;
 
     /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        Title_label.setText(bundle.getString("TitleNotifications_label"));
+    }
+
+    /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Adding the request wallet notifications
+        bundle = DashboardController.bundle;
+        setText();
         List<RequestWallet> requestWalletList = requestWalletService.getAllRequestWallet(userService.getCurrentUser().getBIC());
         for (RequestWallet requestWallet : requestWalletList) {
             if (requestWallet.getStatus() == Request.REQUEST_STATUS.PENDING) {
-                createNotification(requestWallet.getApplicationClient().getName(), requestWallet.getApplicationClient().getFirstName(),
-                        "Demande de création d'un portefeuille", requestWallet.getCreationDate(),
-                        requestWallet, this::accept_wallet_request, this::refuse_wallet_request);
+                createNotification(requestWallet.getApplicationClient().getName(),
+                        requestWallet.getApplicationClient().getFirstName(),
+                        bundle.getString("AskCreationText"),
+                        requestWallet.getCreationDate(),
+                        requestWallet,
+                        this::accept_wallet_request,
+                        this::refuse_wallet_request);
+            }
+        }
+
+        // Adding the request wallet notifications
+        List<RequestTransfer> requestTransferList = requestTransferService.getAllRequestTransfer(userService.getCurrentUser().getBIC());
+        for (RequestTransfer requestTransfer : requestTransferList) {
+            if (requestTransfer.getStatus() == Request.REQUEST_STATUS.PENDING) {
+                createNotification(requestTransfer.getApplicationClient().getName(),
+                        requestTransfer.getApplicationClient().getFirstName(),
+                        bundle.getString("AskCreationText"),
+                        requestTransfer.getCreationDate(),
+                        requestTransfer,
+                        this::accept_transfer_request,
+                        this::refuse_transfer_request);
             }
         }
         vbox.setPadding(new Insets(0, 50, 60, 50));
@@ -76,10 +112,7 @@ public class DashboardNotificationsController implements Initializable {
      */
     @FXML
     private void accept_wallet_request(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Confirmation");
-        alert.setContentText("Voulez-vous accepter cette demande ?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = showConfirmationAlert(true);
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // ... user chose OK
             // Get userData from the button
@@ -89,6 +122,9 @@ public class DashboardNotificationsController implements Initializable {
                 // Update the requested wallet to accepted
                 requestWallet.setStatus(Request.REQUEST_STATUS.ACCEPTED);
                 requestWalletService.updateRequestWallet(requestWallet);
+                // Create wallet if not exists (normally it can't exists)
+                Wallet wallet = new Wallet(requestWallet.getFinancialInstitution().getName(), requestWallet.getFinancialInstitution(), requestWallet.getApplicationClient());
+                walletService.createWallet(wallet);
                 // Remove the notification from the vbox
                 removeNotification(button);
             } catch (Exception e) {
@@ -103,10 +139,7 @@ public class DashboardNotificationsController implements Initializable {
      */
     @FXML
     private void refuse_wallet_request(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Confirmation");
-        alert.setContentText("Êtes-vous sûr de vouloir supprimer cette demande ?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = showConfirmationAlert(false);
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // ... user chose OK
             // Get userData from the button
@@ -116,6 +149,54 @@ public class DashboardNotificationsController implements Initializable {
                 // Update the requested wallet to accepted
                 requestWallet.setStatus(Request.REQUEST_STATUS.REFUSED);
                 requestWalletService.updateRequestWallet(requestWallet);
+                // Remove the notification from the vbox
+                removeNotification(button);
+            } catch (Exception e) {
+                System.out.println("Error while updating request wallet");
+            }
+        }
+    }
+
+    /**
+     * Accept a client RequestTransfer
+     * @param event The event of the mouse click on the button
+     */
+    @FXML
+    private void accept_transfer_request(ActionEvent event) {
+        Optional<ButtonType> result = showConfirmationAlert(true);
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // ... user chose OK
+            // Get userData from the button
+            Button button = (Button) event.getSource();
+            RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
+            try {
+                // Update the requested wallet to accepted
+                requestTransfer.setStatus(Request.REQUEST_STATUS.ACCEPTED);
+                requestTransferService.updateRequestTransfer(requestTransfer);
+                // Remove the notification from the vbox
+                removeNotification(button);
+            } catch (Exception e) {
+                System.out.println("Error while updating request wallet");
+            }
+        }
+    }
+
+    /**
+     * Refuse a client wallet request
+     * @param event The event of the mouse click on the button
+     */
+    @FXML
+    private void refuse_transfer_request(ActionEvent event) {
+        Optional<ButtonType> result = showConfirmationAlert(false);
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // ... user chose OK
+            // Get userData from the button
+            Button button = (Button) event.getSource();
+            RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
+            try {
+                // Update the requested wallet to accepted
+                requestTransfer.setStatus(Request.REQUEST_STATUS.REFUSED);
+                requestTransferService.updateRequestTransfer(requestTransfer);
                 // Remove the notification from the vbox
                 removeNotification(button);
             } catch (Exception e) {
@@ -175,14 +256,14 @@ public class DashboardNotificationsController implements Initializable {
         date.setFont(new Font("System Bold", 24));
         date.setPrefWidth(200);
 
-        accept = new Button("Accepter");
+        accept = new Button(bundle.getString("Accept_btn"));
         accept.setPrefWidth(215);
         accept.setAlignment(javafx.geometry.Pos.CENTER);
         accept.setContentDisplay(ContentDisplay.CENTER);
         accept.setStyle("-fx-text-fill: #008000;");
         accept.setPadding(new Insets(15, 0, 15, 0));
 
-        decline = new Button("Refuser");
+        decline = new Button(bundle.getString("Refuse_btn"));
         decline.setPrefWidth(215);
         decline.setAlignment(javafx.geometry.Pos.CENTER);
         decline.setContentDisplay(ContentDisplay.CENTER);
@@ -194,12 +275,12 @@ public class DashboardNotificationsController implements Initializable {
         decline.setUserData(userData);
         decline.setOnAction(declineEventHandler);
 
-        Label headerSubject = new Label("Sujet");
+        Label headerSubject = new Label(bundle.getString("Subject_label"));
         headerSubject.setFont(new Font(24));
         headerSubject.setAlignment(javafx.geometry.Pos.CENTER);
         headerSubject.setContentDisplay(ContentDisplay.CENTER);
 
-        Label headerDate = new Label("Date");
+        Label headerDate = new Label(bundle.getString("Date_label"));
         headerDate.setFont(new Font(24));
         headerDate.setAlignment(javafx.geometry.Pos.CENTER);
         headerDate.setContentDisplay(ContentDisplay.CENTER);
@@ -211,6 +292,15 @@ public class DashboardNotificationsController implements Initializable {
         vbox.getChildren().add(hBox);
     }
 
+    private Optional<ButtonType> showConfirmationAlert(boolean isAccepted) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        if(isAccepted) {
+            alert.setContentText(bundle.getString("question1"));
+        } else {
+            alert.setContentText(bundle.getString("question2"));
+        }
+        return alert.showAndWait();
+    }
     /**
      * Remove the notification from the vbox
      * @param button the button that is clicked

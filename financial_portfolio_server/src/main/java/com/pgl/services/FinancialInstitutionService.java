@@ -57,6 +57,7 @@ public class FinancialInstitutionService {
             institution = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
             institution.setPassword(hashPW);
+            institution.setLanguage(user.getLanguage());
             institution.setToken(Code.generateCode());
             institution.setRole(User.ROLE.FINANCIAL_INSTITUTION);
 

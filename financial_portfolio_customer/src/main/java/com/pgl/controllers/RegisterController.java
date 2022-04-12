@@ -80,6 +80,7 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         bundle = LoginController.bundle;
         setText();
+        lang = LoginController.lang;
     }
 
     /**

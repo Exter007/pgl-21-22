@@ -15,4 +15,7 @@ public interface RequestWalletRepository extends CrudRepository<RequestWallet, L
 
     @Query("SELECT r FROM RequestWallet r WHERE r.financialInstitution.BIC=:bic")
     List<RequestWallet> findAllByFinancialInstitution(@Param("bic") String bic);
+
+    @Query("SELECT r FROM RequestWallet r WHERE r.applicationClient.nationalRegister=:nationalRegister AND r.financialInstitution.BIC=:bic")
+    RequestWallet findByApplicationClientAndFinancialInstitution(@Param("nationalRegister") String nationalRegister, @Param("bic") String bic);
 }

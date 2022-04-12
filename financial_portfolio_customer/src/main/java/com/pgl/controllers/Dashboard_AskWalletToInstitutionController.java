@@ -79,9 +79,6 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     @FXML
     private void send_request(MouseEvent event) {
         if(institutionChoice.getValue() != null){
-
-            //TODO
-
             FinancialInstitution f = financialInstitutionService.getFinancialInstitutionByName((String) institutionChoice.getValue());
 
             RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, UserService.getCurrentUser(), f);

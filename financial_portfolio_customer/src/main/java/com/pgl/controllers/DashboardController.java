@@ -3,6 +3,7 @@ package com.pgl.controllers;
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.User;
 import com.pgl.models.Wallet;
+import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
@@ -39,6 +40,7 @@ public class DashboardController implements Initializable {
     static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
+    RequestWalletService requestWalletService = new RequestWalletService();
 
     ObservableList list = FXCollections.observableArrayList();
     List<Wallet> walletList = new ArrayList<>();
@@ -354,8 +356,9 @@ public class DashboardController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 boolean status = walletService.deleteById(WalletService.getCurrentWallet().getId());
+                boolean statusRequestWallet = requestWalletService.deleteByInstitutionBICAndApplicationID(WalletService.getCurrentWallet().getFinancialInstitution().getBIC(), WalletService.getCurrentWallet().getApplicationClient().getNationalRegister());
                 // if successful deletion
-                if (status){
+                if (status && statusRequestWallet){
                     walletService.moveCurrentWallet();
                     loadWallets();
                 }

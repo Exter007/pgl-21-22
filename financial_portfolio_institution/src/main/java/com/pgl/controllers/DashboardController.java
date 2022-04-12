@@ -17,9 +17,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,42 +29,59 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    UserService userService = new UserService();
+    @Inject
+    static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
-    private Label welcome;
+    private Label welcome_label;
     @FXML
-    private TableView wallet_tableview;
+    private Label filters_label;
     @FXML
-    private DatePicker from_date;
+    private ChoiceBox productInstitutionName;
     @FXML
-    private DatePicker to_date;
+    private TextField productCode;
     @FXML
-    private ChoiceBox export_format;
+    private DatePicker productCreateDate;
     @FXML
-    private TableView products_tableview;
+    private Button Search_btn;
     @FXML
-    private ListView products_listview;
+    private Label AllFinancialProduct_label;
     @FXML
-    private LineChart products_linechart;
-
+    private Button export_btn;
+    @FXML
+    private Button import_btn;
     @FXML
     private BorderPane border_pane;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        filters_label.setText(bundle.getString("Filters_label"));
+        productCode.setPromptText(bundle.getString("ProductCode_field"));
+        productCreateDate.setPromptText(bundle.getString("ProductCreateDate_field"));
+        Search_btn.setText(bundle.getString("Search_btn"));
+        AllFinancialProduct_label.setText(bundle.getString("AllFinancialProduct_label"));
+        export_btn.setText(bundle.getString("Export_btn"));
+        import_btn.setText(bundle.getString("Import_btn"));
+        welcome_label.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getName());
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(userService.getCurrentUser().getLanguage().equals("fr")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        }else if(userService.getCurrentUser().getLanguage().equals("en")){
+            bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        }else{
+            bundle = null;
+        }
+        setText();
         DynamicViews.border_pane = border_pane;
-        loadUserConnected();
-    }
-
-    /**
-     * Change the institution name in the welcome label
-     */
-    public void loadUserConnected(){
-        welcome.setText("Bienvenue" + ' ' + userService.getCurrentUser().getName());
     }
 
 
@@ -104,7 +123,8 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageFR(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        setText();
     }
 
     /**
@@ -113,7 +133,8 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void languageEN(ActionEvent event) {
-        //TODO
+        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
+        setText();
     }
 
     /**

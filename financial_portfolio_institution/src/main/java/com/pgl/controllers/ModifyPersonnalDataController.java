@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -24,16 +25,28 @@ public class ModifyPersonnalDataController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
+    static ResourceBundle bundle;
 
     @FXML
     private PasswordField password;
+    @FXML
+    private Button Next_btn;
+
+    /**
+     * Initialize all labels and fields of the interface according to the chosen language
+     */
+    private void setText(){
+        password.setPromptText(bundle.getString("Password_field"));
+        Next_btn.setText(bundle.getString("Next_btn"));
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+        bundle = DashboardController.bundle;
+        setText();
     }
 
     /**
@@ -44,7 +57,7 @@ public class ModifyPersonnalDataController implements Initializable {
     private void check_Password(MouseEvent event) {
         if(password.getText() == ""){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Veuillez entrer un mot de passe !");
+            alert.setHeaderText(bundle.getString("error7"));
             alert.showAndWait();
 
         }else if (true) {
@@ -67,7 +80,7 @@ public class ModifyPersonnalDataController implements Initializable {
 
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Votre mot de passe n'est pas correct !");
+            alert.setHeaderText(bundle.getString("error8"));
             alert.showAndWait();
         }
     }

@@ -98,7 +98,7 @@ public class AccountActivationController implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

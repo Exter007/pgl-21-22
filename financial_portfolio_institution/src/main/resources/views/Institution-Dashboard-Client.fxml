@@ -23,7 +23,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="86.0" prefWidth="1078.0">
                      <children>
-                        <Label text="Filtre :">
+                        <Label fx:id="filters_label" text="Filtres :">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -44,7 +44,7 @@
                               <Insets left="30.0" />
                            </HBox.margin>
                         </ChoiceBox>
-                        <Button mnemonicParsing="false" onMouseClicked="#search_Client" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
+                        <Button fx:id="Search_btn" mnemonicParsing="false" onMouseClicked="#search_Client" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -53,7 +53,7 @@
                   </HBox>
                   <HBox prefHeight="36.0" prefWidth="1199.0">
                      <children>
-                        <Label contentDisplay="CENTER" prefHeight="39.0" prefWidth="1161.0" text="Vos clients :" textAlignment="CENTER">
+                        <Label fx:id="YourClients_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1161.0" text="Vos clients :" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -100,7 +100,7 @@
                         <HBox prefHeight="35.0" prefWidth="1084.0" />
                         <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="978.0">
                            <children>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
+                              <Button fx:id="Consult_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
                                  <styleClass>
                                     <String fx:value="fn-14" />
                                     <String fx:value="back-blue" />
@@ -108,7 +108,7 @@
                                     <String fx:value="fill-white" />
                                  </styleClass>
                               </Button>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
+                              <Button fx:id="Edit_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
                                  <styleClass>
                                     <String fx:value="fn-14" />
                                     <String fx:value="back-blue" />
@@ -116,7 +116,7 @@
                                     <String fx:value="fill-white" />
                                  </styleClass>
                               </Button>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
+                              <Button fx:id="Delete_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
                                  <styleClass>
                                     <String fx:value="fn-14" />
                                     <String fx:value="back-blue" />
@@ -133,8 +133,8 @@
             </VBox>
             <HBox alignment="CENTER" layoutX="681.0" layoutY="600.0" prefHeight="55.0" prefWidth="367.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
-                  <Button mnemonicParsing="false" onMouseClicked="#export_ClientData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+                  <Button fx:id="import_btn" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importer des données" />
+                  <Button fx:id="export_btn" mnemonicParsing="false" onMouseClicked="#export_ClientData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
                </children>
             </HBox>
          </children>
