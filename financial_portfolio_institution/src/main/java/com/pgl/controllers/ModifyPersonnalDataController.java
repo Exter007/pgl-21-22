@@ -65,18 +65,15 @@ public class ModifyPersonnalDataController implements Initializable {
 
 
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-ModifyPersonnalData2.fxml"));
-                Stage newWindow = new Stage();
-                Scene scene = new Scene(root);
-                newWindow.setScene(scene);
-                GlobalStage.setStage(newWindow);
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-ModifyPersonnalData2.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));
+                stage.show();
 
             } catch (IOException ex) {
                 Logger.getLogger(ModifyPersonnalDataController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            Stage stage = (Stage) password.getScene().getWindow();
-            stage.close();
 
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);

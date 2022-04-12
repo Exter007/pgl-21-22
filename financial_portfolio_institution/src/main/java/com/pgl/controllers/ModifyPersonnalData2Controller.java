@@ -65,7 +65,10 @@ public class ModifyPersonnalData2Controller implements Initializable {
             alert.showAndWait();
 
         }else if(email.getText() != "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            //TODO
+            User user = new User();
+            user.setEmail(email.getText());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            boolean result = userService.editUser(user);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(bundle.getString("succes3"));
@@ -88,7 +91,11 @@ public class ModifyPersonnalData2Controller implements Initializable {
             alert.showAndWait();
 
         }else{
-            //TODO
+            User user = new User();
+            user.setPassword(newPassword.getText());
+            user.setEmail(email.getText());
+            user.setLogin(UserService.getCurrentUser().getLogin());
+            boolean result = userService.editUser(user);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(bundle.getString("succes4"));
