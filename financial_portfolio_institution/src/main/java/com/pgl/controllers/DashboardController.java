@@ -34,6 +34,26 @@ public class DashboardController implements Initializable {
     static ResourceBundle bundle;
 
     @FXML
+    private Menu Account_menu;
+    @FXML
+    private MenuItem EditProfil_menu;
+    @FXML
+    private MenuItem Disconnect_menu;
+    @FXML
+    private Menu Language_menu;
+    @FXML
+    private Menu Home_menu;
+    @FXML
+    private MenuItem FinancialProduct_menu;
+    @FXML
+    private MenuItem Clients_menu;
+    @FXML
+    private Menu Products_menu;
+    @FXML
+    private MenuItem BankAccounts_menu;
+    @FXML
+    private MenuItem Assurances_menu;
+    @FXML
     private Label welcome_label;
     @FXML
     private Label filters_label;
@@ -58,6 +78,16 @@ public class DashboardController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
+        Account_menu.setText(bundle.getString("Account_menu"));
+        EditProfil_menu.setText(bundle.getString("EditProfil_menu"));
+        Disconnect_menu.setText(bundle.getString("Disconnect_menu"));
+        Language_menu.setText(bundle.getString("Language_menu"));
+        Home_menu.setText(bundle.getString("Home_menu"));
+        FinancialProduct_menu.setText(bundle.getString("FinancialProduct_menu"));
+        Clients_menu.setText(bundle.getString("Clients_menu"));
+        Products_menu.setText(bundle.getString("Products_menu"));
+        BankAccounts_menu.setText(bundle.getString("BankAccounts_menu"));
+        Assurances_menu.setText(bundle.getString("Assurances_menu"));
         filters_label.setText(bundle.getString("Filters_label"));
         productCode.setPromptText(bundle.getString("ProductCode_field"));
         productCreateDate.setPromptText(bundle.getString("ProductCreateDate_field"));

@@ -303,28 +303,28 @@
    <top>
       <MenuBar style="-fx-background-color: #fff;" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Compte">
+          <Menu fx:id="Account_menu" mnemonicParsing="false" text="Compte">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
-                  <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Déconnexion" />
+              <MenuItem fx:id="EditProfil_menu" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
+                  <MenuItem fx:id="Disconnect_menu" mnemonicParsing="false" onAction="#disconnect" text="Déconnexion" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Langue">
+          <Menu fx:id="Language_menu" mnemonicParsing="false" text="Langue">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
                   <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Acceuil">
+            <Menu fx:id="Home_menu" mnemonicParsing="false" text="Acceuil">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#on_product" text="Produits financiers" />
-                  <MenuItem mnemonicParsing="false" onAction="#on_client" text="Clients" />
+                <MenuItem fx:id="FinancialProduct_menu" mnemonicParsing="false" onAction="#on_product" text="Produits financiers" />
+                  <MenuItem fx:id="Clients_menu" mnemonicParsing="false" onAction="#on_client" text="Clients" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Produits">
+            <Menu fx:id="Products_menu" mnemonicParsing="false" text="Produits">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#on_accounts" text="Comptes bancaires" />
-                  <MenuItem mnemonicParsing="false" onAction="#on_insurances" text="Assurances" />
+                <MenuItem fx:id="BankAccounts_menu" mnemonicParsing="false" onAction="#on_accounts" text="Comptes bancaires" />
+                  <MenuItem fx:id="Assurances_menu" mnemonicParsing="false" onAction="#on_insurances" text="Assurances" />
               </items>
             </Menu>
         </menus>
