@@ -13,8 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,7 +27,7 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    HttpClientService httpClientService = new HttpClientService<ApplicationClient>();
+    HttpClientService<ApplicationClient> httpClientService = new HttpClientService<ApplicationClient>();
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -66,7 +68,7 @@ public class UserService {
             ResponseEntity<JwtResponse> response = restTemplate.exchange(url,
                     HttpMethod.POST, authenticationEntity, JwtResponse.class);
 
-            currentUser = new ObjectMapper().convertValue(response.getBody().getUser(), ApplicationClient.class);
+            currentUser = new ObjectMapper().convertValue(Objects.requireNonNull(response.getBody()).getUser(), ApplicationClient.class);
             String token = "Bearer " + response.getBody().getAccessToken();
             HttpHeaders headers = httpClientService.getHeaders();
             headers.set("Authorization", token);
@@ -76,7 +78,7 @@ public class UserService {
 
         }catch (HttpClientErrorException ex){
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if(ex.getMessage().contains("Bad credentials")){
+            if(Objects.requireNonNull(ex.getMessage()).contains("Bad credentials")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Les données fournies ne sont pas correctes");
                 alert.showAndWait();
@@ -86,7 +88,7 @@ public class UserService {
                 alert.setContentText("Veuillez valider votre compte avec le code envoyé par email");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Client-AccountValidation.fxml")));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -138,8 +140,8 @@ public class UserService {
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Compte creé avec succés");
-            alert.setContentText("Une mail de confirmation vous a étè envoyè. \n Veuillez validè votre compte pour vous connectez");
+            alert.setHeaderText("Compte créé avec succès");
+            alert.setContentText("Un mail de confirmation vous a été envoyé. \n Veuillez valider votre compte pour vous connectez");
             alert.showAndWait();
 
             return response.getBody();
@@ -147,7 +149,7 @@ public class UserService {
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            if (ex.getMessage().contains("This User already exists")) {
+            if (Objects.requireNonNull(ex.getMessage()).contains("This User already exists")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Un compte avec ce numéro de registre existe déjà");
                 alert.showAndWait();
@@ -157,7 +159,7 @@ public class UserService {
                 alert.setHeaderText("Erreur lors de l'envoi du mail de confirmation \n Veuillez vous connectez pour activer votre compte");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Client-Login.fxml")));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -195,7 +197,7 @@ public class UserService {
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if (ex.getMessage().contains("MailSendException")) {
+            if (Objects.requireNonNull(ex.getMessage()).contains("MailSendException")) {
                 showMailException();
             } else {
                showOtherException();
@@ -224,12 +226,12 @@ public class UserService {
 
             System.out.println(response.getStatusCode());
 
-            return response.getBody();
+            return Boolean.TRUE.equals(response.getBody());
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            if (ex.getMessage().contains("User not found")) {
+            if (Objects.requireNonNull(ex.getMessage()).contains("User not found")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Pas de compte associé à ces données");
                 alert.showAndWait();
@@ -267,7 +269,7 @@ public class UserService {
 
             System.out.println(response.getStatusCode());
 
-            return response.getBody();
+            return Boolean.TRUE.equals(response.getBody());
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
@@ -296,12 +298,12 @@ public class UserService {
 
             System.out.println(response.getStatusCode());
 
-            return response.getBody();
+            return Boolean.TRUE.equals(response.getBody());
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
-            if (ex.getMessage().contains("Reset code is incorrect")) {
+            if (Objects.requireNonNull(ex.getMessage()).contains("Reset code is incorrect")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Erreur lors de la validation du mot de passe");
                 alert.setHeaderText("Le code saisi est incorrect");

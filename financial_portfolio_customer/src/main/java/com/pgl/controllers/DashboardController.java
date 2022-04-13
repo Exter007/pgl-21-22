@@ -1,6 +1,7 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
+import com.pgl.models.FinancialProduct;
 import com.pgl.models.User;
 import com.pgl.models.Wallet;
 import com.pgl.services.RequestWalletService;
@@ -20,16 +21,21 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.supercsv.cellprocessor.ParseDouble;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.inject.Inject;
 import javax.swing.table.TableColumn;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -445,6 +451,43 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void export(MouseEvent event) {
+        if(WalletService.getCurrentWallet() != null){
+            //take the date so each time the user downloads a CSV file, its name is different
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            String currentDateTime = dateFormatter.format(new Date());
 
+            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsbyId();
+
+            ICsvBeanWriter beanWriter = null;
+            CellProcessor[] processors = new CellProcessor[] {
+                    new NotNull(), // nature
+                    new NotNull(), // account_type
+                    new NotNull(), // iban
+                    new ParseDouble() // currency
+            };
+
+            String csvFileName = financialProducts.get(0).getFinancialInstitution().getName() + "wallet_" + currentDateTime +".csv";
+            try {
+                beanWriter = new CsvBeanWriter(new FileWriter(csvFileName),
+                        CsvPreference.STANDARD_PREFERENCE);
+                String[] header = {"nature", "account_type", "iban", "currency"};
+                beanWriter.writeHeader(header);
+
+                for (FinancialProduct financialProduct : financialProducts) {
+                    beanWriter.write(financialProduct, header, processors);
+                }
+
+            } catch (IOException ex) {
+                System.err.println("Error writing the CSV file: " + ex);
+            } finally {
+                if (beanWriter != null) {
+                    try {
+                        beanWriter.close();
+                    } catch (IOException ex) {
+                        System.err.println("Error closing the writer: " + ex);
+                    }
+                }
+            }
+        }
     }
 }

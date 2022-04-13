@@ -63,6 +63,7 @@ public class ModifyPersonnalData_1Controller implements Initializable {
             alert.setHeaderText(bundle.getString("error9"));
             alert.showAndWait();
         }
+        //TODO
         /*ApplicationClient client = new ApplicationClient();
         client.setLogin(UserService.getCurrentUser().getLogin());
         client.setPassword(password.getText());

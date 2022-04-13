@@ -56,7 +56,7 @@ public class UserService<P extends User> {
     public void sendValidateAccount(User user)throws Exception{
         String mailSubject = "Validation de votre compte";
         String token = user.getToken();
-        String message = "Bonjour,\n\n Votre compte a bien été créé.\n Veuillez utiliser ce code pour valider votre compte : "
+        String message = "Bonjour,\n\n Votre compte a bien été créé.\n Veuillez utiliser ce code pour le valider : "
                 + token + "\n\n Merci,";
 
         sendMail(user.getEmail(), mailSubject, message);
@@ -252,24 +252,24 @@ public class UserService<P extends User> {
             }
             return applicationClientService.saveClient(userFound);
 
-        }/*else if(contextService.getContextName().equals(ContextName.INSTITUTION)){
+        }else if(contextService.getContextName().equals(ContextName.INSTITUTION)){
             FinancialInstitution userFound = financialInstitutionService.getRepository()
                     .findByLogin(user.getLogin());
 
             if (userFound == null ){
                 throw new RuntimeException("User not found");
             }
-            if (user.getToken() != null){
-                userFound.setToken(user.getToken());
-            }
             if (user.getPassword() != null){
                 userFound.setPassword(user.getPassword());
             }
-            if (!userFound.getActive()) {
-                userFound.setActive(user.getActive());
+            if (user.getEmail() != null){
+                userFound.setEmail(user.getEmail());
+            }
+            if (user.getLanguage() != null){
+                userFound.setLanguage(user.getLanguage());
             }
             return financialInstitutionService.saveInstitution(userFound);
-        }*/
+        }
         return null;
     }
 

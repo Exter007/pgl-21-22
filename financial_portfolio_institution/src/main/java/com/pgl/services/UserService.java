@@ -249,6 +249,35 @@ public class UserService {
     }
 
     /**
+     * Edit user data
+     * @param user
+     * @return a boolean status result
+     */
+    public boolean editUser(User user){
+        String url = GlobalVariables.CONTEXT_PATH.concat("/account/edit");
+        System.out.println("url: "+url);
+
+        HttpEntity<Object> httpEntity = getHttpEntity(user);
+
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.PUT,
+                    httpEntity, boolean.class);
+
+            System.out.println(response.getStatusCode());
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
+    }
+
+    /**
      *Account activation
      * @param user
      * @return a boolean status result
