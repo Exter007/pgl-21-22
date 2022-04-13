@@ -33,4 +33,15 @@ public class FinancialInstitutionService extends HttpClientService<FinancialInst
         return post2(url, institution);
 
     }
+
+    /**
+     * Update financial institution
+     * @param institution
+     * @return
+     */
+    public FinancialInstitution updateInstitution(FinancialInstitution institution){
+        String url = GlobalVariables.CONTEXT_PATH + referencePath + "/account/update";
+        return post(url, institution);
+
+    }
 }

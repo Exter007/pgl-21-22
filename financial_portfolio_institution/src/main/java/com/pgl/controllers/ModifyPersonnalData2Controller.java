@@ -118,7 +118,7 @@ public class ModifyPersonnalData2Controller implements Initializable {
         }else {
             FinancialInstitution user = build_user();
 
-            user = userService.register(user);
+            user = institutionService.updateInstitution(user);
             userService.setCurrentUser(user);
 
             if (user != null){
@@ -139,6 +139,7 @@ public class ModifyPersonnalData2Controller implements Initializable {
     public FinancialInstitution build_user(){
 
         FinancialInstitution institution = institutionService.findById(currentInstitution.getBIC());
+
         institution.setName(institutionName.getText());
 
         if (newPassword.getText().isEmpty()){
@@ -156,7 +157,7 @@ public class ModifyPersonnalData2Controller implements Initializable {
 
         institution.setLogin(institution.buildLogin());
 
-        institution.setModificationDate(new Date());
+//        institution.setModificationDate(new Date());
         institution.toUpdate = true;
 
         return institution;

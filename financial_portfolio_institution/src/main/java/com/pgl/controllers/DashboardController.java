@@ -6,7 +6,7 @@ import com.pgl.models.BankAccount;
 import com.pgl.models.FinancialProduct;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.BankAccountService;
-import com.pgl.services.FinancialProductService;
+import com.pgl.services.ProductService;
 import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -19,13 +19,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 
@@ -36,7 +34,7 @@ import java.util.logging.Logger;
 public class DashboardController implements Initializable {
 
     static UserService userService = new UserService();
-    FinancialProductService productService = new FinancialProductService();
+    ProductService productService = new ProductService();
     BankAccountService bankAccountService = new BankAccountService();
 
     static ResourceBundle bundle;
@@ -285,7 +283,7 @@ public class DashboardController implements Initializable {
         setText();
         User user = new User();
         user.setLanguage("fr");
-        user.setLogin(UserService.getCurrentUser().getLogin());
+        user.setLogin(userService.getCurrentUser().getLogin());
         boolean result = userService.editUser(user);
     }
 
@@ -299,7 +297,7 @@ public class DashboardController implements Initializable {
         setText();
         User user = new User();
         user.setLanguage("en");
-        user.setLogin(UserService.getCurrentUser().getLogin());
+        user.setLogin(userService.getCurrentUser().getLogin());
         boolean result = userService.editUser(user);
     }
 

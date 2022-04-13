@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.Date;
 import java.util.List;
@@ -108,6 +109,8 @@ public class InstitutionController {
 
 
     // Ressources for Financial Institution
+
+
 
     /**
      * Find Financial Institution by BIC

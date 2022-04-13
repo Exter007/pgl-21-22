@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service()
-@Transactional(readOnly = true)
 public class FinancialInstitutionService {
     @Autowired
     FinancialInstitutionRepository financialInstitutionRepository;
@@ -42,7 +41,6 @@ public class FinancialInstitutionService {
      * @param user
      * @return
      */
-    @Transactional()
     public FinancialInstitution saveInstitution(FinancialInstitution user){
         FinancialInstitution institution;
         institution = getRepository().findByBicOrEmail(user.getBIC(), user.getEmail());
@@ -77,6 +75,22 @@ public class FinancialInstitutionService {
             user.setModificationDate(new Date());
             institution = user;
         }
+
+        return financialInstitutionRepository.save(institution);
+    }
+
+    /**
+     * Saving a financial institution
+     * @param institution
+     * @return
+     */
+    @Transactional()
+    public FinancialInstitution updateInstitution(FinancialInstitution institution){
+
+        // Update Institution Address
+        addressRepository.save(institution.getAddress());
+
+        institution.setModificationDate(new Date());
 
         return financialInstitutionRepository.save(institution);
     }
