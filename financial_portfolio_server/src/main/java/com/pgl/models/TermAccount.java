@@ -21,7 +21,7 @@ public class TermAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public TermAccount() {
-        super(ACCOUNT_NATURE.TERM_ACCOUNT);
+        super(ACCOUNT_NATURE.TERM_ACCOUNT, TRANSFER_ACCESS.UNAVAILABLE);
     }
 
     /** Class constructor
@@ -38,7 +38,7 @@ public class TermAccount extends BankAccount {
      * @param penalty a long
      */
     public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
-        super(iban, ACCOUNT_NATURE.TERM_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
+        super(iban, ACCOUNT_NATURE.TERM_ACCOUNT, type, state, TRANSFER_ACCESS.UNAVAILABLE, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.maximumDate = maximumDate;
         this.penalty = penalty;
     }

@@ -25,7 +25,7 @@ public class SavingsAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public SavingsAccount() {
-        super(ACCOUNT_NATURE.SAVING_ACCOUNT);
+        super(ACCOUNT_NATURE.SAVING_ACCOUNT, TRANSFER_ACCESS.UNAVAILABLE);
     }
 
     /** Class constructor
@@ -43,7 +43,7 @@ public class SavingsAccount extends BankAccount {
      * @param annualInterest an float
      */
     public SavingsAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date loyaltyDate, float loyaltyBonus, float annualInterest) {
-        super(iban, ACCOUNT_NATURE.SAVING_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
+        super(iban, ACCOUNT_NATURE.SAVING_ACCOUNT, type, state, TRANSFER_ACCESS.UNAVAILABLE, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.loyaltyDate = loyaltyDate;
         this.loyaltyBonus = loyaltyBonus;
         this.annualInterest = annualInterest;

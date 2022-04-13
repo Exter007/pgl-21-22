@@ -1,6 +1,7 @@
 package com.pgl.services;
 
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
 import com.pgl.repositories.ApplicationClientRepository;
 import com.pgl.utils.Code;
@@ -31,18 +32,17 @@ public class ApplicationClientService {
      * @return
      */
     public ApplicationClient saveClient(ApplicationClient user){
+        ApplicationClient client;
 
-        Optional<ApplicationClient> result = getRepository().findById(user.getNationalRegister());
+        client = getRepository().findByNumberOrEmail(user.getNationalRegister(), user.getEmail());
 
         //      if it is a new Client and already exists with this national register number
-        if(!user.toUpdate && result.isPresent()){
+        if(!user.toUpdate && client != null){
             throw new RuntimeException("This User already exists");
         }
 
-        ApplicationClient client;
-
         //      if it's a new user and doesn't exist yet
-        if (!result.isPresent()) {
+        if (client == null) {
             user.setCreationDate(new Date());
             client = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
@@ -53,10 +53,19 @@ public class ApplicationClientService {
 
         }else { // if the user already exists and update it
             user.setModificationDate(new Date());
-            client = SerializationUtils.clone(user);
+            client = user;
         }
 
         return getRepository().save(client);
     }
 
+    /**
+     * Check if the password provided by the Application Client is correct
+     * @param applicationClient
+     * @return
+     */
+    public boolean checkPassword(ApplicationClient applicationClient){
+        ApplicationClient result = getRepository().findById(applicationClient.getNationalRegister()).get();
+        return bCryptPasswordEncoder.matches(applicationClient.getPassword(), result.getPassword());
+    }
 }

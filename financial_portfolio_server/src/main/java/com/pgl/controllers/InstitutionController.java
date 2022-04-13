@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -53,6 +54,7 @@ public class InstitutionController {
      * @param holder
      * @return
      */
+    @Transactional()
     @PostMapping(value = "holder/save")
     public ResponseEntity<?> saveHolder(@RequestBody FinancialProductHolder holder){
         return ResponseEntity.ok(productHolderRepository.save(holder));
@@ -104,7 +106,21 @@ public class InstitutionController {
                 .findHolderByInstitutionAndClient(bic, nationalRegister));
     }
 
+
     // Ressources for Financial Institution
+
+    /**
+     * Find Financial Institution by BIC
+     * @param bic
+     * @return
+     */
+    @GetMapping(value = "find-by-id/{bic}")
+    public ResponseEntity<?> findInstitutionById(@PathVariable String bic){
+        logger.debug("Call : Get Institution by id");
+        Optional<FinancialInstitution> result = financialInstitutionService
+                .getRepository().findById(bic);
+        return result.map(ResponseEntity::ok).orElse(null);
+    }
     /**
      * Check if the password provided by the financial institution is correct
      * @param institution

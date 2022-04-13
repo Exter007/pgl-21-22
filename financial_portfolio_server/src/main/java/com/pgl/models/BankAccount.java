@@ -49,9 +49,10 @@ public abstract class BankAccount extends FinancialProduct {
     /** Class constructor
      *
      * @param nature
+     * @param transferAccess
      */
-    public BankAccount(ACCOUNT_NATURE nature) {
-        super(PRODUCT_TYPE.BANK_ACCOUNT);
+    public BankAccount(ACCOUNT_NATURE nature, TRANSFER_ACCESS transferAccess) {
+        super(PRODUCT_TYPE.BANK_ACCOUNT, transferAccess);
         this.nature = nature;
     }
 
@@ -60,14 +61,15 @@ public abstract class BankAccount extends FinancialProduct {
      * @param iban a String object
      * @param type a BankAccount.ACCOUNT_TYPE enum
      * @param state a FinancialProduct.PRODUCT_STATE enum
+     * @param transferAccess a FinancialProduct.TRANSFER_ACCESS enum
      * @param pin_code a String object
      * @param currency a BankAccount.CURRENCY enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
      * @param monthlyFee a float
      * @param annualYield a float
      */
-    public BankAccount(String iban, ACCOUNT_NATURE nature, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
-        super(PRODUCT_TYPE.BANK_ACCOUNT, state, financialInstitution);
+    public BankAccount(String iban, ACCOUNT_NATURE nature, ACCOUNT_TYPE type, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
+        super(PRODUCT_TYPE.BANK_ACCOUNT, state, transferAccess, financialInstitution);
         this.iban = iban;
         this.accountType = type;
         this.pin_code = pin_code;

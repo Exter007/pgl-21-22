@@ -24,6 +24,9 @@ public class FinancialProduct extends Persistent {
     @Column(name = "state", nullable = false)
     private PRODUCT_STATE state;
 
+    @Column(name = "tranfer_access")
+    private TRANSFER_ACCESS transferAccess;
+
     @ManyToMany()
     @JoinTable(name = "FinancialProductHolder_Product", joinColumns = @JoinColumn(name = "financial_product_id"),
             inverseJoinColumns = @JoinColumn(name = "financial_product_holder_id"))
@@ -52,11 +55,23 @@ public class FinancialProduct extends Persistent {
     /** Class constructor
      *
      * @param productType
+     * @param transferAccess
+     */
+    public FinancialProduct(PRODUCT_TYPE productType, TRANSFER_ACCESS transferAccess) {
+        this.productType = productType;
+        this.transferAccess = transferAccess;
+        this.state = PRODUCT_STATE.UNARCHIVED;
+    }
+
+    /** Class constructor
+     *
+     * @param productType
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      */
-    public FinancialProduct(PRODUCT_TYPE productType, PRODUCT_STATE state, FinancialInstitution financialInstitution) {
+    public FinancialProduct(PRODUCT_TYPE productType, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, FinancialInstitution financialInstitution) {
         this.state = state;
+        this.transferAccess = transferAccess;
         this.financialInstitution = financialInstitution;
         this.productType = productType;
         this.state = PRODUCT_STATE.UNARCHIVED;
@@ -67,12 +82,14 @@ public class FinancialProduct extends Persistent {
      * @param wording a String object
      * @param productType
      * @param state a FinancialProduct.PRODUCT_STATE enum
+     * @param transferAccess a FinancialProduct.TRANSFER_ACCESS enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      * @param financialProductHolders a List that contains the financial product holders who have this product
      */
-    public FinancialProduct(String wording, PRODUCT_TYPE productType, PRODUCT_STATE state, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
+    public FinancialProduct(String wording, PRODUCT_TYPE productType, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, FinancialInstitution financialInstitution, List<FinancialProductHolder> financialProductHolders) {
         this.wording = wording;
         this.state = state;
+        this.transferAccess = transferAccess;
         this.financialProductHolders = financialProductHolders;
         this.financialInstitution = financialInstitution;
         this.productType = productType;
@@ -127,6 +144,22 @@ public class FinancialProduct extends Persistent {
         this.state = state;
     }
 
+    /** Get the transfert access of this product
+     *
+     * @return the state in the form of a FinancialProduct.TRANSFER_ACCESS enum
+     */
+    public TRANSFER_ACCESS getTransferAccess() {
+        return transferAccess;
+    }
+
+    /** Set the transfert access of this product
+     *
+     * @param transferAccess a FinancialProduct.TRANSFER_ACCESS enum
+     */
+    public void setTransferAccess(TRANSFER_ACCESS transferAccess) {
+        this.transferAccess = transferAccess;
+    }
+
     /** Get the financial institution of this product
      *
      * @return the financial institution in the form of a FinancialInstitution object
@@ -171,5 +204,13 @@ public class FinancialProduct extends Persistent {
     public enum PRODUCT_STATE{
         UNARCHIVED,
         ARCHIVED,
+    }
+
+    /** Represent the authorization to access the transfer functionality
+     */
+    public enum TRANSFER_ACCESS{
+        UNAVAILABLE,
+        DENIED,
+        AUTHORIZED,
     }
 }

@@ -31,7 +31,7 @@ public class UserService {
 
     public UserService(){}
 
-    public static FinancialInstitution getCurrentUser() {
+    public FinancialInstitution getCurrentUser() {
         return currentUser;
     }
 

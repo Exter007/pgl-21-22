@@ -12,11 +12,13 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
 
 @Service()
+@Transactional(readOnly = true)
 public class FinancialInstitutionService {
     @Autowired
     FinancialInstitutionRepository financialInstitutionRepository;
@@ -30,7 +32,7 @@ public class FinancialInstitutionService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    FinancialInstitutionRepository getRepository(){
+    public FinancialInstitutionRepository getRepository(){
         return financialInstitutionRepository;
     }
 
@@ -40,19 +42,18 @@ public class FinancialInstitutionService {
      * @param user
      * @return
      */
+    @Transactional()
     public FinancialInstitution saveInstitution(FinancialInstitution user){
-
-        Optional<FinancialInstitution> result = getRepository().findById(user.getBIC());
+        FinancialInstitution institution;
+        institution = getRepository().findByBicOrEmail(user.getBIC(), user.getEmail());
 
         //      if it is a new Institution and already exists with this BIC
-        if(!user.toUpdate && result.isPresent()){
+        if(!user.toUpdate && institution != null){
             throw new RuntimeException("This User already exists");
         }
 
-        FinancialInstitution institution;
-
         //      if it's a new user and doesn't exist yet
-        if (!result.isPresent()) {
+        if (institution == null) {
             user.setCreationDate(new Date());
             institution = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
@@ -61,14 +62,21 @@ public class FinancialInstitutionService {
             institution.setToken(Code.generateCode());
             institution.setRole(User.ROLE.FINANCIAL_INSTITUTION);
 
-        }else { // if the user already exists and update it
-            user.setModificationDate(new Date());
-            institution = SerializationUtils.clone(user);
-        }
+            // Save Institution Address
+            Address address = addressRepository.save(institution.getAddress());
+            institution.setAddress(address);
 
-        // Save Institution Address
-        Address address = addressRepository.save(institution.getAddress());
-        institution.setAddress(address);
+        }else { // if the user already exists and update it
+            if (user.getPassword() != null){
+               user.setPassword(institution.getPassword());
+            }
+
+            // Update Institution Address
+            addressRepository.save(institution.getAddress());
+
+            user.setModificationDate(new Date());
+            institution = user;
+        }
 
         return financialInstitutionRepository.save(institution);
     }

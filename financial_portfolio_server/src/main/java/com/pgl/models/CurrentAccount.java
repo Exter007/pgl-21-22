@@ -17,7 +17,7 @@ public class CurrentAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public CurrentAccount() {
-        super(ACCOUNT_NATURE.CURRENT_ACCOUNT);
+        super(ACCOUNT_NATURE.CURRENT_ACCOUNT, TRANSFER_ACCESS.DENIED);
     }
 
     /** Class constructor
@@ -34,6 +34,6 @@ public class CurrentAccount extends BankAccount {
     public CurrentAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency,
                           FinancialInstitution financialInstitution,
                           float monthlyFee, float annualYield) {
-        super(iban, ACCOUNT_NATURE.CURRENT_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
+        super(iban, ACCOUNT_NATURE.CURRENT_ACCOUNT, type, state, TRANSFER_ACCESS.DENIED, pin_code, currency, financialInstitution, monthlyFee, annualYield);
     }
 }

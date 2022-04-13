@@ -2,6 +2,7 @@ package com.pgl.controllers;
 
 import com.pgl.models.*;
 import com.pgl.repositories.*;
+import com.pgl.services.ApplicationClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 @RequestMapping(value="customer/")
 public class CustomerController {
     protected Logger logger;
+
+    @Autowired
+    private ApplicationClientService applicationClientService;
 
     @Autowired
     private FinancialProductRepository financialProductRepository;
@@ -35,6 +39,20 @@ public class CustomerController {
     public CustomerController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
+
+
+    // Ressources for Application Client
+    /**
+     * Check if the password provided by the application client is correct
+     * @param applicationClient
+     * @return
+     */
+    @PostMapping(value = "check-password")
+    public ResponseEntity<?> checkPassword(@RequestBody ApplicationClient applicationClient){
+
+        return ResponseEntity.ok(applicationClientService.checkPassword(applicationClient));
+    }
+
 
     // Ressources for Wallet
 

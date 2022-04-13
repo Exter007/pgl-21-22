@@ -2,9 +2,16 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 
+import com.pgl.models.BankAccount;
+import com.pgl.models.FinancialProduct;
+import com.pgl.models.FinancialProductHolder;
+import com.pgl.services.BankAccountService;
+import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,18 +28,25 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
+    FinancialProductService productService = new FinancialProductService();
+    BankAccountService bankAccountService = new BankAccountService();
+
     static ResourceBundle bundle;
 
+    ObservableList list = FXCollections.observableArrayList();
+    List<FinancialProduct> productList = new ArrayList<>();
+
+    FinancialProduct currentProduct;
+
+    @FXML
+    private ListView<String> productListView;
     @FXML
     private Label welcome_label;
     @FXML
@@ -82,8 +96,121 @@ public class DashboardController implements Initializable {
         }
         setText();
         DynamicViews.border_pane = border_pane;
+        loadFinancialProducts();
     }
 
+    /**
+     * Load Financial Products of the financial institution
+     */
+    public void loadFinancialProducts() {
+        clear();
+        productList = productService.getFinancialProductsByInstitution();
+        if (productList != null && productList.size() > 0) {
+            productList.forEach(product -> {
+                FinancialProductHolder holder = product.getFinancialProductHolders().get(0);
+                String label = holder.getNationalRegister() + " : "
+                        + holder.getFirstName() + " " + holder.getName()
+                        + "   "
+                        + product.getState().name()
+                        + "   "
+                        + product.getProductType().name();
+                list.add(label);
+            });
+
+            productListView.getItems().addAll(list);
+        }
+    }
+
+    /**
+     * Clear items in the list
+     */
+    public void clear() {
+        productList.clear();
+        list.clear();
+        productListView.getItems().clear();
+        productService.moveCurrentProduct();
+    }
+
+    /**
+     * Select an item from the list
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void selectedItem(MouseEvent event) {
+        String label = productListView.getSelectionModel().getSelectedItem();
+        int index = productListView.getItems().indexOf(label);
+
+        productService.setCurrentProduct(productList.get(index));
+        currentProduct = productList.get(index);
+    }
+
+    /**
+     * Show selected item
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_display(MouseEvent event) {
+        if (currentProduct != null) {
+            if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
+                bankAccountService.setCurrentBankAccount((BankAccount) productService.getCurrentProduct());
+                DynamicViews.loadBorderCenter("Institution-ViewBankAccount");
+            }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
+//                insuranceService.setCurrentInsurance((BankAccount) productService.getCurrentProduct());
+//                DynamicViews.loadBorderCenter("Institution-ViewInsurance");
+            }
+        } else {
+            productService.not_selected_error();
+        }
+    }
+
+    /**
+     * Access the interface for modifying the financial product selected in the list
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_edit(MouseEvent event) {
+        if (currentProduct != null) {
+            if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
+                bankAccountService.setEdit(true);
+                bankAccountService.setCurrentBankAccount((BankAccount) productService.getCurrentProduct());
+                DynamicViews.loadBorderCenter("Institution-Dashboard-AddBankAccount");
+            }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
+//                insuranceService.setEdit(true);
+//                insuranceService.setCurrentInsurance((BankAccount) productService.getCurrentProduct());
+//                DynamicViews.loadBorderCenter("Institution-Dashboard-AddInsurance");
+            }
+        } else {
+            productService.not_selected_error();
+        }
+    }
+
+    /**
+     * Open a window allowing you to delete a Financial Product to the institution
+     *
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_delete(MouseEvent event) {
+        if (bankAccountService.getCurrentBankAccount() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("question4"));
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                boolean status = false;
+                if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
+                    status = bankAccountService.deleteById(String.valueOf(currentProduct.getId()));
+                }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
+//                    status = insuranceService.deleteById(String.valueOf(currentProduct.getId()));
+                }
+                // if successful deletion
+                if (status) {
+                    bankAccountService.moveCurrentBankAccount();
+                    loadFinancialProducts();
+                }
+            }
+        } else {
+            bankAccountService.not_selected_error();
+        }
+    }
 
     /**
      * Open a window allowing you to modify your personal data
@@ -203,33 +330,6 @@ public class DashboardController implements Initializable {
         //TODO
     }
 
-    /**
-     * Open a window allowing you to add product to a client of the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void add_Product(MouseEvent event) {
-        DynamicViews.loadBorderCenter(border_pane,"Institution-Dashboard-AddProduct");
-    }
-
-    /**
-     * Open a window allowing you to edit a product of a client of the institution
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void edit_Product(MouseEvent event) {
-        //TODO
-    }
-
-    /**
-     * Open a window asking for a delete confirmation
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void delete_Product(MouseEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Êtes vous sûr de vouloir supprimer ce produit ?");
-        Optional<ButtonType> result = alert.showAndWait();
-    }
 
     /**
      * Export all clients' products data

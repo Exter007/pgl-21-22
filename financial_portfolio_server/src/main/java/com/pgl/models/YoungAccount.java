@@ -20,7 +20,7 @@ public class YoungAccount extends BankAccount {
      * (persistent classes requirements)
      */
     public YoungAccount() {
-        super(ACCOUNT_NATURE.YOUNG_ACCOUNT);
+        super(ACCOUNT_NATURE.YOUNG_ACCOUNT, TRANSFER_ACCESS.DENIED);
     }
 
     /** Class constructor
@@ -37,7 +37,7 @@ public class YoungAccount extends BankAccount {
      * @param maxTransactionAmount a float
      */
     public YoungAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, int ageLimit, float maxTransactionAmount) {
-        super(iban, ACCOUNT_NATURE.YOUNG_ACCOUNT, type, state, pin_code, currency, financialInstitution, monthlyFee, annualYield);
+        super(iban, ACCOUNT_NATURE.YOUNG_ACCOUNT, type, state, TRANSFER_ACCESS.DENIED, pin_code, currency, financialInstitution, monthlyFee, annualYield);
         this.ageLimit = ageLimit;
         this.maxTransactionAmount = maxTransactionAmount;
     }

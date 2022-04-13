@@ -1,23 +1,38 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
+import com.pgl.models.Address;
+import com.pgl.models.FinancialInstitution;
 import com.pgl.models.User;
+import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.UserService;
+import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModifyPersonnalData2Controller implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
+    FinancialInstitutionService institutionService = new FinancialInstitutionService();
     static ResourceBundle bundle;
+    FinancialInstitution currentInstitution = userService.getCurrentUser();
 
     @FXML
     private Button edit_btn;
@@ -25,8 +40,19 @@ public class ModifyPersonnalData2Controller implements Initializable {
     private Label password_label;
     @FXML
     private Label title_label;
+
     @FXML
-    private TextField email;
+    private TextField institutionName;
+    @FXML
+    private TextField number;
+    @FXML
+    private TextField street;
+    @FXML
+    private TextField zipCode;
+    @FXML
+    private TextField city;
+    @FXML
+    private TextField country;
     @FXML
     private PasswordField newPassword;
     @FXML
@@ -37,7 +63,6 @@ public class ModifyPersonnalData2Controller implements Initializable {
      */
     private void setText() {
         title_label.setText(bundle.getString("Title_label"));
-        email.setPromptText(bundle.getString("Email_field"));
         newPassword.setPromptText(bundle.getString("NewPassword_field"));
         password_label.setText(bundle.getString("Password_label"));
         newPassword2.setPromptText(bundle.getString("NewPassword2_field"));
@@ -51,54 +76,89 @@ public class ModifyPersonnalData2Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         bundle = ModifyPersonnalDataController.bundle;
         setText();
+        setCurrentUser();
+    }
+
+    private void setCurrentUser(){
+        institutionName.setText(currentInstitution.getName());
+        number.setText(currentInstitution.getAddress().getStreetNumber());
+        street.setText(currentInstitution.getAddress().getStreet());
+        zipCode.setText(currentInstitution.getAddress().getPostalCode());
+        city.setText(currentInstitution.getAddress().getCity());
+        country.setText(currentInstitution.getAddress().getCountry());
     }
 
     /**
-     * Reset filled fields
+     * Update personal data
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void modify(MouseEvent event) {
-        if(email.getText() == "" && newPassword.getText() == "" && newPassword2.getText() == ""){
+    private void on_validate(MouseEvent event) {
+        if(number.getText().isEmpty() ||
+                street.getText().isEmpty() ||
+                zipCode.getText().isEmpty() ||
+                city.getText().isEmpty() ||
+                country.getText().isEmpty())
+        {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error9"));
+            alert.setHeaderText(bundle.getString("error3"));
             alert.showAndWait();
 
-        }else if(email.getText() != "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            //TODO
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(bundle.getString("succes3"));
-            alert.showAndWait();
-
-            Stage stage = (Stage) edit_btn.getScene().getWindow();
-            stage.close();
-
-        }else if(email.getText() == "" &&
-                ((newPassword.getText() != "" && newPassword2.getText() == "") ||
-                        (newPassword.getText() == "" && newPassword2.getText() != ""))){
+        }else if(!newPassword.getText().isEmpty() && !Validators.check_password(newPassword.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error1"));
+            alert.setHeaderText(bundle.getString("error5"));
             alert.showAndWait();
 
-        }else if(email.getText() == "" &&
-                (!newPassword.getText().equals(newPassword2.getText()))){
+        }else if(!newPassword.getText().equals(newPassword2.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error6"));
+            alert.setContentText(bundle.getString("error6"));
             alert.showAndWait();
 
-        }else{
-            //TODO
+        }else {
+            FinancialInstitution user = build_user();
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(bundle.getString("succes4"));
-            alert.showAndWait();
+            user = userService.register(user);
+            userService.setCurrentUser(user);
 
-            Stage stage = (Stage) edit_btn.getScene().getWindow();
-            stage.close();
+            if (user != null){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(bundle.getString("succes4"));
+                alert.showAndWait();
+
+                DynamicViews.loadBorderCenter("Institution-Dashboard");
+            }
+        }
+    }
+
+
+    /**
+     * Build user
+     * @return the user
+     */
+    public FinancialInstitution build_user(){
+
+        FinancialInstitution institution = institutionService.findById(currentInstitution.getBIC());
+        institution.setName(institutionName.getText());
+
+        if (newPassword.getText().isEmpty()){
+            institution.setPassword(null);
         }
 
-        Stage stage = (Stage) newPassword.getScene().getWindow();
-        stage.close();
+        Address address = institution.getAddress();
+        address.setStreetNumber(number.getText());
+        address.setStreet(street.getText());
+        address.setCity(city.getText());
+        address.setPostalCode(zipCode.getText());
+        address.setCountry(country.getText());
+
+        institution.setAddress(address);
+
+        institution.setLogin(institution.buildLogin());
+
+        institution.setModificationDate(new Date());
+        institution.toUpdate = true;
+
+        return institution;
     }
 }

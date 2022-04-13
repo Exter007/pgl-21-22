@@ -27,12 +27,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
-
 
 public class RegisterController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
     static String lang;

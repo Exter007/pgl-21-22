@@ -1,12 +1,17 @@
 package com.pgl.services;
 
-import com.pgl.models.FinancialProduct;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pgl.models.*;
 import com.pgl.utils.GlobalVariables;
 import org.springframework.core.ParameterizedTypeReference;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class FinancialProductService extends HttpClientService<FinancialProduct> {
+public class FinancialProductService extends HttpClientService<LinkedHashMap> {
+
+    UserService userService = new UserService();
 
     private static FinancialProduct currentProduct;
 
@@ -25,8 +30,8 @@ public class FinancialProductService extends HttpClientService<FinancialProduct>
      * FinancialProduct.class for deserializing JSON received from Rest API to Financial Product
      */
     public FinancialProductService() {
-        super(referencePath, FinancialProduct.class,
-                new ParameterizedTypeReference<List<FinancialProduct>>() {});
+        super(referencePath, LinkedHashMap.class,
+                new ParameterizedTypeReference<List<LinkedHashMap>>() {});
     }
 
     /**
@@ -68,4 +73,29 @@ public class FinancialProductService extends HttpClientService<FinancialProduct>
         setCurrentProduct(null);
     }
 
+    /**
+     * Retrieve Financial Products from a Financial Institution
+     * @return
+     */
+    public List<FinancialProduct> getFinancialProductsByInstitution(){
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath +"/get-by-institution/"
+                + userService.getCurrentUser().getBIC();
+
+        List<LinkedHashMap> results = getListByURL(url);
+        List<FinancialProduct> products = new ArrayList<>();
+        results.forEach( result ->{
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (result.get("classe").equals(CurrentAccount.class.getSimpleName()) ){
+                products.add(objectMapper.convertValue(result, CurrentAccount.class));
+            }else if (result.get("classe").equals(SavingsAccount.class.getSimpleName()) ){
+                products.add(objectMapper.convertValue(result, SavingsAccount.class));
+            }else if (result.get("classe").equals(YoungAccount.class.getSimpleName()) ){
+                products.add(objectMapper.convertValue(result, YoungAccount.class));
+            }else if (result.get("classe").equals(TermAccount.class.getSimpleName()) ){
+                products.add(objectMapper.convertValue(result, TermAccount.class));
+            }
+        });
+
+        return products;
+    }
 }
