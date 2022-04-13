@@ -83,9 +83,18 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
 
             RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, UserService.getCurrentUser(), f);
             try {
-                if(requestWalletService.createRequestWallet(requestWallet) != null){
+                RequestWallet rq = requestWalletService.createRequestWallet(requestWallet);
+                if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.PENDING){
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setHeaderText(bundle.getString("succes3"));
+                    alert.showAndWait();
+                } else if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.ACCEPTED){
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText(bundle.getString("error17"));
+                    alert.showAndWait();
+                } else if (rq != null && rq.getStatus() == Request.REQUEST_STATUS.REFUSED){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(bundle.getString("error16"));
                     alert.showAndWait();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -104,19 +104,32 @@ public class CustomerController {
     }
 
     /**
-     * Request Wallet
      * @param requestWallet RequestWallet to be created
+     * @return The created RequestWallet or null if already exists
      */
     @PostMapping("request-wallet/save")
     public ResponseEntity<?> requestWallet(@RequestBody RequestWallet requestWallet) {
         logger.debug("Call : Create RequestWallet");
-        if(requestWalletRepository.existsByApplicationClientAndFinancialInstitution(requestWallet.getApplicationClient(), requestWallet.getFinancialInstitution()) != null) {
-            return ResponseEntity.ok(null);
+        RequestWallet rq = requestWalletRepository.existsByApplicationClientAndFinancialInstitution(requestWallet.getApplicationClient(), requestWallet.getFinancialInstitution());
+        if(rq != null) {
+            if(rq.getStatus().equals(Request.REQUEST_STATUS.REFUSED)) {
+                rq.setStatus(Request.REQUEST_STATUS.PENDING);
+                return ResponseEntity.ok(requestWalletRepository.save(rq));
+            } else if (rq.getStatus().equals(Request.REQUEST_STATUS.PENDING)){
+                return ResponseEntity.ok(null);
+            } else {
+                return ResponseEntity.ok(rq);
+            }
         } else{
             return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
         }
     }
 
+    /**
+     * @param applicationClientID ApplicationClient's ID to be used to find the RequestWallet
+     * @param financialInstitutionBIC FinancialInstitution's BIC to be used to find the RequestWallet
+     * @return ResponseEntity with the value trueif the RequestWallet has been deleted
+     */
     @DeleteMapping("request-wallet/delete/{applicationClientID}/{financialInstitutionBIC}")
     public ResponseEntity<?> deleteRequestWallet(@PathVariable String applicationClientID, @PathVariable String financialInstitutionBIC) {
         logger.debug("Call : delete RequestWallet by id");
@@ -125,11 +138,25 @@ public class CustomerController {
         return ResponseEntity.ok(true);
     }
 
+    // Ressources from RequestTransfer
+
+    /**
+     * @param requestTransfer RequestTransfer to be created
+     * @return The created RequestTransfer or null if already exists
+     */
     @PostMapping("request-transfer/save")
     public ResponseEntity<?> requestTransfer(@RequestBody RequestTransfer requestTransfer) {
         logger.debug("Call : Create RequestTransfer");
-        if(requestTransferRepository.existsByApplicationClientAndFinancialInstitution(requestTransfer.getApplicationClient(), requestTransfer.getBankAccount().getFinancialInstitution()) != null) {
-            return ResponseEntity.ok(null);
+        RequestTransfer rt = requestTransferRepository.existsByApplicationClientAndFinancialInstitution(requestTransfer.getApplicationClient(), requestTransfer.getBankAccount().getFinancialInstitution());
+        if(rt != null) {
+            if(rt.getStatus().equals(Request.REQUEST_STATUS.REFUSED)) {
+                rt.setStatus(Request.REQUEST_STATUS.PENDING);
+                return ResponseEntity.ok(requestTransferRepository.save(rt));
+            } else if (rt.getStatus().equals(Request.REQUEST_STATUS.PENDING)){
+                return ResponseEntity.ok(null);
+            } else {
+                return ResponseEntity.ok(rt);
+            }
         } else{
             return ResponseEntity.ok(requestTransferRepository.save(requestTransfer));
         }
