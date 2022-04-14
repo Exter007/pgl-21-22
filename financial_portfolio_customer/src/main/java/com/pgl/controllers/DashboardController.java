@@ -456,7 +456,7 @@ public class DashboardController implements Initializable {
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String currentDateTime = dateFormatter.format(new Date());
 
-            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsbyId();
+            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
 
             ICsvBeanWriter beanWriter = null;
             CellProcessor[] processors = new CellProcessor[] {

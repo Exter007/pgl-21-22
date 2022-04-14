@@ -62,7 +62,7 @@ public class WalletService extends HttpClientService<Wallet>{
         return getListByURL(url);
     }
 
-    public List<FinancialProduct> getWalletFinancialProductsbyId(){
+    public List<FinancialProduct> getWalletFinancialProductsById(){
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/" + currentWallet.getId() +"/product/list";
         HttpEntity<FinancialProduct> httpEntity = new HttpEntity<>(getHeaders());
 
