@@ -12,6 +12,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -180,6 +181,9 @@
           <Menu fx:id="Account_menu" mnemonicParsing="false" text="Compte">
             <items>
               <MenuItem fx:id="EditProfil_menu" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="editPassword_menu" mnemonicParsing="false" onAction="#edit_password" text="Modifier mon mot de passe" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="Disconnect_menu" mnemonicParsing="false" onAction="#disconnect" text="Déconnexion" />
             </items>
           </Menu>

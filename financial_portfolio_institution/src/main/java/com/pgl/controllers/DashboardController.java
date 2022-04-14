@@ -2,12 +2,10 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 
-import com.pgl.models.BankAccount;
-import com.pgl.models.FinancialProduct;
-import com.pgl.models.FinancialProductHolder;
+import com.pgl.models.*;
 import com.pgl.services.BankAccountService;
+import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.ProductService;
-import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 
@@ -33,8 +31,9 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
     ProductService productService = new ProductService();
+	FinancialInstitutionService institutionService = new FinancialInstitutionService();
     BankAccountService bankAccountService = new BankAccountService();
 
     static ResourceBundle bundle;
@@ -50,6 +49,8 @@ public class DashboardController implements Initializable {
     private Menu Account_menu;
     @FXML
     private MenuItem EditProfil_menu;
+    @FXML
+    private MenuItem editPassword_menu;
     @FXML
     private MenuItem Disconnect_menu;
     @FXML
@@ -93,6 +94,7 @@ public class DashboardController implements Initializable {
     private void setText(){
         Account_menu.setText(bundle.getString("Account_menu"));
         EditProfil_menu.setText(bundle.getString("EditProfil_menu"));
+        editPassword_menu.setText(bundle.getString("EditPassword_menu"));
         Disconnect_menu.setText(bundle.getString("Disconnect_menu"));
         Language_menu.setText(bundle.getString("Language_menu"));
         Home_menu.setText(bundle.getString("Home_menu"));
@@ -251,6 +253,15 @@ public class DashboardController implements Initializable {
     }
 
     /**
+     * Open a window allowing you to modify password
+     * @param event the click of the mouse on the menu
+     */
+    @FXML
+    private void edit_password(ActionEvent event) {
+        DynamicViews.loadBorderCenter(border_pane,"Institution-ModifyPassword");
+    }
+
+    /**
      * Disconnects the user from the application
      * @param event the click of the mouse on the menu
      */
@@ -281,10 +292,12 @@ public class DashboardController implements Initializable {
     private void languageFR(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
-        User user = new User();
-        user.setLanguage("fr");
-        user.setLogin(userService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
+
+        FinancialInstitution institution = institutionService.updateLanguage("fr");
+
+        if (institution != null){
+            userService.setCurrentUser(institution);
+        }
     }
 
     /**
@@ -295,10 +308,12 @@ public class DashboardController implements Initializable {
     private void languageEN(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
-        User user = new User();
-        user.setLanguage("en");
-        user.setLogin(userService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
+        
+        FinancialInstitution institution = institutionService.updateLanguage("en");
+
+        if (institution != null){
+            userService.setCurrentUser(institution);
+        }
     }
 
     /**

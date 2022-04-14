@@ -2,6 +2,7 @@ package com.pgl.controllers;
 
 import com.pgl.models.ApplicationClient;
 import com.pgl.models.User;
+import com.pgl.services.ApplicationClientService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
 import javax.inject.Inject;
@@ -24,32 +26,27 @@ import java.util.logging.Logger;
 
 public class ModifyPersonnalData_2Controller implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
+    ApplicationClientService clientService = new ApplicationClientService();
+    ApplicationClient currentClient = userService.getCurrentUser();
     static ResourceBundle bundle;
 
     @FXML
-    private Button edit_btn;
-    @FXML
-    private Label password_label;
-    @FXML
     private Label title_label;
     @FXML
-    private TextField email;
+    private TextField lastName;
     @FXML
-    private PasswordField newPassword;
+    private TextField firstName;
     @FXML
-    private PasswordField newPassword2;
+    private Button edit_btn;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
         title_label.setText(bundle.getString("Title_label"));
-        email.setPromptText(bundle.getString("Email_field"));
-        newPassword.setPromptText(bundle.getString("NewPassword_field"));
-        password_label.setText(bundle.getString("Password_label"));
-        newPassword2.setPromptText(bundle.getString("NewPassword2_field"));
+        lastName.setPromptText(bundle.getString("LastName_field"));
+        firstName.setPromptText(bundle.getString("FirstName_field"));
         edit_btn.setText(bundle.getString("Edit_btn"));
     }
 
@@ -60,58 +57,68 @@ public class ModifyPersonnalData_2Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         bundle = ModifyPersonnalData_1Controller.bundle;
         setText();
+        setCurrentUser();
     }
 
     /**
-     * Reset filled fields
+     * Display user data on the interface
+     */
+    private void setCurrentUser(){
+        lastName.setText(currentClient.getName());
+        firstName.setText(currentClient.getFirstName());
+    }
+
+    /**
+     * Update personal data
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void modify(MouseEvent event) {
-        if(email.getText() == "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error12"));
-            alert.showAndWait();
-
-        }else if(email.getText() != "" && newPassword.getText() == "" && newPassword2.getText() == ""){
-            User user = new User();
-            user.setEmail(email.getText());
-            user.setLogin(UserService.getCurrentUser().getLogin());
-            boolean result = userService.editUser(user);
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(bundle.getString("succes6"));
-            alert.showAndWait();
-
-            Stage stage = (Stage) edit_btn.getScene().getWindow();
-            stage.close();
-
-        }else if(email.getText() == "" &&
-                ((newPassword.getText() != "" && newPassword2.getText() == "") ||
-                        (newPassword.getText() == "" && newPassword2.getText() != ""))){
+    private void on_validate(MouseEvent event) {
+        if(lastName.getText().isEmpty() ||
+                firstName.getText().isEmpty())
+        {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
 
-        }else if(email.getText() == "" &&
-                (!newPassword.getText().equals(newPassword2.getText()))){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error5"));
-            alert.showAndWait();
+        }else {
+            ApplicationClient user = build_user();
 
-        }else{
-            User user = new User();
-            user.setPassword(newPassword.getText());
-            user.setEmail(email.getText());
-            user.setLogin(UserService.getCurrentUser().getLogin());
-            boolean result = userService.editUser(user);
+            user = clientService.updateClient(user);
+            if (user != null){
+                userService.setCurrentUser(user);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(bundle.getString("succes7"));
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(bundle.getString("succes7"));
+                alert.showAndWait();
 
-            Stage stage = (Stage) edit_btn.getScene().getWindow();
-            stage.close();
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
+    }
+
+
+    /**
+     * Build user
+     * @return the user
+     */
+    public ApplicationClient build_user(){
+
+        ApplicationClient client = SerializationUtils.clone(currentClient);
+        client.setName(lastName.getText());
+        client.setFirstName(firstName.getText());
+
+        client.setLogin(client.buildLogin());
+
+        return client;
     }
 }

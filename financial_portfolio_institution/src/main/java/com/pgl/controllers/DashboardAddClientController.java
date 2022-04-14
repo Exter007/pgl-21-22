@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class DashboardAddClientController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
     ProductHolderService productHolderService = new ProductHolderService();

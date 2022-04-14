@@ -4,6 +4,8 @@ import com.pgl.helpers.DynamicViews;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +63,11 @@ public class ModifyPersonnalDataController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error7"));
             alert.showAndWait();
+        }else if(!Validators.check_password(password.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error5"));
+            alert.showAndWait();
+
         }else{
             boolean result = institutionService.checkPassword(password.getText());
             if (result) {

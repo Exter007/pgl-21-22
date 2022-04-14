@@ -93,9 +93,9 @@ public class WalletController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+        if(userService.getCurrentUser().getLanguage().equals("fr")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+        }else if(userService.getCurrentUser().getLanguage().equals("en")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         }else{
             bundle = null;
@@ -161,33 +161,6 @@ public class WalletController implements Initializable {
         }
     }
 
-    /**
-     * Change the language to French
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageFR(ActionEvent event) {
-        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        setText();
-        User user = new User();
-        user.setLanguage("fr");
-        user.setLogin(UserService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
-    }
-
-    /**
-     * Change the language to English
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void languageEN(ActionEvent event) {
-        bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
-        setText();
-        User user = new User();
-        user.setLanguage("en");
-        user.setLogin(UserService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
-    }
 
     /**
      * Open a window allowing you to request a financial product from an institution

@@ -10,11 +10,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -27,25 +23,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.pgl.controllers.WalletController" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
   <children>
-    <MenuBar style="-fx-background-color: #fff;" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="Compte">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#diconnect" text="Deconnexion" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Langue">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
-            <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="2042.0" prefWidth="1300.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
       <children>
             <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="695.0" prefWidth="1300.0" style="-fx-background-color: #fff;">

@@ -7,6 +7,7 @@ import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
+import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +31,6 @@ import java.util.logging.Logger;
 
 public class Dashboard_AskWalletToInstitutionController implements Initializable {
 
-    @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
@@ -81,15 +81,15 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
         if(institutionChoice.getValue() != null){
             FinancialInstitution f = financialInstitutionService.getFinancialInstitutionByName((String) institutionChoice.getValue());
 
-            RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, UserService.getCurrentUser(), f);
+            RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, userService.getCurrentUser(), f);
             try {
                 RequestWallet rq = requestWalletService.createRequestWallet(requestWallet);
                 if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.PENDING){
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText(bundle.getString("succes3"));
                     alert.showAndWait();
                 } else if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.ACCEPTED){
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText(bundle.getString("error17"));
                     alert.showAndWait();
                 } else if (rq != null && rq.getStatus() == Request.REQUEST_STATUS.REFUSED){
@@ -105,9 +105,15 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
                 e.printStackTrace();
             }
 
-
-            Stage stage = (Stage) sendButton.getScene().getWindow();
-            stage.close();
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+                Stage newWindow = new Stage();
+                Scene scene = new Scene(root);
+                newWindow.setScene(scene);
+                GlobalStage.setStage(newWindow);
+            } catch (IOException ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            }
 
         }else if(institutionChoice.getValue() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);

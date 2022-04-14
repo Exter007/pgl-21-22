@@ -21,34 +21,18 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
-   <stylesheets>
-      <URL value="@../stylesheet/Style.css" />
-   </stylesheets>
-   <children>
-    <MenuBar style="-fx-background-color: #fff;" VBox.vgrow="NEVER">
-      <menus>
-        <Menu fx:id="menu2" mnemonicParsing="false" text="Compte">
-          <items>
-            <MenuItem fx:id="menu21" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="menu22" mnemonicParsing="false" onAction="#disconnect" text="Deconnexion" />
-          </items>
-        </Menu>
-        <Menu fx:id="menu" mnemonicParsing="false" text="Langue">
-          <items>
-            <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
-            <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="2042.0" prefWidth="1300.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
-      <children>
+<BorderPane fx:id="border_pane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
+   <center>
+      <VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;">
+         <stylesheets>
+            <URL value="@../stylesheet/Style.css" />
+         </stylesheets>
+         <children>
             <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;">
                <content>
                   <AnchorPane prefHeight="1953.0" prefWidth="1280.0" style="-fx-background-color: #fff;">
@@ -94,9 +78,9 @@
                                     <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <HBox prefHeight="107.0" prefWidth="1280.0">
+                              <HBox prefHeight="212.0" prefWidth="1280.0">
                                  <children>
-                                    <ListView fx:id="walletListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="135.0" prefWidth="1276.0">
+                                    <ListView fx:id="walletListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="194.0" prefWidth="1276.0">
                                        <HBox.margin>
                                           <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                                        </HBox.margin>
@@ -110,7 +94,7 @@
                                  </children>
                               </HBox>
                               <HBox prefHeight="35.0" prefWidth="1084.0" />
-                              <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="1280.0">
+                              <HBox alignment="TOP_RIGHT" prefHeight="56.0" prefWidth="1280.0">
                                  <children>
                                     <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="101.0" style="-fx-font-size: 14;" text="Consulter">
                                        <styleClass>
@@ -271,7 +255,34 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
-      </children>
-    </AnchorPane>
-  </children>
-</VBox>
+        </children>
+      </VBox>
+   </center>
+   <top>
+    <MenuBar style="-fx-background-color: #fff;" BorderPane.alignment="CENTER">
+      <menus>
+        <Menu fx:id="menu2" mnemonicParsing="false" text="Compte">
+          <items>
+            <MenuItem fx:id="menu21" mnemonicParsing="false" onAction="#edit_profil" text="Modifier mon profil" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="editPassword_menu" mnemonicParsing="false" onAction="#edit_password" text="Modifier mon mot de passe" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="menu22" mnemonicParsing="false" onAction="#disconnect" text="Deconnexion" />
+          </items>
+        </Menu>
+        <Menu fx:id="menu" mnemonicParsing="false" text="Langue">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
+            <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
+          </items>
+        </Menu>
+            <Menu fx:id="Home_menu" mnemonicParsing="false" text="Acceuil">
+               <items>
+                  <MenuItem fx:id="wallet_menu" mnemonicParsing="false" onAction="#on_wallet" text="Portefeuilles" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+               </items>
+            </Menu>
+      </menus>
+    </MenuBar>
+   </top>
+</BorderPane>

@@ -35,6 +35,8 @@ dependencies {
     implementation group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    implementation 'org.apache.commons:commons-lang3:3.6'
+
     implementation project(':FinancialPortfolioServer')
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'

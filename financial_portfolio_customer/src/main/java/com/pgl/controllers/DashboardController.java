@@ -1,9 +1,11 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
+import com.pgl.models.ApplicationClient;
 import com.pgl.models.FinancialProduct;
 import com.pgl.models.User;
 import com.pgl.models.Wallet;
+import com.pgl.services.ApplicationClientService;
 import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
@@ -41,8 +43,8 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
+    ApplicationClientService clientService = new ApplicationClientService();
     static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
@@ -58,6 +60,12 @@ public class DashboardController implements Initializable {
     private Menu menu2;
     @FXML
     private MenuItem menu21;
+    @FXML
+    private MenuItem editPassword_menu;
+    @FXML
+    private Menu Home_menu;
+    @FXML
+    private MenuItem wallet_menu;
     @FXML
     private MenuItem menu22;
     @FXML
@@ -148,8 +156,11 @@ public class DashboardController implements Initializable {
         menu.setText(bundle.getString("Language_menu"));
         menu2.setText(bundle.getString("Account_menu"));
         menu21.setText(bundle.getString("EditProfil_menu"));
+        editPassword_menu.setText(bundle.getString("EditPassword_menu"));
+        Home_menu.setText(bundle.getString("Home_menu"));
+        wallet_menu.setText(bundle.getString("Wallet_menu"));
         menu22.setText(bundle.getString("Disconnect_menu"));
-        welcome.setText(bundle.getString("Welcome_label") + ' ' + UserService.getCurrentUser().getFirstName());
+        welcome.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet_label"));
 //        Wallet_label1.setText(bundle.getString("Wallet_label"));
 //        Wallet_label2.setText(bundle.getString("Wallet_label"));
@@ -187,15 +198,14 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(UserService.getCurrentUser().getLanguage().equals("fr")){
+        if(userService.getCurrentUser().getLanguage().equals("fr")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
-        }else if(UserService.getCurrentUser().getLanguage().equals("en")){
+        }else if(userService.getCurrentUser().getLanguage().equals("en")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         }else{
             bundle = null;
         }
         setText();
-
         DynamicViews.border_pane = border_pane;
         loadWallets();
     }
@@ -227,15 +237,16 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void edit_profil(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter(border_pane,"Client-ModifyPersonnalData");
+    }
+
+    /**
+     * Open a window allowing you to modify password
+     * @param event the click of the mouse on the menu
+     */
+    @FXML
+    private void edit_password(ActionEvent event) {
+        DynamicViews.loadBorderCenter(border_pane,"Client-ModifyPassword");
     }
 
     /**
@@ -269,10 +280,11 @@ public class DashboardController implements Initializable {
     private void languageFR(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         setText();
-        User user = new User();
-        user.setLanguage("fr");
-        user.setLogin(UserService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
+        ApplicationClient client = clientService.updateLanguage("fr");
+
+        if (client != null){
+            userService.setCurrentUser(client);
+        }
     }
 
     /**
@@ -283,10 +295,28 @@ public class DashboardController implements Initializable {
     private void languageEN(ActionEvent event) {
         bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         setText();
-        User user = new User();
-        user.setLanguage("en");
-        user.setLogin(UserService.getCurrentUser().getLogin());
-        boolean result = userService.editUser(user);
+        ApplicationClient client = clientService.updateLanguage("en");
+
+        if (client != null){
+            userService.setCurrentUser(client);
+        }
+    }
+
+    /**
+     * Access the Wallets management interface
+     * @param event the click of the mouse on the menu
+     */
+    @FXML
+    private void on_wallet(ActionEvent event){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -295,15 +325,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void ask_wallet(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-AskWalletToInstitution.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter(border_pane,"Client-Dashboard-AskWalletToInstitution");
     }
 
     /**
@@ -312,15 +334,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void transfer(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Dashboard-Transfer.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter(border_pane,"Client-Dashboard-Transfer.fxml");
     }
 
     /**
@@ -331,11 +345,8 @@ public class DashboardController implements Initializable {
     private void selectedItem(MouseEvent event){
         String label = walletListView.getSelectionModel().getSelectedItem();
         int index = walletListView.getItems().indexOf(label);
-        Long id = walletList.get(index).getId();
 
-        Wallet wallet = walletService.findById(id);
-
-        WalletService.setCurrentWallet(wallet);;
+        WalletService.setCurrentWallet(walletList.get(index));
     }
 
     /**
@@ -361,7 +372,7 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du portefeuille ?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = walletService.deleteById(WalletService.getCurrentWallet().getId());
+                boolean status = walletService.deleteById(WalletService.getCurrentWallet().getId().toString());
                 boolean statusRequestWallet = requestWalletService.deleteByInstitutionBICAndApplicationID(WalletService.getCurrentWallet().getFinancialInstitution().getBIC(), WalletService.getCurrentWallet().getApplicationClient().getNationalRegister());
                 // if successful deletion
                 if (status && statusRequestWallet){

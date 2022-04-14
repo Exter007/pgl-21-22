@@ -1,8 +1,11 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
 import com.pgl.models.ApplicationClient;
+import com.pgl.services.ApplicationClientService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
+import com.pgl.utils.Validators;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,8 +29,8 @@ import java.util.logging.Logger;
 
 public class ModifyPersonnalData_1Controller implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    ApplicationClientService clientService = new ApplicationClientService();
+
     static ResourceBundle bundle;
 
     @FXML
@@ -58,35 +61,23 @@ public class ModifyPersonnalData_1Controller implements Initializable {
      */
     @FXML
     private void check_Password(MouseEvent event) {
-        if(password.getText() == ""){
+        if(password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error9"));
+            alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
-        }
-        //TODO
-        /*ApplicationClient client = new ApplicationClient();
-        client.setLogin(UserService.getCurrentUser().getLogin());
-        client.setPassword(password.getText());
-
-        boolean response = userService.checkPassword(client);*/
-
-        if (true /*response*/) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData2.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root1));
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(ModifyPersonnalData_1Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Stage stage = (Stage) checkPassword.getScene().getWindow();
-            stage.close();
-
+        }else if(!Validators.check_password(password.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error4"));
+            alert.showAndWait();
         }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error8"));
-            alert.showAndWait();
+            boolean result = clientService.checkPassword(password.getText());
+            if (result) {
+                DynamicViews.loadBorderCenter("Client-ModifyPersonnalData2");
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("error8"));
+                alert.showAndWait();
+            }
         }
     }
 }

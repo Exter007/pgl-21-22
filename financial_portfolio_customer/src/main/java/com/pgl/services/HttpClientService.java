@@ -104,7 +104,7 @@ public class HttpClientService<P>{
      * @param id
      * @return entity retrieved
      */
-    public P findById(Long id){
+    public P findById(String id){
         String findByIdPath = "/find-by-id/";
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + findByIdPath + id;
         System.out.println(url);
@@ -138,7 +138,7 @@ public class HttpClientService<P>{
      * @param id
      * @return a boolean status result
      */
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         String deleteByIdPath = "/delete-by-id/";
 
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + deleteByIdPath + id;
@@ -266,6 +266,38 @@ public class HttpClientService<P>{
         }
 
         return null;
+    }
+
+    /**
+     * Post request with specific url
+     * @return boolean
+     */
+    public boolean post2(String url, P entity){
+        System.out.println("url: "+url);
+
+        HttpEntity<P> httpEntity = getHttpEntity(entity);
+
+        try {
+            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.POST,
+                    httpEntity, boolean.class);
+
+            System.out.println(response.getStatusCode());
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException ex) {
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+
+            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+                showNotAuthException();
+            } else {
+                showOtherException();
+            }
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
     }
 
     /**

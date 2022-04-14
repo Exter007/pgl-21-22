@@ -14,6 +14,8 @@ import java.util.List;
 
 public class WalletService extends HttpClientService<Wallet>{
 
+    UserService userService = new UserService();
+
     private static Wallet currentWallet;
 
     /**
@@ -57,7 +59,7 @@ public class WalletService extends HttpClientService<Wallet>{
      */
     public List<Wallet> getWalletsByClient(){
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/get-by-client/"
-                + UserService.getCurrentUser().getNationalRegister();
+                + userService.getCurrentUser().getNationalRegister();
 
         return getListByURL(url);
     }

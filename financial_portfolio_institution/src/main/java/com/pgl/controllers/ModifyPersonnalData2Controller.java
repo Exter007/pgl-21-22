@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.SerializationUtils;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -37,10 +38,7 @@ public class ModifyPersonnalData2Controller implements Initializable {
     @FXML
     private Button edit_btn;
     @FXML
-    private Label password_label;
-    @FXML
     private Label title_label;
-
     @FXML
     private TextField institutionName;
     @FXML
@@ -53,19 +51,12 @@ public class ModifyPersonnalData2Controller implements Initializable {
     private TextField city;
     @FXML
     private TextField country;
-    @FXML
-    private PasswordField newPassword;
-    @FXML
-    private PasswordField newPassword2;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText() {
-        title_label.setText(bundle.getString("Title_label"));
-        newPassword.setPromptText(bundle.getString("NewPassword_field"));
-        password_label.setText(bundle.getString("Password_label"));
-        newPassword2.setPromptText(bundle.getString("NewPassword2_field"));
+        title_label.setText(bundle.getString("Title_passoword_label"));
         edit_btn.setText(bundle.getString("Edit_btn"));
     }
 
@@ -79,6 +70,9 @@ public class ModifyPersonnalData2Controller implements Initializable {
         setCurrentUser();
     }
 
+    /**
+     * Display user data on the interface
+     */
     private void setCurrentUser(){
         institutionName.setText(currentInstitution.getName());
         number.setText(currentInstitution.getAddress().getStreetNumber());
@@ -100,33 +94,31 @@ public class ModifyPersonnalData2Controller implements Initializable {
                 city.getText().isEmpty() ||
                 country.getText().isEmpty())
         {
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error3"));
-            alert.showAndWait();
-
-        }else if(!newPassword.getText().isEmpty() && !Validators.check_password(newPassword.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error5"));
-            alert.showAndWait();
-
-        }else if(!newPassword.getText().equals(newPassword2.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(bundle.getString("error6"));
             alert.showAndWait();
 
         }else {
             FinancialInstitution user = build_user();
 
             user = institutionService.updateInstitution(user);
-            userService.setCurrentUser(user);
-
             if (user != null){
+                userService.setCurrentUser(user);
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes4"));
                 alert.showAndWait();
 
-                DynamicViews.loadBorderCenter("Institution-Dashboard");
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/Institution-Login.fxml"));
+                    Stage newWindow = new Stage();
+                    Scene scene = new Scene(root);
+                    newWindow.setScene(scene);
+                    GlobalStage.setStage(newWindow);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -138,13 +130,9 @@ public class ModifyPersonnalData2Controller implements Initializable {
      */
     public FinancialInstitution build_user(){
 
-        FinancialInstitution institution = institutionService.findById(currentInstitution.getBIC());
-
+//        FinancialInstitution institution = institutionService.findById(currentInstitution.getBIC());
+        FinancialInstitution institution = SerializationUtils.clone(currentInstitution);
         institution.setName(institutionName.getText());
-
-        if (newPassword.getText().isEmpty()){
-            institution.setPassword(null);
-        }
 
         Address address = institution.getAddress();
         address.setStreetNumber(number.getText());
@@ -158,7 +146,7 @@ public class ModifyPersonnalData2Controller implements Initializable {
         institution.setLogin(institution.buildLogin());
 
 //        institution.setModificationDate(new Date());
-        institution.toUpdate = true;
+//        institution.toUpdate = true;
 
         return institution;
     }

@@ -35,11 +35,11 @@ public class UserService {
 
     public UserService(){}
 
-    public static ApplicationClient getCurrentUser() {
+    public ApplicationClient getCurrentUser() {
         return currentUser;
     }
 
-    public static void setCurrentUser(ApplicationClient currentUser) {
+    public void setCurrentUser(ApplicationClient currentUser) {
         UserService.currentUser = currentUser;
     }
 
@@ -244,35 +244,6 @@ public class UserService {
             }else {
                showOtherException();
             }
-
-        }catch(Exception ex) {
-            showException(ex);
-        }
-
-        return false;
-    }
-
-    /**
-     * Edit user data
-     * @param user
-     * @return a boolean status result
-     */
-    public boolean editUser(User user){
-        String url = GlobalVariables.CONTEXT_PATH.concat("/account/edit");
-        System.out.println("url: "+url);
-
-        HttpEntity<Object> httpEntity = getHttpEntity(user);
-
-        try {
-            ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.PUT,
-                    httpEntity, boolean.class);
-
-            System.out.println(response.getStatusCode());
-
-            return Boolean.TRUE.equals(response.getBody());
-
-        }catch (HttpClientErrorException ex) {
-            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
 
         }catch(Exception ex) {
             showException(ex);

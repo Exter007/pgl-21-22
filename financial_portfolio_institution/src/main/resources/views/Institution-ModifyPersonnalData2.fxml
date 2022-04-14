@@ -3,29 +3,21 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="550.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.ModifyPersonnalData2Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="550.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.ModifyPersonnalData2Controller">
     <stylesheets>
         <URL value="@../stylesheet/Style.css" />
     </stylesheets>
     <children>
-    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="519.0" prefWidth="550.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="433.0" prefWidth="550.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="edit_btn" layoutX="195.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="45.0" prefWidth="170.0" text="Valider" />
-            <PasswordField fx:id="newPassword" alignment="CENTER" layoutX="63.0" layoutY="347.0" prefHeight="25.0" prefWidth="200.0" promptText="Nouveau mot de passe" styleClass="field" />
+            <Button fx:id="edit_btn" layoutX="178.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="45.0" prefWidth="170.0" text="Valider" />
             <TextField fx:id="number" alignment="CENTER" layoutX="64.0" layoutY="180.0" prefHeight="28.0" prefWidth="52.0" promptText="N°" styleClass="field" />
             <TextField fx:id="institutionName" alignment="CENTER" layoutX="63.0" layoutY="113.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom de l'institution" styleClass="field" />
-            <PasswordField fx:id="newPassword2" alignment="CENTER" layoutX="287.0" layoutY="347.0" prefHeight="25.0" prefWidth="200.0" promptText="Répéter le mot de passe" styleClass="field" />
-            <Label fx:id="password_label" layoutX="78.0" layoutY="375.0" text="*Doit contenir au moins 1 chiffre et 1 lettre" textFill="#f42525">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Label>
             <TextField fx:id="street" alignment="CENTER" layoutX="125.0" layoutY="180.0" prefHeight="28.0" prefWidth="139.0" promptText="Rue" styleClass="field" />
             <TextField fx:id="zipCode" alignment="CENTER" layoutX="64.0" layoutY="262.0" prefHeight="28.0" prefWidth="200.0" promptText="Code postal" styleClass="field" />
             <TextField fx:id="city" alignment="CENTER" layoutX="288.0" layoutY="262.0" prefHeight="28.0" prefWidth="200.0" promptText="Ville" styleClass="field" />

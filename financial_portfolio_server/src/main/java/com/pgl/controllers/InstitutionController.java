@@ -110,7 +110,18 @@ public class InstitutionController {
 
     // Ressources for Financial Institution
 
+    /**
+     * Update financial institution
+     * @param institution
+     * @return
+     */
+    @PostMapping(value = "update")
+    public ResponseEntity<?> updateInstitution(@RequestBody FinancialInstitution institution){
+        logger.debug("Call : Update financial institution");
 
+        return ResponseEntity.ok(financialInstitutionService
+                .updateInstitution(institution));
+    }
 
     /**
      * Find Financial Institution by BIC
@@ -124,6 +135,7 @@ public class InstitutionController {
                 .getRepository().findById(bic);
         return result.map(ResponseEntity::ok).orElse(null);
     }
+
     /**
      * Check if the password provided by the financial institution is correct
      * @param institution
@@ -133,6 +145,32 @@ public class InstitutionController {
     public ResponseEntity<?> checkPassword(@RequestBody FinancialInstitution institution){
 
         return ResponseEntity.ok(financialInstitutionService.checkPassword(institution));
+    }
+
+    /**
+     * Update financial institution password
+     * @param institution
+     * @return
+     */
+    @PostMapping(value = "password/update")
+    public ResponseEntity<?> updatePassword(@RequestBody FinancialInstitution institution){
+        logger.debug("Call : Update password");
+
+        return ResponseEntity.ok(financialInstitutionService
+                .updatePassword(institution));
+    }
+
+    /**
+     * Update financial institution preferred language
+     * @param institution
+     * @return
+     */
+    @PostMapping(value = "language/update")
+    public ResponseEntity<?> updateLanguage(@RequestBody FinancialInstitution institution){
+        logger.debug("Call : Update language");
+
+        return ResponseEntity.ok(financialInstitutionService
+                .updateLanguage(institution));
     }
 
 

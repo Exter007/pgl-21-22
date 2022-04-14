@@ -41,6 +41,20 @@ public class CustomerController {
 
 
     // Ressources for Application Client
+
+    /**
+     * Update Application Client
+     * @param client
+     * @return
+     */
+    @PostMapping(value = "update")
+    public ResponseEntity<?> updateClient(@RequestBody ApplicationClient client){
+        logger.debug("Call : Update Application client");
+
+        return ResponseEntity.ok(applicationClientService
+                .updateClient(client));
+    }
+
     /**
      * Check if the password provided by the application client is correct
      * @param applicationClient
@@ -50,6 +64,32 @@ public class CustomerController {
     public ResponseEntity<?> checkPassword(@RequestBody ApplicationClient applicationClient){
 
         return ResponseEntity.ok(applicationClientService.checkPassword(applicationClient));
+    }
+
+    /**
+     * Update Application Client password
+     * @param client
+     * @return
+     */
+    @PostMapping(value = "password/update")
+    public ResponseEntity<?> updatePassword(@RequestBody ApplicationClient client){
+        logger.debug("Call : Update password");
+
+        return ResponseEntity.ok(applicationClientService
+                .updatePassword(client));
+    }
+
+    /**
+     * Update Application Client preferred language
+     * @param client
+     * @return
+     */
+    @PostMapping(value = "language/update")
+    public ResponseEntity<?> updateLanguage(@RequestBody ApplicationClient client){
+        logger.debug("Call : Update language");
+
+        return ResponseEntity.ok(applicationClientService
+                .updateLanguage(client));
     }
 
 

@@ -125,7 +125,7 @@ public class RegisterController implements Initializable {
             user.setLanguage(lang);
 
             user = userService.register(user);
-            UserService.setCurrentUser(user);
+            userService.setCurrentUser(user);
 
             if (user != null){
                 try {

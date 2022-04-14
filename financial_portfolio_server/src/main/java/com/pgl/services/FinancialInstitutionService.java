@@ -1,9 +1,6 @@
 package com.pgl.services;
 
-import com.pgl.models.Address;
-import com.pgl.models.FinancialInstitution;
-import com.pgl.models.RequestTransfer;
-import com.pgl.models.User;
+import com.pgl.models.*;
 import com.pgl.repositories.AddressRepository;
 import com.pgl.repositories.FinancialInstitutionRepository;
 import com.pgl.repositories.RequestTransferRepository;
@@ -41,17 +38,15 @@ public class FinancialInstitutionService {
      * @param user
      * @return
      */
+    @Transactional()
     public FinancialInstitution saveInstitution(FinancialInstitution user){
-        FinancialInstitution institution;
-        institution = getRepository().findByBicOrEmail(user.getBIC(), user.getEmail());
+
+        FinancialInstitution institution = getRepository().findByBicOrEmail(user.getBIC(), user.getEmail());
 
         //      if it is a new Institution and already exists with this BIC
-        if(!user.toUpdate && institution != null){
+        if(institution != null){
             throw new RuntimeException("This User already exists");
-        }
-
-        //      if it's a new user and doesn't exist yet
-        if (institution == null) {
+        }else { //      if it's a new user and doesn't exist yet
             user.setCreationDate(new Date());
             institution = SerializationUtils.clone(user);
             String hashPW = bCryptPasswordEncoder.encode(user.getPassword());
@@ -63,40 +58,71 @@ public class FinancialInstitutionService {
             // Save Institution Address
             Address address = addressRepository.save(institution.getAddress());
             institution.setAddress(address);
-
-        }else { // if the user already exists and update it
-            if (user.getPassword() != null){
-               user.setPassword(institution.getPassword());
-            }
-
-            // Update Institution Address
-            addressRepository.save(institution.getAddress());
-
-            user.setModificationDate(new Date());
-            institution = user;
         }
 
-        return financialInstitutionRepository.save(institution);
+        return getRepository().save(institution);
     }
 
     /**
-     * Saving a financial institution
+     * Update a financial institution
      * @param institution
      * @return
      */
     @Transactional()
     public FinancialInstitution updateInstitution(FinancialInstitution institution){
 
+        FinancialInstitution userFound = getRepository()
+                .findById(institution.getBIC()).get();
+
         // Update Institution Address
         addressRepository.save(institution.getAddress());
 
-        institution.setModificationDate(new Date());
+        userFound.setName(institution.getName());
+        userFound.setLogin(institution.getLogin());
 
-        return financialInstitutionRepository.save(institution);
+        userFound.setModificationDate(new Date());
+
+        return getRepository().save(userFound);
+    }
+
+    /**
+     * Update financial institution password
+     * @param institution
+     * @return
+     */
+    @Transactional()
+    public FinancialInstitution updatePassword(FinancialInstitution institution){
+
+        FinancialInstitution userFound = getRepository()
+                .findById(institution.getBIC()).get();
+
+        String hashPW = bCryptPasswordEncoder.encode(institution.getPassword());
+        userFound.setPassword(hashPW);
+        userFound.setModificationDate(new Date());
+
+        return getRepository().save(userFound);
     }
 
     public void answerTransfer(RequestTransfer rqt, int status) {
         requestTransferRepository.updateRequestedTransfer(rqt.getId(), status);
+    }
+
+    /**
+     * Update Language
+     * @param institution
+     * @return
+     */
+    @Transactional()
+    public FinancialInstitution updateLanguage(FinancialInstitution institution){
+
+        FinancialInstitution userFound = getRepository()
+                .findById(institution.getBIC()).get();
+
+        userFound.setLanguage(institution.getLanguage());
+
+        userFound.setModificationDate(new Date());
+
+        return getRepository().save(userFound);
     }
 
     /**

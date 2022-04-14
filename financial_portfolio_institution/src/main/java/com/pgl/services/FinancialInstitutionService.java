@@ -31,7 +31,6 @@ public class FinancialInstitutionService extends HttpClientService<FinancialInst
         institution.setPassword(password);
 
         return post2(url, institution);
-
     }
 
     /**
@@ -40,8 +39,31 @@ public class FinancialInstitutionService extends HttpClientService<FinancialInst
      * @return
      */
     public FinancialInstitution updateInstitution(FinancialInstitution institution){
-        String url = GlobalVariables.CONTEXT_PATH + referencePath + "/account/update";
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/update";
         return post(url, institution);
+    }
 
+    /**
+     * Update financial institution password
+     * @param password
+     * @return
+     */
+    public FinancialInstitution updatePassword(String password){
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/password/update";
+        FinancialInstitution institution = userService.getCurrentUser();
+        institution.setPassword(password);
+        return post(url, institution);
+    }
+
+    /**
+     * Update Financial Institution language
+     * @param language
+     * @return
+     */
+    public FinancialInstitution updateLanguage(String language){
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/language/update";
+        FinancialInstitution institution = userService.getCurrentUser();
+        institution.setLanguage(language);
+        return post(url, institution);
     }
 }
