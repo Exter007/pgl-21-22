@@ -320,6 +320,13 @@ public class InstitutionController {
         }
     }
 
+    @RequestMapping("product/update")
+    public ResponseEntity<?> updateFinancialProduct(@RequestBody FinancialProduct financialProduct){
+        financialProductRepository.deleteById(financialProduct.getId());
+        financialProduct.setModificationDate(new Date());
+        return ResponseEntity.ok(financialProductRepository.save(financialProduct));
+    }
+
     // TRANSFER
 
     @RequestMapping("request-transfer/update")
@@ -351,4 +358,12 @@ public class InstitutionController {
             return ResponseEntity.ok(null);
         }
     }
+
+    /*
+    @GetMapping("financial-product/find-by-client/list")
+    public ResponseEntity<?> findFinancialProductsOfClient(@RequestBody ApplicationClient applicationClient){
+        List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findAllByApplicationClient(applicationClient);
+        return ResponseEntity.ok(entities);
+    }
+     */
 }

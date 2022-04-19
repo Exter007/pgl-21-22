@@ -228,7 +228,7 @@ public class CustomerController {
     @GetMapping(value = "wallet/{id}/product/list")
     public ResponseEntity<?> getAllFinancialProductsOfAWallet(@PathVariable Long id){
         logger.debug("Call : Get Financial Products by id");
-        List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findProductsByWallet(id);
+        List<FinancialProduct> entities = financialProductRepository.findProductsByWallet(id);
         return ResponseEntity.ok(entities);
     }
 }

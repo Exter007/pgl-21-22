@@ -1,22 +1,32 @@
 package com.pgl.controllers;
 
-import com.pgl.models.User;
+import com.pgl.models.*;
+import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
+import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,10 +39,14 @@ public class WalletController implements Initializable {
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
+    FinancialProductService financialProductService = new FinancialProductService();
+
     @FXML
     private Label Wallet_label;
     @FXML
     private Label YourFinancialProducts_label;
+    @FXML
+    private GridPane Product_gridPane;
     @FXML
     private Button Day_btn;
     @FXML
@@ -99,6 +113,17 @@ public class WalletController implements Initializable {
             bundle = ResourceBundle.getBundle("properties.langue", Locale.ENGLISH);
         }else{
             bundle = null;
+        }
+
+        List<FinancialProduct> fp = financialProductService.getFinancialProductsByWalletID(WalletService.getCurrentWallet().getId().toString());
+        if (fp != null) {
+            int index = 0;
+            for (FinancialProduct financialProduct : fp) {
+                createVisualFinancialProduct(financialProduct, index);
+                index += 2;
+            }
+        } else {
+            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
         }
         setText();
     }
@@ -237,6 +262,8 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void ask_transfer(MouseEvent event) {
+        ImageView img = (ImageView) event.getSource();
+        financialProductService.setCurrentFinancialProduct((FinancialProduct) img.getUserData());
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-AskTransferConfirmation.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -341,5 +368,115 @@ public class WalletController implements Initializable {
     @FXML
     private void export(MouseEvent event) {
         //TODO
+    }
+
+    private void createVisualFinancialProduct(FinancialProduct financialProduct, int index) {
+        HBox hBox = new HBox();
+        // Create the structure of GridPane defined in Client-Wallet.fxml
+        hBox.setStyle("-fx-border-radius: 10; -fx-padding: 10; -fx-border-width: 2; -fx-border-color: #000;");
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
+        hBox.setPrefHeight(120);
+        hBox.setPrefWidth(983);
+        Product_gridPane.getChildren().add(hBox);
+
+        Label nameLab = new Label(financialProduct.getClass().getSimpleName());
+        nameLab.setAlignment(javafx.geometry.Pos.CENTER);
+        nameLab.setContentDisplay(ContentDisplay.CENTER);
+        nameLab.setFont(new Font(20));
+        nameLab.setPrefWidth(250);
+        hBox.getChildren().add(nameLab);
+
+        VBox vBoxHolders = new VBox();
+        vBoxHolders.setPrefWidth(250);
+        vBoxHolders.setAlignment(javafx.geometry.Pos.CENTER);
+
+        hBox.getChildren().add(vBoxHolders);
+
+        Label holders = new Label("Titulaires");
+        // TODO : Traduire
+        holders.setAlignment(javafx.geometry.Pos.CENTER);
+        holders.setContentDisplay(ContentDisplay.CENTER);
+        holders.setFont(new Font(20));
+        holders.setPrefWidth(250);
+        List<FinancialProductHolder> holdersList = financialProduct.getFinancialProductHolders();
+        vBoxHolders.getChildren().add(holders);
+        for (FinancialProductHolder holder : holdersList) {
+            Label holderName = new Label(holder.getFirstName() + " " + holder.getName());
+            holderName.setAlignment(javafx.geometry.Pos.CENTER);
+            holderName.setContentDisplay(ContentDisplay.CENTER);
+            holderName.setFont(new Font(20));
+            holderName.setPrefWidth(250);
+            vBoxHolders.getChildren().add(holderName);
+        }
+
+        Label transfer = new Label("Virement");
+        transfer.setAlignment(javafx.geometry.Pos.CENTER);
+        transfer.setContentDisplay(ContentDisplay.CENTER);
+        transfer.setFont(new Font(20));
+        boolean transferBool;
+        if (financialProduct.getTransferAccess() != null && financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED)) {
+            transferBool = true;
+            transfer.setStyle("-fx-text-fill: #008000;");
+        } else {
+            transferBool = false;
+            transfer.setStyle("-fx-text-fill: #ff0000;");
+        }
+        transfer.setPrefWidth(250);
+        hBox.getChildren().add(transfer);
+        if (financialProduct.getProductType().toString().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT.toString())) {
+            BankAccount bk = (BankAccount) financialProduct;
+            Label amount = new Label(bk.getAmount() + " €");
+            amount.setAlignment(javafx.geometry.Pos.CENTER);
+            amount.setContentDisplay(ContentDisplay.CENTER);
+            amount.setFont(new Font(20));
+            amount.setPrefWidth(250);
+            hBox.getChildren().add(amount);
+        } else {
+            Label amount = new Label("-");
+            amount.setAlignment(javafx.geometry.Pos.CENTER);
+            amount.setContentDisplay(ContentDisplay.CENTER);
+            amount.setFont(new Font(20));
+            amount.setPrefWidth(250);
+            hBox.getChildren().add(amount);
+        }
+
+        HBox hbox2 = new HBox();
+        hbox2.setNodeOrientation(NodeOrientation.INHERIT);
+        hbox2.setPrefHeight(120);
+        hbox2.setPrefWidth(170);
+
+        ImageView imgHideProduct = new ImageView(getClass().getResource("/images/icons/source_icons_eye-empty.jpg").toString());
+        imgHideProduct.setOnMouseClicked(this::hide_product);
+        imgHideProduct.setFitHeight(36);
+        imgHideProduct.setFitWidth(36);
+        imgHideProduct.setPreserveRatio(true);
+        imgHideProduct.setPickOnBounds(true);
+        hbox2.getChildren().add(imgHideProduct);
+
+        ImageView imgTransferProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
+        imgTransferProduct.setOnMouseClicked(this::ask_transfer);
+        imgTransferProduct.setFitHeight(36);
+        imgTransferProduct.setFitWidth(36);
+        imgTransferProduct.setPreserveRatio(true);
+        imgTransferProduct.setPickOnBounds(true);
+        imgTransferProduct.setLayoutX(20);
+        imgTransferProduct.setLayoutY(50);
+        if (!transferBool && financialProduct.getTransferAccess() != null && (financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.DENIED) || financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.UNAVAILABLE))) {
+            imgTransferProduct.setVisible(false);
+        } else {
+            imgTransferProduct.setVisible(true);
+            imgTransferProduct.setUserData(financialProduct);
+        }
+        hbox2.getChildren().add(imgTransferProduct);
+
+        ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/source_icons_trash.jpg").toString());
+        imgDeleteProduct.setOnMouseClicked(this::delete_financialProduct);
+        imgDeleteProduct.setFitHeight(36);
+        imgDeleteProduct.setFitWidth(36);
+        hbox2.getChildren().add(imgDeleteProduct);
+
+        hBox.getChildren().add(hbox2);
+        GridPane.setRowIndex(hBox, index);
+
     }
 }
