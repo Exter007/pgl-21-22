@@ -1,19 +1,24 @@
 package com.pgl.controllers;
 
-import com.pgl.models.*;
+import com.pgl.models.BankAccount;
+import com.pgl.models.FinancialProduct;
+import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
+import com.pgl.utils.Exporter;
 import com.pgl.utils.GlobalStage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,10 +31,9 @@ import javafx.stage.Stage;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,7 +43,9 @@ public class WalletController implements Initializable {
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
+
     FinancialProductService financialProductService = new FinancialProductService();
+    WalletService walletService = new WalletService();
 
     @FXML
     private Label Wallet_label;
@@ -75,13 +81,15 @@ public class WalletController implements Initializable {
     @FXML
     private DatePicker to_date;
     @FXML
-    private ChoiceBox export_format;
+    private ChoiceBox<String> export_format;
     @FXML
     private TableView financialProduct_tableview;
     @FXML
     private ListView financialProduct_listview;
     @FXML
     private LineChart financialProduct_linechart;
+    @FXML
+    private PieChart wallet_piechart;
 
 
     /**
@@ -107,6 +115,10 @@ public class WalletController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        int current_value;
+        int saving_value;
+        int term_value;
+        int young_value = 0;
         if(userService.getCurrentUser().getLanguage().equals("fr")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         }else if(userService.getCurrentUser().getLanguage().equals("en")){
@@ -126,6 +138,30 @@ public class WalletController implements Initializable {
             Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
         }
         setText();
+        /*List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
+        for (FinancialProduct account: financialProducts) {
+            if(account instanceof CurrentAccount){
+                current_value += ((CurrentAccount) account).getAmount();
+            }else if(account instanceof SavingsAccount){
+                saving_value += ((SavingsAccount) account).getAmount();
+            }else if(account instanceof TermAccount){
+                term_value += ((TermAccount) account).getAmount();
+            }else if(account instanceof YoungAccount){
+                young_vaue += ((YoungAccount) account).getAmount();
+            }
+        }*/
+        current_value =20;
+        saving_value= 800;
+        term_value = 60;
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Current Account", current_value),
+                        new PieChart.Data("Saving Account", saving_value),
+                        new PieChart.Data("Term Account", term_value),
+                        new PieChart.Data("Young Account", young_value));
+        wallet_piechart.setData(pieChartData);
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
     }
 
     /**
@@ -186,6 +222,18 @@ public class WalletController implements Initializable {
         }
     }
 
+    @FXML
+    private void show_exchange_rate_history(MouseEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension2/Client-Wallet-ShowExchangeRateHistory.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Open a window allowing you to request a financial product from an institution
@@ -362,12 +410,28 @@ public class WalletController implements Initializable {
     }
 
     /**
-     * Export all data from the wallet
+     * Export all data from the client's wallets
      * @param event the click of the mouse on the button
      */
     @FXML
     private void export(MouseEvent event) {
-        //TODO
+        if(WalletService.getCurrentWallet() != null){
+            //take the date so each time the user downloads a CSV file, its name is different
+            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            String currentDateTime = dateFormatter.format(new Date());
+            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
+
+            //TODO ajouter la configuration(avec différent critère)
+
+            if(financialProducts.isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("Export_alert"));
+                alert.showAndWait();
+            }else{
+                String fileName = financialProducts.get(0).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
+                Exporter.export(financialProducts, fileName, bundle, export_format);
+            }
+        }
     }
 
     private void createVisualFinancialProduct(FinancialProduct financialProduct, int index) {
