@@ -1,13 +1,5 @@
 package com.pgl.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -23,42 +15,42 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class LoginController implements Initializable {
+public class LoginWithCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang = "fr";
+    static String lang;
 
     @FXML
     private Menu menu;
     @FXML
-    private TextField name;
+    private TextField CardNumber;
     @FXML
-    private TextField nationalRegisterNumber;
-    @FXML
-    private PasswordField password;
-    @FXML
-    private Hyperlink forgot_password_link;
+    private PasswordField PINCode;
     @FXML
     private Button login_btn;
     @FXML
-    private Hyperlink create_account_link;
+    private Hyperlink login_with_id_link;
     @FXML
-    private Hyperlink login_with_card_link;
+    private Hyperlink create_account_link;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
         menu.setText(bundle.getString("Language_menu"));
-        name.setPromptText(bundle.getString("Name_field"));
-        nationalRegisterNumber.setPromptText(bundle.getString("NationalRegister_field"));
-        password.setPromptText(bundle.getString("Password_field"));
-        forgot_password_link.setText(bundle.getString("PasswordForget_link"));
+        CardNumber.setPromptText(bundle.getString("CardNumber_field"));
+        PINCode.setPromptText(bundle.getString("PINCode_field"));
         login_btn.setText(bundle.getString("Connexion_btn"));
-        login_with_card_link.setText(bundle.getString("LoginWithCard_link"));
+        login_with_id_link.setText(bundle.getString("LoginWithID_link"));
         create_account_link.setText(bundle.getString("CreateAccount_link"));
     }
 
@@ -67,8 +59,9 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
+        bundle = LoginController.bundle;
         setText();
+        lang = LoginController.lang;
     }
 
     /**
@@ -77,22 +70,26 @@ public class LoginController implements Initializable {
      */
     @FXML
     private void login(MouseEvent event) {
-        if(name.getText().isEmpty() || nationalRegisterNumber.getText().isEmpty() || password.getText().isEmpty()){
+        if(CardNumber.getText().isEmpty() || PINCode.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
-        }else if(!Validators.check_nationalRegisterNumber(nationalRegisterNumber.getText())){
+        }else if(!Validators.check_cardNumber(CardNumber.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error2"));
+            alert.setHeaderText(bundle.getString("error18"));
+            alert.showAndWait();
+        }else if(!Validators.check_PINNumber(PINCode.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error19"));
             alert.showAndWait();
         }else{
-            ApplicationClient user = new ApplicationClient();
+            /*ApplicationClient user = new ApplicationClient();
             user.setNationalRegister(nationalRegisterNumber.getText());
             user.setFirstName(name.getText());
             String login = user.buildLogin();
-            boolean response = userService.login(login, password.getText());
+            boolean response = userService.login(login, password.getText());*/
 
-            if (response){
+            if (true /*response*/){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();
@@ -100,7 +97,7 @@ public class LoginController implements Initializable {
                     newWindow.setScene(scene);
                     GlobalStage.setStage(newWindow);
                 } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LoginWithCardController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -111,9 +108,9 @@ public class LoginController implements Initializable {
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void loginWithCard(MouseEvent event) {
+    private void loginWithID(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-LoginWithCard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Login.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
@@ -136,24 +133,7 @@ public class LoginController implements Initializable {
             newWindow.setScene(scene);
             GlobalStage.setStage(newWindow);
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Open the password reset window
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void password_reset(MouseEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-ForgotPassword_1.fxml"));
-            Stage newWindow = new Stage();
-            Scene scene = new Scene(root);
-            newWindow.setScene(scene);
-            GlobalStage.setStage(newWindow);
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginWithCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
