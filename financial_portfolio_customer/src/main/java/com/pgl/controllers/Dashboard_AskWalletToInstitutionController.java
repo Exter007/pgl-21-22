@@ -90,15 +90,15 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
                     alert.showAndWait();
                 } else if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.ACCEPTED){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(bundle.getString("error18"));
+                    alert.setHeaderText(bundle.getString("error20"));
                     alert.showAndWait();
                 } else if (rq != null && rq.getStatus() == Request.REQUEST_STATUS.REFUSED){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("error19"));
+                    alert.setHeaderText(bundle.getString("error21"));
                     alert.showAndWait();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("error20"));
+                    alert.setHeaderText(bundle.getString("error22"));
                     alert.showAndWait();
                 }
             } catch (Exception e) {
