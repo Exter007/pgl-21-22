@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.pgl.controllers.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="360.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="360.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.LoginController">
     <stylesheets>
         <URL value="@../stylesheet/Style.css" />
     </stylesheets>
@@ -31,7 +31,7 @@
       </MenuBar>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <children>
-            <Button  fx:id="login_btn" onMouseClicked="#login" layoutX="98.0" layoutY="363.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
+            <Button fx:id="login_btn" layoutX="98.0" layoutY="352.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
             <PasswordField fx:id="password" alignment="CENTER" layoutX="80.0" layoutY="279.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" styleClass="field" />
             <TextField fx:id="nationalRegisterNumber" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="N° de registre national" styleClass="field" />
             <ImageView fitHeight="123.0" fitWidth="211.0" layoutX="119.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
@@ -45,7 +45,12 @@
                </font>
             </Hyperlink>
             <TextField fx:id="name" alignment="CENTER" layoutX="80.0" layoutY="168.0" prefHeight="25.0" prefWidth="200.0" promptText="Nom complet (Ex. : Doe John)" styleClass="field" />
-            <Hyperlink fx:id="create_account_link" onMouseClicked="#register" layoutX="125.0" layoutY="445.0" text="Créer un compte">
+            <Hyperlink fx:id="create_account_link" layoutX="125.0" layoutY="445.0" onMouseClicked="#register" text="Créer un compte">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink fx:id="login_with_card_link" layoutX="92.0" layoutY="415.0" onMouseClicked="#loginWithCard" text="Se connecter avec une carte">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
