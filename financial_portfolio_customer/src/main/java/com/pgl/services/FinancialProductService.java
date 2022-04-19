@@ -20,6 +20,15 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap> {
      * Empty constructor
      * ParameterizedTypeReference for deserializing JSON received from Rest API to List of Financial Product
      * FinancialProduct.class for deserializing JSON received from Rest API to Financial Product
+public class FinancialProductService extends HttpClientService<LinkedHashMap>{
+
+    private static final String referencePath = "/financialProducts";
+
+    private static FinancialProduct currentFinancialProduct;
+    /**
+     * Constructor vide
+     * ParameterizedTypeReference pour la deserialisation du JSON recu de Rest API en Liste de Financial Product
+     * FinancialProduct.class pour la deserialisation du JSON recu de Rest API en Financial Institution
      */
     public FinancialProductService() {
         super(referencePath, LinkedHashMap.class,
@@ -70,6 +79,8 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap> {
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/get-by-wallet/"
                 + idWallet;
 
+    public List<FinancialProduct> getFinancialProductsByWalletID(String walletID){
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + "/wallet/" + walletID + "/product/list";
         List<LinkedHashMap> results = getListByURL(url);
         List<FinancialProduct> products = new ArrayList<>();
         results.forEach( result ->{
@@ -88,4 +99,12 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap> {
         return products;
     }
 
+    public void setCurrentFinancialProduct(FinancialProduct financialProduct) {
+        currentFinancialProduct = financialProduct;
+    }
+}
+
+    public FinancialProduct getCurrentFinancialProduct() {
+        return currentFinancialProduct;
+    }
 }

@@ -1,11 +1,9 @@
 package com.pgl.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pgl.models.*;
 import com.pgl.utils.GlobalVariables;
 import org.springframework.core.ParameterizedTypeReference;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FinancialProductService extends HttpClientService<FinancialProduct> {
@@ -23,4 +21,8 @@ public class FinancialProductService extends HttpClientService<FinancialProduct>
     }
 
 
+    public FinancialProduct updateFinancialProduct(FinancialProduct financialProduct) {
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath + "/update";
+        return post(url, financialProduct);
+    }
 }

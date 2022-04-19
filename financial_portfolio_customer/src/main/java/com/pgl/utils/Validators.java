@@ -17,6 +17,28 @@ public class Validators {
     }
 
     /**
+     * Checks that the card number is composed of numbers only and if it is 17 characters long
+     * @param cardNumber the user card number
+     * @return true or false
+     */
+    public static boolean check_cardNumber(String cardNumber){
+        boolean isNumeric =  cardNumber.matches("[+-]?\\d*(\\.\\d+)?");
+        isNumeric = (cardNumber.length() == 17);
+        return isNumeric;
+    }
+
+    /**
+     * Checks that the PIN is composed of numbers only and if it is 4 characters long
+     * @param PIN the user card PIN
+     * @return true or false
+     */
+    public static boolean check_PINNumber(String PIN){
+        boolean isNumeric =  PIN.matches("[+-]?\\d*(\\.\\d+)?");
+        isNumeric = (PIN.length() == 4);
+        return isNumeric;
+    }
+
+    /**
      * Checks if the password is in the right format (at least 1 letter and 1 number)
      * @param password the user password
      * @return true or false

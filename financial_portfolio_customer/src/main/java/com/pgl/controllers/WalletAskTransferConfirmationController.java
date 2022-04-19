@@ -1,5 +1,8 @@
 package com.pgl.controllers;
 
+import com.pgl.models.*;
+import com.pgl.services.FinancialProductService;
+import com.pgl.services.RequestTransferService;
 import com.pgl.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,12 +14,16 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class WalletAskTransferConfirmationController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
+
+    FinancialProductService financialProductService = new FinancialProductService();
+    RequestTransferService requestTransferService = new RequestTransferService();
 
     @FXML
     private Button confirmButton;
@@ -49,11 +56,30 @@ public class WalletAskTransferConfirmationController implements Initializable {
      */
     @FXML
     private void ask_confirm(MouseEvent event) {
-        //TODO
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(bundle.getString("succes8"));
-        alert.showAndWait();
+        FinancialProduct fp = financialProductService.getCurrentFinancialProduct();
+        RequestTransfer rqt = new RequestTransfer(RequestTransfer.REQUEST_STATUS.PENDING, userService.getCurrentUser(),(CurrentAccount) fp);
+        try {
+            RequestTransfer result = requestTransferService.createRequestTransfer(rqt);
+            if(result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.PENDING){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(bundle.getString("succes8"));
+                alert.showAndWait();
+            } else if(result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.ACCEPTED){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(bundle.getString("error17"));
+                alert.showAndWait();
+            } else if (result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.REFUSED){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("error16"));
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("error11"));
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(WalletAskTransferConfirmationController.class.getName()).severe(e.getMessage());
+        }
 
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();

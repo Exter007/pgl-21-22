@@ -221,7 +221,7 @@ public class HttpClientService<P>{
 
         try{
 
-            ResponseEntity<P> response = restTemplate.exchange(url, HttpMethod.GET,
+            ResponseEntity response = restTemplate.exchange(url, HttpMethod.GET,
                     httpEntity, typeReference);
 
             System.out.println(response.getStatusCode());
