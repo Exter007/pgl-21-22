@@ -29,7 +29,6 @@ public class LoginController implements Initializable {
     static ResourceBundle bundle;
     static String lang = "fr";
 
-
     @FXML
     private Menu Menu;
     @FXML

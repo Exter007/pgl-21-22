@@ -5,7 +5,7 @@ import com.pgl.helpers.DynamicViews;
 import com.pgl.models.BankAccount;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.BankAccountService;
-import com.pgl.services.UserService;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,6 @@ import java.util.ResourceBundle;
 
 public class DashboardBankAccountController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
     static ResourceBundle bundle;
 
     BankAccountService bankAccountService = new BankAccountService();
@@ -56,7 +53,6 @@ public class DashboardBankAccountController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-
         filters_label.setText(bundle.getString("Filters_label"));
         Search_btn.setText(bundle.getString("Search_btn"));
         BankAccounts_label.setText(bundle.getString("BankAccounts_label"));

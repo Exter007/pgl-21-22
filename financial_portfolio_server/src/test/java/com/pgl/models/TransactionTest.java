@@ -13,7 +13,7 @@ class TransactionTest {
     Transaction transaction = new Transaction("transactionNumber",
             Transaction.TRANSACTION_TYPE.OUTGOING_TRANSFER, bankAccount,
             "destinationIBAN", "destinationName", 0, Transaction.COMMUNICATION_TYPE.FREE,
-            "communication", date, Request.REQUEST_STATUS.PENDING);
+            "communication", date, Request.REQUEST_STATUS.PENDING,"formulation");
 
     @Test
     void getTransactionNumber() {

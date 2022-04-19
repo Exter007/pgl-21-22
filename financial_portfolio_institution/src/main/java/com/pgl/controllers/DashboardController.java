@@ -82,6 +82,12 @@ public class DashboardController implements Initializable {
     @FXML
     private Label AllFinancialProduct_label;
     @FXML
+    private Button Consult_btn;
+    @FXML
+    private Button Edit_btn;
+    @FXML
+    private Button Delete_btn;
+    @FXML
     private Button export_btn;
     @FXML
     private Button import_btn;
@@ -111,6 +117,9 @@ public class DashboardController implements Initializable {
         export_btn.setText(bundle.getString("Export_btn"));
         import_btn.setText(bundle.getString("Import_btn"));
         welcome_label.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getName());
+        Consult_btn.setText(bundle.getString("Consult_btn"));
+        Edit_btn.setText(bundle.getString("Edit_btn"));
+        Delete_btn.setText(bundle.getString("Delete_btn"));
     }
 
     /**
@@ -142,9 +151,9 @@ public class DashboardController implements Initializable {
                 String label = holder.getNationalRegister() + " : "
                         + holder.getFirstName() + " " + holder.getName()
                         + "   "
-                        + product.getState().name()
+                        + product.getProductType().name()
                         + "   "
-                        + product.getProductType().name();
+                        + product.getState().name();
                 list.add(label);
             });
 

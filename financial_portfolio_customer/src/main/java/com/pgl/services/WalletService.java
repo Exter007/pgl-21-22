@@ -32,11 +32,11 @@ public class WalletService extends HttpClientService<Wallet>{
         super(referencePath, Wallet.class, new ParameterizedTypeReference<List<Wallet>>() {});
     }
 
-    public static Wallet getCurrentWallet() {
+    public Wallet getCurrentWallet() {
         return currentWallet;
     }
 
-    public static void setCurrentWallet(Wallet currentWallet) {
+    public void setCurrentWallet(Wallet currentWallet) {
         WalletService.currentWallet = currentWallet;
     }
 

@@ -1,10 +1,21 @@
 package com.pgl.models;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.persistence.*;
 
 /** Abstract class that represent a bank account
  *
  */
+
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "BankAccount")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CurrentAccount.class, name = "CurrentAccount"),
+        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SavingsAccount"),
+        @JsonSubTypes.Type(value = YoungAccount.class, name = "YoungAccount"),
+        @JsonSubTypes.Type(value = TermAccount.class, name = "TermAccount")
+})
 @Entity
 @DiscriminatorValue(value="BANK_ACCOUNT")
 @DiscriminatorColumn(name="TYPE",discriminatorType=DiscriminatorType.STRING)

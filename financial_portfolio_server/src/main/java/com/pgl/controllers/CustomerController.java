@@ -3,6 +3,8 @@ package com.pgl.controllers;
 import com.pgl.models.*;
 import com.pgl.repositories.*;
 import com.pgl.services.ApplicationClientService;
+import com.pgl.services.TransactionService;
+import com.pgl.services.WalletFinancialProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,13 @@ public class CustomerController {
 
     @Autowired
     private RequestTransferRepository requestTransferRepository;
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
+    private WalletFinancialProductService walletFinancialProductService;
+
 
     public CustomerController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -130,6 +139,17 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
+    /** Find Financial Products by Wallet ID
+     * @param idWallet A Wallet ID
+     * @return List of all the FinancialProducts held by a certain Wallet
+     */
+    @RequestMapping("product/get-by-wallet/{idWallet}")
+    public ResponseEntity<?> getBankAccountsByWallet(@PathVariable Long idWallet) {
+        List<FinancialProduct> products = walletFinancialProductService
+                .findBankAccountsByWallet(idWallet);
+        return ResponseEntity.ok(products);
+    }
+
     /**
      * @return List of all the FinancialProducts of all FinancialInstitutions
      */
@@ -139,6 +159,19 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
+
+    // Ressources for Bank Account
+
+    @GetMapping(value = "bank-account/find-by-iban/{iban}")
+    public ResponseEntity<?> findBankAccountByIBAN(@PathVariable String iban){
+        logger.debug("Call : Find Bank Account by IBAN");
+        return ResponseEntity.ok(financialProductRepository
+                .findBankAccountByIBAN(iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT));
+    }
+
+
+    // Ressources from Financial Institution
+
     /**
      * @return List of all the FinancialInstitutions
      */
@@ -147,6 +180,7 @@ public class CustomerController {
         List<FinancialInstitution> entities = (List<FinancialInstitution>) financialInstitutionRepository.findAll();
         return ResponseEntity.ok(entities);
     }
+
 
     // Ressources from Request Wallet
 
@@ -231,4 +265,33 @@ public class CustomerController {
         List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findProductsByWallet(id);
         return ResponseEntity.ok(entities);
     }
+
+
+    // Ressources from Transaction
+
+    /**
+     * Save Transaction
+     * @param transaction
+     * @return
+     */
+    @PostMapping(value = "transaction/save")
+    public ResponseEntity<?> saveTransaction(@RequestBody Transaction transaction){
+        logger.debug("Call : Save Transaction");
+
+        return ResponseEntity.ok(transactionService.saveTransaction(transaction));
+    }
+
+    /**
+     * Retrieve Transaction by national register number for Application client
+     * @param registerNumber A Application Client national register number
+     * @return The transaction list of Application Client
+     */
+    @GetMapping("transaction/get-by-client/{registerNumber}")
+    public ResponseEntity<?> getTransactionByClient(@PathVariable String registerNumber) {
+        logger.debug("Call : Get Transaction By Client");
+        List<Transaction> entities = transactionService.findTransactionByClient(registerNumber);
+
+        return ResponseEntity.ok(entities);
+    }
+
 }

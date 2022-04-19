@@ -1,5 +1,7 @@
 package com.pgl.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;

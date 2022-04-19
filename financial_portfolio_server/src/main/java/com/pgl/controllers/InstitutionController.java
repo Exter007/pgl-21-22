@@ -269,7 +269,7 @@ public class InstitutionController {
      */
     @GetMapping(value = "account/get-by-institution-iban/{bic}/{iban}")
     public ResponseEntity<?> getProductByInstitutionAndIBAN(@PathVariable String bic, @PathVariable String iban) {
-        FinancialProduct account = financialProductRepository.findProductByInstitutionAndIBAN(bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+        FinancialProduct account = financialProductRepository.findAccountByInstitutionAndIBAN(bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
         return ResponseEntity.ok(account);
     }
 

@@ -45,7 +45,7 @@ public class DashboardController implements Initializable {
 
     UserService userService = new UserService();
     ApplicationClientService clientService = new ApplicationClientService();
-    static ResourceBundle bundle;
+    public static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
     RequestWalletService requestWalletService = new RequestWalletService();
@@ -66,6 +66,10 @@ public class DashboardController implements Initializable {
     private Menu Home_menu;
     @FXML
     private MenuItem wallet_menu;
+    @FXML
+    private Menu manage_menu;
+    @FXML
+    private MenuItem transaction_menu;
     @FXML
     private MenuItem menu22;
     @FXML
@@ -160,6 +164,8 @@ public class DashboardController implements Initializable {
         Home_menu.setText(bundle.getString("Home_menu"));
         wallet_menu.setText(bundle.getString("Wallet_menu"));
         menu22.setText(bundle.getString("Disconnect_menu"));
+        manage_menu.setText(bundle.getString("Manage_menu"));
+        transaction_menu.setText(bundle.getString("Transaction_menu"));
         welcome.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet_label"));
 //        Wallet_label1.setText(bundle.getString("Wallet_label"));
@@ -320,6 +326,15 @@ public class DashboardController implements Initializable {
     }
 
     /**
+     * Open Transaction management interface
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_transaction(ActionEvent event) {
+        DynamicViews.loadBorderCenter(border_pane,"Client-Dashboard-Transaction");
+    }
+
+    /**
      * Open a window allowing you to request access to a wallet from an institution
      * @param event the click of the mouse on the button
      */
@@ -334,7 +349,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void transfer(MouseEvent event) {
-        DynamicViews.loadBorderCenter(border_pane,"Client-Dashboard-Transfer.fxml");
+        DynamicViews.loadBorderCenter(border_pane,"Client-Dashboard-Transfer");
     }
 
     /**
@@ -346,7 +361,7 @@ public class DashboardController implements Initializable {
         String label = walletListView.getSelectionModel().getSelectedItem();
         int index = walletListView.getItems().indexOf(label);
 
-        WalletService.setCurrentWallet(walletList.get(index));
+        walletService.setCurrentWallet(walletList.get(index));
     }
 
     /**
@@ -355,7 +370,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void on_display(MouseEvent event){
-        if(WalletService.getCurrentWallet() != null){
+        if(walletService.getCurrentWallet() != null){
             DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
         }else{
             walletService.not_selected_error();
@@ -368,12 +383,12 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void on_delete(MouseEvent event) {
-        if(WalletService.getCurrentWallet() != null){
+        if(walletService.getCurrentWallet() != null){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirmez la suppression du portefeuille ?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean status = walletService.deleteById(WalletService.getCurrentWallet().getId().toString());
-                boolean statusRequestWallet = requestWalletService.deleteByInstitutionBICAndApplicationID(WalletService.getCurrentWallet().getFinancialInstitution().getBIC(), WalletService.getCurrentWallet().getApplicationClient().getNationalRegister());
+                boolean status = walletService.deleteById(walletService.getCurrentWallet().getId().toString());
+                boolean statusRequestWallet = requestWalletService.deleteByInstitutionBICAndApplicationID(walletService.getCurrentWallet().getFinancialInstitution().getBIC(), walletService.getCurrentWallet().getApplicationClient().getNationalRegister());
                 // if successful deletion
                 if (status && statusRequestWallet){
                     walletService.moveCurrentWallet();
@@ -462,7 +477,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void export(MouseEvent event) {
-        if(WalletService.getCurrentWallet() != null){
+        if(walletService.getCurrentWallet() != null){
             //take the date so each time the user downloads a CSV file, its name is different
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String currentDateTime = dateFormatter.format(new Date());

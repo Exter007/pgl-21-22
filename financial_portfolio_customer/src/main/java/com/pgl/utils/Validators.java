@@ -1,5 +1,8 @@
 package com.pgl.utils;
 
+import com.pgl.controllers.DashboardController;
+import javafx.scene.control.Alert;
+
 public class Validators {
 
     /**
@@ -56,5 +59,33 @@ public class Validators {
     public static String username(String name, String nationalRegisterNumber){
         String clearSpaceName = name.replaceAll("\\s+","");
         return clearSpaceName+nationalRegisterNumber;
+    }
+
+    /**
+     * Checks that the IBAN is composed of at least 14 characters
+     * @param IBAN the bank account numbering
+     * @return true or false
+     */
+    public static boolean check_IBAN(String IBAN){
+        boolean length = (IBAN.length() >= 14);
+        return length;
+    }
+
+    /**
+     * Convert string to float
+     * @param value
+     * @return
+     */
+    public static float convertToFloat(String value){
+        try{
+            float floatValue = Float.valueOf(value);
+            return floatValue;
+        }catch (Exception ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(DashboardController.bundle.getString("error181")
+                    + value + " " + DashboardController.bundle.getString("error182"));
+            alert.showAndWait();
+        }
+        return 0;
     }
 }

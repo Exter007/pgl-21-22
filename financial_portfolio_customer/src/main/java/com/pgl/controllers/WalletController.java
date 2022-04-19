@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
 import com.pgl.models.User;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -161,6 +162,14 @@ public class WalletController implements Initializable {
         }
     }
 
+    /**
+     * Open a window for make transfer
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_transfer(MouseEvent event) {
+        DynamicViews.loadBorderCenter("Client-Dashboard-Transfer");
+    }
 
     /**
      * Open a window allowing you to request a financial product from an institution

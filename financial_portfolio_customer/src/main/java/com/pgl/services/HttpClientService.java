@@ -69,7 +69,7 @@ public class HttpClientService<P>{
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Elément créé avec succès");
+            alert.setHeaderText("Elément créé avec succès");
             alert.showAndWait();
 
             return response.getBody();
@@ -79,7 +79,7 @@ public class HttpClientService<P>{
 
             if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
                 showNotAuthException();
-            } else if (ex.getMessage().contains("This element already exists")) {
+            }else if (ex.getMessage().contains("This element already exists")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Erreur de duplication");
                 alert.setContentText("L'élément existe déjà");
@@ -88,7 +88,15 @@ public class HttpClientService<P>{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Mot de passe incorrect");
                 alert.showAndWait();
-            }else {
+            }else if (ex.getMessage().contains("Recipient not found")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Destinataire inexistant");
+                alert.showAndWait();
+            } else if (ex.getMessage().contains("Insufficient amount")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Montant disponible insuffisant");
+                alert.showAndWait();
+            } else {
                 showOtherException();
             }
         }catch(Exception ex) {

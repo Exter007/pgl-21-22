@@ -79,6 +79,11 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
+                                    <ImageView accessibleRole="BUTTON" fitHeight="44.0" fitWidth="49.0" nodeOrientation="INHERIT" onMouseClicked="#on_transfer" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
+                                       </image>
+                                    </ImageView>
                                     <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="1237.0" layoutY="25.0" onMouseClicked="#show_notifications" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/source_icons_bell-notification.jpg" />

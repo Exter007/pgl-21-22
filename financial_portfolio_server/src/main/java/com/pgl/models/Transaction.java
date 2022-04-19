@@ -1,5 +1,7 @@
 package com.pgl.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,6 +14,8 @@ public class Transaction extends PersistentWithoutId{
 
     @Id
     @Column(name = "transaction_number",unique = true, nullable = false)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String transactionNumber;
 
     @Column(name = "type", nullable = false)
@@ -41,6 +45,9 @@ public class Transaction extends PersistentWithoutId{
 
     @Column(name = "status", nullable = false)
     private Request.REQUEST_STATUS status;
+
+    @Column(name = "formulation")
+    private String formulation;
 
     /** Default constructor
      * (persistent classes requirements)
@@ -82,8 +89,9 @@ public class Transaction extends PersistentWithoutId{
      * @param communication a String object
      * @param date a Date object
      * @param status a Request.REQUEST_STATUS enum
+     * @param formulation a String object
      */
-    public Transaction(String transactionNumber, TRANSACTION_TYPE type, BankAccount bankAccount, String destinationIBAN, String destinationName, float amount, COMMUNICATION_TYPE communication_type, String communication, Date date, Request.REQUEST_STATUS status) {
+    public Transaction(String transactionNumber, TRANSACTION_TYPE type, BankAccount bankAccount, String destinationIBAN, String destinationName, float amount, COMMUNICATION_TYPE communication_type, String communication, Date date, Request.REQUEST_STATUS status, String formulation) {
         this.transactionNumber = transactionNumber;
         this.type = type;
         this.bankAccount = bankAccount;
@@ -94,6 +102,7 @@ public class Transaction extends PersistentWithoutId{
         this.communication = communication;
         this.date = date;
         this.status = status;
+        this.formulation = formulation;
     }
 
     /** Get the transaction number of this transaction
@@ -254,6 +263,22 @@ public class Transaction extends PersistentWithoutId{
      */
     public void setStatus(Request.REQUEST_STATUS status) {
         this.status = status;
+    }
+
+    /**
+     * Get the formulation of this transaction
+     * @return
+     */
+    public String getFormulation() {
+        return formulation;
+    }
+
+    /**
+     * Set the formulation of this transaction
+     * @param formulation
+     */
+    public void setFormulation(String formulation) {
+        this.formulation = formulation;
     }
 
     /** Represent the transaction type

@@ -282,6 +282,12 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                </items>
             </Menu>
+            <Menu fx:id="manage_menu" mnemonicParsing="false" text="Gestion">
+              <items>
+                <MenuItem fx:id="transaction_menu" mnemonicParsing="false" onAction="#on_transaction" text="Transactions" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              </items>
+            </Menu>
       </menus>
     </MenuBar>
    </top>
