@@ -43,7 +43,6 @@ public class WalletController implements Initializable {
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
-
     FinancialProductService financialProductService = new FinancialProductService();
     WalletService walletService = new WalletService();
 
@@ -242,7 +241,7 @@ public class WalletController implements Initializable {
     @FXML
     private void ask_card(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-AskFinancialProduct.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension1/Client-Wallet-AskCard.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -253,13 +252,13 @@ public class WalletController implements Initializable {
     }
 
     /**
-     * Open a window allowing you to pay with your card
+     * Open a window allowing you to pay with you card
      * @param event the click of the mouse on the button
      */
     @FXML
     private void pay_byCard(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-AskFinancialProduct.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension1/Client-Wallet-PayByCard.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="602.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <ScrollPane prefHeight="603.0" prefWidth="1300.0">
+         <content>
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="1166.0" prefWidth="1300.0" stylesheets="@../../stylesheet/Style.css">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1300.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Carte : 6703 1234 1234 1234 1" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="35.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox layoutX="52.0" layoutY="289.0" prefHeight="361.0" prefWidth="1196.0">
+                     <children>
+                        <Pane prefHeight="84.0" prefWidth="1196.0">
+                           <children>
+                              <Label contentDisplay="CENTER" layoutX="182.0" layoutY="28.0" prefHeight="28.0" prefWidth="272.0" text="Transaction #245">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="118.0" selected="true" text="Visualiser" />
+                              <VBox alignment="CENTER" layoutX="339.0" layoutY="5.0" prefHeight="67.0" prefWidth="649.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Montant :">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="33.56€">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="920.0" layoutY="25.0" prefHeight="28.0" prefWidth="170.0" text="04/01/2022">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="84.0" prefWidth="1097.0">
+                           <children>
+                              <Label contentDisplay="CENTER" layoutX="182.0" layoutY="28.0" prefHeight="28.0" prefWidth="272.0" text="Transaction #244">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="118.0" selected="true" text="Visualiser" />
+                              <VBox alignment="CENTER" layoutX="339.0" layoutY="5.0" prefHeight="67.0" prefWidth="660.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Montant :">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="56.00€">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="947.0" layoutY="25.0" prefHeight="28.0" prefWidth="143.0" text="03/01/2022">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="84.0" prefWidth="1097.0">
+                           <children>
+                              <Label contentDisplay="CENTER" layoutX="182.0" layoutY="28.0" prefHeight="28.0" prefWidth="272.0" text="Transaction #243">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="118.0" text="Visualiser" />
+                              <VBox alignment="CENTER" layoutX="339.0" layoutY="5.0" prefHeight="67.0" prefWidth="659.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Montant :">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="303.50€">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="886.0" layoutY="25.0" prefHeight="28.0" prefWidth="204.0" text="02/01/2022">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="84.0" prefWidth="1097.0">
+                           <children>
+                              <Label contentDisplay="CENTER" layoutX="182.0" layoutY="28.0" prefHeight="28.0" prefWidth="272.0" text="Transaction #242">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="118.0" selected="true" text="Visualiser" />
+                              <VBox alignment="CENTER" layoutX="339.0" layoutY="5.0" prefHeight="84.0" prefWidth="664.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Montant :">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="234.00€">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="902.0" layoutY="25.0" prefHeight="28.0" prefWidth="188.0" text="01/01/2022">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e6e6e6" height="483.0" layoutX="67.0" layoutY="666.0" stroke="BLACK" strokeType="INSIDE" width="1179.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="778.0" prefHeight="231.0" prefWidth="1103.0" text="Graphique/Liste/Tableau" textAlignment="CENTER">
+                     <font>
+                        <Font size="74.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="504.0" layoutY="107.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Journalier" />
+                  <Button layoutX="352.0" layoutY="107.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire" />
+                  <Button layoutX="202.0" layoutY="107.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Mensuel" />
+                  <Button layoutX="52.0" layoutY="107.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Annuel" />
+                  <DatePicker layoutX="839.0" layoutY="115.0" styleClass="field" />
+                  <DatePicker layoutX="1073.0" layoutY="115.0" styleClass="field" />
+                  <Label layoutX="790.0" layoutY="111.0" text="Du">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="1031.0" layoutY="111.0" text="au">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox layoutX="867.0" layoutY="205.0" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
+                  <Button layoutX="1044.0" layoutY="197.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+                  <Button layoutX="368.0" layoutY="215.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Graphique" />
+                  <Button layoutX="209.0" layoutY="215.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Liste" />
+                  <Button layoutX="53.0" layoutY="215.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="136.0" text="Tableau" />
+               </children>
+          </AnchorPane>
+         </content>
+      </ScrollPane>
+  </children>
+</VBox>
