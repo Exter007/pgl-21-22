@@ -10,8 +10,8 @@ public interface FinancialInstitutionRepository extends CrudRepository<Financial
     @Query("SELECT r FROM FinancialInstitution r where r.login=:l")
     FinancialInstitution findByLogin(@Param("l") String login);
 
-    @Query("SELECT r FROM FinancialInstitution r where r.name=:l")
-    FinancialInstitution findByName(@Param("l") String name);
+//    @Query("SELECT r FROM FinancialInstitution r where r.name=:l")
+//    FinancialInstitution findByName(@Param("l") String name);
 
     @Query("SELECT r FROM FinancialInstitution r where r.BIC=:b or r.email=:e")
     FinancialInstitution findByBicOrEmail(@Param("b") String bic, @Param("e") String email);

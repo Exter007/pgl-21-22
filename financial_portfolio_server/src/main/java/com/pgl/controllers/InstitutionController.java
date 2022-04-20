@@ -3,6 +3,9 @@ package com.pgl.controllers;
 import com.pgl.models.*;
 import com.pgl.repositories.*;
 import com.pgl.services.FinancialInstitutionService;
+import com.pgl.services.FinancialProductService;
+import com.pgl.services.RequestTransferService;
+import com.pgl.services.RequestWalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +25,22 @@ public class InstitutionController {
     protected Logger logger;
 
     @Autowired
-    FinancialProductRepository financialProductRepository;
+    FinancialProductService productService;
 
     @Autowired
     FinancialProductHolderRepository productHolderRepository;
 
     @Autowired
+    BankAccountRepository bankAccountRepository;
+
+    @Autowired
     FinancialInstitutionService financialInstitutionService;
 
     @Autowired
-    RequestWalletRepository requestWalletRepository;
+    RequestWalletService requestWalletService;
 
     @Autowired
-    RequestTransferRepository requestTransferRepository;
-
-
-    @Autowired
-    BankAccountRepository bankAccountRepository;
+    RequestTransferService requestTransferService;
 
     @Autowired
     WalletRepository walletRepository;
@@ -182,7 +184,8 @@ public class InstitutionController {
      */
     @RequestMapping("product/get-by-institution/{bic}")
     public ResponseEntity<?> getProductsByInstitution(@PathVariable String bic) {
-        List<FinancialProduct> products = financialProductRepository.findProductsByInstitution(bic);
+        List<FinancialProduct> products = productService
+                .getRepository().findProductsByInstitution(bic);
         return ResponseEntity.ok(products);
     }
 
@@ -195,7 +198,7 @@ public class InstitutionController {
      */
     @PostMapping(value = "current-account/save")
     public ResponseEntity<?> saveCurrentAccount(@RequestBody CurrentAccount account){
-        return ResponseEntity.ok(bankAccountRepository.save(account));
+        return ResponseEntity.ok(productService.saveProduct(account));
     }
 
     /**
@@ -205,7 +208,7 @@ public class InstitutionController {
      */
     @PostMapping(value = "saving-account/save")
     public ResponseEntity<?> saveAccount(@RequestBody SavingsAccount account){
-        return ResponseEntity.ok(bankAccountRepository.save(account));
+        return ResponseEntity.ok(productService.saveProduct(account));
     }
 
     /**
@@ -215,7 +218,7 @@ public class InstitutionController {
      */
     @PostMapping(value = "young-account/save")
     public ResponseEntity<?> saveYoungAccount(@RequestBody YoungAccount account){
-        return ResponseEntity.ok(bankAccountRepository.save(account));
+        return ResponseEntity.ok(productService.saveProduct(account));
     }
 
     /**
@@ -225,7 +228,7 @@ public class InstitutionController {
      */
     @PostMapping(value = "term-account/save")
     public ResponseEntity<?> saveTermAccount(@RequestBody TermAccount account){
-        return ResponseEntity.ok(bankAccountRepository.save(account));
+        return ResponseEntity.ok(productService.saveProduct(account));
     }
 
     /**
@@ -257,8 +260,9 @@ public class InstitutionController {
      * @return List of all the BankAccount of a certain FinancialInstitution
      */
     @GetMapping(value = "account/get-by-institution/{bic}")
-    public ResponseEntity<?> getAccountByInstitution(@PathVariable String bic) {
-        List<FinancialProduct> accounts = financialProductRepository.findProductsByInstitutionAndProductType(bic, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+    public ResponseEntity<?> getBankAccountsByInstitution(@PathVariable String bic) {
+        List<FinancialProduct> accounts = productService
+                .getRepository().findProductsByInstitutionAndProductType(bic, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
         return ResponseEntity.ok(accounts);
     }
 
@@ -269,95 +273,158 @@ public class InstitutionController {
      */
     @GetMapping(value = "account/get-by-institution-iban/{bic}/{iban}")
     public ResponseEntity<?> getProductByInstitutionAndIBAN(@PathVariable String bic, @PathVariable String iban) {
-        FinancialProduct account = financialProductRepository.findAccountByInstitutionAndIBAN(bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+        FinancialProduct account = productService
+                .getRepository().findAccountByInstitutionAndIBAN(
+                        bic, iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT
+                );
         return ResponseEntity.ok(account);
-    }
-
-    @RequestMapping("request-wallet/update")
-    public ResponseEntity<?> updateRequestWallet(@RequestBody RequestWallet requestWallet){
-        requestWalletRepository.deleteById(requestWallet.getId());
-        requestWallet.setModificationDate(new Date());
-        return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
     }
 
 
     // Ressources for Request Wallet
 
     /**
-     * @return List of all the requested wallets
+     * Accept a request wallet
+     * @param requestWallet
+     * @return the request wallet accepted
      */
-    @GetMapping("request-wallet/list/{bic}")
-    public ResponseEntity<?> getAllFinancialInstitutions(@PathVariable String bic){
-        List<RequestWallet> entities = (List<RequestWallet>) requestWalletRepository.findAllByFinancialInstitution(bic);
+    @PostMapping("request-wallet/accept")
+    public ResponseEntity<?> acceptRequestWallet(@RequestBody RequestWallet requestWallet){
+        return ResponseEntity.ok(requestWalletService.acceptRequestWallet(requestWallet));
+    }
+
+    /**
+     * Refuse a request wallet
+     * @param requestWallet
+     * @return the request wallet refused
+     */
+    @PostMapping("request-wallet/refuse")
+    public ResponseEntity<?> refuseRequestWallet(@RequestBody RequestWallet requestWallet){
+        return ResponseEntity.ok(requestWalletService.refuseRequestWallet(requestWallet));
+    }
+
+
+    /**
+     * List of pending requested wallets
+     * @param bic of Financial Institution
+     * @return
+     */
+    @GetMapping("request-wallet/pending/list/{bic}")
+    public ResponseEntity<?> getPendingRequestWalletByInstitution(@PathVariable String bic){
+        logger.debug("Call : Find pending request wallets by institution ID");
+        List<RequestWallet> entities = requestWalletService
+                .getRepository()
+                .findPendingRequestWalletsByInstitution(bic, Request.REQUEST_STATUS.PENDING);
+
         return ResponseEntity.ok(entities);
     }
 
     /**
-     * @param id
+     * @return List of all the requested wallets
+     * @param bic of Financial Institution
      * @return
      */
-    @GetMapping("request-wallet/find-by-id/{id}")
-    public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
-        if(requestWalletRepository.findById(id).isPresent()){
-            RequestWallet entity = requestWalletRepository.findById(id).get();
-            return ResponseEntity.ok(entity);
-        } else {
-            return ResponseEntity.ok(null);
-        }
+    @GetMapping("request-wallet/list/{bic}")
+    public ResponseEntity<?> getAllRequestWalletByInstitution(@PathVariable String bic){
+        logger.debug("Call : Find all request wallet by ID");
+        List<RequestWallet> entities = requestWalletService
+                .getRepository().findAllByFinancialInstitution(bic);
+        return ResponseEntity.ok(entities);
+    }
+
+//    /**
+//     * @param id
+//     * @return
+//     */
+//    @GetMapping("request-wallet/find-by-id/{id}")
+//    public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
+//        logger.debug("Call : Request Wallet by ID");
+//        Optional<RequestWallet> result = requestWalletService.getRepository().findById(id);
+//        return result.map(ResponseEntity::ok).orElse(null);
+//    }
+
+//    /**
+//     * @param wallet The wallet that must be created
+//     * @return The created wallet
+//     */
+//    @PostMapping("wallet/save")
+//    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet) {
+//        logger.debug("Call : Create Wallet");
+//        if(walletRepository.existsByApplicationClientAndFinancialInstitution(wallet.getApplicationClient(), wallet.getFinancialInstitution()) != null) {
+//            return ResponseEntity.ok(null);
+//        } else{
+//            return ResponseEntity.ok(walletRepository.save(wallet));
+//        }
+//    }
+
+//    @RequestMapping("product/update")
+//    public ResponseEntity<?> updateFinancialProduct(@RequestBody FinancialProduct financialProduct){
+//        financialProductRepository.deleteById(financialProduct.getId());
+//        financialProduct.setModificationDate(new Date());
+//        return ResponseEntity.ok(financialProductRepository.save(financialProduct));
+//    }
+
+
+    // RESSOURCES FOR REQUEST TRANSFER
+
+    /**
+     * Accept a request transfer
+     * @param requestTransfer
+     * @return the request transfer accepted
+     */
+    @PostMapping("request-transfer/accept")
+    public ResponseEntity<?> acceptRequestTransfer(@RequestBody RequestTransfer requestTransfer){
+        return ResponseEntity.ok(requestTransferService.acceptRequestTransfer(requestTransfer));
     }
 
     /**
-     * @param wallet The wallet that must be created
-     * @return The created wallet
+     * Refuse a request transfer
+     * @param requestTransfer
+     * @return the request transfer refused
      */
-    @PostMapping("wallet/save")
-    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet) {
-        logger.debug("Call : Create Wallet");
-        if(walletRepository.existsByApplicationClientAndFinancialInstitution(wallet.getApplicationClient(), wallet.getFinancialInstitution()) != null) {
-            return ResponseEntity.ok(null);
-        } else{
-            return ResponseEntity.ok(walletRepository.save(wallet));
-        }
+    @PostMapping("request-transfer/refuse")
+    public ResponseEntity<?> refuseRequestTransfer(@RequestBody RequestTransfer requestTransfer){
+        return ResponseEntity.ok(requestTransferService.refuseRequestTransfer(requestTransfer));
     }
 
-    @RequestMapping("product/update")
-    public ResponseEntity<?> updateFinancialProduct(@RequestBody FinancialProduct financialProduct){
-        financialProductRepository.deleteById(financialProduct.getId());
-        financialProduct.setModificationDate(new Date());
-        return ResponseEntity.ok(financialProductRepository.save(financialProduct));
-    }
+    /**
+     * List of pending requested transfers
+     * @param bic of Financial Institution
+     * @return
+     */
+    @GetMapping("request-transfer/pending/list/{bic}")
+    public ResponseEntity<?> getPendingRequestTransferByInstitution(@PathVariable String bic){
+        logger.debug("Call : Find pending request transfers by institution ID");
+        List<RequestTransfer> entities = requestTransferService
+                .getRepository()
+                .findPendingRequestTransfersByInstitution(bic, Request.REQUEST_STATUS.PENDING);
 
-    // TRANSFER
-
-    @RequestMapping("request-transfer/update")
-    public ResponseEntity<?> updateRequestTransfer(@RequestBody RequestTransfer requestTransfer){
-        requestTransferRepository.deleteById(requestTransfer.getId());
-        requestTransfer.setModificationDate(new Date());
-        return ResponseEntity.ok(requestTransferRepository.save(requestTransfer));
+        return ResponseEntity.ok(entities);
     }
 
     /**
      * @return List of all the requested transfers by institution
      */
     @GetMapping("request-transfer/list/{bic}")
-    public ResponseEntity<?> getAllTransferByFinancialInstitutions(@PathVariable String bic){
-        List<RequestTransfer> entities = (List<RequestTransfer>) requestTransferRepository.findAllByFinancialInstitution(bic);
+    public ResponseEntity<?> getAllRequestTransferByFinancialInstitution(@PathVariable String bic){
+        List<RequestTransfer> entities = requestTransferService.getRepository()
+                .findAllByFinancialInstitution(bic);
         return ResponseEntity.ok(entities);
     }
 
-    /**
-     * @param id RequestTransfer's id
-     * @return RequestTransfer by id
-     */
-    @GetMapping("request-transfer/find-by-id/{id}")
-    public ResponseEntity<?> findRequestTransferById(@PathVariable Long id){
-        if(requestTransferRepository.findById(id).isPresent()){
-            RequestTransfer entity = requestTransferRepository.findById(id).get();
-            return ResponseEntity.ok(entity);
-        } else {
-            return ResponseEntity.ok(null);
-        }
-    }
+//    /**
+//     * @param id RequestTransfer's id
+//     * @return RequestTransfer by id
+//     */
+//    @GetMapping("request-transfer/find-by-id/{id}")
+//    public ResponseEntity<?> findRequestTransferById(@PathVariable Long id){
+//        if(requestTransferRepository.findById(id).isPresent()){
+//            RequestTransfer entity = requestTransferRepository.findById(id).get();
+//            return ResponseEntity.ok(entity);
+//        } else {
+//            return ResponseEntity.ok(null);
+//        }
+//    }
 
     /*
     @GetMapping("financial-product/find-by-client/list")

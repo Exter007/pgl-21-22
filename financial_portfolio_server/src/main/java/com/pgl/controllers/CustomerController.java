@@ -2,9 +2,8 @@ package com.pgl.controllers;
 
 import com.pgl.models.*;
 import com.pgl.repositories.*;
-import com.pgl.services.ApplicationClientService;
-import com.pgl.services.TransactionService;
-import com.pgl.services.WalletFinancialProductService;
+import com.pgl.services.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +28,19 @@ public class CustomerController {
     private FinancialInstitutionRepository financialInstitutionRepository;
 
     @Autowired
-    private RequestWalletRepository requestWalletRepository;
+    private RequestWalletService requestWalletService;
 
     @Autowired
     private WalletRepository walletRepository;
 
     @Autowired
-    private RequestTransferRepository requestTransferRepository;
+    private RequestTransferService requestTransferService;
 
     @Autowired
     private TransactionService transactionService;
 
     @Autowired
-    private WalletFinancialProductService walletFinancialProductService;
+    private NotificationService notificationService;
 
 
     public CustomerController() {
@@ -127,7 +126,19 @@ public class CustomerController {
         return ResponseEntity.ok(true);
     }
 
+
     // Ressources for Financial Product
+
+    /** Find Financial Products by Wallet ID
+     * @param idWallet A Wallet ID
+     * @return List of all the FinancialProducts held by a certain Wallet
+     */
+    @RequestMapping("product/get-by-wallet/{idWallet}")
+    public ResponseEntity<?> getProductsByWallet(@PathVariable Long idWallet) {
+        List<FinancialProduct> products = financialProductRepository
+                .findProductsByWallet(idWallet);
+        return ResponseEntity.ok(products);
+    }
 
     /**
      * @param bic A FinancialInstitution's BIC
@@ -139,17 +150,6 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
-    /** Find Financial Products by Wallet ID
-     * @param idWallet A Wallet ID
-     * @return List of all the FinancialProducts held by a certain Wallet
-     */
-    @RequestMapping("product/get-by-wallet/{idWallet}")
-    public ResponseEntity<?> getBankAccountsByWallet(@PathVariable Long idWallet) {
-        List<FinancialProduct> products = walletFinancialProductService
-                .findBankAccountsByWallet(idWallet);
-        return ResponseEntity.ok(products);
-    }
-
     /**
      * @return List of all the FinancialProducts of all FinancialInstitutions
      */
@@ -159,8 +159,18 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
+    // RESSOURCES FOR BANK ACCOUNT
 
-    // Ressources for Bank Account
+    /** Find Bank Accounts by Wallet ID
+     * @param idWallet A Wallet ID
+     * @return List of all the BankAccount held by a certain Wallet
+     */
+    @RequestMapping("bank-account/get-by-wallet/{idWallet}")
+    public ResponseEntity<?> getBankAccountsByWallet(@PathVariable Long idWallet) {
+        List<FinancialProduct> products = financialProductRepository
+                .findBankAccountsByWallet(idWallet, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT);
+        return ResponseEntity.ok(products);
+    }
 
     @GetMapping(value = "bank-account/find-by-iban/{iban}")
     public ResponseEntity<?> findBankAccountByIBAN(@PathVariable String iban){
@@ -181,19 +191,19 @@ public class CustomerController {
         return ResponseEntity.ok(entities);
     }
 
+//    /**
+//     * @param name A FinancialInstitution's name
+//     * @return The financial institution with the given name
+//     */
+//    @GetMapping("institution/{name}")
+//    public ResponseEntity<?> getFinancialInstitutionByName(@PathVariable String name) {
+//        logger.debug("Call : Get FinancialInstitution by name");
+//        FinancialInstitution entity = financialInstitutionRepository.findByName(name);
+//        return ResponseEntity.ok(entity);
+//    }
+
 
     // Ressources from Request Wallet
-
-    /**
-     * @param name A FinancialInstitution's name
-     * @return The financial institution with the given name
-     */
-    @GetMapping("financialInstitution/{name}")
-    public ResponseEntity<?> getFinancialInstitutionByName(@PathVariable String name) {
-        logger.debug("Call : Get FinancialInstitution by name");
-        FinancialInstitution entity = financialInstitutionRepository.findByName(name);
-        return ResponseEntity.ok(entity);
-    }
 
     /**
      * @param requestWallet RequestWallet to be created
@@ -202,19 +212,7 @@ public class CustomerController {
     @PostMapping("request-wallet/save")
     public ResponseEntity<?> requestWallet(@RequestBody RequestWallet requestWallet) {
         logger.debug("Call : Create RequestWallet");
-        RequestWallet rq = requestWalletRepository.existsByApplicationClientAndFinancialInstitution(requestWallet.getApplicationClient(), requestWallet.getFinancialInstitution());
-        if(rq != null) {
-            if(rq.getStatus().equals(Request.REQUEST_STATUS.REFUSED)) {
-                rq.setStatus(Request.REQUEST_STATUS.PENDING);
-                return ResponseEntity.ok(requestWalletRepository.save(rq));
-            } else if (rq.getStatus().equals(Request.REQUEST_STATUS.PENDING)){
-                return ResponseEntity.ok(null);
-            } else {
-                return ResponseEntity.ok(rq);
-            }
-        } else{
-            return ResponseEntity.ok(requestWalletRepository.save(requestWallet));
-        }
+        return ResponseEntity.ok(requestWalletService.saveRequestWallet(requestWallet));
     }
 
     /**
@@ -225,8 +223,11 @@ public class CustomerController {
     @DeleteMapping("request-wallet/delete/{applicationClientID}/{financialInstitutionBIC}")
     public ResponseEntity<?> deleteRequestWallet(@PathVariable String applicationClientID, @PathVariable String financialInstitutionBIC) {
         logger.debug("Call : delete RequestWallet by id");
-        RequestWallet rq = requestWalletRepository.findByApplicationClientAndFinancialInstitution(applicationClientID, financialInstitutionBIC);
-        requestWalletRepository.deleteById(rq.getId());
+        RequestWallet rq = requestWalletService.getRepository()
+                .findByApplicationClientAndFinancialInstitution(
+                        applicationClientID, financialInstitutionBIC
+                );
+        requestWalletService.getRepository().deleteById(rq.getId());
         return ResponseEntity.ok(true);
     }
 
@@ -239,19 +240,7 @@ public class CustomerController {
     @PostMapping("request-transfer/save")
     public ResponseEntity<?> requestTransfer(@RequestBody RequestTransfer requestTransfer) {
         logger.debug("Call : Create RequestTransfer");
-        RequestTransfer rt = requestTransferRepository.existsByApplicationClientAndFinancialInstitution(requestTransfer.getApplicationClient(), requestTransfer.getBankAccount().getFinancialInstitution());
-        if(rt != null) {
-            if(rt.getStatus().equals(Request.REQUEST_STATUS.REFUSED)) {
-                rt.setStatus(Request.REQUEST_STATUS.PENDING);
-                return ResponseEntity.ok(requestTransferRepository.save(rt));
-            } else if (rt.getStatus().equals(Request.REQUEST_STATUS.PENDING)){
-                return ResponseEntity.ok(null);
-            } else {
-                return ResponseEntity.ok(rt);
-            }
-        } else{
-            return ResponseEntity.ok(requestTransferRepository.save(requestTransfer));
-        }
+        return ResponseEntity.ok(requestTransferService.saveRequestTransfer(requestTransfer));
     }
 
     /** Get the financial products of a wallet by using id
@@ -292,6 +281,34 @@ public class CustomerController {
         List<Transaction> entities = transactionService.findTransactionByClient(registerNumber);
 
         return ResponseEntity.ok(entities);
+    }
+
+
+    // RESSOURCES FOR NOTIFICATION
+
+    /**
+     * Save notification
+     * @param notification
+     * @return
+     */
+    @PostMapping(value = "notification/save")
+    public ResponseEntity<?> saveNotification(@RequestBody Notification notification){
+        logger.debug("Call : Save Notification");
+
+        return ResponseEntity.ok(notificationService.getRepository().save(notification));
+    }
+
+    /**
+     * Find All Notification by Application client
+     * @param registerNumber for Application Client
+     * @return
+     */
+    @GetMapping(value = "notification/get-by-client/{registerNumber}")
+    public ResponseEntity<?> findNotificationsByClient(@PathVariable String registerNumber){
+        logger.debug("Call : Find All Notifications by Application Client");
+
+        return ResponseEntity.ok(notificationService.getRepository()
+                .findNotificationsByClient(registerNumber));
     }
 
 }

@@ -14,6 +14,6 @@ public interface WalletRepository extends CrudRepository<Wallet, Long> {
     @Query("SELECT r FROM Wallet r where r.applicationClient.nationalRegister=:n")
     List<Wallet> findWalletsByClient(@Param("n") String clientNumber);
 
-    @Query("SELECT r FROM Wallet r WHERE r.applicationClient=:applicationClient AND r.financialInstitution=:financialInstitution")
-    Wallet existsByApplicationClientAndFinancialInstitution(@Param("applicationClient") ApplicationClient applicationClient, @Param("financialInstitution") FinancialInstitution financialInstitution);
+    @Query("SELECT r FROM Wallet r WHERE r.applicationClient.nationalRegister=:n AND r.financialInstitution.BIC=:b")
+    Wallet findByClientAndInstitution(@Param("n") String clientNumber, @Param("b") String bic);
 }

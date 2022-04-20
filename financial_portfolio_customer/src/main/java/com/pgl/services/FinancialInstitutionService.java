@@ -9,7 +9,7 @@ import java.util.List;
 public class FinancialInstitutionService extends HttpClientService<FinancialInstitution>{
 
     private static FinancialInstitution currentInstitution;
-    private static final String referencePath = "/financialInstitution";
+    private static final String referencePath = "/institution";
     /**
      * Constructor vide
      * ParameterizedTypeReference pour la deserialisation du JSON recu de Rest API en Liste de Financial Institution
@@ -28,13 +28,8 @@ public class FinancialInstitutionService extends HttpClientService<FinancialInst
         FinancialInstitutionService.currentInstitution = currentInstitution;
     }
 
-    public FinancialInstitution getFinancialInstitutionByName(String name) {
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/" + name;
-        return getByURL(url);
-    }
-
     public List<FinancialInstitution> getAllFinancialInstitutions(){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + "/institution/list";
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/list";
         List<FinancialInstitution> financialInstitutions = getListByURL(url);
         System.out.println(financialInstitutions);
         return financialInstitutions;

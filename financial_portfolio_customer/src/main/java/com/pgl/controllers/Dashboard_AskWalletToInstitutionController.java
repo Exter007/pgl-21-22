@@ -38,6 +38,8 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     RequestWalletService requestWalletService = new RequestWalletService();
     FinancialInstitutionService financialInstitutionService = new FinancialInstitutionService();
 
+    FinancialInstitution currentInstitution;
+
     @FXML
     private Label askWalletTitle;
     @FXML
@@ -62,14 +64,27 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         bundle = DashboardController.bundle;
+        loadFinancialInstitutions();
         setText();
+    }
 
+    private void loadFinancialInstitutions(){
         List<FinancialInstitution> financialInstitutions = financialInstitutionService.getAllFinancialInstitutions();
         ObservableList<String> institutions = FXCollections.observableArrayList();
         for(FinancialInstitution f : financialInstitutions){
             institutions.add(f.getName());
         }
+
         institutionChoice.setItems(institutions);
+
+        institutionChoice.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            financialInstitutions.forEach(institution -> {
+                if(institution.getName().equals(newValue)){
+                    currentInstitution = institution;
+                }
+            });
+
+        });
     }
 
     /**
@@ -78,31 +93,27 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
      */
     @FXML
     private void send_request(MouseEvent event) {
-        if(institutionChoice.getValue() != null){
-            FinancialInstitution f = financialInstitutionService.getFinancialInstitutionByName((String) institutionChoice.getValue());
-
-            RequestWallet requestWallet = new RequestWallet(Request.REQUEST_STATUS.PENDING, userService.getCurrentUser(), f);
-            try {
-                RequestWallet rq = requestWalletService.createRequestWallet(requestWallet);
-                if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.PENDING){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(bundle.getString("succes3"));
-                    alert.showAndWait();
-                } else if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.ACCEPTED){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(bundle.getString("error20"));
-                    alert.showAndWait();
-                } else if (rq != null && rq.getStatus() == Request.REQUEST_STATUS.REFUSED){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("error21"));
-                    alert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("error22"));
-                    alert.showAndWait();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        if(institutionChoice.getValue() == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error3"));
+            alert.showAndWait();
+        }else{
+            RequestWallet requestWallet = new RequestWallet(
+                    Request.REQUEST_STATUS.PENDING, userService.getCurrentUser(), currentInstitution
+            );
+            RequestWallet rq = requestWalletService.save(requestWallet);
+            if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.PENDING){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(bundle.getString("succes3"));
+                alert.showAndWait();
+            }else if(rq != null && rq.getStatus() == Request.REQUEST_STATUS.ACCEPTED){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(bundle.getString("error20"));
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("error22"));
+                alert.showAndWait();
             }
 
             try {
@@ -114,16 +125,6 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
             } catch (IOException ex) {
                 Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
             }
-
-        }else if(institutionChoice.getValue() == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error3"));
-            alert.showAndWait();
-
-        }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error6"));
-            alert.showAndWait();
         }
     }
 }

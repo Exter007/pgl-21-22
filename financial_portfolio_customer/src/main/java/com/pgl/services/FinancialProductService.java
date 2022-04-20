@@ -10,21 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class FinancialProductService extends HttpClientService<LinkedHashMap> {
-    WalletService walletService = new WalletService();
 
     private static FinancialProduct currentProduct;
+    WalletService walletService = new WalletService();
 
     private static final String referencePath = "/product";
 
-    /**
-     * Empty constructor
-     * ParameterizedTypeReference for deserializing JSON received from Rest API to List of Financial Product
-     * FinancialProduct.class for deserializing JSON received from Rest API to Financial Product
-public class FinancialProductService extends HttpClientService<LinkedHashMap>{
-
-    private static final String referencePath = "/financialProducts";
-
-    private static FinancialProduct currentFinancialProduct;
     /**
      * Constructor vide
      * ParameterizedTypeReference pour la deserialisation du JSON recu de Rest API en Liste de Financial Product
@@ -50,37 +41,16 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap>{
     public void setCurrentProduct(FinancialProduct currentProduct) {
         FinancialProductService.currentProduct = currentProduct;
     }
+    
 
     /**
-     * Retrieve Bank Account from a IBAN and Financial Institution
+     * Retrieve Financial Products from a Wallet
      * @return
      */
-    public FinancialProduct getAccountByIBAN(String iban){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + "/bank-account" +"/find-by-iban/"
-                + iban;
-
-        LinkedHashMap result = getByURL(url);
-        FinancialProduct product = null;
-        ObjectMapper objectMapper = new ObjectMapper();
-        if (result.get("classe").equals(CurrentAccount.class.getSimpleName()) ){
-            product = objectMapper.convertValue(result, CurrentAccount.class);
-        }else if (result.get("classe").equals(SavingsAccount.class.getSimpleName()) ){
-            product = objectMapper.convertValue(result, SavingsAccount.class);
-        }else if (result.get("classe").equals(YoungAccount.class.getSimpleName()) ){
-            product = objectMapper.convertValue(result, YoungAccount.class);
-        }else if (result.get("classe").equals(TermAccount.class.getSimpleName()) ){
-            product = objectMapper.convertValue(result, TermAccount.class);
-        }
-
-        return product;
-    }
-
-    public List<FinancialProduct> getAccountsByWallet(Long idWallet){
+    public List<FinancialProduct> getFinancialProductsByWallet(){
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/get-by-wallet/"
-                + idWallet;
+                + walletService.getCurrentWallet().getId();
 
-    public List<FinancialProduct> getFinancialProductsByWalletID(String walletID){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + "/wallet/" + walletID + "/product/list";
         List<LinkedHashMap> results = getListByURL(url);
         List<FinancialProduct> products = new ArrayList<>();
         results.forEach( result ->{
@@ -97,14 +67,5 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap>{
         });
 
         return products;
-    }
-
-    public void setCurrentFinancialProduct(FinancialProduct financialProduct) {
-        currentFinancialProduct = financialProduct;
-    }
-}
-
-    public FinancialProduct getCurrentFinancialProduct() {
-        return currentFinancialProduct;
     }
 }

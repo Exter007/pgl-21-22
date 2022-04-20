@@ -1,7 +1,11 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
+import com.pgl.models.BankAccount;
+import com.pgl.models.FinancialProduct;
+import com.pgl.models.FinancialProductHolder;
 import com.pgl.models.User;
+import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
@@ -35,11 +39,11 @@ import java.util.logging.Logger;
 
 public class WalletController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
     static ResourceBundle bundle;
 
     FinancialProductService financialProductService = new FinancialProductService();
+    WalletService walletService = new WalletService();
 
     @FXML
     private Label Wallet_label;
@@ -114,8 +118,13 @@ public class WalletController implements Initializable {
         }else{
             bundle = null;
         }
+        setText();
+        loadFinancialProducts();
+    }
 
-        List<FinancialProduct> fp = financialProductService.getFinancialProductsByWalletID(WalletService.getCurrentWallet().getId().toString());
+    private void loadFinancialProducts(){
+        List<FinancialProduct> fp = financialProductService.
+                getFinancialProductsByWallet();
         if (fp != null) {
             int index = 0;
             for (FinancialProduct financialProduct : fp) {
@@ -125,7 +134,6 @@ public class WalletController implements Initializable {
         } else {
             Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
         }
-        setText();
     }
 
     /**
@@ -143,46 +151,6 @@ public class WalletController implements Initializable {
 
         } catch (IOException ex) {
             Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Open a window allowing you to modify your personal data
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void edit_profil(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-ModifyPersonnalData.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Disconnects the user from the application
-     * @param event the click of the mouse on the menu
-     */
-    @FXML
-    private void diconnect(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, bundle.getString("ConfirmDisconnection_text"));
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            userService.logout();
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Client-login.fxml"));
-                Stage newWindow = new Stage();
-                Scene scene = new Scene(root);
-                newWindow.setScene(scene);
-                GlobalStage.setStage(newWindow);
-
-            } catch (IOException ex) {
-                Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -236,15 +204,7 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void show_notifications(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-Notifications.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter("Client-Wallet-Notifications");
     }
 
     /**
@@ -253,15 +213,7 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void hide_product(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-HideConfirmation.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter("Client-Wallet-HideConfirmation");
     }
 
     /**
@@ -271,16 +223,8 @@ public class WalletController implements Initializable {
     @FXML
     private void ask_transfer(MouseEvent event) {
         ImageView img = (ImageView) event.getSource();
-        financialProductService.setCurrentFinancialProduct((FinancialProduct) img.getUserData());
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-AskTransferConfirmation.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
+        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
     }
 
     /**

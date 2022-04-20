@@ -27,7 +27,7 @@ public class TransferController implements Initializable {
     ApplicationClientService clientService = new ApplicationClientService();
     WalletService walletService = new WalletService();
     TransactionService transactionService = new TransactionService();
-    FinancialProductService productService = new FinancialProductService();
+    BankAccountService bankAccountService = new BankAccountService();
     Wallet currentWallet = walletService.getCurrentWallet();
     BankAccount bankAccount;
     float fAmount;
@@ -105,19 +105,13 @@ public class TransferController implements Initializable {
 
     private void loadAccountFromCB(){
         List<String> accountFromList = new ArrayList<>();
-        List<FinancialProduct> financialProducts = productService.getAccountsByWallet(currentWallet.getId());
-        financialProducts.forEach( financialProduct -> {
-            if ((financialProduct.getTransferAccess()
-                    .equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED))
-                    && (financialProduct.getProductType()
-                    .equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)))
+        List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByWallet();
+        bankAccounts.forEach( bankAccount -> {
+            if ( bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT)
+                    || bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT)
+                    && bankAccount.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED))
             {
-                BankAccount account = (BankAccount) financialProduct;
-                if (account.getNature().equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT)
-                        || account.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT) )
-                {
-                    accountFromList.add(account.getIban());
-                }
+                accountFromList.add(bankAccount.getIban());
             }
         });
 
@@ -142,7 +136,7 @@ public class TransferController implements Initializable {
             alert.showAndWait();
         } else if(!Validators.check_IBAN(accountTo.getText())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error18"));
+            alert.setHeaderText(bundle.getString("error23"));
             alert.showAndWait();
         } else if(!structuredCommunication.getText().isEmpty() && !freeCommunication.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -150,15 +144,15 @@ public class TransferController implements Initializable {
             alert.showAndWait();
         }else if((fAmount = Validators.convertToFloat(amount.getText())) == 0){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error19"));
+            alert.setHeaderText(bundle.getString("error24"));
             alert.showAndWait();
-        } else if(((bankAccount = (BankAccount) productService.getAccountByIBAN(accountFromCB.getValue().toString())) != null)
+        } else if(((bankAccount = bankAccountService.getBankAccountByIBAN(accountFromCB.getValue().toString())) != null)
                 && (bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT))
                 && (fAmount > ((YoungAccount) bankAccount).getMaxTransactionAmount()))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(
-                    bundle.getString("error20") + " "
+                    bundle.getString("error25") + " "
                     + ((YoungAccount) bankAccount).getMaxTransactionAmount()
             );
             alert.showAndWait();

@@ -13,13 +13,5 @@ public class RequestTransferService extends HttpClientService<RequestTransfer>{
     public RequestTransferService() {
         super(referencePath, RequestTransfer.class, new ParameterizedTypeReference<List<RequestTransfer>>() {});
     }
-    public RequestTransfer createRequestTransfer(RequestTransfer requestTransfer){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/save";
-        return post(url, requestTransfer);
-    }
 
-    public boolean deleteByInstitutionBICAndApplicationID(String financialInstitutionBIC, String applicationClientID){
-        //return deleteRequestTransfer(financialInstitutionBIC, applicationClientID);
-        return false;
-    }
 }

@@ -27,6 +27,24 @@ public class WalletFinancialProduct implements Serializable {
     @JoinColumn(name = "financial_product_id", nullable=false)
     private FinancialProduct financialProduct;
 
+    /**
+     * Default constructor
+     */
+    public WalletFinancialProduct() {
+    }
+
+    /**
+     * Class constructor
+     * @param wallet
+     * @param financialProduct
+     * @param visibility
+     */
+    public WalletFinancialProduct(Wallet wallet, FinancialProduct financialProduct, PRODUCT_VISIBILITY visibility) {
+        this.wallet = wallet;
+        this.financialProduct = financialProduct;
+        this.visibility = visibility;
+    }
+
     /** Get the visibility of this product
      *
      * @return the visibility in the form of a WalletFinancialProduct.PRODUCT_VISIBILITY enum

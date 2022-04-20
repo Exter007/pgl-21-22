@@ -16,10 +16,6 @@ public class RequestWalletService extends HttpClientService<RequestWallet>{
     public RequestWalletService() {
         super(referencePath, RequestWallet.class, new ParameterizedTypeReference<List<RequestWallet>>() {});
     }
-    public RequestWallet createRequestWallet(RequestWallet requestWallet){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/save";
-        return post(url, requestWallet);
-    }
 
     public boolean deleteByInstitutionBICAndApplicationID(String financialInstitutionBIC, String applicationClientID){
         return deleteRequestWallet(financialInstitutionBIC, applicationClientID);

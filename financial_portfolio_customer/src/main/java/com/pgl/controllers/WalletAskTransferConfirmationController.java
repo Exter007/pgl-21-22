@@ -18,8 +18,7 @@ import java.util.logging.Logger;
 
 public class WalletAskTransferConfirmationController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
     static ResourceBundle bundle;
 
     FinancialProductService financialProductService = new FinancialProductService();
@@ -56,23 +55,21 @@ public class WalletAskTransferConfirmationController implements Initializable {
      */
     @FXML
     private void ask_confirm(MouseEvent event) {
-        FinancialProduct fp = financialProductService.getCurrentFinancialProduct();
-        RequestTransfer rqt = new RequestTransfer(RequestTransfer.REQUEST_STATUS.PENDING, userService.getCurrentUser(),(CurrentAccount) fp);
+        FinancialProduct fp = financialProductService.getCurrentProduct();
+        RequestTransfer rqt = new RequestTransfer(
+                RequestTransfer.REQUEST_STATUS.PENDING, userService.getCurrentUser(),(BankAccount) fp
+        );
         try {
-            RequestTransfer result = requestTransferService.createRequestTransfer(rqt);
+            RequestTransfer result = requestTransferService.save(rqt);
             if(result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.PENDING){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes8"));
                 alert.showAndWait();
             } else if(result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.ACCEPTED){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("error17"));
                 alert.showAndWait();
-            } else if (result != null && result.getStatus() == RequestTransfer.REQUEST_STATUS.REFUSED){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(bundle.getString("error16"));
-                alert.showAndWait();
-            } else {
+            }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(bundle.getString("error11"));
                 alert.showAndWait();

@@ -33,14 +33,11 @@ import java.util.logging.Logger;
 
 public class DashboardNotificationsController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
     static ResourceBundle bundle;
 
     RequestWalletService requestWalletService = new RequestWalletService();
     RequestTransferService requestTransferService = new RequestTransferService();
-    WalletService walletService = new WalletService();
-    FinancialProductService financialProductService = new FinancialProductService();
 
     @FXML
     private Label name;
@@ -72,31 +69,32 @@ public class DashboardNotificationsController implements Initializable {
         // Adding the request wallet notifications
         bundle = DashboardController.bundle;
         setText();
-        List<RequestWallet> requestWalletList = requestWalletService.getAllRequestWallet(userService.getCurrentUser().getBIC());
+        loadNotifications();
+    }
+
+    private void loadNotifications(){
+        List<RequestWallet> requestWalletList = requestWalletService.getPendingRequestWalletByInstitution();
         for (RequestWallet requestWallet : requestWalletList) {
-            if (requestWallet.getStatus() == Request.REQUEST_STATUS.PENDING) {
-                createNotification(requestWallet.getApplicationClient().getName(),
-                        requestWallet.getApplicationClient().getFirstName(),
-                        bundle.getString("AskCreationText"),
-                        requestWallet.getCreationDate(),
-                        requestWallet,
-                        this::accept_wallet_request,
-                        this::refuse_wallet_request);
-            }
+            createNotification(requestWallet.getApplicationClient().getName(),
+                    requestWallet.getApplicationClient().getFirstName(),
+                    bundle.getString("AskCreationText"),
+                    requestWallet.getCreationDate(),
+                    requestWallet,
+                    this::accept_wallet_request,
+                    this::refuse_wallet_request
+            );
         }
 
-        // Adding the request wallet notifications
-        List<RequestTransfer> requestTransferList = requestTransferService.getAllRequestTransfer(userService.getCurrentUser().getBIC());
+        // Adding the request transfer notifications
+        List<RequestTransfer> requestTransferList = requestTransferService.getPendingRequestTransferByInstitution();
         for (RequestTransfer requestTransfer : requestTransferList) {
-            if (requestTransfer.getStatus() == Request.REQUEST_STATUS.PENDING) {
-                createNotification(requestTransfer.getApplicationClient().getName(),
-                        requestTransfer.getApplicationClient().getFirstName(),
-                        bundle.getString("AskCreationText"),
-                        requestTransfer.getCreationDate(),
-                        requestTransfer,
-                        this::accept_transfer_request,
-                        this::refuse_transfer_request);
-            }
+            createNotification(requestTransfer.getApplicationClient().getName(),
+                    requestTransfer.getApplicationClient().getFirstName(),
+                    bundle.getString("AskCreationText"),
+                    requestTransfer.getCreationDate(),
+                    requestTransfer,
+                    this::accept_transfer_request,
+                    this::refuse_transfer_request);
         }
         vbox.setPadding(new Insets(0, 50, 60, 50));
     }
@@ -115,12 +113,7 @@ public class DashboardNotificationsController implements Initializable {
             RequestWallet requestWallet = (RequestWallet) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestWallet.setStatus(Request.REQUEST_STATUS.ACCEPTED);
-                requestWalletService.updateRequestWallet(requestWallet);
-                // Create wallet if not exists (normally it can't exists)
-                Wallet wallet = new Wallet(requestWallet.getFinancialInstitution().getName(), requestWallet.getFinancialInstitution(), requestWallet.getApplicationClient());
-                walletService.createWallet(wallet);
-                // TODO : Update Wallet_Financial_Product to link financial products of the user to the wallet
+                requestWalletService.acceptRequestWallet(requestWallet);
 
                 // Remove the notification from the vbox
                 removeNotification(button);
@@ -143,9 +136,8 @@ public class DashboardNotificationsController implements Initializable {
             Button button = (Button) event.getSource();
             RequestWallet requestWallet = (RequestWallet) button.getUserData();
             try {
-                // Update the requested wallet to accepted
-                requestWallet.setStatus(Request.REQUEST_STATUS.REFUSED);
-                requestWalletService.updateRequestWallet(requestWallet);
+                // Update the requested wallet to refused
+                requestWalletService.refuseRequestWallet(requestWallet);
                 // Remove the notification from the vbox
                 removeNotification(button);
             } catch (Exception e) {
@@ -168,14 +160,7 @@ public class DashboardNotificationsController implements Initializable {
             RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestTransfer.setStatus(Request.REQUEST_STATUS.ACCEPTED);
-                requestTransferService.updateRequestTransfer(requestTransfer);
-                // Authorize the transfer on the financial product
-                String requestTransferId = requestTransfer.getBankAccount().getId().toString();
-                FinancialProduct financialProduct = financialProductService.findById(requestTransferId);
-                // Set transfer to AUTHORIZED and update the financial product in database
-                financialProduct.setTransferAccess(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED);
-                financialProductService.updateFinancialProduct(financialProduct);
+                requestTransferService.acceptRequestTransfer(requestTransfer);
                 // Remove the notification from the vbox
                 removeNotification(button);
             } catch (Exception e) {
@@ -198,14 +183,7 @@ public class DashboardNotificationsController implements Initializable {
             RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestTransfer.setStatus(Request.REQUEST_STATUS.REFUSED);
-                requestTransferService.updateRequestTransfer(requestTransfer);
-                // Authorize the transfer on the financial product
-                String requestTransferId = requestTransfer.getBankAccount().getId().toString();
-                FinancialProduct financialProduct = financialProductService.findById(requestTransferId);
-                // Set transfer to AUTHORIZED and update the financial product in database
-                financialProduct.setTransferAccess(FinancialProduct.TRANSFER_ACCESS.DENIED);
-                financialProductService.updateFinancialProduct(financialProduct);
+                requestTransferService.refuseRequestTransfer(requestTransfer);
                 // Remove the notification from the vbox
                 removeNotification(button);
             } catch (Exception e) {

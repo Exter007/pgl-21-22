@@ -22,8 +22,6 @@ import java.util.logging.Logger;
 
 public class WalletAskFinancialProductController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
     static ResourceBundle bundle;
 
     @FXML

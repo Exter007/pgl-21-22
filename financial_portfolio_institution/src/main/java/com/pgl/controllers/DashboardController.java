@@ -5,7 +5,7 @@ import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
 import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialInstitutionService;
-import com.pgl.services.ProductService;
+import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class DashboardController implements Initializable {
 
     UserService userService = new UserService();
-    ProductService productService = new ProductService();
+    FinancialProductService productService = new FinancialProductService();
 	FinancialInstitutionService institutionService = new FinancialInstitutionService();
     BankAccountService bankAccountService = new BankAccountService();
 

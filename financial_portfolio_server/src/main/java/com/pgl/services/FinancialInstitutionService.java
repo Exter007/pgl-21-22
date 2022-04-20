@@ -103,9 +103,6 @@ public class FinancialInstitutionService {
         return getRepository().save(userFound);
     }
 
-    public void answerTransfer(RequestTransfer rqt, int status) {
-        requestTransferRepository.updateRequestedTransfer(rqt.getId(), status);
-    }
 
     /**
      * Update Language
