@@ -1,13 +1,13 @@
 package com.pgl.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.pgl.helpers.DynamicViews;
-import com.pgl.models.*;
+import com.pgl.models.ApplicationClient;
+import com.pgl.models.Wallet;
 import com.pgl.services.ApplicationClientService;
 import com.pgl.services.RequestWalletService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
+import com.pgl.utils.Exporter;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,22 +22,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.constraint.NotNull;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanWriter;
-import org.supercsv.io.ICsvBeanWriter;
-import org.supercsv.prefs.CsvPreference;
 
-import javax.inject.Inject;
-import javax.swing.table.TableColumn;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -362,7 +349,8 @@ public class DashboardController implements Initializable {
     @FXML
     private void on_display(MouseEvent event){
         if(WalletService.getCurrentWallet() != null){
-            DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
+            //DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
+            DynamicViews.loadBorderCenter(border_pane, "test");
         }else{
             walletService.not_selected_error();
         }
@@ -468,146 +456,19 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void export(MouseEvent event) {
-        if(WalletService.getCurrentWallet() != null){
-            //take the date so each time the user downloads a CSV file, its name is different
-            DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-            String currentDateTime = dateFormatter.format(new Date());
+        //take the date so each time the user downloads a CSV file, its name is different
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
 
-            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
+        //TODO ajouter la configuration(avec différent critère)
 
-            if(financialProducts.isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(bundle.getString("Export_alert"));
-                alert.showAndWait();
-            }else{
-                String fileName = financialProducts.get(0).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
-                if(export_format.getValue().equals(".csv")){
-                    toCSVFile(financialProducts, fileName);
-                }else if(export_format.getValue().equals(".json")){
-                    toJsonFile(financialProducts, fileName);
-                }else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(bundle.getString("Export_format"));
-                    alert.showAndWait();
-                }
-            }
-        }
-    }
-
-    /** Write a JSON file of a list of java object
-     *
-     * @param list the list of java object
-     * @param fileName the name of the JSON file
-     * @param <P> generic type extended from PersistentWithoutId
-     */
-    private <P extends PersistentWithoutId> void toJsonFile(List<P> list, String fileName){
-        fileName = fileName.concat(".json");
-        try {
-            URL resourceUrl = getClass().getResource("/"+fileName);
-            assert resourceUrl != null;
-            File file = new File(resourceUrl.toURI());
-
-            // create Gson instance with pretty-print
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            // create writer
-            FileWriter writer = new FileWriter(file);
-
-            // convert financialproduct list to JSON file
-            gson.toJson(list, writer);
-
-            // close writer
-            writer.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /** Write a CSV file of a list of java object
-     *
-     * @param list the list of java object
-     * @param fileName the name of the CSV file
-     * @param <P> generic type extended from PersistentWithoutId
-     */
-    private <P extends PersistentWithoutId> void toCSVFile (List<P> list, String fileName){
-        ICsvBeanWriter beanWriter = null;
-
-        //implement the chain of responsibility
-        CellProcessor[] processors = processorsHeader(list.get(0));
-        if (processors == null){
+        if(walletList.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("CSV_alert"));
+            alert.setHeaderText(bundle.getString("Export_wallets_alert"));
             alert.showAndWait();
-            return;
+        }else{
+            String fileName = "wallets_" + currentDateTime;
+            Exporter.export(walletList, fileName, bundle, export_format);
         }
-
-        //file header
-        String[] header = header(list.get(0));
-        if (header == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("CSV_alert"));
-            alert.showAndWait();
-            return;
-        }
-
-        fileName = fileName.concat(".csv");
-        try {
-            URL resourceUrl = getClass().getResource("/"+fileName);
-            assert resourceUrl != null;
-            File file = new File(resourceUrl.toURI());
-
-            // create writer
-            beanWriter = new CsvBeanWriter(new FileWriter(file),
-                    CsvPreference.STANDARD_PREFERENCE);
-
-            beanWriter.writeHeader(header);
-
-            for (P element : list) {
-                beanWriter.write(element, header, processors);
-            }
-
-        } catch (Exception ex) {
-            System.err.println("Error writing the CSV file: " + ex);
-        } finally {
-            if (beanWriter != null) {
-                try {
-                    beanWriter.close();
-                } catch (IOException ex) {
-                    System.err.println("Error closing the writer: " + ex);
-                }
-            }
-        }
-    }
-
-    /** Make an appropriate CellProcessor[] for the type of object we want to export
-     *
-     * @param obj the typical object
-     * @param <P> generic type extended from PersistentWithoutId
-     * @return CellProcessor[] or null if the type is unsupported
-     */
-    private <P extends PersistentWithoutId> CellProcessor[] processorsHeader(P obj){
-        if (obj.getClass().getName().equals("FinancialProduct")){
-            return new CellProcessor[] {
-                    new NotNull(), // nature
-                    new NotNull(), // account_type
-                    new NotNull(), // iban
-                    new ParseDouble() // currency
-            };
-        }else
-            return null;
-    }
-
-    /** Make an appropriate header for the object we want to export
-     *
-     * @param obj the object
-     * @param <P> generic type extended from PersistentWithoutId
-     * @return String[] or null if the object is unsupported
-     */
-    private <P extends PersistentWithoutId> String[] header(P obj){
-        if (obj.getClass().getName().equals("FinancialProduct")){
-            return new String[]{"nature", "account_type", "iban", "currency"};
-        }else
-            return null;
     }
 }
