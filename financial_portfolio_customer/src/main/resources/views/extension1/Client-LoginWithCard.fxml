@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="360.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension1.LoginWithCardController">
+    <stylesheets>
+        <URL value="@../../stylesheet/Style.css" />
+    </stylesheets>
+  <children>
+      <MenuBar style="-fx-background-color: #FFF;">
+        <menus>
+          <Menu fx:id="menu" mnemonicParsing="false" text="Langue">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#languageFR" text="FR" />
+                  <MenuItem mnemonicParsing="false" onAction="#languageEN" text="EN" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="407.0" prefWidth="360.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Button fx:id="login_btn" layoutX="98.0" layoutY="279.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="45.0" prefWidth="164.0" text="Connexion" />
+            <PasswordField fx:id="PINCode" alignment="CENTER" layoutX="80.0" layoutY="224.0" prefHeight="25.0" prefWidth="200.0" promptText="Code PIN" styleClass="field" />
+            <ImageView fitHeight="123.0" fitWidth="211.0" layoutX="119.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/logo-login.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="CardNumber" alignment="CENTER" layoutX="80.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" promptText="N° de carte" styleClass="field" />
+            <Hyperlink fx:id="create_account_link" layoutX="123.0" layoutY="376.0" onMouseClicked="#register" text="Créer un compte">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink fx:id="login_with_id_link" layoutX="78.0" layoutY="346.0" onMouseClicked="#loginWithID" text="Se connecter avec un identifiant">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Hyperlink>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
