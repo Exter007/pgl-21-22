@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
    <children>
       <ScrollPane fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1300.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -40,7 +50,29 @@
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="903.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#ask_financialProduct" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="10.0">
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="994.0" layoutY="10.0" onMouseClicked="#ask_card" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons/tabler-icon-credit-card.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1051.0" layoutY="11.0" onMouseClicked="#pay_byCard" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons/tabler-icon-receipt-2.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1109.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#ask_financialProduct" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="10.0">
                                  <image>
                                     <Image url="@../images/icons/source_icons_add-square.jpg" />
                                  </image>
@@ -51,7 +83,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="993.0" layoutY="10.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1175.0" layoutY="10.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="10.0">
                                  <image>
                                     <Image url="@../images/icons/source_icons_eye-off.jpg" />
                                  </image>
@@ -73,7 +105,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="951.0" layoutY="6.0" onMouseClicked="#show_exchange_rate_history" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="10.0">
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="933.0" layoutY="10.0" onMouseClicked="#show_exchange_rate_history" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="309.0" AnchorPane.topAnchor="10.0">
                                  <image>
                                     <Image url="@../images/icons/source_icons_rate.jpg" />
                                  </image>
