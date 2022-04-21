@@ -5,11 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.pgl.utils.Validators;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -21,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -67,45 +66,16 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         }else{
             bundle = null;
         }
-        ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "GBP", "JPY", "RWF");
-        from_currency.setItems(currencies);
-        from_currency.setOnAction((event) -> {
-            if(from_currency.getValue() == null)
-                from.clear();
-            else{
-                from.setText("1");
-            }
-        });
-        to_currency.setItems(currencies);
-        to_currency.setOnAction((event) -> {
-            Double result = null;
-            if(from_currency.getValue().isEmpty() || to_currency.getValue().isEmpty() || from.getText().isEmpty())
-                to.clear();
-            else{
-                if (from_currency.getValue().equals(to_currency.getValue()))
-                    to.setText(from.getText());
-                else{
-                    try {
-                        result = getLatestRate();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if(result == null){
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setHeaderText(bundle.getString("error26"));
-                        alert.showAndWait();
-                    }
-                    else
-                        to.setText(Double.toString(result * Double.parseDouble(from.getText())));
-                }
-            }
-        });
+        loadChoiceBoxes();
+        setActionForChoiceBoxes();
+        setActionForTextFields();
     }
 
-    private Double getLatestRate() throws IOException {
+    private void convert(String base_currency, String destination_currency, TextField base, TextField destination) throws IOException {
+        double result;
         // Setting URL
         String url_str = "https://v6.exchangerate-api.com/v6/5a247352b50730d6ae614ea6/pair/"
-                +from_currency.getValue()+"/"+to_currency.getValue();
+                +base_currency+"/"+destination_currency;
 
         // Making Request
         URL url = new URL(url_str);
@@ -119,10 +89,80 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         // Accessing object
         String req_result = jsonobj.get("result").getAsString();
         if(req_result.equals("success")){
-            return jsonobj.get("conversion_rate").getAsDouble();
+            result=jsonobj.get("conversion_rate").getAsDouble();
+            destination.setText(Double.toString(result * Double.parseDouble(base.getText())));
         }
         else{
-            return null;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error26"));
+            alert.showAndWait();
         }
+    }
+
+    private void loadChoiceBoxes(){
+        ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "GBP", "JPY", "RWF");
+        from_currency.setItems(currencies);
+        to_currency.setItems(currencies);
+    }
+
+    private void setActionForChoiceBoxes(){
+        from_currency.setOnAction((event) -> {
+            from.clear();
+            if(from_currency.getValue() != null){
+                from.setText("1");
+                if(to_currency.getValue() != null){
+                    try {
+                        convert(from_currency.getValue(), to_currency.getValue(), from, to);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        to_currency.setOnAction((event) -> {
+            Double result = null;
+            if(from_currency.getValue()==null || to_currency.getValue()==null)
+                to.clear();
+            else{ //the base (from_currency) and the destination (to_currency) are defined(from_currency)
+                if(from.getText()==null||from.getText().isEmpty())
+                    from.setText("1");
+                if (from_currency.getValue().equals(to_currency.getValue()))
+                    to.setText(from.getText());
+                else{//the base (from_currency) and the destination (to_currency) have a different value
+                    try {
+                        convert(from_currency.getValue(), to_currency.getValue(), from, to);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setActionForTextFields(){
+        from.setOnAction((event) -> {
+            to.clear();
+            if(from_currency.getValue() == null|| !Validators.isNumeric(from.getText()))
+                from.clear();
+            else{ //from.getText() is numeric
+                try {
+                    convert(from_currency.getValue(), to_currency.getValue(), from, to);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        to.setOnAction((event) -> {
+            if(from_currency.getValue() == null|| to_currency.getValue()==null || !Validators.isNumeric(to.getText()))
+                to.clear();
+            else{ //to.getText() is numeric
+                try {
+                    convert(to_currency.getValue(), from_currency.getValue(), to, from);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

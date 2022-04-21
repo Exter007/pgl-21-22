@@ -98,16 +98,27 @@ public class Validators {
      * @param value
      * @return
      */
-    public static float convertToFloat(String value){
-        try{
+    public static float convertToFloat(String value) {
+        try {
             float floatValue = Float.valueOf(value);
             return floatValue;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(DashboardController.bundle.getString("error181")
                     + value + " " + DashboardController.bundle.getString("error182"));
             alert.showAndWait();
         }
         return 0;
+    }
+
+    /**
+     * Check if a string is numeric
+     * @param chain the string
+     * @return true if chain is numeric, false if not
+     */
+    public static boolean isNumeric(String chain){
+        boolean isNum = false;
+        isNum = chain.matches("[0-9]+[\\.]?[0-9]*");
+        return isNum;
     }
 }

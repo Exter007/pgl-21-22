@@ -320,16 +320,16 @@ public class WalletController implements Initializable {
         }
     }
 
-//    /**
-//     * Open a window allowing you to request transfer from an institution
-//     * @param event the click of the mouse on the button
-//     */
-//    @FXML
-//    private void ask_transfer(MouseEvent event) {
+    /**
+     * Open a window allowing you to request transfer from an institution
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+   private void ask_transfer(MouseEvent event) {
 //        ImageView img = (ImageView) event.getSource();
 //        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
 //        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
-//    }
+    }
 
     /**
      * Open a window asking for a delete confirmation
@@ -423,11 +423,12 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void export(MouseEvent event) {
-        if(walletService.getCurrentWallet() != null){
+        Wallet currentWallet = walletService.getCurrentWallet();
+        if(currentWallet != null){
             //take the date so each time the user downloads a CSV file, its name is different
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String currentDateTime = dateFormatter.format(new Date());
-            List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
+            List<FinancialProduct> financialProducts = financialProductService.getFinancialProductsByWallet();
 
             //TODO ajouter la configuration(avec différent critère)
 
