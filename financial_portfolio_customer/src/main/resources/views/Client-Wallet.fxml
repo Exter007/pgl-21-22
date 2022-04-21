@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
+<VBox prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="2042.0" prefWidth="1300.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
       <children>
@@ -84,7 +84,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView fitHeight="42.0" fitWidth="49.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/source_icons_eye-off.jpg" />
                                        </image>
@@ -95,17 +95,20 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="64.0" fitWidth="71.0" nodeOrientation="INHERIT" onMouseClicked="#on_transfer" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="42.0" fitWidth="42.0" nodeOrientation="INHERIT" onMouseClicked="#on_transfer" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
                                        </image>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" top="15.0" />
+                                       </HBox.margin>
                                     </ImageView>
-                                    <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="1237.0" layoutY="25.0" onMouseClicked="#show_notifications" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1237.0" layoutY="25.0" onMouseClicked="#show_notifications" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/source_icons_bell-notification.jpg" />
                                        </image>
                                        <HBox.margin>
-                                          <Insets left="10.0" right="10.0" top="20.0" />
+                                          <Insets left="10.0" right="10.0" top="15.0" />
                                        </HBox.margin>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
