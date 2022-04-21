@@ -320,16 +320,16 @@ public class WalletController implements Initializable {
         }
     }
 
-    /**
+    /*
      * Open a window allowing you to request transfer from an institution
      * @param event the click of the mouse on the button
-     */
+
     @FXML
    private void ask_transfer(MouseEvent event) {
-//        ImageView img = (ImageView) event.getSource();
-//        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
-//        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
-    }
+        ImageView img = (ImageView) event.getSource();
+        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
+        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
+    }*/
 
     /**
      * Open a window asking for a delete confirmation
