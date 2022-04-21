@@ -1,6 +1,6 @@
-package com.pgl.controllers;
+package com.pgl.controllers.extension1;
 
-import com.pgl.models.ApplicationClient;
+import com.pgl.controllers.LoginController;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import com.pgl.utils.Validators;

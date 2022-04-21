@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
+   <children>
+      <ScrollPane fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1300.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1953.0" prefWidth="1280.0" style="-fx-background-color: #fff;">
+               <children>
+                  <VBox alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="1963.0" prefWidth="1280.0" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0">
+                                 <image>
+                                    <Image url="@../images/icons/goBack.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Label fx:id="Wallet_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1135.0" text="Portefeuille #1" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="70.0">
+                                 <font>
+                                    <Font name="System Bold" size="34.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Label>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="994.0" layoutY="10.0" onMouseClicked="#ask_card" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons/tabler-icon-credit-card.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1051.0" layoutY="11.0" onMouseClicked="#pay_byCard" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons/tabler-icon-receipt-2.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1109.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#ask_financialProduct" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="10.0">
+                                 <image>
+                                    <Image url="@../images/icons/source_icons_add-square.jpg" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="1175.0" layoutY="10.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="10.0">
+                                 <image>
+                                    <Image url="@../images/icons/source_icons_eye-off.jpg" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="15.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="1089.0" layoutY="15.0" onMouseClicked="#show_notifications" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
+                                 <image>
+                                    <Image url="@../images/icons/source_icons_bell-notification.jpg" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" top="20.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="933.0" layoutY="10.0" onMouseClicked="#show_exchange_rate_history" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="309.0" AnchorPane.topAnchor="10.0">
+                                 <image>
+                                    <Image url="@../images/icons/source_icons_rate.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1280.0">
+                           <children>
+                              <PieChart fx:id="wallet_piechart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <Label fx:id="YourFinancialProducts_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1259.0" text="Vos produits financiers :" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="614.0" prefWidth="1004.0">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="1000.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <VBox.margin>
+                              <Insets left="120.0" right="120.0" top="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox prefHeight="120.0" prefWidth="983.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Compte courant">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox prefHeight="120.0" prefWidth="252.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Titulaires :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe" visible="false">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="140.0" text="Virement" textFill="#00be0a">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="187.0" text="7 123€">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="120.0" prefWidth="167.0">
+                                       <children>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#hide_product" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_eye-empty.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="20.0" layoutY="50.0" onMouseClicked="#ask_transfer" pickOnBounds="true" preserveRatio="true" visible="false">
+                                             <image>
+                                                <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#delete_financialProduct">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_trash.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="120.0" prefWidth="983.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.rowIndex="2">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Compte épargne">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox prefHeight="120.0" prefWidth="252.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Titulaires :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe" visible="false">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="140.0" text="Virement" textFill="#bd0000">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="187.0" text="38 613€">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="120.0" prefWidth="167.0">
+                                       <children>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#hide_product" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_eye-empty.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="20.0" layoutY="50.0" onMouseClicked="#ask_transfer" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#delete_financialProduct">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_trash.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="120.0" prefWidth="983.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.rowIndex="4">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Compte à terme">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox prefHeight="120.0" prefWidth="252.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Titulaires :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe" visible="false">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="140.0" text="Virement" textFill="#bd0000">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="187.0" text="1 612€">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="120.0" prefWidth="167.0">
+                                       <children>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#hide_product" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_eye-empty.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="20.0" layoutY="50.0" onMouseClicked="#ask_transfer" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#delete_financialProduct">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_trash.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="120.0" prefWidth="983.0" style="-fx-border-color: #000; -fx-border-radius: 10px; -fx-border-width: 2px; -fx-background-color: #fff;" GridPane.rowIndex="6">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Compte joint">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox prefHeight="120.0" prefWidth="252.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Titulaires :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="John Doe">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="120.0" prefWidth="249.0" text="Alice Amter">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="140.0" text="Virement" textFill="#00be0a">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" prefHeight="120.0" prefWidth="187.0" text="3 876€">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="120.0" prefWidth="167.0">
+                                       <children>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#hide_product" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_eye-empty.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="20.0" layoutY="50.0" onMouseClicked="#ask_transfer" pickOnBounds="true" preserveRatio="true" visible="false">
+                                             <image>
+                                                <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                          <ImageView fitHeight="36.0" fitWidth="36.0" onMouseClicked="#delete_financialProduct">
+                                             <image>
+                                                <Image url="@../images/icons/source_icons_trash.jpg" />
+                                             </image>
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="40.0" />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                        <ScrollPane prefHeight="513.0" prefWidth="1280.0" style="-fx-background-color: #fff;">
+                           <content>
+                              <AnchorPane prefHeight="773.0" prefWidth="1163.0" style="-fx-background-color: #fff;">
+                                 <children>
+                                    <TableView fx:id="products_tableview" prefHeight="530.0" prefWidth="1163.0" style="-fx-background-color: #fff;">
+                                       <columns>
+                                          <TableColumn prefWidth="174.00001513957977" style="-fx-background-color: #fff;" text="Visualiser" />
+                                          <TableColumn prefWidth="272.00001525878906" style="-fx-background-color: #fff;" text="Type de compte" />
+                                          <TableColumn prefWidth="334.6668395996094" style="-fx-background-color: #fff;" text="Titulaire(s)" />
+                                          <TableColumn minWidth="0.0" prefWidth="472.66644287109375" style="-fx-background-color: #fff;" text="Etat actuel" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="50.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </ScrollPane>
+                        <HBox alignment="CENTER" prefHeight="48.0" prefWidth="1180.0">
+                           <children>
+                              <Button fx:id="Day_btn" mnemonicParsing="false" onMouseClicked="#day" prefHeight="44.0" prefWidth="136.0" text="Journalier">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Week_btn" mnemonicParsing="false" onMouseClicked="#week" prefHeight="44.0" prefWidth="136.0" text="Hebdomadaire">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Month_btn" mnemonicParsing="false" onMouseClicked="#month" prefHeight="44.0" prefWidth="136.0" text="Mensuel">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Year_btn" mnemonicParsing="false" onMouseClicked="#year" prefHeight="44.0" prefWidth="136.0" text="Annuel">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label fx:id="From_label" text="Du">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="80.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="from_date" styleClass="button">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                              <Label fx:id="To_label" text="au">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="to_date" styleClass="button">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="1180.0">
+                           <children>
+                              <Button fx:id="Graph_btn" mnemonicParsing="false" onMouseClicked="#graph" prefHeight="44.0" prefWidth="136.0" text="Graphique">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="List_btn" mnemonicParsing="false" onMouseClicked="#list" prefHeight="44.0" prefWidth="136.0" text="Liste">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Tab_btn" mnemonicParsing="false" onMouseClicked="#tableview" prefHeight="44.0" prefWidth="136.0" text="Tableau">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="320.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <ChoiceBox fx:id="export_format" prefHeight="40.0" prefWidth="150.0">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </ChoiceBox>
+                              <Button fx:id="Export_btn" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="20.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="financialProduct_tableview" layoutX="60.0" prefHeight="389.0" prefWidth="1152.0" visible="false">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="ID" />
+                                    <TableColumn prefWidth="371.3332824707031" text="Nom du produit" />
+                                    <TableColumn prefWidth="256.00006103515625" text="Titulaire(s)" />
+                                    <TableColumn prefWidth="112.0" text="Virement" />
+                                    <TableColumn prefWidth="180.66650390625" text="Valeur actuel" />
+                                    <TableColumn prefWidth="156.0" text="Options" />
+                                 </columns>
+                              </TableView>
+                              <ListView fx:id="financialProduct_listview" layoutX="60.0" layoutY="9.0" prefHeight="381.0" prefWidth="1152.0" visible="false">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </ListView>
+                              <LineChart fx:id="financialProduct_linechart" prefHeight="400.0" prefWidth="1267.0">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                                 <padding>
+                                    <Insets left="50.0" right="50.0" />
+                                 </padding>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

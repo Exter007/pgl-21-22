@@ -3,11 +3,11 @@ package com.pgl.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.pgl.controllers.extension1.LoginWithCardController;
 import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
@@ -28,8 +28,8 @@ public class LoginController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
-    static ResourceBundle bundle;
-    static String lang = "fr";
+    public static ResourceBundle bundle;
+    public static String lang = "fr";
 
     @FXML
     private Menu menu;
@@ -113,7 +113,7 @@ public class LoginController implements Initializable {
     @FXML
     private void loginWithCard(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-LoginWithCard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/extension1/Client-LoginWithCard.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);
