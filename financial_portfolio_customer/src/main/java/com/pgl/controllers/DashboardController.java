@@ -105,6 +105,10 @@ public class DashboardController implements Initializable {
     @FXML
     private TableView wallet_tableview;
     @FXML
+    private Button consult_btn;
+    @FXML
+    private Button delete_btn;
+    @FXML
     private Button Day;
     @FXML
     private Button Week;
@@ -158,6 +162,8 @@ public class DashboardController implements Initializable {
         transaction_menu.setText(bundle.getString("Transaction_menu"));
         welcome.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet_label"));
+        consult_btn.setText(bundle.getString("Consult_btn"));
+        delete_btn.setText(bundle.getString("Delete_btn"));
 //        Wallet_label1.setText(bundle.getString("Wallet_label"));
 //        Wallet_label2.setText(bundle.getString("Wallet_label"));
 //        Wallet_label3.setText(bundle.getString("Wallet_label"));
