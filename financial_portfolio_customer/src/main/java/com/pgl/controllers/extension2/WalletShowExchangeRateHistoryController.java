@@ -92,7 +92,7 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
                     }
                     if(result == null){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setHeaderText(bundle.getString("error23"));
+                        alert.setHeaderText(bundle.getString("error26"));
                         alert.showAndWait();
                     }
                     else
