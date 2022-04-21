@@ -56,7 +56,7 @@ public class WalletHideProductsController implements Initializable {
     @FXML
     private void goBack(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/test.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Wallet.fxml"));
             Stage newWindow = new Stage();
             Scene scene = new Scene(root);
             newWindow.setScene(scene);

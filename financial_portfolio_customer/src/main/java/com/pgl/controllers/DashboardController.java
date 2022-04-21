@@ -370,8 +370,7 @@ public class DashboardController implements Initializable {
     @FXML
     private void on_display(MouseEvent event){
         if(walletService.getCurrentWallet() != null){
-            //DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
-            DynamicViews.loadBorderCenter(border_pane, "test");
+            DynamicViews.loadBorderCenter(border_pane, "Client-Wallet");
         }else{
             walletService.not_selected_error();
         }
