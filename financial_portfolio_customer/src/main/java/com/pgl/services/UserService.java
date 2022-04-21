@@ -186,6 +186,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
@@ -197,7 +198,11 @@ public class UserService {
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if (Objects.requireNonNull(ex.getMessage()).contains("MailSendException")) {
+            if(ex.getMessage().contains("User not found")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Compte inexistant");
+                alert.showAndWait();
+            }else if (Objects.requireNonNull(ex.getMessage()).contains("MailSendException")) {
                 showMailException();
             } else {
                showOtherException();
@@ -218,6 +223,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
@@ -261,6 +267,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/activation");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try{

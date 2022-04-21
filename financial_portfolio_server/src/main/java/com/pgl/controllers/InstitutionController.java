@@ -267,6 +267,19 @@ public class InstitutionController {
     }
 
     /** Retrieve Bank Account by IBAN for a Financial Holder
+     * @param iban A BankAccount IBAN
+     * @return List of all the BankAccount
+     */
+    @GetMapping(value = "account/get-by-iban/{iban}")
+    public ResponseEntity<?> getProductByIBAN(@PathVariable String iban) {
+        FinancialProduct account = productService
+                .getRepository().findBankAccountByIBAN(
+                        iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT
+                );
+        return ResponseEntity.ok(account);
+    }
+
+    /** Retrieve Bank Account by IBAN for a Financial Holder
      * @param bic A FinancialInstitution's BIC
      * @param iban A BankAccount IBAN
      * @return List of all the BankAccount of a certain FinancialInstitution

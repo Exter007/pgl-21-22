@@ -34,7 +34,6 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
     static UserService userService = new UserService();
     static ResourceBundle bundle;
 
-    WalletService walletService = new WalletService();
     RequestWalletService requestWalletService = new RequestWalletService();
     FinancialInstitutionService financialInstitutionService = new FinancialInstitutionService();
 
@@ -74,16 +73,13 @@ public class Dashboard_AskWalletToInstitutionController implements Initializable
         for(FinancialInstitution f : financialInstitutions){
             institutions.add(f.getName());
         }
-
         institutionChoice.setItems(institutions);
-
         institutionChoice.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             financialInstitutions.forEach(institution -> {
                 if(institution.getName().equals(newValue)){
                     currentInstitution = institution;
                 }
             });
-
         });
     }
 

@@ -8,162 +8,50 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.pgl.controllers.WalletNotificationsController" prefHeight="649.0" prefWidth="1397.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="718.0" prefWidth="1440.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletNotificationsController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="649.0" prefWidth="1373.0" VBox.vgrow="ALWAYS">
-         <children>
-            <VBox layoutX="36.0" layoutY="5.0" prefHeight="618.0" prefWidth="1328.0">
+      <ScrollPane prefHeight="706.0" prefWidth="1333.0" style="-fx-background-color: #fff;">
+         <content>
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="909.0" prefWidth="1273.0" style="-fx-background-color: #fff;">
                <children>
-                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1300.0">
+                  <VBox prefHeight="792.0" prefWidth="1240.0" style="-fx-background-color: #fff;">
                      <children>
-                        <Label fx:id="NotificationsTitle" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Notifications" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="41.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <ScrollPane prefHeight="517.0" prefWidth="1397.0">
-                     <content>
-                        <AnchorPane prefHeight="141.0" prefWidth="1300.0" style="-fx-background-color: #fff;">
+                        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1355.0">
                            <children>
-                              <VBox prefHeight="544.0" prefWidth="1297.0">
-                                 <children>
-                                    <HBox alignment="CENTER" prefHeight="133.0" prefWidth="1300.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="ING">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Label>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Compte courant crée">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="03/01/2022">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="133.0" prefWidth="1300.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="ING">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Label>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Compte courant #2 masqué">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="02/01/2022">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="30.0" left="50.0" right="50.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="133.0" prefWidth="1300.0" style="-fx-border-color: #000; -fx-border-radius: 8;">
-                                       <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="ING">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Label>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Sujet">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="Compte courant #3 masqué">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                          <VBox alignment="CENTER" prefHeight="131.0" prefWidth="487.0">
-                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="265.0" text="Date">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="500.0" text="01/01/2022">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets left="50.0" right="50.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              <Label fx:id="Title_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Notifications" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="41.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
                            </children>
-                        </AnchorPane>
-                     </content>
-                  </ScrollPane>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="55.0" prefWidth="1300.0">
+                           <VBox.margin>
+                              <Insets left="50.0" right="50.0" top="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <AnchorPane prefHeight="141.0" prefWidth="1300.0">
+                                 <children>
+                                    <VBox fx:id="vbox" prefHeight="809.0" prefWidth="1297.0">
+                                       <children>
+
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-         </children>
-    </AnchorPane>
+          </AnchorPane>
+         </content>
+      </ScrollPane>
   </children>
 </VBox>

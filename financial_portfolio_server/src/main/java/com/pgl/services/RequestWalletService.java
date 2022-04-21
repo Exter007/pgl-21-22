@@ -4,6 +4,7 @@ import com.pgl.models.*;
 import com.pgl.repositories.FinancialProductRepository;
 import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.repositories.WalletFinancialProductRepository;
+import com.pgl.repositories.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class RequestWalletService {
 
     @Autowired
     FinancialProductRepository financialProductRepository;
+
+    @Autowired
+    WalletRepository walletRepository;
 
     @Autowired
     WalletFinancialProductRepository walletFinancialProductRepository;
@@ -55,7 +59,7 @@ public class RequestWalletService {
         FinancialInstitution institution = requestWallet.getFinancialInstitution();
         ApplicationClient client = requestWallet.getApplicationClient();
 
-        Wallet wallet = new Wallet(institution.getName(), institution, client);
+        Wallet wallet = walletRepository.save(new Wallet(institution.getName(), institution, client));
 
         List<FinancialProduct> financialProducts = new ArrayList<>();
         List<FinancialProduct> productsFound = financialProductRepository
@@ -83,8 +87,9 @@ public class RequestWalletService {
         String message = "Wallet access request accepted by the "
                 + requestWallet.getFinancialInstitution().getName();
 
-        notificationService.saveClientNotification(
+        notificationService.saveNotification(
                 requestWallet.getApplicationClient(),
+                requestWallet.getFinancialInstitution(),
                 message
         );
 
@@ -97,8 +102,9 @@ public class RequestWalletService {
         String message = "Wallet access request refused by the "
                 + requestWallet.getFinancialInstitution().getName();
 
-        notificationService.saveClientNotification(
+        notificationService.saveNotification(
                 requestWallet.getApplicationClient(),
+                requestWallet.getFinancialInstitution(),
                 message
         );
 

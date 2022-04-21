@@ -10,89 +10,70 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="682.0" prefWidth="707.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.TransferController">
+
+<VBox prefHeight="595.0" prefWidth="533.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.TransferController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="604.0" VBox.vgrow="ALWAYS">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="596.0" prefWidth="534.0">
          <children>
-            <Label fx:id="Label_SEPA" alignment="CENTER" contentDisplay="CENTER" layoutX="-6.0" layoutY="19.0" prefHeight="55.0" prefWidth="708.0" text="Virement en zone SEPA" textAlignment="CENTER">
+            <Label fx:id="Label_SEPA" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="55.0" prefWidth="474.0" text="Virement en zone SEPA" textAlignment="CENTER">
                <font>
-                  <Font name="System Bold" size="28.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="my_institution" layoutX="280.0" layoutY="93.0" text="Mon institution :">
+            <Label fx:id="my_institution" layoutX="191.0" layoutY="86.0" prefHeight="26.0" prefWidth="122.0" text="Mon institution :">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="institutionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="306.0" layoutY="131.0" text="Belfuis">
+            <Label fx:id="institutionLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="121.0" text="Belfuis">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="institutionFrom_label" layoutX="35.0" layoutY="185.0" text="Depuis :">
+            <Label fx:id="institutionFrom_label" layoutX="24.0" layoutY="190.0" text="Depuis :">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="accountFromCB" layoutX="35.0" layoutY="211.0" prefHeight="30.0" prefWidth="282.0" />
-            <Label fx:id="accountTo_label" layoutX="393.0" layoutY="181.0" text="Vers (Zone SEPA) :">
+            <ComboBox fx:id="accountFromCB" layoutX="24.0" layoutY="211.0" prefHeight="30.0" prefWidth="211.0" />
+            <Label fx:id="accountTo_label" layoutX="279.0" layoutY="185.0" text="Vers (Zone SEPA) :">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="accountTo" alignment="CENTER" layoutX="389.0" layoutY="207.0" prefHeight="38.0" prefWidth="282.0" promptText="N° de compte du déstinataire" styleClass="field">
+            <TextField fx:id="accountTo" alignment="CENTER" layoutX="278.0" layoutY="207.0" prefHeight="38.0" prefWidth="228.0" promptText="N° de compte du déstinataire" styleClass="field" />
+            <Label fx:id="recipientNameLabel" layoutX="27.0" layoutY="277.0" text="Nom du destinataire">
                <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label fx:id="recipientNameLabel" layoutX="38.0" layoutY="272.0" text="Nom du destinataire">
-               <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="recipientName" alignment="CENTER_RIGHT" layoutX="38.0" layoutY="297.0" prefHeight="38.0" prefWidth="282.0" styleClass="field">
+            <TextField fx:id="recipientName" alignment="CENTER_RIGHT" layoutX="27.0" layoutY="297.0" prefHeight="38.0" prefWidth="211.0" styleClass="field" />
+            <Label fx:id="amount_label" layoutX="281.0" layoutY="276.0" text="Montant ( € ) :">
                <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label fx:id="amount_label" layoutX="395.0" layoutY="272.0" text="Montant ( € ) :">
-               <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="amount" alignment="CENTER_RIGHT" layoutX="395.0" layoutY="298.0" prefHeight="38.0" prefWidth="282.0" promptText="0" styleClass="field">
+            <TextField fx:id="amount" alignment="CENTER_RIGHT" layoutX="281.0" layoutY="302.0" prefHeight="38.0" prefWidth="228.0" promptText="0" styleClass="field" />
+            <Label fx:id="free_comm" layoutX="33.0" layoutY="383.0" text="Communication libre :">
                <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label fx:id="free_comm" layoutX="44.0" layoutY="378.0" text="Communication libre :">
-               <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="freeCommunication" alignment="CENTER" layoutX="44.0" layoutY="405.0" prefHeight="38.0" prefWidth="282.0" promptText="Message" styleClass="field">
+            <TextField fx:id="freeCommunication" alignment="CENTER" layoutX="23.0" layoutY="405.0" prefHeight="38.0" prefWidth="221.0" promptText="Message" styleClass="field" />
+            <Label fx:id="or_label" layoutX="252.0" layoutY="411.0" text="OU">
                <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label fx:id="or_label" layoutX="348.0" layoutY="410.0" text="OU">
-               <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="structured_comm" layoutX="395.0" layoutY="378.0" text="Communication structurée :">
+            <Label fx:id="structured_comm" layoutX="281.0" layoutY="382.0" text="Communication structurée :">
                <font>
-                  <Font size="16.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="structuredCommunication" alignment="CENTER" layoutX="395.0" layoutY="404.0" prefHeight="38.0" prefWidth="282.0" promptText="+++ 000 / 0000 / 000XX +++" styleClass="field">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Line endX="463.5000305175781" layoutX="178.0" layoutY="508.0" startX="-100.0" stroke="#9f9f9f" />
-            <PasswordField fx:id="password" alignment="CENTER" layoutX="162.0" layoutY="543.0" prefHeight="37.0" prefWidth="383.0" promptText="Mot de passe" styleClass="field" />
-            <Button fx:id="transferButton" layoutX="229.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="37.0" prefWidth="249.0" text="Effectuer le virement" />
+            <TextField fx:id="structuredCommunication" alignment="CENTER" layoutX="282.0" layoutY="405.0" prefHeight="38.0" prefWidth="228.0" promptText="+++ 000 / 0000 / 000XX +++" styleClass="field" />
+            <Line endX="419.20001220703125" endY="3.0517578125E-5" layoutX="97.0" layoutY="463.0" startX="-68.4999771118164" startY="3.0517578125E-5" stroke="#9f9f9f" />
+            <PasswordField fx:id="password" alignment="CENTER" layoutX="143.0" layoutY="486.0" prefHeight="38.0" prefWidth="259.0" promptText="Mot de passe" styleClass="field" />
+            <Button fx:id="transferButton" layoutX="185.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="38.0" prefWidth="192.0" text="Effectuer le virement" />
          </children>
       </AnchorPane>
    </children>

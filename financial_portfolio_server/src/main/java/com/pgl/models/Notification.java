@@ -53,6 +53,20 @@ public class Notification extends Persistent{
         this.financialInstitution = financialInstitution;
     }
 
+    /**
+     * Class constructeur for all arguments
+     * @param message
+     * @param status
+     * @param applicationClient
+     * @param financialInstitution
+     */
+    public Notification(String message, NOTIFICATION_STATUS status, ApplicationClient applicationClient, FinancialInstitution financialInstitution) {
+        this.message = message;
+        this.status = status;
+        this.applicationClient = applicationClient;
+        this.financialInstitution = financialInstitution;
+    }
+
     /** Get the message of this notification
      *
      * @return the message in the form of a String object

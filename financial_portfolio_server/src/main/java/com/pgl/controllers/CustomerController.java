@@ -295,7 +295,20 @@ public class CustomerController {
     public ResponseEntity<?> saveNotification(@RequestBody Notification notification){
         logger.debug("Call : Save Notification");
 
-        return ResponseEntity.ok(notificationService.getRepository().save(notification));
+        return ResponseEntity.ok(notificationService.saveNotification(notification));
+    }
+
+    /**
+     * Find Unread Notifications by Application client
+     * @param registerNumber for Application Client
+     * @return
+     */
+    @GetMapping(value = "notification/unread/get-by-client/{registerNumber}")
+    public ResponseEntity<?> findUnreadNotificationsByClient(@PathVariable String registerNumber){
+        logger.debug("Call : Find Unread Notifications by Application Client");
+
+        return ResponseEntity.ok(notificationService.getRepository()
+                .findNotificationsByStatusAndClient(registerNumber, Notification.NOTIFICATION_STATUS.UNREAD));
     }
 
     /**

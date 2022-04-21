@@ -1,14 +1,11 @@
 package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
-import com.pgl.models.BankAccount;
-import com.pgl.models.FinancialProduct;
-import com.pgl.models.FinancialProductHolder;
-import com.pgl.models.User;
+import com.pgl.models.*;
+import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
-import com.pgl.utils.Exporter;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,8 +41,9 @@ public class WalletController implements Initializable {
     UserService userService = new UserService();
     static ResourceBundle bundle;
 
-
     FinancialProductService financialProductService = new FinancialProductService();
+    BankAccountService bankAccountService = new BankAccountService();
+    WalletService walletService = new WalletService();
 
     @FXML
     private Label Wallet_label;
@@ -128,22 +126,8 @@ public class WalletController implements Initializable {
         }
         setText();
         loadFinancialProducts();
-    }
 
-    private void loadFinancialProducts(){
-        List<FinancialProduct> fp = financialProductService.
-                getFinancialProductsByWallet();
-        if (fp != null) {
-            int index = 0;
-            for (FinancialProduct financialProduct : fp) {
-                createVisualFinancialProduct(financialProduct, index);
-                index += 2;
-            }
-        } else {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
-        }
-        setText();
-        /*List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
+         /*List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
         for (FinancialProduct account: financialProducts) {
             if(account instanceof CurrentAccount){
                 current_value += ((CurrentAccount) account).getAmount();
@@ -164,9 +148,23 @@ public class WalletController implements Initializable {
                         new PieChart.Data("Saving Account", saving_value),
                         new PieChart.Data("Term Account", term_value),
                         new PieChart.Data("Young Account", young_value));
-        wallet_piechart.setData(pieChartData);
+//        wallet_piechart.setData(pieChartData);
         ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
-        export_format.setItems(formats);
+//        export_format.setItems(formats);
+    }
+
+    private void loadFinancialProducts(){
+        List<FinancialProduct> fp = financialProductService.
+                getFinancialProductsByWallet();
+        if (fp != null) {
+            int index = 0;
+            for (FinancialProduct financialProduct : fp) {
+                createVisualFinancialProduct(financialProduct, index);
+                index += 2;
+            }
+        } else {
+            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
+        }
     }
 
     /**
@@ -263,15 +261,41 @@ public class WalletController implements Initializable {
     }
 
     /**
-     * Open a window allowing you to request transfer from an institution
+     * Open a window for make transaction
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void ask_transfer(MouseEvent event) {
+    private void make_transaction(MouseEvent event) {
         ImageView img = (ImageView) event.getSource();
-        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
-        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
+        FinancialProduct product = (FinancialProduct) img.getUserData();
+
+        BankAccount account = (BankAccount) product;
+        bankAccountService.setCurrentBankAccount(account);
+        bankAccountService.setEdit(true);
+
+        if (account.getNature().equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT)
+                || account.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT))
+        {
+            if (account.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED)){
+                DynamicViews.loadBorderCenter("Client-Dashboard-Transfer");
+            }else {
+                DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
+            }
+        }else {
+            DynamicViews.loadBorderCenter("Client-Dashboard-Recharge");
+        }
     }
+
+//    /**
+//     * Open a window allowing you to request transfer from an institution
+//     * @param event the click of the mouse on the button
+//     */
+//    @FXML
+//    private void ask_transfer(MouseEvent event) {
+//        ImageView img = (ImageView) event.getSource();
+//        financialProductService.setCurrentProduct((FinancialProduct) img.getUserData());
+//        DynamicViews.loadBorderCenter("Client-Wallet-AskTransferConfirmation");
+//    }
 
     /**
      * Open a window asking for a delete confirmation
@@ -365,7 +389,7 @@ public class WalletController implements Initializable {
      */
     @FXML
     private void export(MouseEvent event) {
-        if(WalletService.getCurrentWallet() != null){
+        if(walletService.getCurrentWallet() != null){
             //take the date so each time the user downloads a CSV file, its name is different
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String currentDateTime = dateFormatter.format(new Date());
@@ -379,7 +403,7 @@ public class WalletController implements Initializable {
                 alert.showAndWait();
             }else{
                 String fileName = financialProducts.get(0).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
-                Exporter.export(financialProducts, fileName, bundle, export_format);
+//                Exporter.export(financialProducts, fileName, bundle, export_format);
             }
         }
     }
@@ -422,21 +446,27 @@ public class WalletController implements Initializable {
             holderName.setPrefWidth(250);
             vBoxHolders.getChildren().add(holderName);
         }
-
-        Label transfer = new Label("Virement");
-        transfer.setAlignment(javafx.geometry.Pos.CENTER);
-        transfer.setContentDisplay(ContentDisplay.CENTER);
-        transfer.setFont(new Font(20));
-        boolean transferBool;
-        if (financialProduct.getTransferAccess() != null && financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED)) {
-            transferBool = true;
-            transfer.setStyle("-fx-text-fill: #008000;");
-        } else {
-            transferBool = false;
-            transfer.setStyle("-fx-text-fill: #ff0000;");
+        Label label;
+        if(financialProduct.getClass().equals(CurrentAccount.class)
+                || financialProduct.getClass().equals(YoungAccount.class))
+        {
+            label = new Label("Virement");
+        }else {
+            label = new Label("Recharge/Décharge");
         }
-        transfer.setPrefWidth(250);
-        hBox.getChildren().add(transfer);
+
+        label.setAlignment(javafx.geometry.Pos.CENTER);
+        label.setContentDisplay(ContentDisplay.CENTER);
+        label.setFont(new Font(20));
+        if ((financialProduct.getClass().equals(CurrentAccount.class)
+                || financialProduct.getClass().equals(YoungAccount.class))
+                && !financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED)) {
+            label.setStyle("-fx-text-fill: #ff0000;");
+        } else {
+            label.setStyle("-fx-text-fill: #008000;");
+        }
+        label.setPrefWidth(250);
+        hBox.getChildren().add(label);
         if (financialProduct.getProductType().toString().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT.toString())) {
             BankAccount bk = (BankAccount) financialProduct;
             Label amount = new Label(bk.getAmount() + " €");
@@ -467,21 +497,22 @@ public class WalletController implements Initializable {
         imgHideProduct.setPickOnBounds(true);
         hbox2.getChildren().add(imgHideProduct);
 
-        ImageView imgTransferProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
-        imgTransferProduct.setOnMouseClicked(this::ask_transfer);
-        imgTransferProduct.setFitHeight(36);
-        imgTransferProduct.setFitWidth(36);
-        imgTransferProduct.setPreserveRatio(true);
-        imgTransferProduct.setPickOnBounds(true);
-        imgTransferProduct.setLayoutX(20);
-        imgTransferProduct.setLayoutY(50);
-        if (!transferBool && financialProduct.getTransferAccess() != null && (financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.DENIED) || financialProduct.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.UNAVAILABLE))) {
-            imgTransferProduct.setVisible(false);
-        } else {
-            imgTransferProduct.setVisible(true);
-            imgTransferProduct.setUserData(financialProduct);
+        ImageView imgTransactionProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
+        imgTransactionProduct.setOnMouseClicked(this::make_transaction);
+        imgTransactionProduct.setFitHeight(36);
+        imgTransactionProduct.setFitWidth(36);
+        imgTransactionProduct.setPreserveRatio(true);
+        imgTransactionProduct.setPickOnBounds(true);
+        imgTransactionProduct.setLayoutX(20);
+        imgTransactionProduct.setLayoutY(50);
+
+        if(financialProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
+            imgTransactionProduct.setVisible(true);
+            imgTransactionProduct.setUserData(financialProduct);
+        }else {
+            imgTransactionProduct.setVisible(false);
         }
-        hbox2.getChildren().add(imgTransferProduct);
+        hbox2.getChildren().add(imgTransactionProduct);
 
         ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/source_icons_trash.jpg").toString());
         imgDeleteProduct.setOnMouseClicked(this::delete_financialProduct);

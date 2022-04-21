@@ -10,4 +10,7 @@ import java.util.List;
 public interface NotificationRepository extends CrudRepository<Notification, Long> {
     @Query("SELECT r FROM Notification r where r.applicationClient.nationalRegister=:n")
     List<Notification> findNotificationsByClient(@Param("n") String clientNumber);
+
+    @Query("SELECT r FROM Notification r where r.applicationClient.nationalRegister=:n and r.status=:s")
+    List<Notification> findNotificationsByStatusAndClient(@Param("n") String clientNumber, @Param("s")Notification.NOTIFICATION_STATUS notification_status);
 }

@@ -84,7 +84,7 @@ public class UserService {
                 alert.setContentText("Veuillez valider votre compte avec le code envoyé par email");
                 alert.showAndWait();
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/Client-AccountValidation.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/institution-AccountValidation.fxml"));
                     Stage newWindow = new Stage();
                     Scene scene = new Scene(root);
                     newWindow.setScene(scene);
@@ -147,7 +147,7 @@ public class UserService {
 
             if (ex.getMessage().contains("This User already exists")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Un compte avec ce numéro de registre existe déjà");
+                alert.setHeaderText("Un compte avec ce numéro de registre ou cet email existe déjà");
                 alert.showAndWait();
             } else if (ex.getMessage().contains("MailSendException")) {
                 System.out.println("Error : "+ ex.getMessage());
@@ -182,6 +182,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/send-code");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
@@ -193,7 +194,11 @@ public class UserService {
 
         }catch (HttpClientErrorException ex) {
             System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-            if (ex.getMessage().contains("MailSendException")) {
+            if(ex.getMessage().contains("User not found")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Compte inexistant");
+                alert.showAndWait();
+            }else if (ex.getMessage().contains("MailSendException")) {
                 showMailException();
             } else {
                 showOtherException();
@@ -214,6 +219,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/reset-password/validation");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try {
@@ -257,6 +263,7 @@ public class UserService {
         String url = GlobalVariables.CONTEXT_PATH.concat("/account/register/activation");
         System.out.println("url: "+url);
 
+        httpClientService.initHeaders();
         HttpEntity<Object> httpEntity = getHttpEntity(user);
 
         try{

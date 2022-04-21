@@ -2,10 +2,7 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
-import com.pgl.services.ApplicationClientService;
-import com.pgl.services.FinancialProductService;
-import com.pgl.services.TransactionService;
-import com.pgl.services.WalletService;
+import com.pgl.services.*;
 import com.pgl.utils.Validators;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,9 +20,9 @@ public class RechargeController implements Initializable {
     ApplicationClientService clientService = new ApplicationClientService();
     WalletService walletService = new WalletService();
     TransactionService transactionService = new TransactionService();
-    FinancialProductService productService = new FinancialProductService();
+    BankAccountService bankAccountService = new BankAccountService();
     Wallet currentWallet = walletService.getCurrentWallet();
-    BankAccount currentBankAccount = (BankAccount) productService.getCurrentProduct();
+    BankAccount currentBankAccount = bankAccountService.getCurrentBankAccount();
     float fAmount;
     static ResourceBundle bundle;
 
@@ -58,7 +55,7 @@ public class RechargeController implements Initializable {
     @FXML
     private Label amount_label;
     @FXML
-    private Label amount;
+    private TextField amount;
     @FXML
     private PasswordField password;
     @FXML
@@ -92,8 +89,8 @@ public class RechargeController implements Initializable {
 
     private void setData() {
         institutionLabel.setText(currentWallet.getName());
+        amountAccount.setText(String.valueOf(currentBankAccount.getAmount()));
         account.setText(currentBankAccount.getNature().name());
-        account.setText(String.valueOf(currentBankAccount.getAmount()));
         linkedAccount.setText(currentBankAccount.getJointIban().getIban());
         amountLinkedAccount.setText(String.valueOf(currentBankAccount.getJointIban().getAmount()));
         loadOperationCB();

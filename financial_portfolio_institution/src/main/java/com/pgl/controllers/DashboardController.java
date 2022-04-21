@@ -62,7 +62,7 @@ public class DashboardController implements Initializable {
     @FXML
     private MenuItem Clients_menu;
     @FXML
-    private Menu Products_menu;
+    private Menu manage_menu;
     @FXML
     private MenuItem BankAccounts_menu;
     @FXML
@@ -106,7 +106,7 @@ public class DashboardController implements Initializable {
         Home_menu.setText(bundle.getString("Home_menu"));
         FinancialProduct_menu.setText(bundle.getString("FinancialProduct_menu"));
         Clients_menu.setText(bundle.getString("Clients_menu"));
-        Products_menu.setText(bundle.getString("Products_menu"));
+        manage_menu.setText(bundle.getString("Manage_menu"));
         BankAccounts_menu.setText(bundle.getString("BankAccounts_menu"));
         Assurances_menu.setText(bundle.getString("Assurances_menu"));
         filters_label.setText(bundle.getString("Filters_label"));
@@ -371,15 +371,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void show_Notifications(MouseEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Institution-Dashboard-Notifications.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        }
+        DynamicViews.loadBorderCenter("Institution-Dashboard-Notifications");
     }
 
     /**

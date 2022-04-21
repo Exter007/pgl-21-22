@@ -196,14 +196,16 @@
             <Menu fx:id="Home_menu" mnemonicParsing="false" text="Acceuil">
               <items>
                 <MenuItem fx:id="FinancialProduct_menu" mnemonicParsing="false" onAction="#on_product" text="Produits financiers" />
-                  <MenuItem fx:id="Clients_menu" mnemonicParsing="false" onAction="#on_client" text="Clients" />
               </items>
             </Menu>
-            <Menu fx:id="Products_menu" mnemonicParsing="false" text="Produits">
-              <items>
+            <Menu fx:id="manage_menu" mnemonicParsing="false" text="Gestion">
+               <items>
+                  <MenuItem fx:id="Clients_menu" mnemonicParsing="false" onAction="#on_client" text="Clients" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem fx:id="BankAccounts_menu" mnemonicParsing="false" onAction="#on_accounts" text="Comptes bancaires" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="Assurances_menu" mnemonicParsing="false" onAction="#on_insurances" text="Assurances" />
-              </items>
+               </items>
             </Menu>
         </menus>
       </MenuBar>

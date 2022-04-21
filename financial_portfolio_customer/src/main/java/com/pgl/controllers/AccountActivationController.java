@@ -50,7 +50,7 @@ public class AccountActivationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = RegisterController.bundle;
+        bundle = LoginController.bundle;
         setText();
     }
 

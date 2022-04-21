@@ -12,7 +12,7 @@ import java.util.Objects;
 public class WalletFinancialProduct implements Serializable {
 
     @EmbeddedId
-    WalletFinancialProductKey invitationKey;
+    WalletFinancialProductKey invitationKey = new WalletFinancialProductKey();
 
     @Column(name = "visibility", nullable=false)
     private PRODUCT_VISIBILITY visibility;
@@ -43,6 +43,14 @@ public class WalletFinancialProduct implements Serializable {
         this.wallet = wallet;
         this.financialProduct = financialProduct;
         this.visibility = visibility;
+    }
+
+    public WalletFinancialProductKey getInvitationKey() {
+        return invitationKey;
+    }
+
+    public void setInvitationKey(WalletFinancialProductKey invitationKey) {
+        this.invitationKey = invitationKey;
     }
 
     /** Get the visibility of this product
@@ -110,6 +118,22 @@ class WalletFinancialProductKey implements Serializable {
 
     @Column(name = "financial_product_id")
     Long financialProductId;
+
+    public Long getWalletId() {
+        return walletId;
+    }
+
+    public void setWalletId(Long walletId) {
+        this.walletId = walletId;
+    }
+
+    public Long getFinancialProductId() {
+        return financialProductId;
+    }
+
+    public void setFinancialProductId(Long financialProductId) {
+        this.financialProductId = financialProductId;
+    }
 
     @Override
     public boolean equals(Object o) {

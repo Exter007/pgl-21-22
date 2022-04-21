@@ -39,7 +39,7 @@ public class AccountActivationController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        code.setText(bundle.getString("Code_field"));
+        code.setPromptText(bundle.getString("Code_field"));
         Check_label.setText(bundle.getString("Check_label"));
         Check_btn.setText(bundle.getString("Check_btn"));
     }
@@ -49,7 +49,7 @@ public class AccountActivationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = RegisterController.bundle;
+        bundle = LoginController.bundle;
         setText();
     }
 

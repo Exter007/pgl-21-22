@@ -105,17 +105,22 @@ public class TransferController implements Initializable {
 
     private void loadAccountFromCB(){
         List<String> accountFromList = new ArrayList<>();
-        List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByWallet();
-        bankAccounts.forEach( bankAccount -> {
-            if ( bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT)
-                    || bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT)
-                    && bankAccount.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED))
-            {
-                accountFromList.add(bankAccount.getIban());
-            }
-        });
-
-        accountFromCB.getItems().addAll(accountFromList);
+        if(bankAccountService.isEdit()){
+            accountFromList.add(bankAccountService.getCurrentBankAccount().getIban());
+            accountFromCB.getItems().addAll(accountFromList);
+            accountFromCB.getSelectionModel().selectFirst();
+        }else {
+            List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByWallet();
+            bankAccounts.forEach( bankAccount -> {
+                if ( bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT)
+                        || bankAccount.getNature().equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT)
+                        && bankAccount.getTransferAccess().equals(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED))
+                {
+                    accountFromList.add(bankAccount.getIban());
+                }
+            });
+            accountFromCB.getItems().addAll(accountFromList);
+        }
     }
 
     /**

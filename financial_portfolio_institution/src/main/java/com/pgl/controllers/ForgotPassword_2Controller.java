@@ -35,8 +35,6 @@ public class ForgotPassword_2Controller implements Initializable {
     private TextField code;
     @FXML
     private Button reset_button;
-    @FXML
-    private Label PasswordLabel;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -46,7 +44,6 @@ public class ForgotPassword_2Controller implements Initializable {
         newPassword2.setPromptText(bundle.getString("NewPassword2_field"));
         code.setPromptText(bundle.getString("Code_field"));
         reset_button.setText(bundle.getString("Reset_btn"));
-        PasswordLabel.setText(bundle.getString("Password_label"));
     }
 
     /**

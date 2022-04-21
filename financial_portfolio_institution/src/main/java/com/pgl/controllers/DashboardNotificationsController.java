@@ -33,7 +33,6 @@ import java.util.logging.Logger;
 
 public class DashboardNotificationsController implements Initializable {
 
-    UserService userService = new UserService();
     static ResourceBundle bundle;
 
     RequestWalletService requestWalletService = new RequestWalletService();
@@ -90,7 +89,8 @@ public class DashboardNotificationsController implements Initializable {
         for (RequestTransfer requestTransfer : requestTransferList) {
             createNotification(requestTransfer.getApplicationClient().getName(),
                     requestTransfer.getApplicationClient().getFirstName(),
-                    bundle.getString("AskCreationText"),
+                    bundle.getString("AskTransfertText") + " "
+                            + requestTransfer.getBankAccount().getIban(),
                     requestTransfer.getCreationDate(),
                     requestTransfer,
                     this::accept_transfer_request,
@@ -113,10 +113,12 @@ public class DashboardNotificationsController implements Initializable {
             RequestWallet requestWallet = (RequestWallet) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestWalletService.acceptRequestWallet(requestWallet);
+                requestWallet = requestWalletService.acceptRequestWallet(requestWallet);
 
-                // Remove the notification from the vbox
-                removeNotification(button);
+                if (requestWallet != null){
+                    // Update the notification from the vbox
+                    reloadInterface();
+                }
             } catch (Exception e) {
                 System.out.println("Error while updating request wallet");
             }
@@ -137,9 +139,12 @@ public class DashboardNotificationsController implements Initializable {
             RequestWallet requestWallet = (RequestWallet) button.getUserData();
             try {
                 // Update the requested wallet to refused
-                requestWalletService.refuseRequestWallet(requestWallet);
-                // Remove the notification from the vbox
-                removeNotification(button);
+                requestWallet = requestWalletService.refuseRequestWallet(requestWallet);
+
+                if (requestWallet != null){
+                    // Update the notification from the vbox
+                    reloadInterface();
+                }
             } catch (Exception e) {
                 System.out.println("Error while updating request wallet");
             }
@@ -160,9 +165,12 @@ public class DashboardNotificationsController implements Initializable {
             RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestTransferService.acceptRequestTransfer(requestTransfer);
-                // Remove the notification from the vbox
-                removeNotification(button);
+                requestTransfer = requestTransferService.acceptRequestTransfer(requestTransfer);
+
+                if (requestTransfer != null){
+                    // Update the notification from the vbox
+                    reloadInterface();
+                }
             } catch (Exception e) {
                 System.out.println("Error while updating transfer request");
             }
@@ -183,9 +191,12 @@ public class DashboardNotificationsController implements Initializable {
             RequestTransfer requestTransfer = (RequestTransfer) button.getUserData();
             try {
                 // Update the requested wallet to accepted
-                requestTransferService.refuseRequestTransfer(requestTransfer);
-                // Remove the notification from the vbox
-                removeNotification(button);
+                requestTransfer = requestTransferService.refuseRequestTransfer(requestTransfer);
+
+                if (requestTransfer != null){
+                    // Update the notification from the vbox
+                    reloadInterface();
+                }
             } catch (Exception e) {
                 System.out.println("Error while updating request wallet");
             }
@@ -288,6 +299,14 @@ public class DashboardNotificationsController implements Initializable {
         }
         return alert.showAndWait();
     }
+
+    /**
+     * Reload interface
+     */
+    private void reloadInterface() {
+        DynamicViews.loadBorderCenter("Institution-Dashboard-Notifications");
+    }
+
     /**
      * Remove the notification from the vbox
      * @param button the button that is clicked

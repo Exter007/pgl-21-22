@@ -68,7 +68,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="42.0" fitWidth="49.0" onMouseClicked="#show_hideProducts" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/source_icons_eye-off.jpg" />
                                        </image>
@@ -79,7 +79,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="44.0" fitWidth="49.0" nodeOrientation="INHERIT" onMouseClicked="#on_transfer" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="64.0" fitWidth="71.0" nodeOrientation="INHERIT" onMouseClicked="#on_transfer" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/icons/tabler-icon-arrows-right-left.jpg" />
                                        </image>

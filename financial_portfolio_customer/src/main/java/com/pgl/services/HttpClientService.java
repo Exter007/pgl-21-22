@@ -69,7 +69,7 @@ public class HttpClientService<P>{
 
             Alert alert;
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Elément créé avec succès");
+            alert.setHeaderText("Elément enregistré avec succès");
             alert.showAndWait();
 
             return response.getBody();

@@ -371,7 +371,7 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Acceder aux details d'un element de la liste
+     * Accéder aux details d'un element de la liste
      * @param event
      */
     @FXML
@@ -405,6 +405,15 @@ public class DashboardController implements Initializable {
             walletService.not_selected_error();
         }
 
+    }
+
+    /**
+     * Open a window showing notifications of the user
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void show_notifications(MouseEvent event) {
+        DynamicViews.loadBorderCenter("Client-Wallet-Notifications");
     }
 
 

@@ -82,6 +82,7 @@ public class WalletHideProductsController implements Initializable {
      */
     @FXML
     private void delete_Product(MouseEvent event) {
+
         //TODO
 
         try {

@@ -1,5 +1,6 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
 import com.pgl.services.UserService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,8 +59,7 @@ public class WalletHideConfirmationController implements Initializable {
         alert.setHeaderText(bundle.getString("succes10"));
         alert.showAndWait();
 
-        Stage stage = (Stage) confirmButton.getScene().getWindow();
-        stage.close();
+        DynamicViews.loadBorderCenter("Client-Wallet");
     }
 
     /**
@@ -68,7 +68,6 @@ public class WalletHideConfirmationController implements Initializable {
      */
     @FXML
     private void hide_cancel(MouseEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        DynamicViews.loadBorderCenter("Client-Wallet");
     }
 }

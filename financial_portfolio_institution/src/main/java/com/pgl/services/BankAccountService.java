@@ -99,12 +99,11 @@ public class BankAccountService extends HttpClientService<LinkedHashMap> {
     }
 
     /**
-     * Retrieve Bank Account from a Financial Institution and IBAN
+     * Retrieve Bank Account from a IBAN
      * @return
      */
-    public BankAccount getBankAccountsByInstitutionAndIBAN(String iban){
-        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath +"/get-by-institution-iban/"
-                + userService.getCurrentUser().getBIC() + "/"
+    public BankAccount getBankAccountsByIBAN(String iban){
+        String url = GlobalVariables.CONTEXT_PATH_INSTITUTION + referencePath +"/get-by-iban/"
                 + iban;
 
         LinkedHashMap result = getByURL(url);

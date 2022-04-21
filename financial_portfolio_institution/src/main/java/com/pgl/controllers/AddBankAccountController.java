@@ -23,8 +23,7 @@ import java.util.ResourceBundle;
 
 public class AddBankAccountController implements Initializable {
 
-    @Inject
-    static UserService userService = new UserService();
+    UserService userService = new UserService();
     static ResourceBundle bundle;
     BankAccountService bankAccountService = new BankAccountService();
     CurrentAccountService currentAccountService = new CurrentAccountService();
@@ -303,7 +302,7 @@ public class AddBankAccountController implements Initializable {
                 BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT.name())){
 
             if( !bankAccountService.isEdit() && (jointAccount = (CurrentAccount) bankAccountService
-                    .getBankAccountsByInstitutionAndIBAN(ibanLinked.getText())) != null){
+                    .getBankAccountsByIBAN(ibanLinked.getText())) != null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(bundle.getString("error15"));
                 alert.showAndWait();
@@ -315,27 +314,16 @@ public class AddBankAccountController implements Initializable {
                     loadBankDashboard();
                 }
             }
-        }else if((jointAccount = (CurrentAccount) bankAccountService
-                .getBankAccountsByInstitutionAndIBAN(ibanLinked.getText())) == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("error16"));
-            alert.showAndWait();
-        } else if (accountNatureComboBox.getSelectionModel().getSelectedItem().equals(
-                BankAccount.ACCOUNT_NATURE.SAVING_ACCOUNT.name())){
-            if (monthlyFee.getText().isEmpty() || interest.getText().isEmpty() ||
-                    loyaltyBonus.getText().isEmpty() || ibanLinked.getText().isEmpty()){
-                show_error();
-            }else {
-                SavingsAccount result = savingAccountService.save(buildSavingAccount());
-                if (result != null){
-                    loadBankDashboard();
-                }
-            }
         }else if (accountNatureComboBox.getSelectionModel().getSelectedItem().equals(
                 BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT.name())){
-            if (monthlyFee.getText().isEmpty() || tutorRegisterNumber.getText().isEmpty() ||
+            if( !bankAccountService.isEdit() && (bankAccountService
+                    .getBankAccountsByIBAN(ibanLinked.getText())) != null){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("error15"));
+                alert.showAndWait();
+            }else if (monthlyFee.getText().isEmpty() || tutorRegisterNumber.getText().isEmpty() ||
                     maxTransactionAmount.getText().isEmpty()){
-               show_error();
+                show_error();
             }else if(!Validators.check_nationalRegisterNumber(tutorRegisterNumber.getText())){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(bundle.getString("error11"));
@@ -347,6 +335,22 @@ public class AddBankAccountController implements Initializable {
                 alert.showAndWait();
             }else{
                 YoungAccount result = youngAccountService.save(buildYoungAccount());
+                if (result != null){
+                    loadBankDashboard();
+                }
+            }
+        } else if((jointAccount = (CurrentAccount) bankAccountService
+                .getBankAccountsByIBAN(ibanLinked.getText())) == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("error16"));
+            alert.showAndWait();
+        } else if (accountNatureComboBox.getSelectionModel().getSelectedItem().equals(
+                BankAccount.ACCOUNT_NATURE.SAVING_ACCOUNT.name())){
+            if (monthlyFee.getText().isEmpty() || interest.getText().isEmpty() ||
+                    loyaltyBonus.getText().isEmpty() || ibanLinked.getText().isEmpty()){
+                show_error();
+            }else {
+                SavingsAccount result = savingAccountService.save(buildSavingAccount());
                 if (result != null){
                     loadBankDashboard();
                 }

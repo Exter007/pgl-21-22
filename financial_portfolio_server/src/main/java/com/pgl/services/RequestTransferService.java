@@ -49,23 +49,25 @@ public class RequestTransferService {
     }
 
     public RequestTransfer acceptRequestTransfer(RequestTransfer requestTransfer){
-        requestTransfer.setStatus(Request.REQUEST_STATUS.ACCEPTED);
-        requestTransfer.setModificationDate(new Date());
+        RequestTransfer reqTransfer = getRepository().findById(requestTransfer.getId()).get();
+        reqTransfer.setStatus(Request.REQUEST_STATUS.ACCEPTED);
+        reqTransfer.setModificationDate(new Date());
 
-        BankAccount bankAccount = requestTransfer.getBankAccount();
+        BankAccount bankAccount = reqTransfer.getBankAccount();
         bankAccount.setTransferAccess(FinancialProduct.TRANSFER_ACCESS.AUTHORIZED);
 
         String message = "Transfer access request accepted by the "
-                + requestTransfer.getBankAccount().getFinancialInstitution().getName();
+                + reqTransfer.getBankAccount().getFinancialInstitution().getName();
 
-        notificationService.saveClientNotification(
-                requestTransfer.getApplicationClient(),
+        notificationService.saveNotification(
+                reqTransfer.getApplicationClient(),
+                reqTransfer.getBankAccount().getFinancialInstitution(),
                 message
         );
 
         bankAccountRepository.save(bankAccount);
 
-        return getRepository().save(requestTransfer);
+        return getRepository().save(reqTransfer);
     }
 
 
@@ -78,8 +80,9 @@ public class RequestTransferService {
 
         String message = "Transfer access request refused by the "
                 + requestTransfer.getBankAccount().getFinancialInstitution().getName();
-        notificationService.saveClientNotification(
+        notificationService.saveNotification(
                 requestTransfer.getApplicationClient(),
+                requestTransfer.getBankAccount().getFinancialInstitution(),
                 message
         );
 

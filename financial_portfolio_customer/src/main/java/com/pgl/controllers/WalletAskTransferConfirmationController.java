@@ -1,6 +1,8 @@
 package com.pgl.controllers;
 
+import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
+import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.RequestTransferService;
 import com.pgl.services.UserService;
@@ -21,7 +23,7 @@ public class WalletAskTransferConfirmationController implements Initializable {
     UserService userService = new UserService();
     static ResourceBundle bundle;
 
-    FinancialProductService financialProductService = new FinancialProductService();
+    BankAccountService bankAccountService = new BankAccountService();
     RequestTransferService requestTransferService = new RequestTransferService();
 
     @FXML
@@ -55,9 +57,9 @@ public class WalletAskTransferConfirmationController implements Initializable {
      */
     @FXML
     private void ask_confirm(MouseEvent event) {
-        FinancialProduct fp = financialProductService.getCurrentProduct();
+        BankAccount bankAccount = bankAccountService.getCurrentBankAccount();
         RequestTransfer rqt = new RequestTransfer(
-                RequestTransfer.REQUEST_STATUS.PENDING, userService.getCurrentUser(),(BankAccount) fp
+                RequestTransfer.REQUEST_STATUS.PENDING, userService.getCurrentUser(), bankAccount
         );
         try {
             RequestTransfer result = requestTransferService.save(rqt);
@@ -78,8 +80,7 @@ public class WalletAskTransferConfirmationController implements Initializable {
             Logger.getLogger(WalletAskTransferConfirmationController.class.getName()).severe(e.getMessage());
         }
 
-        Stage stage = (Stage) confirmButton.getScene().getWindow();
-        stage.close();
+        DynamicViews.loadBorderCenter("Client-Wallet");
     }
 
     /**
@@ -88,7 +89,6 @@ public class WalletAskTransferConfirmationController implements Initializable {
      */
     @FXML
     private void ask_cancel(MouseEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        DynamicViews.loadBorderCenter("Client-Wallet");
     }
 }
