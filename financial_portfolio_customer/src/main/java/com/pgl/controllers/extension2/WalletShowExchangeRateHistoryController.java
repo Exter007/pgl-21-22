@@ -5,8 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.pgl.services.UserService;
 import com.pgl.utils.Validators;
-import com.tecacet.finance.service.currency.CurrencyExchangeService;
-import com.tecacet.finance.service.currency.GrandtrunkCurrencyExchangeService;
+import com.tecacet.finance.service.WebUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,10 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
     private LocalDate currentDate;
 
     @FXML
-    private ChoiceBox<String> time_periode;
+    private Button Confirm;
+
+    @FXML
+    private ChoiceBox<String> time_period;
 
     @FXML
     private ChoiceBox<String> from_currency;
@@ -51,13 +55,7 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
     @FXML
     private TextField to;
 
-    private static final String HISTORICAL_RATE_URL = "http://currencies.apps.grandtrunk.net/getrange/%s/%s/%s/%s";
-    /**
-     * Initialize all labels and fields of the interface according to the chosen language
-     */
-    private void setText(){
-
-    }
+    private static final String HISTORICAL_RATE_URL = "https://currencies.apps.grandtrunk.net/getrange/%s/%s/%s/%s";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +70,7 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         loadChoiceBoxes();
         setActionForChoiceBoxes();
         setActionForTextFields();
+        Confirm.setText(bundle.getString("Line_chart_Button"));
     }
 
     private void convert(String base_currency, String destination_currency, TextField base, TextField destination) throws IOException {
@@ -106,9 +105,9 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "GBP", "JPY", "RWF");
         from_currency.setItems(currencies);
         to_currency.setItems(currencies);
-        ObservableList<String> granularity = FXCollections.observableArrayList(bundle.getString("Year"),
+        ObservableList<String> granularity = FXCollections.observableArrayList(bundle.getString("Years"), bundle.getString("Year"),
                 bundle.getString("Month"), bundle.getString("Week"));
-        time_periode.setItems(granularity);
+        time_period.setItems(granularity);
     }
 
     private void setActionForChoiceBoxes(){
@@ -127,7 +126,6 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         });
 
         to_currency.setOnAction((event) -> {
-            Double result = null;
             if(from_currency.getValue()==null || to_currency.getValue()==null)
                 to.clear();
             else{ //the base (from_currency) and the destination (to_currency) are defined(from_currency)
@@ -146,11 +144,15 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
             }
         });
 
-        time_periode.setOnAction((event) ->{
-            if(from_currency.getValue() == null || to_currency.getValue() == null || time_periode.getValue() == null )
+        time_period.setOnAction((event) ->{
+            if(from_currency.getValue() == null || to_currency.getValue() == null || time_period.getValue() == null )
                 exchange_rate_line_chart.getData().clear();
             else{
-                setLineChart(time_periode.getValue());
+                try {
+                    setLineChart(time_period.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -181,58 +183,130 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         });
     }
 
-    private void setLineChart(String granularity){
-        double rate;
+    private void setLineChart(String granularity) throws IOException {
         exchange_rate_line_chart.getData().clear();
-        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-        if(granularity.equals(bundle.getString("Year"))){
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        String end = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(currentDate);
+        ObservableList<XYChart.Data<String, Number>> data = FXCollections.observableList(new ArrayList<>());
+
+        //Years
+        if(granularity.equals(bundle.getString("Years"))){
             exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates"));
             if(from_currency.getValue().equals(to_currency.getValue())){
                 for(int i = 1999; i < currentDate.getYear(); i++) {
-                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Year")+" "+i, 1));
-                }
-            }
-            else{//TODO
-                CurrencyExchangeService exchangeService = new GrandtrunkCurrencyExchangeService();
-                series.setName(bundle.getString("Year")+" "+currentDate.getYear());
-                for(int i = 1; i < 13; i++) {
-                    if(currentDate.getMonthValue() < i)
-                        break;
-
-                    String begun = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.of(1999, 1, 1));
-                    String end = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(currentDate);
-                    //series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), ));
-                }
-            }
-            exchange_rate_line_chart.getData().add(series);
-        }
-        else if(granularity.equals(bundle.getString("Month"))){
-            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates")+", "+granularity+" "+currentDate.getYear());
-            if(from_currency.getValue().equals(to_currency.getValue())){
-                for(int i = 1; i < 13; i++) {
-                    if(currentDate.getMonthValue() <= i)
-                        break;
-                    LocalDate date = LocalDate.of(currentDate.getYear(), i, 1);
-                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), 1));
+                    data.add(new XYChart.Data<>(bundle.getString("Year") + " " + i, 1));
                 }
             }
             else{
-                CurrencyExchangeService exchangeService = new GrandtrunkCurrencyExchangeService();
-                series.setName(bundle.getString("Year")+" "+currentDate.getYear());
-                for(int i = 1; i < 13; i++) {
-                    if(currentDate.getMonthValue() < i)
-                        break;
-                    LocalDate date = LocalDate.of(currentDate.getYear(), i, 1);
-                    // Get Historical rate
-                    rate = exchangeService.getExchangeRate(from_currency.getValue(), to_currency.getValue(), date);
-                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), rate));
+                String begin = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.of(1999, 1, 1));
+                String [] dateAndRates = getDateAndRates(begin, end);
+                for(int i = 0; i < dateAndRates.length; i=i+2) {
+                    data.add(new XYChart.Data<>(dateAndRates[i], Double.parseDouble(dateAndRates[i + 1])));
                 }
-                exchange_rate_line_chart.getData().add(series);
             }
         }
+        //Year
+        else if(granularity.equals(bundle.getString("Year"))){
+            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates")+", "+granularity+" "+(currentDate.getYear()-1)+"-"+currentDate.getYear());
+            int j = currentDate.getMonthValue();
+            if(from_currency.getValue().equals(to_currency.getValue())){
+                for(int i = 0; i < 12; i++) {
+                    data.add(new XYChart.Data<>(bundle.getString("Month" + (j % 12 + 1)), 1));
+                    j++;
+                }
+            }
+            else{
+                String begin = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.of(currentDate.getYear()-1, currentDate.getMonthValue()+1, 1));
+                String [] dateAndRates = getDateAndRates(begin, end);
+                for(int i = 0; i < dateAndRates.length; i=i+2) {
+                    data.add(new XYChart.Data<>(dateAndRates[i], Double.parseDouble(dateAndRates[i + 1])));
+                }
+            }
+        }
+        //Month
+        else if(granularity.equals(bundle.getString("Month"))){
+            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates")+", "+granularity+":"+bundle.getString("Month"+currentDate.getMonthValue()));
+            if(from_currency.getValue().equals(to_currency.getValue())){
+                for(int i = 1; i < 28; i++) {
+                    data.add(new XYChart.Data<>("Day " + i, 1));
+                }
+            }
+            else{
+                String begin = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.of(currentDate.getYear(), currentDate.getMonthValue(), 1));
+                String [] dateAndRates = getDateAndRates(begin, end);
+                for(int i = 0; i < dateAndRates.length; i=i+2) {
+                    data.add(new XYChart.Data<>(dateAndRates[i], Double.parseDouble(dateAndRates[i + 1])));
+                }
+            }
+        }
+        //Week
+        else if(granularity.equals(bundle.getString("Week"))){
+            int day = currentDate.getDayOfMonth(), month = currentDate.getMonthValue(), year = currentDate.getYear();
+            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates")+", "+granularity);
+            int j = currentDate.getDayOfWeek().getValue();
+            if(from_currency.getValue().equals(to_currency.getValue())){
+                for(int i = 0; i < 7; i++) {
+                    data.add(new XYChart.Data<>(bundle.getString("Day" + (j%7 + 1)), 1));
+                    j++;
+                }
+            }
+            else{
+                if (day<8){
+                    if(month<2){//January
+                        year = currentDate.getYear()-1;
+                        month = 12;
+                        day = 31 + currentDate.getDayOfMonth()-7;
+                    }
+                    else if(month==2){// February
+                        month = 1;
+                        if(isaLeapYear(year)){
+                            day = 29 + day-7;
+                        }
+                        else
+                            day = 28 + day-7;
+                    }
+                    else if(month==4||month==6
+                            || month==9 || month==11){
+                        month = month-1;
+                        day = 30 + day-7;
+                    }
+                    else {
+                        month = month-1;
+                        day = 31 + day-7;
+                    }
+                }
+                else {
+                    day =currentDate.getDayOfMonth()-7;
+                }
+                LocalDate date = LocalDate.of(year, month, day);
+                String begin = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(date);
+                String [] dateAndRates = getDateAndRates(begin, end);
+                for(int i = 0; i < dateAndRates.length; i=i+2) {
+                    data.add(new XYChart.Data<>(dateAndRates[i], Double.parseDouble(dateAndRates[i + 1])));
+                }
+            }
+        }
+        series.setData(data);
+        exchange_rate_line_chart.getData().add(series);
     }
 
-    private String[] getRates(String begin, String end){
+    private String[] getDateAndRates(String begin, String end) throws IOException {
         String url = String.format(HISTORICAL_RATE_URL, begin, end, from_currency.getValue(), to_currency.getValue());
+        // Get Historical rates
+        String response = WebUtil.getResponseAsString(url);
+
+        return response.split("\\s+");
+    }
+
+    private boolean isaLeapYear(int year){
+        boolean b = true;
+        if(year % 4 != 0) {
+            b = false;
+        }
+        else if (year % 100 == 0) {
+            if(year % 400 != 0)
+                b = false;
+        }
+        return b;
     }
 }
