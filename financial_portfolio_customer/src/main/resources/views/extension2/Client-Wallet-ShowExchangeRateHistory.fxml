@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension2.WalletShowExchangeRateHistoryController">
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension2.WalletShowExchangeRateHistoryController">
    <children>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="650.0">
-         <children>
-              <LineChart layoutX="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                  </xAxis>
-                  <yAxis>
-                      <NumberAxis side="LEFT" />
-                  </yAxis>
-              </LineChart>
-              <ChoiceBox fx:id="to_currency" layoutX="138.0" layoutY="200.0" prefHeight="31.0" prefWidth="74.0" AnchorPane.leftAnchor="138.0" />
-              <ChoiceBox fx:id="from_currency" layoutX="138.0" layoutY="124.0" prefHeight="31.0" prefWidth="74.0" AnchorPane.leftAnchor="138.0" />
-              <TextField fx:id="from" layoutX="19.0" layoutY="124.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="107.0" AnchorPane.leftAnchor="19.0" />
-              <TextField fx:id="to" layoutX="19.0" layoutY="200.0" prefHeight="31.0" prefWidth="107.0" AnchorPane.leftAnchor="19.0" />
-         </children>
-      </AnchorPane>
+        <LineChart fx:id="exchange_rate_line_chart" layoutX="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <ChoiceBox fx:id="to_currency" layoutX="138.0" layoutY="200.0" prefHeight="31.0" prefWidth="74.0" AnchorPane.leftAnchor="138.0" />
+        <ChoiceBox fx:id="from_currency" layoutX="138.0" layoutY="124.0" prefHeight="31.0" prefWidth="74.0" AnchorPane.leftAnchor="138.0" />
+        <TextField fx:id="from" layoutX="19.0" layoutY="124.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="107.0" AnchorPane.leftAnchor="19.0" />
+        <TextField fx:id="to" layoutX="19.0" layoutY="200.0" prefHeight="31.0" prefWidth="107.0" AnchorPane.leftAnchor="19.0" />
+      <ChoiceBox fx:id="time_periode" layoutX="36.0" layoutY="37.0" prefWidth="150.0" />
    </children>
-</HBox>
+</AnchorPane>

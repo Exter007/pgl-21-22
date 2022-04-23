@@ -4,13 +4,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.pgl.services.UserService;
-import com.pgl.services.WalletService;
 import com.pgl.utils.Validators;
+import com.tecacet.finance.service.currency.CurrencyExchangeService;
+import com.tecacet.finance.service.currency.GrandtrunkCurrencyExchangeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -19,8 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -28,11 +31,10 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
 
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-
-    WalletService walletService = new WalletService();
+    private LocalDate currentDate;
 
     @FXML
-    private ChoiceBox<String> temporal_granularity;
+    private ChoiceBox<String> time_periode;
 
     @FXML
     private ChoiceBox<String> from_currency;
@@ -49,7 +51,7 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
     @FXML
     private TextField to;
 
-
+    private static final String HISTORICAL_RATE_URL = "http://currencies.apps.grandtrunk.net/getrange/%s/%s/%s/%s";
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
@@ -66,6 +68,7 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         }else{
             bundle = null;
         }
+        currentDate = LocalDate.now();
         loadChoiceBoxes();
         setActionForChoiceBoxes();
         setActionForTextFields();
@@ -103,6 +106,9 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
         ObservableList<String> currencies = FXCollections.observableArrayList("EUR", "USD", "GBP", "JPY", "RWF");
         from_currency.setItems(currencies);
         to_currency.setItems(currencies);
+        ObservableList<String> granularity = FXCollections.observableArrayList(bundle.getString("Year"),
+                bundle.getString("Month"), bundle.getString("Week"));
+        time_periode.setItems(granularity);
     }
 
     private void setActionForChoiceBoxes(){
@@ -127,8 +133,9 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
             else{ //the base (from_currency) and the destination (to_currency) are defined(from_currency)
                 if(from.getText()==null||from.getText().isEmpty())
                     from.setText("1");
-                if (from_currency.getValue().equals(to_currency.getValue()))
+                if (from_currency.getValue().equals(to_currency.getValue())) {
                     to.setText(from.getText());
+                }
                 else{//the base (from_currency) and the destination (to_currency) have a different value
                     try {
                         convert(from_currency.getValue(), to_currency.getValue(), from, to);
@@ -136,6 +143,14 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        time_periode.setOnAction((event) ->{
+            if(from_currency.getValue() == null || to_currency.getValue() == null || time_periode.getValue() == null )
+                exchange_rate_line_chart.getData().clear();
+            else{
+                setLineChart(time_periode.getValue());
             }
         });
     }
@@ -164,5 +179,60 @@ public class WalletShowExchangeRateHistoryController implements Initializable {
                 }
             }
         });
+    }
+
+    private void setLineChart(String granularity){
+        double rate;
+        exchange_rate_line_chart.getData().clear();
+        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
+        if(granularity.equals(bundle.getString("Year"))){
+            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates"));
+            if(from_currency.getValue().equals(to_currency.getValue())){
+                for(int i = 1999; i < currentDate.getYear(); i++) {
+                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Year")+" "+i, 1));
+                }
+            }
+            else{//TODO
+                CurrencyExchangeService exchangeService = new GrandtrunkCurrencyExchangeService();
+                series.setName(bundle.getString("Year")+" "+currentDate.getYear());
+                for(int i = 1; i < 13; i++) {
+                    if(currentDate.getMonthValue() < i)
+                        break;
+
+                    String begun = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.of(1999, 1, 1));
+                    String end = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(currentDate);
+                    //series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), ));
+                }
+            }
+            exchange_rate_line_chart.getData().add(series);
+        }
+        else if(granularity.equals(bundle.getString("Month"))){
+            exchange_rate_line_chart.setTitle(bundle.getString("Historical_exchange_rates")+", "+granularity+" "+currentDate.getYear());
+            if(from_currency.getValue().equals(to_currency.getValue())){
+                for(int i = 1; i < 13; i++) {
+                    if(currentDate.getMonthValue() <= i)
+                        break;
+                    LocalDate date = LocalDate.of(currentDate.getYear(), i, 1);
+                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), 1));
+                }
+            }
+            else{
+                CurrencyExchangeService exchangeService = new GrandtrunkCurrencyExchangeService();
+                series.setName(bundle.getString("Year")+" "+currentDate.getYear());
+                for(int i = 1; i < 13; i++) {
+                    if(currentDate.getMonthValue() < i)
+                        break;
+                    LocalDate date = LocalDate.of(currentDate.getYear(), i, 1);
+                    // Get Historical rate
+                    rate = exchangeService.getExchangeRate(from_currency.getValue(), to_currency.getValue(), date);
+                    series.getData().add(new XYChart.Data<String, Number>(bundle.getString("Month"+i), rate));
+                }
+                exchange_rate_line_chart.getData().add(series);
+            }
+        }
+    }
+
+    private String[] getRates(String begin, String end){
+        String url = String.format(HISTORICAL_RATE_URL, begin, end, from_currency.getValue(), to_currency.getValue());
     }
 }
