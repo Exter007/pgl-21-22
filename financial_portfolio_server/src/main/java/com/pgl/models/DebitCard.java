@@ -13,19 +13,19 @@ import java.util.List;
 @DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class DebitCard extends Card {
 
-    @Column(name="debit_card_type", nullable = false)
+    @Column(name="debit_card_type")
     private DEBIT_CARD_TYPE debitCardType;
 
-    @Column(name="negative_balance", nullable = false)
+    @Column(name="negative_balance")
     private boolean negativeBalance;
 
-    @Column(name="negative_fee", nullable = false)
+    @Column(name="negative_fee")
     private float negativeFee;
 
-    @Column(name="amount_per_day", nullable = false)
+    @Column(name="amount_per_day")
     private int amountPerDay;
 
-    @Column(name="amount_per_week", nullable = false)
+    @Column(name="amount_per_week")
     private int amountPerWeek;
 
     /** Default constructor

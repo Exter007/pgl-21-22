@@ -13,16 +13,16 @@ import java.util.List;
 @DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
 public class CreditCard extends Card {
 
-    @Column(name="monthly_credit", nullable = false)
+    @Column(name="monthly_credit")
     private int monthlyCredit;
 
-    @Column(name="temp_monthly_credit", nullable = false)
+    @Column(name="temp_monthly_credit")
     private int tempMonthlyCredit;
 
-    @Column(name="temp_monthly_credit_end_date", nullable = false)
+    @Column(name="temp_monthly_credit_end_date")
     private Date tempMonthlyCreditEndDate;
 
-    @Column(name="credit_card_type", nullable = false)
+    @Column(name="credit_card_type")
     private CREDIT_CARD_TYPE creditCardType;
 
     /** Default constructor

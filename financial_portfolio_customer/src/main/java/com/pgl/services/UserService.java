@@ -114,6 +114,45 @@ public class UserService {
     }
 
     /**
+     * Connect a user
+     * @param cardNumber
+     * @param pin
+     * @return a boolean status login
+     */
+    public boolean loginWithCard(String cardNumber, String pin){
+        String url = GlobalVariables.CONTEXT_PATH_CARD.concat("/login");
+
+        // create user authentication object
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername(cardNumber);
+        loginRequest.setPassword(pin);
+
+        // create headers specifying that it is JSON request
+        httpClientService.initHeaders();
+        HttpHeaders authenticationHeaders = httpClientService.getHeaders();
+        HttpEntity<LoginRequest> authenticationEntity = new HttpEntity<>(loginRequest, authenticationHeaders);
+
+        try{
+            // Authenticate User and get JWT
+            ResponseEntity<JwtResponse> response = restTemplate.exchange(url, HttpMethod.POST, authenticationEntity, JwtResponse.class);
+            currentUser = new ObjectMapper().convertValue(Objects.requireNonNull(response.getBody()).getUser(), ApplicationClient.class);
+            String token = "Bearer " + response.getBody().getAccessToken();
+            HttpHeaders headers = httpClientService.getHeaders();
+            headers.set("Authorization", token);
+            httpClientService.setHeaders(headers);
+
+            return true;
+
+        }catch (HttpClientErrorException ex){
+            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
+        }catch(Exception ex) {
+            showException(ex);
+        }
+
+        return false;
+    }
+
+    /**
      * Disconnect a user
      */
     public void logout(){

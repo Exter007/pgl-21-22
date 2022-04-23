@@ -19,41 +19,41 @@ import java.util.List;
 @DiscriminatorColumn(name="TYPE",discriminatorType=DiscriminatorType.STRING)
 public abstract class Card extends FinancialProduct {
 
-    @Column(name="card_number", nullable = false)
+    @Column(name="card_number")
     private String cardNumber;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "linked_bank_account", nullable = false)
+    @JoinColumn(name = "linked_bank_account")
     private BankAccount bankAccount;
 
-    @Column(name="end_validity", nullable = false)
+    @Column(name="end_validity")
     private Date endValidityDate;
 
-    @Column(name="is_valid", nullable = false)
+    @Column(name="is_valid")
     private boolean isValid;
 
-    @Column(name="is_blocked", nullable = false)
+    @Column(name="is_blocked")
     private boolean isBlocked;
 
-    @Column(name="cvc", nullable = false)
+    @Column(name="cvc")
     private int CVC;
 
-    @Column(name="annual_fee", nullable = false)
+    @Column(name="annual_fee")
     private float annualFee;
 
-    @Column(name="commission_fee", nullable = false)
+    @Column(name="commission_fee")
     private float commissionFee;
 
-    @Column(name="internationally_usable", nullable = false)
+    @Column(name="internationally_usable")
     private boolean internationallyUsable;
 
-    @Column(name="international_fee", nullable = false)
+    @Column(name="international_fee")
     private float internationalFee;
 
-    @Column(name="withdrawal_fee", nullable = false)
+    @Column(name="withdrawal_fee")
     private float withdrawalFee;
 
-    @Column(name="card_type", nullable = false)
+    @Column(name="card_type")
     private CARD_TYPE cardType;
 
 

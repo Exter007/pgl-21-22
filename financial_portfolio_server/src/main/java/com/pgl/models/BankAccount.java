@@ -24,7 +24,7 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="iban")
     private String iban;
 
-    @Column(name="nature", nullable = false)
+    @Column(name="nature")
     private ACCOUNT_NATURE nature;
 
     @Column(name="account_type")
@@ -36,7 +36,7 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="amount")
     private float amount;
 
-    @Column(name="currency", nullable = false)
+    @Column(name="currency")
     private CURRENCY currency;
 
     @Column(name="monthlyFee")

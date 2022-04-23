@@ -1,6 +1,7 @@
 package com.pgl.controllers.extension1;
 
 import com.pgl.controllers.LoginController;
+import com.pgl.models.ApplicationClient;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import com.pgl.utils.Validators;
@@ -83,13 +84,9 @@ public class LoginWithCardController implements Initializable {
             alert.setHeaderText(bundle.getString("error19"));
             alert.showAndWait();
         }else{
-            /*ApplicationClient user = new ApplicationClient();
-            user.setNationalRegister(nationalRegisterNumber.getText());
-            user.setFirstName(name.getText());
-            String login = user.buildLogin();
-            boolean response = userService.login(login, password.getText());*/
+            boolean response = userService.loginWithCard(CardNumber.getText(), PINCode.getText());
 
-            if (true /*response*/){
+            if (response){
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                     Stage newWindow = new Stage();
