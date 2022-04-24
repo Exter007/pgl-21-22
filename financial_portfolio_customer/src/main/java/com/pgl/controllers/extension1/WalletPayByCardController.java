@@ -1,12 +1,7 @@
 package com.pgl.controllers.extension1;
 
-import com.pgl.controllers.DashboardController;
-import com.pgl.controllers.LoginController;
-import com.pgl.controllers.WalletController;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
-import com.pgl.utils.Validators;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,12 +19,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WalletPayByCard implements Initializable {
+public class WalletPayByCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang;
 
     @FXML
     private Label Pay_label;
@@ -74,6 +68,23 @@ public class WalletPayByCard implements Initializable {
      */
     @FXML
     private void pay_by_card(MouseEvent event) {
+        //TODO
 
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(bundle.getString("success12"));
+        alert.showAndWait();
+
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        Stage stage = (Stage) Pay_btn.getScene().getWindow();
+        stage.close();
     }
 }

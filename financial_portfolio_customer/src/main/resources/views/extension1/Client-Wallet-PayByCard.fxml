@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.PasswordField?>
 
-<VBox fx:controller="com.pgl.controllers.extension1.WalletPayByCard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="314.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.pgl.controllers.extension1.WalletPayByCardController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="314.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="287.0" prefWidth="314.0" stylesheets="@../../stylesheet/Style.css" VBox.vgrow="ALWAYS">
       <children>

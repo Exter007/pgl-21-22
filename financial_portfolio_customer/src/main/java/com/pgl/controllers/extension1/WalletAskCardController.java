@@ -1,8 +1,9 @@
 package com.pgl.controllers.extension1;
 
 import com.pgl.models.*;
-import com.pgl.services.*;
-import com.pgl.models.RequestCard;
+import com.pgl.services.BankAccountService;
+import com.pgl.services.RequestCardService;
+import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -24,12 +28,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WalletAskCard implements Initializable {
+public class WalletAskCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang;
 
 
     RequestCardService requestCardService = new RequestCardService();
@@ -107,7 +110,7 @@ public class WalletAskCard implements Initializable {
             alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
         }else{
-            BankAccount bankAccount = bankAccountService.getBankAccountByIBAN("d");
+            BankAccount bankAccount = bankAccountService.getBankAccountByIBAN("12345678910112");
             RequestCard requestCard = new RequestCard(
                     Request.REQUEST_STATUS.PENDING,
                     userService.getCurrentUser(),
@@ -134,6 +137,10 @@ public class WalletAskCard implements Initializable {
                     requestCard.setCreditCardType(CreditCard.CREDIT_CARD_TYPE.VISA);
                 }
             }
+
+            //TODO
+
+            /*
             RequestCard rc = requestCardService.save(requestCard);
             if(rc != null && rc.getStatus() == Request.REQUEST_STATUS.PENDING){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -148,7 +155,12 @@ public class WalletAskCard implements Initializable {
                 alert.setHeaderText(bundle.getString("error22"));
                 alert.showAndWait();
             }
-            try {
+            */
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(bundle.getString("success11"));
+            alert.showAndWait();
+
+            try{
                 Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
@@ -157,6 +169,8 @@ public class WalletAskCard implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
             }
+            Stage stage = (Stage) send_btn.getScene().getWindow();
+            stage.close();
         }
     }
 }

@@ -246,6 +246,12 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
               </items>
             </Menu>
+            <Menu fx:id="card_menu" mnemonicParsing="false" text="Carte">
+               <items>
+                  <MenuItem fx:id="mycard_menu" mnemonicParsing="false" onAction="#on_card" text="Mes cartes" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+               </items>
+            </Menu>
       </menus>
     </MenuBar>
    </top>
