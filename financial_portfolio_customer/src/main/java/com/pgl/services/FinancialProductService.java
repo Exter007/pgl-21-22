@@ -80,7 +80,16 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap> {
     public List<FinancialProduct> getFinancialProductsByWallet(){
         String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/get-by-wallet/"
                 + walletService.getCurrentWallet().getId();
+        return deserialization(url);
+    }
 
+    public List<FinancialProduct> getFinancialProductsByClient( ApplicationClient client){
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath+"/get-by-client/"
+                + client.getNationalRegister();
+        return deserialization(url);
+    }
+
+    private List<FinancialProduct> deserialization(String url){
         List<LinkedHashMap> results = getListByURL(url);
         List<FinancialProduct> products = new ArrayList<>();
         results.forEach( result ->{
@@ -95,7 +104,6 @@ public class FinancialProductService extends HttpClientService<LinkedHashMap> {
                 products.add(objectMapper.convertValue(result, TermAccount.class));
             }
         });
-
         return products;
     }
 }

@@ -2,11 +2,10 @@ package com.pgl.controllers;
 
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialProduct;
+import com.pgl.models.Transaction;
 import com.pgl.models.Wallet;
-import com.pgl.services.ApplicationClientService;
-import com.pgl.services.RequestWalletService;
-import com.pgl.services.UserService;
-import com.pgl.services.WalletService;
+import com.pgl.services.*;
 import com.pgl.utils.Exporter;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
@@ -17,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -35,6 +33,8 @@ public class DashboardController implements Initializable {
 
     UserService userService = new UserService();
     ApplicationClientService clientService = new ApplicationClientService();
+    FinancialProductService financialProductService = new FinancialProductService();
+    TransactionService transactionService = new TransactionService();
     public static ResourceBundle bundle;
 
     WalletService walletService = new WalletService();
@@ -45,15 +45,15 @@ public class DashboardController implements Initializable {
 
 
     @FXML
-    private Menu menu;
+    private Menu language_menu;
     @FXML
-    private Menu menu2;
+    private Menu account_menu;
     @FXML
-    private MenuItem menu21;
+    private MenuItem edit_item;
     @FXML
     private MenuItem editPassword_menu;
     @FXML
-    private Menu Home_menu;
+    private Menu home_menu;
     @FXML
     private MenuItem wallet_menu;
     @FXML
@@ -61,47 +61,11 @@ public class DashboardController implements Initializable {
     @FXML
     private MenuItem transaction_menu;
     @FXML
-    private MenuItem menu22;
+    private MenuItem logout_item;
     @FXML
     private Label welcome;
     @FXML
     private Label YourWallet_label;
-    @FXML
-    private Label Wallet_label1;
-    @FXML
-    private Label Wallet_label2;
-    @FXML
-    private Label Wallet_label3;
-    @FXML
-    private Label Wallet_label4;
-    @FXML
-    private Label Wallet_label5;
-    @FXML
-    private Label Wallet_label6;
-    @FXML
-    private Label Institution_label1;
-    @FXML
-    private Label Institution_label2;
-    @FXML
-    private Label Institution_label3;
-    @FXML
-    private Label Institution_label4;
-    @FXML
-    private Label Institution_label5;
-    @FXML
-    private Label Institution_label6;
-    @FXML
-    private Label FinancialProduct_label1;
-    @FXML
-    private Label FinancialProduct_label2;
-    @FXML
-    private Label FinancialProduct_label3;
-    @FXML
-    private Label FinancialProduct_label4;
-    @FXML
-    private Label FinancialProduct_label5;
-    @FXML
-    private Label FinancialProduct_label6;
     @FXML
     private TableView wallet_tableview;
     @FXML
@@ -121,12 +85,6 @@ public class DashboardController implements Initializable {
     @FXML
     private Label to;
     @FXML
-    private Button Graph;
-    @FXML
-    private Button List;
-    @FXML
-    private Button Tab;
-    @FXML
     private Button Export;
     @FXML
     private DatePicker from_date;
@@ -135,15 +93,9 @@ public class DashboardController implements Initializable {
     @FXML
     private ChoiceBox<String> export_format;
     @FXML
-    private TableView products_tableview;
-    @FXML
-    private ListView products_listview;
-    @FXML
-    private LineChart products_linechart;
-
+    private ChoiceBox<String> data;
     @FXML
     private BorderPane border_pane;
-
     @FXML
     private ListView<String> walletListView;
 
@@ -151,37 +103,19 @@ public class DashboardController implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        menu.setText(bundle.getString("Language_menu"));
-        menu2.setText(bundle.getString("Account_menu"));
-        menu21.setText(bundle.getString("EditProfil_menu"));
+        language_menu.setText(bundle.getString("Language_menu"));
+        account_menu.setText(bundle.getString("Account_menu"));
+        edit_item.setText(bundle.getString("EditProfil_menu"));
         editPassword_menu.setText(bundle.getString("EditPassword_menu"));
-        Home_menu.setText(bundle.getString("Home_menu"));
+        home_menu.setText(bundle.getString("Home_menu"));
         wallet_menu.setText(bundle.getString("Wallet_menu"));
-        menu22.setText(bundle.getString("Disconnect_menu"));
+        logout_item.setText(bundle.getString("Disconnect_menu"));
         manage_menu.setText(bundle.getString("Manage_menu"));
         transaction_menu.setText(bundle.getString("Transaction_menu"));
         welcome.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getFirstName());
         YourWallet_label.setText(bundle.getString("YourWallet_label"));
         consult_btn.setText(bundle.getString("Consult_btn"));
         delete_btn.setText(bundle.getString("Delete_btn"));
-//        Wallet_label1.setText(bundle.getString("Wallet_label"));
-//        Wallet_label2.setText(bundle.getString("Wallet_label"));
-//        Wallet_label3.setText(bundle.getString("Wallet_label"));
-//        Wallet_label4.setText(bundle.getString("Wallet_label"));
-//        Wallet_label5.setText(bundle.getString("Wallet_label"));
-//        Wallet_label6.setText(bundle.getString("Wallet_label"));
-//        Institution_label1.setText(bundle.getString("Institution_label"));
-//        Institution_label2.setText(bundle.getString("Institution_label"));
-//        Institution_label3.setText(bundle.getString("Institution_label"));
-//        Institution_label4.setText(bundle.getString("Institution_label"));
-//        Institution_label5.setText(bundle.getString("Institution_label"));
-//        Institution_label6.setText(bundle.getString("Institution_label"));
-//        FinancialProduct_label1.setText(bundle.getString("FinancialProductNumber_label"));
-//        FinancialProduct_label2.setText(bundle.getString("FinancialProductNumber_label"));
-//        FinancialProduct_label3.setText(bundle.getString("FinancialProductNumber_label"));
-//        FinancialProduct_label4.setText(bundle.getString("FinancialProductNumber_label"));
-//        FinancialProduct_label5.setText(bundle.getString("FinancialProductNumber_label"));
-//        FinancialProduct_label6.setText(bundle.getString("FinancialProductNumber_label"));
         //TODO : Les nom des collums du tableau
         Day.setText(bundle.getString("Day_btn"));
         Week.setText(bundle.getString("Week_btn"));
@@ -189,9 +123,6 @@ public class DashboardController implements Initializable {
         Year.setText(bundle.getString("Year_btn"));
         from.setText(bundle.getString("From_label"));
         to.setText(bundle.getString("To_label"));
-        Graph.setText(bundle.getString("Graph_btn"));
-        List.setText(bundle.getString("List_btn"));
-        Tab.setText(bundle.getString("Tab_btn"));
         export_format.setTooltip(new Tooltip(bundle.getString("Export_format")));
         Export.setText(bundle.getString("Export_btn"));
     }
@@ -209,10 +140,16 @@ public class DashboardController implements Initializable {
             bundle = null;
         }
         setText();
-        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
-        export_format.setItems(formats);
+        setChoiceBox();
         DynamicViews.border_pane = border_pane;
         loadWallets();
+    }
+
+    private void setChoiceBox() {
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
+        formats = FXCollections.observableArrayList(bundle.getString("Transactions"), bundle.getString("Financial_Products"));
+        data.setItems(formats);
     }
 
     public void loadWallets(){
@@ -447,57 +384,60 @@ public class DashboardController implements Initializable {
     }
 
     /**
-     * Display data in graphical form
+     * Export all data from the client's wallets
      * @param event the click of the mouse on the button
      */
+    @FXML
+    private void export(MouseEvent event) throws IOException {
+        //take the date so each time the user downloads a CSV file, its name is different
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        if(data.getValue().equals(bundle.getString("Financial_Products"))) {
+            List<FinancialProduct> financialProducts = financialProductService.getFinancialProductsByClient(userService.getCurrentUser());
+            Exporter.ActionExport(currentDateTime, financialProducts, bundle, export_format, true);
+        }
+        else if(data.getValue().equals(bundle.getString("Transactions"))){
+            List<Transaction> transactions = transactionService.getTransactionsByClient();
+            Exporter.ActionExport(currentDateTime, transactions, bundle, export_format, true);
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("Export_data"));
+            alert.showAndWait();
+        }
+    }
+
+    /*
+     * Display data in graphical form
+     * @param event the click of the mouse on the button
+     *
     @FXML
     private void graph(MouseEvent event) {
         products_tableview.visibleProperty().setValue(false);
         products_listview.visibleProperty().setValue(false);
         products_linechart.visibleProperty().setValue(true);
-    }
+    }*/
 
-    /**
+    /*
      * Display data in list form
      * @param event the click of the mouse on the button
-     */
+     *
     @FXML
     private void list(MouseEvent event) {
         products_tableview.visibleProperty().setValue(false);
         products_listview.visibleProperty().setValue(true);
         products_linechart.visibleProperty().setValue(false);
-    }
+    }*/
 
-    /**
+    /*
      * Display data in table form
      * @param event the click of the mouse on the button
-     */
+     *
     @FXML
     private void tableview(MouseEvent event) {
         products_tableview.visibleProperty().setValue(true);
         products_listview.visibleProperty().setValue(false);
         products_linechart.visibleProperty().setValue(false);
-    }
-
-    /**
-     * Export all data from the client's wallets
-     * @param event the click of the mouse on the button
-     */
-    @FXML
-    private void export(MouseEvent event) {
-        //take the date so each time the user downloads a CSV file, its name is different
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        String currentDateTime = dateFormatter.format(new Date());
-
-        //TODO ajouter la configuration(avec différent critère)
-
-        if(walletList.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("Export_wallets_alert"));
-            alert.showAndWait();
-        }else{
-            String fileName = "wallets_" + currentDateTime;
-            Exporter.export(walletList, fileName, bundle, export_format);
-        }
-    }
+    }*/
 }

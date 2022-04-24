@@ -6,10 +6,10 @@ import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
 import com.pgl.services.WalletService;
+import com.pgl.utils.Exporter;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,12 +27,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,10 +115,6 @@ public class WalletController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int current_value;
-        int saving_value;
-        int term_value;
-        int young_value = 0;
         if(userService.getCurrentUser().getLanguage().equals("fr")){
             bundle = ResourceBundle.getBundle("properties.langue", Locale.FRENCH);
         }else if(userService.getCurrentUser().getLanguage().equals("en")){
@@ -125,37 +123,38 @@ public class WalletController implements Initializable {
             bundle = null;
         }
         setText();
-        loadFinancialProducts();
+        List<FinancialProduct> fp = financialProductService.getFinancialProductsByWallet();
+        loadFinancialProducts(fp);
+        setPieChart(fp);
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
+    }
 
-         /*List<FinancialProduct> financialProducts = walletService.getWalletFinancialProductsById();
-        for (FinancialProduct account: financialProducts) {
-            if(account instanceof CurrentAccount){
-                current_value += ((CurrentAccount) account).getAmount();
-            }else if(account instanceof SavingsAccount){
-                saving_value += ((SavingsAccount) account).getAmount();
-            }else if(account instanceof TermAccount){
-                term_value += ((TermAccount) account).getAmount();
-            }else if(account instanceof YoungAccount){
-                young_vaue += ((YoungAccount) account).getAmount();
-            }
-        }*/
-        current_value =20;
-        saving_value= 800;
-        term_value = 60;
+    private void setPieChart(List<FinancialProduct> list) {
+        float current_value = 0;
+        float saving_value = 0;
+        float term_value = 0;
+        float young_value = 0;
+        for (FinancialProduct fp: list) {
+            if(fp.getClass().equals(CurrentAccount.class))
+                current_value = ((CurrentAccount) fp).getAmount();
+            else if(fp.getClass().equals(SavingsAccount.class))
+                saving_value = ((SavingsAccount) fp).getAmount();
+            else if(fp.getClass().equals(TermAccount.class))
+                term_value = ((TermAccount) fp).getAmount();
+            else if(fp.getClass().equals(YoungAccount.class))
+                young_value = ((YoungAccount) fp).getAmount();
+        }
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
                         new PieChart.Data("Current Account", current_value),
                         new PieChart.Data("Saving Account", saving_value),
                         new PieChart.Data("Term Account", term_value),
                         new PieChart.Data("Young Account", young_value));
-//        wallet_piechart.setData(pieChartData);
-        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
-//        export_format.setItems(formats);
+        wallet_piechart.setData(pieChartData);
     }
 
-    private void loadFinancialProducts(){
-        List<FinancialProduct> fp = financialProductService.
-                getFinancialProductsByWallet();
+    private void loadFinancialProducts(List<FinancialProduct> fp){
         if (fp != null) {
             int index = 0;
             for (FinancialProduct financialProduct : fp) {
@@ -422,24 +421,16 @@ public class WalletController implements Initializable {
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void export(MouseEvent event) {
-        Wallet currentWallet = walletService.getCurrentWallet();
-        if(currentWallet != null){
+    private void export(MouseEvent event) throws IOException {
+        if(walletService.getCurrentWallet() != null){
             //take the date so each time the user downloads a CSV file, its name is different
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String currentDateTime = dateFormatter.format(new Date());
             List<FinancialProduct> financialProducts = financialProductService.getFinancialProductsByWallet();
 
-            //TODO ajouter la configuration(avec différent critère)
+            // ajouter des configurations différentes(avec différent critère)
 
-            if(financialProducts.isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(bundle.getString("Export_alert"));
-                alert.showAndWait();
-            }else{
-                String fileName = financialProducts.get(0).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
-//                Exporter.export(financialProducts, fileName, bundle, export_format);
-            }
+            Exporter.ActionExport(currentDateTime, financialProducts, bundle, export_format, false);
         }
     }
 

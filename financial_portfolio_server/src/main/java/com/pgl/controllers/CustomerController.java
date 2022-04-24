@@ -140,11 +140,18 @@ public class CustomerController {
         return ResponseEntity.ok(products);
     }
 
+    @RequestMapping("product/get-by-client/{registerNumber}")
+    public ResponseEntity<?> getProductsByWallet(@PathVariable String registerNumber) {
+        List<FinancialProduct> products = financialProductRepository
+                .findProductsByClient(registerNumber);
+        return ResponseEntity.ok(products);
+    }
+
     /**
      * @param bic A FinancialInstitution's BIC
      * @return List of all the FinancialProducts held by a certain FinancialInstitution
      */
-    @GetMapping("product/gett-financial-products-by-institution/{bic}")
+    @GetMapping("product/get-financial-products-by-institution/{bic}")
     public ResponseEntity<?>  getFinancialProductsByInstitutionBIC(@PathVariable String bic) {
         List<FinancialProduct> entities = financialProductRepository.findProductsByInstitution(bic);
         return ResponseEntity.ok(entities);

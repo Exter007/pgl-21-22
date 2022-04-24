@@ -32,4 +32,7 @@ public interface FinancialProductRepository extends CrudRepository<FinancialProd
 
     @Query("SELECT f FROM BankAccount f WHERE f.productType = :t")
     List<BankAccount> findBankAccountByNationalRegister(@Param("t") FinancialProduct.PRODUCT_TYPE accountProductType);
+
+    @Query("SELECT f FROM FinancialProduct f, WalletFinancialProduct w WHERE w.wallet.applicationClient.nationalRegister = :rn and w.financialProduct.id = f.id")
+    List<FinancialProduct> findProductsByClient(@Param("rn") String rn);
 }
