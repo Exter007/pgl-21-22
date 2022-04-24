@@ -179,6 +179,14 @@ public class CustomerController {
                 .findBankAccountByIBAN(iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT));
     }
 
+    @GetMapping(value = "bank-account/find-by-user/{national_register}")
+    public ResponseEntity<?> findBankAccountByNationalRegister(@PathVariable String national_register){
+        logger.debug("Call : Find Bank Account by login");
+
+        return ResponseEntity.ok(financialProductRepository
+                .findBankAccountByNationalRegister(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT));
+    }
+
 
     // Ressources from Financial Institution
 

@@ -4,10 +4,12 @@ import com.pgl.controllers.AccountController;
 import com.pgl.models.*;
 import com.pgl.repositories.ApplicationClientRepository;
 import com.pgl.repositories.CardRepository;
+import com.pgl.repositories.RequestCardRepository;
 import com.pgl.utils.Code;
 import com.pgl.utils.LoginRequest;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,13 @@ public class CardService {
 
     public CardRepository getRepository(){
         return cardRepository;
+    }
+
+    @Autowired
+    private RequestCardRepository requestCardRepository;
+
+    public RequestCardRepository getRequestRepository(){
+        return requestCardRepository;
     }
 
     /**
@@ -84,5 +93,54 @@ public class CardService {
         }
 
         return loginRequest;
+    }
+
+    /**
+     * Create a new request card
+     * @param requestCard
+     * @return
+     */
+    public RequestCard saveRequestCard(RequestCard requestCard){
+        return getRequestRepository().save(requestCard);
+    }
+
+    public RequestCard findRequestCardByClientAndInstitution(ApplicationClient applicationClient, FinancialInstitution financialInstitution){
+        RequestCard card = getRequestRepository().findRequestCardByClientAndInstitution(applicationClient, financialInstitution);
+
+        if(card == null){
+            throw new RuntimeException("No cards");
+        }
+
+        return card;
+    }
+
+    public List<RequestCard> findAllByFinancialInstitution(String bic){
+        List<RequestCard> cards = getRequestRepository().findAllByFinancialInstitution(bic);
+
+        if(cards == null){
+            throw new RuntimeException("No cards");
+        }
+
+        return cards;
+    }
+
+    public List<RequestCard> findPendingRequestCardsByInstitution(String bic, Request.REQUEST_STATUS pendingRequestStatus){
+        List<RequestCard> cards = getRequestRepository().findPendingRequestCardsByInstitution(bic, pendingRequestStatus);
+
+        if(cards == null){
+            throw new RuntimeException("No cards");
+        }
+
+        return cards;
+    }
+
+    public RequestCard findByApplicationClientAndFinancialInstitution(String nationalRegister, String bic){
+        RequestCard card = getRequestRepository().findByApplicationClientAndFinancialInstitution(nationalRegister, bic);
+
+        if(card == null){
+            throw new RuntimeException("No cards");
+        }
+
+        return card;
     }
 }

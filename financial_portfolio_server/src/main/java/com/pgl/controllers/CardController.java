@@ -1,11 +1,9 @@
 package com.pgl.controllers;
 
-import com.pgl.models.ApplicationClient;
-import com.pgl.models.Card;
-import com.pgl.models.FinancialProduct;
-import com.pgl.models.User;
+import com.pgl.models.*;
 import com.pgl.repositories.CardRepository;
 import com.pgl.repositories.FinancialProductRepository;
+import com.pgl.repositories.RequestCardRepository;
 import com.pgl.security.UserDetailsImpl;
 import com.pgl.services.ApplicationClientService;
 import com.pgl.services.CardService;
@@ -49,6 +47,9 @@ public class CardController {
 
     @Autowired
     private CardRepository cardRepository;
+
+    @Autowired
+    private RequestCardRepository requestCardRepository;
 
     public CardController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -142,5 +143,59 @@ public class CardController {
     public ResponseEntity<?> findCardsByWallet(@PathVariable Long walletId) {
         List<Card> cards = cardRepository.findCardsByWallet(walletId);
         return ResponseEntity.ok(cards);
+    }
+
+
+    // Ressources from Request Wallet
+
+    /**
+     * @param requestCard RequestCard to be created
+     * @return The created RequestCard or null if already exists
+     */
+    @PostMapping("request-card/save")
+    public ResponseEntity<?> requestCard(@RequestBody RequestCard requestCard) {
+        logger.debug("Call : Create RequestCard");
+        return ResponseEntity.ok(cardService.saveRequestCard(requestCard));
+    }
+
+    /** Find Cards by client and institution
+     * @param applicationClient
+     * @param financialInstitution
+     * @return List of all the requests Cards
+     */
+    @RequestMapping("request-card-by-client-and-institution/{applicationClient}/{financialInstitution}")
+    public ResponseEntity<?> findRequestCardByClientAndInstitution(@PathVariable ApplicationClient applicationClient, @PathVariable FinancialInstitution financialInstitution) {
+        RequestCard card = requestCardRepository.findRequestCardByClientAndInstitution(applicationClient, financialInstitution);
+        return ResponseEntity.ok(card);
+    }
+
+    /** Find Cards by client and institution
+     * @param bic
+     * @return List of all the requests Cards
+     */
+    @RequestMapping("request-card-by-institution/{bic}")
+    public ResponseEntity<?> findAllByFinancialInstitution(@PathVariable String bic) {
+        List<RequestCard> cards = requestCardRepository.findAllByFinancialInstitution(bic);
+        return ResponseEntity.ok(cards);
+    }
+
+    /** Find Cards by client and institution
+     * @param bic
+     * @return List of all the requests Cards
+     */
+    @RequestMapping("request-card-pending-by-institution/{bic}")
+    public ResponseEntity<?> findPendingRequestCardsByInstitution(@PathVariable String bic, Request.REQUEST_STATUS pendingRequestStatus) {
+        List<RequestCard> cards = requestCardRepository.findPendingRequestCardsByInstitution(bic, pendingRequestStatus);
+        return ResponseEntity.ok(cards);
+    }
+
+    /** Find Cards by client and institution
+     * @param bic
+     * @return List of all the requests Cards
+     */
+    @RequestMapping("request-card-by-client-and-institution/{nationalRegister}/{bic}")
+    public ResponseEntity<?> findByApplicationClientAndFinancialInstitution(@PathVariable String nationalRegister, String bic) {
+        RequestCard card = requestCardRepository.findByApplicationClientAndFinancialInstitution(nationalRegister, bic);
+        return ResponseEntity.ok(card);
     }
 }

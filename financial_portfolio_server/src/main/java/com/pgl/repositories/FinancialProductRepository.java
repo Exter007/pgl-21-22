@@ -1,6 +1,9 @@
 package com.pgl.repositories;
 
+import com.pgl.models.ApplicationClient;
+import com.pgl.models.BankAccount;
 import com.pgl.models.FinancialProduct;
+import com.pgl.models.FinancialProductHolder;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +29,7 @@ public interface FinancialProductRepository extends CrudRepository<FinancialProd
 
     @Query("SELECT f FROM FinancialProduct f, WalletFinancialProduct w WHERE w.wallet.id=:id and w.financialProduct.id = f.id")
     List<FinancialProduct> findProductsByWallet(@Param("id") Long id);
+
+    @Query("SELECT f FROM BankAccount f WHERE f.productType = :t")
+    List<BankAccount> findBankAccountByNationalRegister(@Param("t") FinancialProduct.PRODUCT_TYPE accountProductType);
 }
