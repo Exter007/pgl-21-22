@@ -1,35 +1,24 @@
 package com.pgl.controllers.extension1;
 
-import com.pgl.controllers.DashboardController;
-import com.pgl.controllers.LoginController;
-import com.pgl.controllers.WalletController;
 import com.pgl.services.UserService;
-import com.pgl.utils.GlobalStage;
-import com.pgl.utils.Validators;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class WalletPayByCard implements Initializable {
+public class WalletPayByCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang;
 
     @FXML
     private Label Pay_label;

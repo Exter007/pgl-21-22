@@ -1,8 +1,9 @@
 package com.pgl.controllers.extension1;
 
 import com.pgl.models.*;
-import com.pgl.services.*;
-import com.pgl.models.RequestCard;
+import com.pgl.services.BankAccountService;
+import com.pgl.services.RequestCardService;
+import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -24,12 +28,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WalletAskCard implements Initializable {
+public class WalletAskCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang;
 
 
     RequestCardService requestCardService = new RequestCardService();

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,13 +12,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1310.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="1310.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension1.CardManageController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="1899.0" prefWidth="1300.0" stylesheets="@../../stylesheet/Style.css" VBox.vgrow="ALWAYS">
          <children>
             <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1300.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Carte de débit : 6703 1234 1234 1234 1" textAlignment="CENTER">
+                  <Label fx:id="CardNumber_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1210.0" text="Carte : 6703 1234 1234 1234 1" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="38.0" />
                      </font>
@@ -27,113 +28,113 @@
                   </Label>
                </children>
             </HBox>
-            <Button layoutX="208.0" layoutY="224.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="230.0" text="Bloquer la carte">
+            <Button fx:id="BlockCard_btn" layoutX="208.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#blockCard" prefHeight="84.0" prefWidth="230.0" text="Bloquer la carte">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button layoutX="458.0" layoutY="223.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="305.0" text="Supprimer la carte">
+            <Button fx:id="DeleteCard_btn" layoutX="458.0" layoutY="223.0" mnemonicParsing="false" onMouseClicked="#deleteCard" prefHeight="84.0" prefWidth="305.0" text="Supprimer la carte">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button layoutX="794.0" layoutY="222.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="305.0" text="Activer la carte">
+            <Button fx:id="ActiveCard_btn" layoutX="794.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#activeCard" prefHeight="84.0" prefWidth="305.0" text="Activer la carte">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <PasswordField alignment="CENTER" layoutX="624.0" layoutY="396.0" prefHeight="52.0" prefWidth="245.0" promptText="Nouveau code PIN" styleClass="field">
+            <TextField fx:id="NewPIN_field" alignment="CENTER" layoutX="624.0" layoutY="396.0" prefHeight="52.0" prefWidth="245.0" promptText="Nouveau code PIN" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
-            </PasswordField>
-            <PasswordField alignment="CENTER" layoutX="630.0" layoutY="641.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
+            </TextField>
+            <TextField fx:id="PayPerDay_field" alignment="CENTER" layoutX="630.0" layoutY="641.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
-            </PasswordField>
-            <Label layoutX="308.0" layoutY="405.0" text="Changer le code PIN :">
+            </TextField>
+            <Label fx:id="NewPIN_label" layoutX="308.0" layoutY="405.0" text="Changer le code PIN :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="492.0" text="Utilisable à l'international :">
+            <Label fx:id="International_label" layoutX="250.0" layoutY="492.0" text="Utilisable à l'international :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <ToggleButton layoutX="626.0" layoutY="485.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Activer">
+            <ToggleButton fx:id="InternationalActive_btn" onMouseClicked="#internationalActive" layoutX="626.0" layoutY="485.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Activer">
                <font>
                   <Font size="22.0" />
                </font>
             </ToggleButton>
-            <ToggleButton layoutX="802.0" layoutY="484.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Désactiver">
+            <ToggleButton fx:id="InternationalDisable_btn" onMouseClicked="#internationalDisable" layoutX="802.0" layoutY="484.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Désactiver">
                <font>
                   <Font size="22.0" />
                </font>
             </ToggleButton>
-            <Label layoutX="176.0" layoutY="564.0" text="Passer en négatif sur le compte :">
+            <Label fx:id="Negative_label" layoutX="176.0" layoutY="564.0" text="Passer en négatif sur le compte :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <ToggleButton layoutX="628.0" layoutY="567.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Activer">
+            <ToggleButton fx:id="NegativeActive_btn" onMouseClicked="#negativeActive" layoutX="628.0" layoutY="567.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Activer">
                <font>
                   <Font size="22.0" />
                </font>
             </ToggleButton>
-            <ToggleButton layoutX="804.0" layoutY="566.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Désactiver">
+            <ToggleButton fx:id="NegativeDisable_btn" onMouseClicked="#negativeDisable" layoutX="804.0" layoutY="566.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="142.0" styleClass="button" text="Désactiver">
                <font>
                   <Font size="22.0" />
                </font>
             </ToggleButton>
-            <Label layoutX="216.0" layoutY="644.0" text="Payment maximum par jour :">
+            <Label fx:id="PayPerDay_label" layoutX="216.0" layoutY="644.0" text="Payment maximum par jour :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <PasswordField alignment="CENTER" layoutX="631.0" layoutY="725.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
+            <TextField fx:id="PayPerWeek_field" alignment="CENTER" layoutX="631.0" layoutY="725.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
-            </PasswordField>
-            <Label layoutX="161.0" layoutY="728.0" text="Payment maximum par semaine :">
+            </TextField>
+            <Label fx:id="PayPerWeek_label" layoutX="161.0" layoutY="728.0" text="Payment maximum par semaine :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <PasswordField alignment="CENTER" layoutX="632.0" layoutY="814.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
+            <TextField fx:id="CreditPerMonth_field" alignment="CENTER" layoutX="632.0" layoutY="814.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
-            </PasswordField>
-            <Label layoutX="364.0" layoutY="819.0" text="Crédit par mois :">
+            </TextField>
+            <Label fx:id="CreditPerMonth_label" layoutX="364.0" layoutY="819.0" text="Crédit par mois :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <PasswordField alignment="CENTER" layoutX="631.0" layoutY="900.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
+            <TextField fx:id="TempCreditPerMonth_field" alignment="CENTER" layoutX="631.0" layoutY="900.0" prefHeight="52.0" prefWidth="180.0" promptText="€" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
-            </PasswordField>
-            <Label layoutX="145.0" layoutY="900.0" text="Crédit par mois (pendant 1 mois) :">
+            </TextField>
+            <Label fx:id="TempCreditPerMonth_label" layoutX="145.0" layoutY="900.0" text="Crédit par mois (pendant 1 mois) :">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
             <Line endX="1039.0" endY="-1.220703125E-4" layoutX="196.0" layoutY="1029.0" startX="-100.0" />
-            <PasswordField alignment="CENTER" layoutX="527.0" layoutY="1077.0" prefHeight="52.0" prefWidth="245.0" promptText="Code PIN" styleClass="field">
+            <PasswordField fx:id="PINCode_field" alignment="CENTER" layoutX="527.0" layoutY="1077.0" prefHeight="52.0" prefWidth="245.0" promptText="Code PIN" styleClass="field">
                <font>
                   <Font size="21.0" />
                </font>
             </PasswordField>
-            <Button layoutX="533.0" layoutY="1183.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="232.0" text="Valider">
+            <Button fx:id="Valid_btn" onMouseClicked="#valid" layoutX="533.0" layoutY="1183.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="232.0" text="Valider">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Label layoutX="485.0" layoutY="107.0" text="Date de validité : 02/2026">
+            <Label fx:id="ValidityDate_label" layoutX="485.0" layoutY="107.0" text="Date de validité : 02/2026">
                <font>
                   <Font size="28.0" />
                </font>
