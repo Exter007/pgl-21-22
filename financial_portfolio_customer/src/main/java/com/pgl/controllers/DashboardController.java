@@ -63,6 +63,10 @@ public class DashboardController implements Initializable {
     @FXML
     private MenuItem menu22;
     @FXML
+    private MenuItem card_menu;
+    @FXML
+    private MenuItem mycard_menu;
+    @FXML
     private Label welcome;
     @FXML
     private Label YourWallet_label;
@@ -158,6 +162,8 @@ public class DashboardController implements Initializable {
         Home_menu.setText(bundle.getString("Home_menu"));
         wallet_menu.setText(bundle.getString("Wallet_menu"));
         menu22.setText(bundle.getString("Disconnect_menu"));
+        card_menu.setText(bundle.getString("Card_menu"));
+        mycard_menu.setText(bundle.getString("Mycard_menu"));
         manage_menu.setText(bundle.getString("Manage_menu"));
         transaction_menu.setText(bundle.getString("Transaction_menu"));
         welcome.setText(bundle.getString("Welcome_label") + ' ' + userService.getCurrentUser().getFirstName());
