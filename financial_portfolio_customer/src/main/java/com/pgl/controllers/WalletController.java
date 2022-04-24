@@ -160,8 +160,8 @@ public class WalletController implements Initializable {
         List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
         financialProductHolders.add(new FinancialProductHolder(
                 "11223344412",
-                "Doe",
-                "John",
+                "Delplanque",
+                "Nicolas",
                 new Date(),
                 new FinancialInstitution(),
                 new CurrentAccount()
