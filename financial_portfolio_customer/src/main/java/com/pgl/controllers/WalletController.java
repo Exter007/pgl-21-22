@@ -156,6 +156,30 @@ public class WalletController implements Initializable {
     private void loadFinancialProducts(){
         List<FinancialProduct> fp = financialProductService.
                 getFinancialProductsByWallet();
+
+        List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
+        financialProductHolders.add(new FinancialProductHolder());
+        FinancialProduct card = new DebitCard("text",
+                new FinancialInstitution(),
+                financialProductHolders,
+                "12345678910111213",
+                new CurrentAccount(),
+                new Date(),
+                true,
+                false,
+                123,
+                3.5f,
+                2,
+                true,
+                8,
+                2.5f,
+                DebitCard.DEBIT_CARD_TYPE.BANCONTACT,
+                false,
+                10.4f,
+                2500,
+                10000);
+        fp.add(card);
+
         if (fp != null) {
             int index = 0;
             for (FinancialProduct financialProduct : fp) {
@@ -317,6 +341,40 @@ public class WalletController implements Initializable {
             }
         }else {
             DynamicViews.loadBorderCenter("Client-Dashboard-Recharge");
+        }
+    }
+
+    /**
+     * Open a manage card window
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void card_settings(MouseEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension1/Client-Card-Manage.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Open a history card window
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void card_history(MouseEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension1/Client-Card-History.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -486,6 +544,9 @@ public class WalletController implements Initializable {
                 || financialProduct.getClass().equals(YoungAccount.class))
         {
             label = new Label("Virement");
+        }else if(financialProduct.getClass().equals(DebitCard.class)
+                || financialProduct.getClass().equals(CreditCard.class)) {
+            label = new Label("6703 1234 1234 1234 1");
         }else {
             label = new Label("Recharge/Décharge");
         }
@@ -532,22 +593,45 @@ public class WalletController implements Initializable {
         imgHideProduct.setPickOnBounds(true);
         hbox2.getChildren().add(imgHideProduct);
 
-        ImageView imgTransactionProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
-        imgTransactionProduct.setOnMouseClicked(this::make_transaction);
-        imgTransactionProduct.setFitHeight(36);
-        imgTransactionProduct.setFitWidth(36);
-        imgTransactionProduct.setPreserveRatio(true);
-        imgTransactionProduct.setPickOnBounds(true);
-        imgTransactionProduct.setLayoutX(20);
-        imgTransactionProduct.setLayoutY(50);
-
         if(financialProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
+            ImageView imgTransactionProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
+            imgTransactionProduct.setOnMouseClicked(this::make_transaction);
+            imgTransactionProduct.setFitHeight(36);
+            imgTransactionProduct.setFitWidth(36);
+            imgTransactionProduct.setPreserveRatio(true);
+            imgTransactionProduct.setPickOnBounds(true);
+            imgTransactionProduct.setLayoutX(20);
+            imgTransactionProduct.setLayoutY(50);
             imgTransactionProduct.setVisible(true);
             imgTransactionProduct.setUserData(financialProduct);
-        }else {
-            imgTransactionProduct.setVisible(false);
+            hbox2.getChildren().add(imgTransactionProduct);
         }
-        hbox2.getChildren().add(imgTransactionProduct);
+
+        if(financialProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.CARD)){
+            ImageView imgHistory = new ImageView(getClass().getResource("/images/icons/tabler-icon-history.png").toString());
+            imgHistory.setOnMouseClicked(this::card_history);
+            imgHistory.setFitHeight(36);
+            imgHistory.setFitWidth(36);
+            imgHistory.setPreserveRatio(true);
+            imgHistory.setPickOnBounds(true);
+            imgHistory.setLayoutX(20);
+            imgHistory.setLayoutY(50);
+            imgHistory.setVisible(true);
+            imgHistory.setUserData(financialProduct);
+            hbox2.getChildren().add(imgHistory);
+
+            ImageView imgSettings = new ImageView(getClass().getResource("/images/icons/source_icons_settings.png").toString());
+            imgSettings.setOnMouseClicked(this::card_settings);
+            imgSettings.setFitHeight(36);
+            imgSettings.setFitWidth(36);
+            imgSettings.setPreserveRatio(true);
+            imgSettings.setPickOnBounds(true);
+            imgSettings.setLayoutX(20);
+            imgSettings.setLayoutY(50);
+            imgSettings.setVisible(true);
+            imgSettings.setUserData(financialProduct);
+            hbox2.getChildren().add(imgSettings);
+        }
 
         ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/source_icons_trash.jpg").toString());
         imgDeleteProduct.setOnMouseClicked(this::delete_financialProduct);

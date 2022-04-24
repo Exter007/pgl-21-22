@@ -1,18 +1,23 @@
 package com.pgl.controllers.extension1;
 
 import com.pgl.services.UserService;
+import com.pgl.utils.GlobalStage;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WalletPayByCardController implements Initializable {
 
@@ -63,6 +68,23 @@ public class WalletPayByCardController implements Initializable {
      */
     @FXML
     private void pay_by_card(MouseEvent event) {
+        //TODO
 
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(bundle.getString("success12"));
+        alert.showAndWait();
+
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        Stage stage = (Stage) Pay_btn.getScene().getWindow();
+        stage.close();
     }
 }

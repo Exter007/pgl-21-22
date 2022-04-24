@@ -110,7 +110,7 @@ public class WalletAskCardController implements Initializable {
             alert.setHeaderText(bundle.getString("error1"));
             alert.showAndWait();
         }else{
-            BankAccount bankAccount = bankAccountService.getBankAccountByIBAN("d");
+            BankAccount bankAccount = bankAccountService.getBankAccountByIBAN("12345678910112");
             RequestCard requestCard = new RequestCard(
                     Request.REQUEST_STATUS.PENDING,
                     userService.getCurrentUser(),
@@ -137,6 +137,10 @@ public class WalletAskCardController implements Initializable {
                     requestCard.setCreditCardType(CreditCard.CREDIT_CARD_TYPE.VISA);
                 }
             }
+
+            //TODO
+
+            /*
             RequestCard rc = requestCardService.save(requestCard);
             if(rc != null && rc.getStatus() == Request.REQUEST_STATUS.PENDING){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -151,7 +155,12 @@ public class WalletAskCardController implements Initializable {
                 alert.setHeaderText(bundle.getString("error22"));
                 alert.showAndWait();
             }
-            try {
+            */
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(bundle.getString("success11"));
+            alert.showAndWait();
+
+            try{
                 Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
                 Stage newWindow = new Stage();
                 Scene scene = new Scene(root);
@@ -160,6 +169,8 @@ public class WalletAskCardController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
             }
+            Stage stage = (Stage) send_btn.getScene().getWindow();
+            stage.close();
         }
     }
 }
