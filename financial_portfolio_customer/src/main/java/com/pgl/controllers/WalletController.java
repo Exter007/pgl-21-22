@@ -158,7 +158,14 @@ public class WalletController implements Initializable {
                 getFinancialProductsByWallet();
 
         List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
-        financialProductHolders.add(new FinancialProductHolder());
+        financialProductHolders.add(new FinancialProductHolder(
+                "11223344412",
+                "Doe",
+                "John",
+                new Date(),
+                new FinancialInstitution(),
+                new CurrentAccount()
+        ));
         FinancialProduct card = new DebitCard("text",
                 new FinancialInstitution(),
                 financialProductHolders,
