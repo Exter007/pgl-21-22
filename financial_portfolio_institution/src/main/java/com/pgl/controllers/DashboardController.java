@@ -366,6 +366,23 @@ public class DashboardController implements Initializable {
     }
 
     /**
+     * Access the card add interface
+     * @param event the click of the mouse on the menu
+     */
+    @FXML
+    private void on_cards(ActionEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/extension1/Institution-AddCard.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * Open a window showing all notifications
      * @param event the click of the mouse on the button
      */
