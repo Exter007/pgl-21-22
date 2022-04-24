@@ -1,4 +1,4 @@
-package com.pgl.controllers;
+package com.pgl.controllers.extension1;
 
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
@@ -9,7 +9,6 @@ import com.pgl.services.WalletService;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +26,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -36,7 +34,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WalletController implements Initializable {
+public class WalletCardController implements Initializable {
 
     UserService userService = new UserService();
     static ResourceBundle bundle;
@@ -154,8 +152,37 @@ public class WalletController implements Initializable {
     }
 
     private void loadFinancialProducts(){
-        List<FinancialProduct> fp = financialProductService.
-                getFinancialProductsByWallet();
+        List<FinancialProduct> fp = new ArrayList<>();
+
+        List<FinancialProductHolder> financialProductHolders = new ArrayList<>();
+        financialProductHolders.add(new FinancialProductHolder(
+                "11223344412",
+                "Delplanque",
+                "Nicolas",
+                new Date(),
+                new FinancialInstitution(),
+                new CurrentAccount()
+        ));
+        FinancialProduct card = new DebitCard("text",
+                new FinancialInstitution(),
+                financialProductHolders,
+                "12345678910111213",
+                new CurrentAccount(),
+                new Date(),
+                true,
+                false,
+                123,
+                3.5f,
+                2,
+                true,
+                8,
+                2.5f,
+                DebitCard.DEBIT_CARD_TYPE.BANCONTACT,
+                false,
+                10.4f,
+                2500,
+                10000);
+        fp.add(card);
 
         if (fp != null) {
             int index = 0;
@@ -164,7 +191,7 @@ public class WalletController implements Initializable {
                 index += 2;
             }
         } else {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, "Financial products not found");
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, "Financial products not found");
         }
     }
 
@@ -182,7 +209,7 @@ public class WalletController implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -204,7 +231,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -221,7 +248,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -238,7 +265,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -255,7 +282,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -273,7 +300,7 @@ public class WalletController implements Initializable {
             GlobalStage.setStage(newWindow);
 
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -334,7 +361,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -351,7 +378,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -379,7 +406,7 @@ public class WalletController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(WalletController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WalletCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -521,6 +548,9 @@ public class WalletController implements Initializable {
                 || financialProduct.getClass().equals(YoungAccount.class))
         {
             label = new Label("Virement");
+        }else if(financialProduct.getClass().equals(DebitCard.class)
+                || financialProduct.getClass().equals(CreditCard.class)) {
+            label = new Label("6703 1234 1234 1234 1");
         }else {
             label = new Label("Recharge/Décharge");
         }
@@ -579,6 +609,32 @@ public class WalletController implements Initializable {
             imgTransactionProduct.setVisible(true);
             imgTransactionProduct.setUserData(financialProduct);
             hbox2.getChildren().add(imgTransactionProduct);
+        }
+
+        if(financialProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.CARD)){
+            ImageView imgHistory = new ImageView(getClass().getResource("/images/icons/tabler-icon-history.png").toString());
+            imgHistory.setOnMouseClicked(this::card_history);
+            imgHistory.setFitHeight(36);
+            imgHistory.setFitWidth(36);
+            imgHistory.setPreserveRatio(true);
+            imgHistory.setPickOnBounds(true);
+            imgHistory.setLayoutX(20);
+            imgHistory.setLayoutY(50);
+            imgHistory.setVisible(true);
+            imgHistory.setUserData(financialProduct);
+            hbox2.getChildren().add(imgHistory);
+
+            ImageView imgSettings = new ImageView(getClass().getResource("/images/icons/source_icons_settings.png").toString());
+            imgSettings.setOnMouseClicked(this::card_settings);
+            imgSettings.setFitHeight(36);
+            imgSettings.setFitWidth(36);
+            imgSettings.setPreserveRatio(true);
+            imgSettings.setPickOnBounds(true);
+            imgSettings.setLayoutX(20);
+            imgSettings.setLayoutY(50);
+            imgSettings.setVisible(true);
+            imgSettings.setUserData(financialProduct);
+            hbox2.getChildren().add(imgSettings);
         }
 
         ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/source_icons_trash.jpg").toString());

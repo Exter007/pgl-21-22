@@ -334,6 +334,19 @@ public class DashboardController implements Initializable {
     }
 
     /**
+     * Open Card management interface
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_card(ActionEvent event) {
+        if(walletService.getCurrentWallet() != null){
+            DynamicViews.loadBorderCenter(border_pane, "Client-Wallet-Card");
+        }else{
+            walletService.not_selected_error();
+        }
+    }
+
+    /**
      * Open a window allowing you to request access to a wallet from an institution
      * @param event the click of the mouse on the button
      */
