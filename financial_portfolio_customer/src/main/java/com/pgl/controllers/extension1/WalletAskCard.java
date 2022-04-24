@@ -57,11 +57,11 @@ public class WalletAskCard implements Initializable {
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        askCard_label.setText(bundle.getString("askCard_label"));
-        currentAccount_label.setText(bundle.getString("currentAccount_label"));
-        cardType_label.setText(bundle.getString("cardType_label"));
-        distribution_label.setText(bundle.getString("distribution_label"));
-        send_btn.setText(bundle.getString("send_btn"));
+        askCard_label.setText(bundle.getString("AskCard_label"));
+        currentAccount_label.setText(bundle.getString("CurrentAccount_label"));
+        cardType_label.setText(bundle.getString("CardType_label"));
+        distribution_label.setText(bundle.getString("Distribution_label"));
+        send_btn.setText(bundle.getString("Send_btn"));
     }
 
     /**
@@ -76,7 +76,7 @@ public class WalletAskCard implements Initializable {
         }else{
             bundle = null;
         }
-        //setText();
+        setText();
         loadChoicebox();
     }
 
