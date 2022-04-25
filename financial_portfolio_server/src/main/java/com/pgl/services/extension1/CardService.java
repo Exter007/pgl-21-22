@@ -1,18 +1,13 @@
 package com.pgl.services.extension1;
 
-import com.pgl.controllers.AccountController;
 import com.pgl.models.*;
 import com.pgl.models.extension1.Card;
 import com.pgl.models.extension1.RequestCard;
 import com.pgl.repositories.extension1.CardRepository;
 import com.pgl.repositories.extension1.RequestCardRepository;
 import com.pgl.utils.LoginRequest;
-import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;

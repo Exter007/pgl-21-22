@@ -10,7 +10,10 @@ public class InsuranceContractService {
     @Autowired
     InsuranceContractRepository insuranceContractRepository;
 
-
+    /**
+     * Insurance Contract Repository
+     * @return repository
+     */
     public InsuranceContractRepository getRepository(){
         return insuranceContractRepository;
     }

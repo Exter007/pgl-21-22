@@ -7,7 +7,6 @@ import java.util.Date;
 /** Class that represent a transaction with a bank account available in this application
  *
  */
-
 @Entity
 public class ScheduledTransaction extends Transaction{
 

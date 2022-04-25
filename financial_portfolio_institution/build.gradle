@@ -57,18 +57,18 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.pgl.energy.application.StartApplication'
+    mainClass = 'com.pgl.application.StartApplication'
 }
 
 jlink {
     launcher {
-        name = 'com.pgl.energy.application.StartApplication'
+        name = 'com.pgl.application.StartApplication'
     }
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.pgl.energy.application.StartApplication'
+        attributes 'Main-Class': 'com.pgl.application.StartApplication'
     }
 
     from {
@@ -82,7 +82,7 @@ jar {
 
 shadowJar {
     manifest {
-        attributes 'Main-Class': 'com.pgl.energy.application.StartApplication'
+        attributes 'Main-Class': 'com.pgl.application.StartApplication'
     }
     mergeServiceFiles()
 }
