@@ -1,4 +1,4 @@
-package com.pgl.controllers;
+package com.pgl.controllers.extension1;
 
 import com.pgl.models.*;
 import com.pgl.models.extension1.Card;
