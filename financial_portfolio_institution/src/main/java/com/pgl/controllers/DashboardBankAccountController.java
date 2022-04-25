@@ -3,9 +3,12 @@ package com.pgl.controllers;
 import com.pgl.helpers.DynamicViews;
 
 import com.pgl.models.BankAccount;
+import com.pgl.models.FinancialProduct;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.BankAccountService;
 
+import com.pgl.services.FinancialProductService;
+import com.pgl.utils.Porter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,10 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class DashboardBankAccountController implements Initializable {
 
@@ -48,6 +50,8 @@ public class DashboardBankAccountController implements Initializable {
     private Button Edit_btn;
     @FXML
     private Button Delete_btn;
+    @FXML
+    private ChoiceBox<String> export_format;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -61,6 +65,8 @@ public class DashboardBankAccountController implements Initializable {
         Consult_btn.setText(bundle.getString("Consult_btn"));
         Edit_btn.setText(bundle.getString("Edit_btn"));
         Delete_btn.setText(bundle.getString("Delete_btn"));
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
     }
 
     @Override
@@ -195,8 +201,13 @@ public class DashboardBankAccountController implements Initializable {
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void export_ClientData(MouseEvent event) {
-        //TODO
+    private void export(MouseEvent event) {
+        //take the date so each time the user downloads a CSV file, its name is different
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        List<BankAccount> bankAccounts = bankAccountService.getBankAccountsByInstitution();
+        Porter.ActionExport(currentDateTime, bankAccounts, bundle, export_format);
     }
 
     /**
