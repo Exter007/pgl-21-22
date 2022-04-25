@@ -35,9 +35,9 @@ public class WalletFinancialProduct implements Serializable {
 
     /**
      * Class constructor
-     * @param wallet
-     * @param financialProduct
-     * @param visibility
+     * @param wallet a Wallet object
+     * @param financialProduct a FinancialProduct object
+     * @param visibility a PRODUCT_VISIBILITY enum
      */
     public WalletFinancialProduct(Wallet wallet, FinancialProduct financialProduct, PRODUCT_VISIBILITY visibility) {
         this.wallet = wallet;
@@ -45,10 +45,18 @@ public class WalletFinancialProduct implements Serializable {
         this.visibility = visibility;
     }
 
+    /** Get the invitation key of this product
+     *
+     * @return the invitation key in the form of a WalletFinancialProductKey object
+     */
     public WalletFinancialProductKey getInvitationKey() {
         return invitationKey;
     }
 
+    /** Set the invitation key of this product
+     *
+     * @param invitationKey the invitation key in the form of a WalletFinancialProductKey object
+     */
     public void setInvitationKey(WalletFinancialProductKey invitationKey) {
         this.invitationKey = invitationKey;
     }

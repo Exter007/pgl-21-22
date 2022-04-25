@@ -62,7 +62,7 @@ public class Transaction extends PersistentWithoutId{
      * @param bankAccount a BankAccount object
      * @param destinationIBAN a String object
      * @param destinationName a String object
-     * @param amount a float
+     * @param amount a float object
      * @param date a Date object
      * @param status a Request.REQUEST_STATUS enum
      */
@@ -84,7 +84,7 @@ public class Transaction extends PersistentWithoutId{
      * @param bankAccount a BankAccount object
      * @param destinationIBAN a String object
      * @param destinationName a String object
-     * @param amount a float
+     * @param amount a float object
      * @param communication_type a Transaction.COMMUNICATION_TYPE enum
      * @param communication a String object
      * @param date a Date object
@@ -275,7 +275,7 @@ public class Transaction extends PersistentWithoutId{
 
     /**
      * Set the formulation of this transaction
-     * @param formulation
+     * @param formulation a String object
      */
     public void setFormulation(String formulation) {
         this.formulation = formulation;

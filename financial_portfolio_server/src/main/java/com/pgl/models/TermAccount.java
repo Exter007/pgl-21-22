@@ -34,8 +34,8 @@ public class TermAccount extends BankAccount {
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
      * @param monthlyFee a float
      * @param annualYield a float
-     * @param maximumDate a Date
-     * @param penalty a long
+     * @param maximumDate a Date object
+     * @param penalty a long object
      */
     public TermAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield, Date maximumDate, long penalty) {
         super(iban, ACCOUNT_NATURE.TERM_ACCOUNT, type, state, TRANSFER_ACCESS.UNAVAILABLE, pin_code, currency, financialInstitution, monthlyFee, annualYield);

@@ -16,7 +16,6 @@ public class PersistentWithoutId implements Serializable {
     @Transient
     public String classe = getClass().getSimpleName();
 
-
     /**
      * The creation date.
      * Date when this object is created.
@@ -63,10 +62,6 @@ public class PersistentWithoutId implements Serializable {
      * @param creationDate the creationDate to set
      */
     public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setCreationDates(Date creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -72,6 +72,7 @@ public class ApplicationClient extends User{
      * @param language a String object that contains the language
      * @param financialProductHolders a List that contains the financial product holders who are bound to this client
      * @param notifications a List that contains the notifications bound to this client
+     * @param wallets a List that contains the wallets bound to this client
      */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, boolean active, String language, String token, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications, List<Wallet> wallets) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT, language);

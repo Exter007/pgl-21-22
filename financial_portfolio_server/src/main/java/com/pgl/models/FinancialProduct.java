@@ -66,8 +66,9 @@ public class FinancialProduct extends Persistent {
 
     /** Class constructor
      *
-     * @param productType that contains financial product type
+     * @param productType a PRODUCT_TYPE enum
      * @param state a FinancialProduct.PRODUCT_STATE enum
+     * @param transferAccess a TRANSFER_ACCESS enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      */
     public FinancialProduct(PRODUCT_TYPE productType, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, FinancialInstitution financialInstitution) {

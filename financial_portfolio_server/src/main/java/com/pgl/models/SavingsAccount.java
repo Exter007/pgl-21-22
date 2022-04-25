@@ -91,7 +91,7 @@ public class SavingsAccount extends BankAccount {
 
     /**
      * Set the Annual Interest of this account
-     * @param annualInterest
+     * @param annualInterest an float
      */
     public void setAnnualInterest(float annualInterest) {
         this.annualInterest = annualInterest;
