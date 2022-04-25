@@ -87,6 +87,9 @@ public class RechargeController implements Initializable {
         setData();
     }
 
+    /**
+     * Set text for operations
+     */
     private void setData() {
         institutionLabel.setText(currentWallet.getName());
         amountAccount.setText(String.valueOf(currentBankAccount.getAmount()));
@@ -137,6 +140,10 @@ public class RechargeController implements Initializable {
         }
     }
 
+    /**
+     * Build a transaction based on variables
+     * @return Transaction created
+     */
     private Transaction buildTransaction() {
         Transaction transaction = new Transaction();
         transaction.setBankAccount(currentBankAccount);

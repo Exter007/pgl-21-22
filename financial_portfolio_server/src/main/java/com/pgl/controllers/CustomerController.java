@@ -376,11 +376,26 @@ public class CustomerController {
         return ResponseEntity.ok(categoryService.saveCategory(category));
     }
 
-    @DeleteMapping("category/delete")
-    public ResponseEntity<?> deleteCategory(@RequestBody Category category){
+    /**
+     * @param id A Category ID
+     * @return True if Category deleted
+     */
+    @DeleteMapping("category/delete-by-id/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
         logger.debug("Call : Delete Category");
+        categoryService.getCategoryRepository().deleteById(id);
+        return ResponseEntity.ok(true);
+    }
 
-        return ResponseEntity.ok(categoryService.deleteCategory(category));
+    /**
+     * @param applicationClient A Application Client
+     * @return List of Categories of the Application Client
+     */
+    @GetMapping("category/find-by-application-client/{applicationClient}")
+    public ResponseEntity<?> findByApplicationClient(@PathVariable String applicationClient){
+        logger.debug("Call : Find Category By Application Client");
+
+        return ResponseEntity.ok(categoryService.getAllCategories(applicationClient));
     }
 
 

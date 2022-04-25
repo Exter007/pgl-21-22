@@ -20,11 +20,11 @@ public class CategoryService {
             return null;
         }
     }
-    public List<Category> getAllCategories(ApplicationClient applicationClient) {
-        return (List<Category>) categoryRepository.findByApplicationClient(applicationClient);
+    public List<Category> getAllCategories(String applicationClient) {
+        return categoryRepository.findByApplicationClient(applicationClient);
     }
-    public Category deleteCategory(Category category) {
-        categoryRepository.delete(category);
-        return category;
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
     }
 }

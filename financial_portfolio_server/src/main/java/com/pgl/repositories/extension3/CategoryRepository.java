@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CategoryRepository extends CrudRepository<Category, String> {
+public interface CategoryRepository extends CrudRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE c.name=:name")
     Category findByName(@Param("name") String name);
 
-    @Query("SELECT c FROM Category c WHERE c.applicationClient=:applicationClient")
-    List<Category> findByApplicationClient(@Param("applicationClient") ApplicationClient applicationClient);
+    @Query("SELECT c FROM Category c WHERE c.applicationClient.nationalRegister=:applicationClient")
+    List<Category> findByApplicationClient(@Param("applicationClient") String applicationClient);
 }

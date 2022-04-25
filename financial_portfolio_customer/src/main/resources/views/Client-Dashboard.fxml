@@ -44,6 +44,14 @@
                                     <Insets left="20.0" top="15.0" />
                                  </HBox.margin>
                               </Label>
+                              <Button fx:id="categories_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#manage_categories" prefHeight="44.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Categories">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
                               <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#ask_wallet" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/icons/source_icons_wallet.jpg" />

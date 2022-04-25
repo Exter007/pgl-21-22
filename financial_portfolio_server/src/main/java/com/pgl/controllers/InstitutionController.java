@@ -351,38 +351,6 @@ public class InstitutionController {
         return ResponseEntity.ok(entities);
     }
 
-//    /**
-//     * @param id
-//     * @return
-//     */
-//    @GetMapping("request-wallet/find-by-id/{id}")
-//    public ResponseEntity<?> findRequestWalletById(@PathVariable Long id){
-//        logger.debug("Call : Request Wallet by ID");
-//        Optional<RequestWallet> result = requestWalletService.getRepository().findById(id);
-//        return result.map(ResponseEntity::ok).orElse(null);
-//    }
-
-//    /**
-//     * @param wallet The wallet that must be created
-//     * @return The created wallet
-//     */
-//    @PostMapping("wallet/save")
-//    public ResponseEntity<?> saveWallet(@RequestBody Wallet wallet) {
-//        logger.debug("Call : Create Wallet");
-//        if(walletRepository.existsByApplicationClientAndFinancialInstitution(wallet.getApplicationClient(), wallet.getFinancialInstitution()) != null) {
-//            return ResponseEntity.ok(null);
-//        } else{
-//            return ResponseEntity.ok(walletRepository.save(wallet));
-//        }
-//    }
-
-//    @RequestMapping("product/update")
-//    public ResponseEntity<?> updateFinancialProduct(@RequestBody FinancialProduct financialProduct){
-//        financialProductRepository.deleteById(financialProduct.getId());
-//        financialProduct.setModificationDate(new Date());
-//        return ResponseEntity.ok(financialProductRepository.save(financialProduct));
-//    }
-
 
     // RESSOURCES FOR REQUEST TRANSFER
 
@@ -560,26 +528,4 @@ public class InstitutionController {
         insuranceRepository.deleteById(id);
         return ResponseEntity.ok(true);
     }
-
-//    /**
-//     * @param id RequestTransfer's id
-//     * @return RequestTransfer by id
-//     */
-//    @GetMapping("request-transfer/find-by-id/{id}")
-//    public ResponseEntity<?> findRequestTransferById(@PathVariable Long id){
-//        if(requestTransferRepository.findById(id).isPresent()){
-//            RequestTransfer entity = requestTransferRepository.findById(id).get();
-//            return ResponseEntity.ok(entity);
-//        } else {
-//            return ResponseEntity.ok(null);
-//        }
-//    }
-
-    /*
-    @GetMapping("financial-product/find-by-client/list")
-    public ResponseEntity<?> findFinancialProductsOfClient(@RequestBody ApplicationClient applicationClient){
-        List<FinancialProduct> entities = (List<FinancialProduct>) financialProductRepository.findAllByApplicationClient(applicationClient);
-        return ResponseEntity.ok(entities);
-    }
-     */
 }

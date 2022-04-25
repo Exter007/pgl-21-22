@@ -102,6 +102,8 @@ public class DashboardController implements Initializable {
     private BorderPane border_pane;
     @FXML
     private ListView<String> walletListView;
+    @FXML
+    private Button categories_btn;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -150,6 +152,9 @@ public class DashboardController implements Initializable {
         loadWallets();
     }
 
+    /**
+     * Set values in ChoiceBox
+     */
     private void setChoiceBox() {
         ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
         export_format.setItems(formats);
@@ -157,6 +162,9 @@ public class DashboardController implements Initializable {
         data.setItems(formats);
     }
 
+    /**
+     * Load different wallets of client
+     */
     public void loadWallets(){
         clear();
         walletList = walletService.getWalletsByClient();
@@ -171,6 +179,9 @@ public class DashboardController implements Initializable {
         }
     }
 
+    /**
+     * Clear the WalletListView
+     */
     public void clear(){
         walletList.clear();
         list.clear();
@@ -430,36 +441,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    /*
-     * Display data in graphical form
-     * @param event the click of the mouse on the button
-     *
-    @FXML
-    private void graph(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(false);
-        products_listview.visibleProperty().setValue(false);
-        products_linechart.visibleProperty().setValue(true);
-    }*/
-
-    /*
-     * Display data in list form
-     * @param event the click of the mouse on the button
-     *
-    @FXML
-    private void list(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(false);
-        products_listview.visibleProperty().setValue(true);
-        products_linechart.visibleProperty().setValue(false);
-    }*/
-
-    /*
-     * Display data in table form
-     * @param event the click of the mouse on the button
-     *
-    @FXML
-    private void tableview(MouseEvent event) {
-        products_tableview.visibleProperty().setValue(true);
-        products_listview.visibleProperty().setValue(false);
-        products_linechart.visibleProperty().setValue(false);
-    }*/
+    public void manage_categories(MouseEvent event) {
+        DynamicViews.loadBorderCenter("extension3/Client-Dashboard-Categories");
+    }
 }

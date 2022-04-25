@@ -16,7 +16,7 @@ public class Category extends Persistent {
     private String color;
 
     @ManyToOne()
-    @JoinColumn(name = "applicationClient")
+    @JoinColumn(name = "application_client", nullable = false)
     private ApplicationClient applicationClient;
 
     /*
