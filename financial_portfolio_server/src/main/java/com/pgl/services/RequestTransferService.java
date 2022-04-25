@@ -2,10 +2,8 @@ package com.pgl.services;
 
 import com.pgl.models.*;
 import com.pgl.repositories.BankAccountRepository;
-import com.pgl.repositories.NotificationRepository;
 import com.pgl.repositories.RequestTransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,12 +20,19 @@ public class RequestTransferService {
     @Autowired
     NotificationService notificationService;
 
-
+    /**
+     * Get Request Transfer Repository
+     * @return repository
+     */
     public RequestTransferRepository getRepository(){
         return requestTransferRepository;
     }
 
-
+    /**
+     * Save Request Transfer
+     * @param requestTransfer
+     * @return Request Transfer saved
+     */
     public RequestTransfer saveRequestTransfer(RequestTransfer requestTransfer){
         RequestTransfer rt = getRepository().
                 findRequestTransferByClientAndInstitution(
@@ -48,6 +53,11 @@ public class RequestTransferService {
         }
     }
 
+    /**
+     * Accept Request Transfer
+     * @param requestTransfer
+     * @return request transfer accepted
+     */
     public RequestTransfer acceptRequestTransfer(RequestTransfer requestTransfer){
         RequestTransfer reqTransfer = getRepository().findById(requestTransfer.getId()).get();
         reqTransfer.setStatus(Request.REQUEST_STATUS.ACCEPTED);
@@ -70,7 +80,11 @@ public class RequestTransferService {
         return getRepository().save(reqTransfer);
     }
 
-
+    /**
+     * Refuse Request Transfer
+     * @param requestTransfer
+     * @return Request Transfer refused
+     */
     public RequestTransfer refuseRequestTransfer(RequestTransfer requestTransfer){
         requestTransfer.setStatus(Request.REQUEST_STATUS.REFUSED);
         requestTransfer.setModificationDate(new Date());

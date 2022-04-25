@@ -43,24 +43,45 @@ public abstract class InsuranceContract extends FinancialProduct {
     @Column(name = "delay_alert")
     private boolean delayAlert;
 
-
+    /** Default constructor
+     * (persistent classes requirements)
+     */
     public InsuranceContract() {
         super(PRODUCT_TYPE.INSURANCE_CONTRACT, TRANSFER_ACCESS.UNAVAILABLE);
         this.delayAlert = false;
     }
 
+    /**
+     * Class constructor
+     * @param insuranceType
+     */
     public InsuranceContract(INSURANCE_TYPE insuranceType) {
         super(PRODUCT_TYPE.INSURANCE_CONTRACT, TRANSFER_ACCESS.UNAVAILABLE);
         this.insuranceType = insuranceType;
         this.delayAlert = false;
     }
 
+    /**
+     * Class constructor
+     * @param insuranceType
+     * @param transferAccess
+     */
     public InsuranceContract(INSURANCE_TYPE insuranceType, TRANSFER_ACCESS transferAccess) {
         super(PRODUCT_TYPE.INSURANCE_CONTRACT, transferAccess);
         this.insuranceType = insuranceType;
         this.delayAlert = false;
     }
 
+    /**
+     * Class constructor
+     * @param insuranceNumber
+     * @param insuranceType
+     * @param annualPremium
+     * @param insuranceTax
+     * @param renewalDate
+     * @param domiciliation
+     * @param delayAlert
+     */
     public InsuranceContract(String insuranceNumber, INSURANCE_TYPE insuranceType, float annualPremium, float insuranceTax, Date renewalDate, boolean domiciliation, boolean delayAlert) {
         super(PRODUCT_TYPE.INSURANCE_CONTRACT, TRANSFER_ACCESS.UNAVAILABLE);
         this.insuranceNumber = insuranceNumber;

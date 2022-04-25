@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="874.0" maxWidth="1137.0" minHeight="300.0" minWidth="740.0" prefHeight="616.0" prefWidth="1049.0" stylesheets="@stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension5.ViewInsuranceContractController">
+   <children>
+      <StackPane prefHeight="749.0" prefWidth="1092.0">
+         <children>
+            <VBox prefHeight="616.0" prefWidth="1011.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2196f3;" />
+                  <Pane prefHeight="351.0" prefWidth="800.0" style="-fx-background-color: #EDE7F6;" />
+               </children>
+            </VBox>
+            <AnchorPane prefHeight="616.0" prefWidth="924.0" style="-fx-background-color: transparent;">
+               <children>
+                  <VBox alignment="CENTER" layoutX="51.0" layoutY="-16.0" prefHeight="618.0" prefWidth="964.0">
+                     <children>
+                        <Label fx:id="ViewInsuranceType_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="96.0" prefWidth="668.0" text="Détails du contrat d'assurance" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Bold" size="35.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane prefHeight="422.0" prefWidth="965.0" style="-fx-background-color: WHITE; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-radius: 4; -fx-border-radius: 4; -fx-padding: 8;">
+                           <children>
+                              <HBox layoutX="26.0" layoutY="23.0" prefHeight="55.0" prefWidth="922.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="458.0">
+                                       <children>
+                                          <Label fx:id="clientRegisterNumber_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="465.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="N° Registre national client :">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="clientRegisterNumber" prefHeight="45.0" prefWidth="408.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="462.0">
+                                       <children>
+                                          <Label fx:id="insuranceType_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="275.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Type d'assurance :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="insuranceType" prefHeight="46.0" prefWidth="386.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="8.0" layoutY="69.0" prefHeight="55.0" prefWidth="939.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="467.0">
+                                       <children>
+                                          <Label fx:id="insuranceNumber_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="412.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="N° d'assurance :">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="insuranceNumber" prefHeight="46.0" prefWidth="475.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="474.0">
+                                       <children>
+                                          <Label fx:id="annualPremium_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="374.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Prime annuelle (Euro) :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="annualPremium" prefHeight="46.0" prefWidth="374.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="23.0" layoutY="118.0" prefHeight="55.0" prefWidth="915.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="497.0">
+                                       <children>
+                                          <Label fx:id="insuranceTax_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="211.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Taxe d'assurance (%):">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="insuranceTax" prefHeight="48.0" prefWidth="246.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="501.0">
+                                       <children>
+                                          <Label fx:id="renewalDate_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="245.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Date de renouvellement :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="renewalDate" prefHeight="46.0" prefWidth="216.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="21.0" layoutY="166.0" prefHeight="55.0" prefWidth="922.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="455.0">
+                                       <children>
+                                          <Label fx:id="personNumber_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="207.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Nombre de personne :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="personNumber" prefHeight="48.0" prefWidth="246.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="465.0">
+                                       <children>
+                                          <Label fx:id="houseAddress_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="370.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Adresse de la maison :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="houseAddress" prefHeight="46.0" prefWidth="371.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="17.0" layoutY="210.0" prefHeight="55.0" prefWidth="927.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="455.0">
+                                       <children>
+                                          <Label fx:id="immatriculation_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="174.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Immatriculation :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="immatriculation" prefHeight="48.0" prefWidth="274.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="471.0">
+                                       <children>
+                                          <Label fx:id="admissionFee_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="247.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Frais d'entrée (%) :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="admissionFee" prefHeight="46.0" prefWidth="289.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="21.0" layoutY="256.0" prefHeight="55.0" prefWidth="922.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="434.0">
+                                       <children>
+                                          <Label fx:id="annualReturn_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="240.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Rendement annuel (%) :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="annualReturn" prefHeight="48.0" prefWidth="246.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="454.0">
+                                       <children>
+                                          <Label fx:id="duration_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="178.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Date de fin :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="duration" prefHeight="46.0" prefWidth="272.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="13.0" layoutY="305.0" prefHeight="55.0" prefWidth="915.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="442.0">
+                                       <children>
+                                          <Label fx:id="depositGuarantee_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="294.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Garantie de dépot (Euro):">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="depositGuarantee" prefHeight="48.0" prefWidth="246.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="55.0" prefWidth="454.0">
+                                       <children>
+                                          <Label fx:id="withholdingTax_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="278.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Précompte mobilier :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="withholdingTax" prefHeight="46.0" prefWidth="218.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="14.0" layoutY="355.0" prefHeight="55.0" prefWidth="927.0">
+                                 <children>
+                                    <HBox prefHeight="55.0" prefWidth="434.0">
+                                       <children>
+                                          <Label fx:id="taxBenefit_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="208.0" style="-fx-label-padding: 10; -fx-font-size: 17; -fx-font-weight: bold;" text="Avantage fiscal (%) :">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="taxBenefit" prefHeight="48.0" prefWidth="246.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <HBox prefHeight="35.0" prefWidth="1084.0" />
+                        <HBox alignment="TOP_RIGHT">
+                           <children>
+                              <Button fx:id="Edit_btn" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 17;" text="Modifier">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="Delete_btn" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 17;" text="Supprimer">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
+                              <VBox prefHeight="27.0" prefWidth="100.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</VBox>

@@ -1,18 +1,11 @@
 package com.pgl.services;
 
-import com.pgl.controllers.AccountController;
 import com.pgl.models.*;
-import com.pgl.repositories.ApplicationClientRepository;
 import com.pgl.repositories.CardRepository;
 import com.pgl.repositories.RequestCardRepository;
-import com.pgl.utils.Code;
 import com.pgl.utils.LoginRequest;
-import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -23,12 +16,18 @@ public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
+
+    @Autowired
+    private RequestCardRepository requestCardRepository;
+
+    /**
+     * Get Card Repository
+     * @return repository
+     */
     public CardRepository getRepository(){
         return cardRepository;
     }
 
-    @Autowired
-    private RequestCardRepository requestCardRepository;
 
     public RequestCardRepository getRequestRepository(){
         return requestCardRepository;
@@ -54,7 +53,7 @@ public class CardService {
 
     /**
      * Update a Card
-     * @param newCard
+     * @param newCard the card updated
      * @return
      */
     public Card updateCard(Card newCard){
@@ -114,6 +113,11 @@ public class CardService {
         return card;
     }
 
+    /**
+     * Find Card by Financial Institution BIC
+     * @param bic
+     * @return
+     */
     public List<RequestCard> findAllByFinancialInstitution(String bic){
         List<RequestCard> cards = getRequestRepository().findAllByFinancialInstitution(bic);
 
@@ -124,6 +128,13 @@ public class CardService {
         return cards;
     }
 
+
+    /**
+     * Find Pending Request Cards by Financial Institution BIC
+     * @param bic
+     * @param pendingRequestStatus
+     * @return
+     */
     public List<RequestCard> findPendingRequestCardsByInstitution(String bic, Request.REQUEST_STATUS pendingRequestStatus){
         List<RequestCard> cards = getRequestRepository().findPendingRequestCardsByInstitution(bic, pendingRequestStatus);
 
@@ -134,6 +145,12 @@ public class CardService {
         return cards;
     }
 
+    /**
+     * Find Application Client by Financial Institution
+     * @param nationalRegister
+     * @param bic
+     * @return
+     */
     public RequestCard findByApplicationClientAndFinancialInstitution(String nationalRegister, String bic){
         RequestCard card = getRequestRepository().findByApplicationClientAndFinancialInstitution(nationalRegister, bic);
 

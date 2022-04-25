@@ -128,6 +128,9 @@ public class DashboardInsuranceController implements Initializable {
         loadInsuranceContracts();
     }
 
+    /**
+     * Load Insurance Contracts
+     */
     private void loadInsuranceContracts(){
         List<InsuranceContract> insuranceContracts = insuranceService.
                 getInsuranceByWallet();
@@ -146,7 +149,7 @@ public class DashboardInsuranceController implements Initializable {
      */
     @FXML
     private void on_insuranceType(MouseEvent event) {
-       DynamicViews.loadBorderCenter("extension5/Client-InsuranceType");
+//       DynamicViews.loadBorderCenter("extension5/Client-InsuranceType");
     }
 
     /**
@@ -155,7 +158,7 @@ public class DashboardInsuranceController implements Initializable {
      */
     @FXML
     private void on_insuranceQuote(MouseEvent event) {
-        DynamicViews.loadBorderCenter("extension5/Client-InsuranceTypeQuote");
+//        DynamicViews.loadBorderCenter("extension5/Client-InsuranceTypeQuote");
     }
 
 
@@ -176,13 +179,12 @@ public class DashboardInsuranceController implements Initializable {
         nameLab.setPrefWidth(250);
         hBox.getChildren().add(nameLab);
 
+        // Holders
         VBox vBoxHolders = new VBox();
         vBoxHolders.setPrefWidth(250);
         vBoxHolders.setAlignment(javafx.geometry.Pos.CENTER);
-
         hBox.getChildren().add(vBoxHolders);
 
-        // Holders
         Label holders = new Label("Titulaires");
         // TODO : Traduire
         holders.setAlignment(javafx.geometry.Pos.CENTER);
@@ -201,7 +203,7 @@ public class DashboardInsuranceController implements Initializable {
         }
 
         // Amount
-        Label amountLab = new Label(insuranceContract.getAmount() + " €");
+        Label amountLab = new Label(insuranceContract.getAnnualPremium() + " €");
         amountLab.setAlignment(javafx.geometry.Pos.CENTER);
         amountLab.setContentDisplay(ContentDisplay.CENTER);
         amountLab.setFont(new Font(20));
@@ -209,13 +211,17 @@ public class DashboardInsuranceController implements Initializable {
         hBox.getChildren().add(amountLab);
 
         // Date
+        VBox vBoxDate = new VBox();
+        vBoxDate.setPrefWidth(250);
+        vBoxDate.setAlignment(javafx.geometry.Pos.CENTER);
+        hBox.getChildren().add(vBoxDate);
         Label dateLab = new Label("Date de renouvellement");
         // TODO : Traduire
         dateLab.setAlignment(javafx.geometry.Pos.CENTER);
         dateLab.setContentDisplay(ContentDisplay.CENTER);
         dateLab.setFont(new Font(20));
         dateLab.setPrefWidth(250);
-        vBoxHolders.getChildren().add(dateLab);
+        vBoxDate.getChildren().add(dateLab);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = dateFormat.format(insuranceContract.getRenewalDate());
         Label dateValue = new Label(date);
@@ -223,7 +229,7 @@ public class DashboardInsuranceController implements Initializable {
         dateValue.setContentDisplay(ContentDisplay.CENTER);
         dateValue.setFont(new Font(20));
         dateValue.setPrefWidth(250);
-        vBoxHolders.getChildren().add(dateValue);
+        vBoxDate.getChildren().add(dateValue);
 
 
         HBox hbox2 = new HBox();
@@ -242,11 +248,14 @@ public class DashboardInsuranceController implements Initializable {
         // View button
         ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
         imgDeleteProduct.setOnMouseClicked(this::make_transaction);
-        imgDeleteProduct.setFitHeight(36);
-        imgDeleteProduct.setFitWidth(36);
+        imgViewInsurance.setFitHeight(36);
+        imgViewInsurance.setFitWidth(36);
+        imgViewInsurance.setPreserveRatio(true);
+        imgViewInsurance.setPickOnBounds(true);
         hbox2.getChildren().add(imgDeleteProduct);
 
         hBox.getChildren().add(hbox2);
+
         GridPane.setRowIndex(hBox, index);
 
     }
@@ -261,7 +270,7 @@ public class DashboardInsuranceController implements Initializable {
         InsuranceContract insurance = (InsuranceContract) img.getUserData();
 
         insuranceService.setCurrentInsurance(insurance);
-        DynamicViews.loadBorderCenter("Client-View-Insurance");
+        DynamicViews.loadBorderCenter("extension5/Client-ViewInsuranceContract");
     }
 
     /**
@@ -270,11 +279,11 @@ public class DashboardInsuranceController implements Initializable {
      */
     @FXML
     private void make_transaction(MouseEvent event) {
-        ImageView img = (ImageView) event.getSource();
-        InsuranceContract insurance = (InsuranceContract) img.getUserData();
-
-        insuranceService.setCurrentInsurance(insurance);
-        DynamicViews.loadBorderCenter("Client-Pay-Insurance");
+//        ImageView img = (ImageView) event.getSource();
+//        InsuranceContract insurance = (InsuranceContract) img.getUserData();
+//
+//        insuranceService.setCurrentInsurance(insurance);
+//        DynamicViews.loadBorderCenter("Client-Pay-Insurance");
     }
 
 

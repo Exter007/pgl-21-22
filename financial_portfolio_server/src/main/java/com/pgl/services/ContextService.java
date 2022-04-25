@@ -11,10 +11,18 @@ public class ContextService {
 
     public ContextName contextName = ContextName.CLIENT;
 
+    /**
+     * Get Application Context name
+     * @return
+     */
     public ContextName getContextName() {
         return contextName;
     }
 
+    /**
+     * Set Application Context name
+     * @param contextName
+     */
     public void setContextName(ContextName contextName) {
         this.contextName = contextName;
     }

@@ -2,12 +2,7 @@ package com.pgl.controllers.extension5;
 
 import com.pgl.controllers.DashboardController;
 import com.pgl.helpers.DynamicViews;
-import com.pgl.models.BankAccount;
-import com.pgl.models.SavingsAccount;
-import com.pgl.models.TermAccount;
-import com.pgl.models.YoungAccount;
 import com.pgl.models.extension5.*;
-import com.pgl.services.BankAccountService;
 import com.pgl.services.UserService;
 import com.pgl.services.extension5.InsuranceContractService;
 import com.pgl.utils.GlobalStage;
@@ -16,11 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;

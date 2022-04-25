@@ -19,6 +19,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetailsServiceImpl() {
     }
 
+    /**
+     *  Load User by username
+     * @param login of the user
+     * @return User details retrieved
+     * @throws UsernameNotFoundException
+     */
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

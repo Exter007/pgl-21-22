@@ -2,12 +2,18 @@ package com.pgl.models;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FinancialProductTest {
 
     FinancialInstitution financialInstitution;
-    FinancialProduct financialProduct = new FinancialProduct("wording", FinancialProduct.PRODUCT_STATE.UNARCHIVED, financialInstitution, null);
+    List<FinancialProductHolder> financialProductHolders;
+    FinancialProduct.PRODUCT_TYPE productType;
+    FinancialProduct.PRODUCT_STATE state;
+    FinancialProduct.TRANSFER_ACCESS transferAccess;
+    FinancialProduct financialProduct = new FinancialProduct("wording",productType, state, transferAccess, financialInstitution, financialProductHolders);
     @Test
     void getWording() {
         assertEquals("String", financialProduct.getWording().getClass().getSimpleName());//test the type

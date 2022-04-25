@@ -15,10 +15,19 @@ public class NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
 
+    /**
+     * Get Notification Repository
+     * @return repository
+     */
     public NotificationRepository getRepository(){
         return notificationRepository;
     }
 
+    /**
+     * Save notification
+     * @param notification
+     * @return notification saved
+     */
     public Notification saveNotification(Notification notification){
         if (notification.getId()!=null){
             Optional<Notification> result = getRepository().findById(notification.getId());
@@ -37,6 +46,13 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
+    /**
+     * Save notification
+     * @param client the Application Client
+     * @param institution the Financial Institution
+     * @param message
+     * @return notification saved
+     */
     public Notification saveNotification(ApplicationClient client, FinancialInstitution institution, String message){
 
         Notification notification = new Notification(

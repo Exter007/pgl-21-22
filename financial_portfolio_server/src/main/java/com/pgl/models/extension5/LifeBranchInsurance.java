@@ -25,13 +25,33 @@ public abstract class LifeBranchInsurance extends InsuranceContract{
     private Date duration;
 
 
+    /** Default constructor
+     * (persistent classes requirements)
+     */
     public LifeBranchInsurance() {
     }
 
+    /**
+     * Class constructor
+     * @param insuranceType
+     */
     public LifeBranchInsurance(INSURANCE_TYPE insuranceType) {
         super(insuranceType, TRANSFER_ACCESS.UNAVAILABLE);
     }
 
+    /**
+     * Class constructor
+     * @param insuranceNumber
+     * @param insuranceType
+     * @param annualPremium
+     * @param insuranceTax
+     * @param renewalDate
+     * @param domiciliation
+     * @param admissionFee
+     * @param annualReturn
+     * @param duration
+     * @param delayAlert
+     */
     public LifeBranchInsurance(String insuranceNumber, INSURANCE_TYPE insuranceType, float annualPremium, float insuranceTax, Date renewalDate, boolean domiciliation, float admissionFee, float annualReturn, Date duration, boolean delayAlert) {
         super(insuranceNumber, insuranceType, annualPremium, insuranceTax, renewalDate, domiciliation, delayAlert);
         this.admissionFee = admissionFee;

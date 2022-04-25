@@ -140,7 +140,6 @@ public class DashboardInsuranceContractController implements Initializable {
         } else {
             insuranceService.not_selected_error();
         }
-
     }
 
     /**

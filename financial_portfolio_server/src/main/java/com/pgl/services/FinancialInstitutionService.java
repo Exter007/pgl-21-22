@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service()
 public class FinancialInstitutionService {
@@ -28,6 +27,10 @@ public class FinancialInstitutionService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * Get Financial Institution Repository
+     * @return repository
+     */
     public FinancialInstitutionRepository getRepository(){
         return financialInstitutionRepository;
     }
@@ -35,7 +38,7 @@ public class FinancialInstitutionService {
 
     /**
      * Saving a financial institution
-     * @param user
+     * @param user the  Financial institution
      * @return
      */
     @Transactional()
@@ -65,8 +68,8 @@ public class FinancialInstitutionService {
 
     /**
      * Update a financial institution
-     * @param institution
-     * @return
+     * @param institution the financial institution
+     * @return Financial Institution updated
      */
     @Transactional()
     public FinancialInstitution updateInstitution(FinancialInstitution institution){
@@ -88,7 +91,7 @@ public class FinancialInstitutionService {
     /**
      * Update financial institution password
      * @param institution
-     * @return
+     * @return Financial Institution updated
      */
     @Transactional()
     public FinancialInstitution updatePassword(FinancialInstitution institution){
@@ -107,7 +110,7 @@ public class FinancialInstitutionService {
     /**
      * Update Language
      * @param institution
-     * @return
+     * @return Financial Institution updated
      */
     @Transactional()
     public FinancialInstitution updateLanguage(FinancialInstitution institution){
@@ -125,7 +128,7 @@ public class FinancialInstitutionService {
     /**
      * Check if the password provided by the financial institution is correct
      * @param institution
-     * @return
+     * @return boolean
      */
     public boolean checkPassword(FinancialInstitution institution){
         FinancialInstitution result = getRepository().findById(institution.getBIC()).get();

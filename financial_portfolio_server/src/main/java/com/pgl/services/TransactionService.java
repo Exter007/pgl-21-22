@@ -22,10 +22,19 @@ public class TransactionService {
     @Autowired
     private FinancialProductRepository productRepository;
 
+    /**
+     * Get Transaction Repository
+     * @return repository
+     */
     TransactionRepository getRepository(){
         return transactionRepository;
     }
 
+    /**
+     * Save Transaction
+     * @param transaction
+     * @return Transaction saved
+     */
     public Transaction saveTransaction(Transaction transaction){
 
         BankAccount senderAccount = (BankAccount) productRepository
@@ -71,6 +80,14 @@ public class TransactionService {
         return getRepository().save(transaction);
     }
 
+    /**
+     * Build message formulation
+     * @param transaction
+     * @param senderAccount
+     * @param recipientAccount
+     * @param comment
+     * @return message formulated
+     */
     private String buildFormulation(Transaction transaction, BankAccount senderAccount, BankAccount recipientAccount, String comment){
         String formulation = transaction.getDate() + " "
                 + transaction.getType().name() + " "
@@ -84,6 +101,13 @@ public class TransactionService {
         return formulation;
     }
 
+    /**
+     * Save Account Transaction
+     * @param transaction
+     * @param accountDebited
+     * @param accountCredited
+     * @param amountDebited
+     */
     private void saveTransactionAccount(Transaction transaction, BankAccount accountDebited, BankAccount accountCredited, float amountDebited){
         accountDebited.setAmount(amountDebited);
         accountDebited.setModificationDate(new Date());
@@ -96,6 +120,11 @@ public class TransactionService {
         productRepository.save(accountDebited);
     }
 
+    /**
+     * Find Transaction by Applicaton Client
+     * @param registerNumber
+     * @return list of transactions retrieved
+     */
     public List<Transaction> findTransactionByClient(String registerNumber){
         List<Transaction> transactions = new ArrayList<>();
         Iterable<Transaction> allTransactions = getRepository().findAll();

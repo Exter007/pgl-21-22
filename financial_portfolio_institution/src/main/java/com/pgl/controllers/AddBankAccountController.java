@@ -475,7 +475,7 @@ public class AddBankAccountController implements Initializable {
 
         bankAccount.setFinancialInstitution(userService.getCurrentUser());
 
-        bankAccount.setAmount(0);
+        bankAccount.setAmount(10);
         bankAccount.setCurrency(BankAccount.CURRENCY.EURO);
         bankAccount.setMonthlyFee(convertToFloat(monthlyFee.getText()));
         bankAccount.getFinancialProductHolders().add(0,holder);

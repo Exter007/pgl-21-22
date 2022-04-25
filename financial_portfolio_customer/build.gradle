@@ -51,8 +51,13 @@ dependencies {
 }
 
 javafx {
-    version = "15.0.1"
+//    version = "15.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.pgl.energy.application.StartApplication'
 }
 
 jlink {
@@ -61,6 +66,19 @@ jlink {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.pgl.energy.application.StartApplication'
+    }
+
+    from {
+        // Avoids conflicts from each jar of javafx having this exact same
+        // file.
+        exclude "**/module-info.class"
+        // Add all the dependencies in the jar.
+        configurations.compileClasspath.collect {zipTree(it)}
+    }
+}
 
 shadowJar {
     manifest {

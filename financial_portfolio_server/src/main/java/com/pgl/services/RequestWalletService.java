@@ -6,7 +6,6 @@ import com.pgl.repositories.RequestWalletRepository;
 import com.pgl.repositories.WalletFinancialProductRepository;
 import com.pgl.repositories.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,11 +29,19 @@ public class RequestWalletService {
     @Autowired
     NotificationService notificationService;
 
-
+    /**
+     * Get Request Wallet Repository
+     * @return repository
+     */
     public RequestWalletRepository getRepository(){
         return requestWalletRepository;
     }
 
+    /**
+     * Save Request Wallet
+     * @param requestWallet
+     * @return Request Wallet saved
+     */
     public RequestWallet saveRequestWallet(RequestWallet requestWallet){
         RequestWallet rq = getRepository()
                 .findRequestWalletByClientAndInstitution(
@@ -54,6 +61,11 @@ public class RequestWalletService {
         }
     }
 
+    /**
+     * Accept Request Wallet
+     * @param requestWallet
+     * @return Request Wallet accepted
+     */
     public RequestWallet acceptRequestWallet(RequestWallet requestWallet){
         requestWallet.setStatus(Request.REQUEST_STATUS.ACCEPTED);
         FinancialInstitution institution = requestWallet.getFinancialInstitution();
@@ -96,6 +108,11 @@ public class RequestWalletService {
         return getRepository().save(requestWallet);
     }
 
+    /**
+     * Refuse Request Wallet
+     * @param requestWallet
+     * @return Request Wallet refused
+     */
     public RequestWallet refuseRequestWallet(RequestWallet requestWallet){
         requestWallet.setStatus(Request.REQUEST_STATUS.REFUSED);
 

@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * Service for Application Client
+ */
 @Service()
 public class ApplicationClientService {
 
@@ -23,6 +26,10 @@ public class ApplicationClientService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * Get Application Client Repository
+     * @return repository
+     */
     public ApplicationClientRepository getRepository(){
         return applicationClientRepository;
     }

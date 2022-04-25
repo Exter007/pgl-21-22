@@ -100,7 +100,6 @@ public class TransferController implements Initializable {
         setText();
         institutionLabel.setText(currentWallet.getName());
         loadAccountFromCB();
-//        accountFromCB.setItems(FXCollections.observableArrayList("BE68 5390 0754 7034", "BE87 2345 9864 0181", "BE02 8929 2456 0186"));
     }
 
     private void loadAccountFromCB(){

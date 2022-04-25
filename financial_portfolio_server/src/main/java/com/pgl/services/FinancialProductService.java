@@ -22,11 +22,19 @@ public class FinancialProductService {
     @Autowired
     WalletFinancialProductRepository walletFinancialProductRepository;
 
-
+    /**
+     * Get Financial Product repository
+     * @return repository
+     */
     public FinancialProductRepository getRepository(){
         return financialProductRepository;
     }
 
+    /**
+     * Save a Financial Product
+     * @param financialProduct
+     * @return Financial Product saved
+     */
     public FinancialProduct saveProduct(FinancialProduct financialProduct){
 
         FinancialProduct product = getRepository().save(financialProduct);
