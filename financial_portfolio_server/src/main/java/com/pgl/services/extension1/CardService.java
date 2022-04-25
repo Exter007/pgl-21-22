@@ -1,4 +1,4 @@
-package com.pgl.services;
+package com.pgl.services.extension1;
 
 import com.pgl.models.*;
 import com.pgl.models.extension1.Card;

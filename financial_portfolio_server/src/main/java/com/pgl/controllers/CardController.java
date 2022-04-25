@@ -6,7 +6,7 @@ import com.pgl.models.extension1.RequestCard;
 import com.pgl.repositories.extension1.CardRepository;
 import com.pgl.repositories.extension1.RequestCardRepository;
 import com.pgl.security.UserDetailsImpl;
-import com.pgl.services.CardService;
+import com.pgl.services.extension1.CardService;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.UserService;
 import com.pgl.utils.JwtResponse;
