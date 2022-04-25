@@ -1,4 +1,4 @@
-package com.pgl.repositories;
+package com.pgl.repositories.extension1;
 
 import com.pgl.models.BankAccount;
 import com.pgl.models.extension1.Card;
