@@ -103,7 +103,7 @@ public class RequestCard extends Request {
 
     /** Get the card type
      *
-     * @return the institution in the form of a FinancialInstitution object
+     * @return the CARD_TYPE enum
      */
     public Card.CARD_TYPE getCardType() {
         return cardType;
@@ -111,7 +111,7 @@ public class RequestCard extends Request {
 
     /** Set the card type to this request
      *
-     * @param cardType
+     * @param cardType a CARD_TYPE enum
      */
     public void setCardType(Card.CARD_TYPE cardType) {
         this.cardType = cardType;
@@ -119,7 +119,7 @@ public class RequestCard extends Request {
 
     /** Get the debit card type
      *
-     * @return the institution in the form of a FinancialInstitution object
+     * @return the DEBIT_CARD_TYPE enum
      */
     public DebitCard.DEBIT_CARD_TYPE getDebitCardType() {
         return debitCardType;
@@ -127,7 +127,7 @@ public class RequestCard extends Request {
 
     /** Set the debit card type to this request
      *
-     * @param debitCardType
+     * @param debitCardType a DEBIT_CARD_TYPE enum
      */
     public void setDebitCardType(DebitCard.DEBIT_CARD_TYPE debitCardType) {
         this.debitCardType = debitCardType;
@@ -135,7 +135,7 @@ public class RequestCard extends Request {
 
     /** Get the debit card type
      *
-     * @return the institution in the form of a FinancialInstitution object
+     * @return the CREDIT_CARD_TYPE enum
      */
     public CreditCard.CREDIT_CARD_TYPE getCreditCardType() {
         return creditCardType;
@@ -143,7 +143,7 @@ public class RequestCard extends Request {
 
     /** Set the debit card type to this request
      *
-     * @param creditCardType
+     * @param creditCardType a CREDIT_CARD_TYPE enum
      */
     public void setCreditCardType(CreditCard.CREDIT_CARD_TYPE creditCardType) {
         this.creditCardType = creditCardType;

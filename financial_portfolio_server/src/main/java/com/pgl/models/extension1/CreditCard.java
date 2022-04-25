@@ -11,7 +11,6 @@ import java.util.List;
 /** Class that represent a credit card
  *
  */
-//@JsonTypeName("CreditCard")
 @Entity
 @DiscriminatorValue("CREDIT_CARD")
 @DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
@@ -38,24 +37,24 @@ public class CreditCard extends Card {
 
     /** Class constructor
      *
-     * @param wording a String object
+     * @param wording a String object that contains a description
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      * @param financialProductHolders a List that contains the financial product holders who have this product
-     * @param cardNumber a String object
+     * @param cardNumber a String object that contains the card number
      * @param bankAccount a BankAccount object who is inked to this card
-     * @param endValidityDate a Date object
-     * @param isValid a boolean object
-     * @param isBlocked a boolean object
-     * @param CVC a integer object
-     * @param annualFee a float object
-     * @param commissionFee a float object
-     * @param internationallyUsable a boolean object
-     * @param internationalFee a float object
-     * @param withdrawalFee a float object
+     * @param endValidityDate a Date object that contains the validity end date
+     * @param isValid a boolean object that contains the valid state of the card
+     * @param isBlocked a boolean object that contains the block state of the card
+     * @param CVC an integer object that contains the CVC
+     * @param annualFee a float object that contains the annual fee
+     * @param commissionFee a float object that contains the commission fee
+     * @param internationallyUsable a boolean object that international use state
+     * @param internationalFee a float object that contains the international use fee
+     * @param withdrawalFee a float object that contains the withdrawal fee
      * @param creditCardType a CREDIT_CARD_TYPE enum
-     * @param monthlyCredit a integer object
-     * @param tempMonthlyCredit a integer object
-     * @param tempMonthlyCreditEndDate a Date object
+     * @param monthlyCredit a integer object that contains the monthly credit
+     * @param tempMonthlyCredit a integer object that contains the temp. monthly credit
+     * @param tempMonthlyCreditEndDate a Date object that contains the end date of the temp. monthly credit
      */
     public CreditCard(String wording,
                 FinancialInstitution financialInstitution,
