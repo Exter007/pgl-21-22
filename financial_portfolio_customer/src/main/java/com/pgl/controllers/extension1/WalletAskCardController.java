@@ -6,7 +6,7 @@ import com.pgl.models.extension1.CreditCard;
 import com.pgl.models.extension1.DebitCard;
 import com.pgl.models.extension1.RequestCard;
 import com.pgl.services.BankAccountService;
-import com.pgl.services.RequestCardService;
+import com.pgl.services.extension1.RequestCardService;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
 import javafx.collections.FXCollections;
