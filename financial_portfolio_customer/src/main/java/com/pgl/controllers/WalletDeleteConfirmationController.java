@@ -53,7 +53,6 @@ public class WalletDeleteConfirmationController implements Initializable {
      */
     @FXML
     private void delete_confirm(MouseEvent event) {
-        //TODO
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(bundle.getString("succes9"));

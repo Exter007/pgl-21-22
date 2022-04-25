@@ -500,7 +500,6 @@ public class WalletController implements Initializable {
         hBox.getChildren().add(vBoxHolders);
 
         Label holders = new Label("Titulaires");
-        // TODO : Traduire
         holders.setAlignment(javafx.geometry.Pos.CENTER);
         holders.setContentDisplay(ContentDisplay.CENTER);
         holders.setFont(new Font(20));

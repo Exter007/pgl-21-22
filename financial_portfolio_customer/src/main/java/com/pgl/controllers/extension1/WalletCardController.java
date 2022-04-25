@@ -494,8 +494,6 @@ public class WalletCardController implements Initializable {
             String currentDateTime = dateFormatter.format(new Date());
             List<FinancialProduct> financialProducts = financialProductService.getFinancialProductsByWallet();
 
-            //TODO ajouter la configuration(avec différent critère)
-
             if(financialProducts.isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(bundle.getString("Export_alert"));
@@ -530,7 +528,6 @@ public class WalletCardController implements Initializable {
         hBox.getChildren().add(vBoxHolders);
 
         Label holders = new Label("Titulaires");
-        // TODO : Traduire
         holders.setAlignment(javafx.geometry.Pos.CENTER);
         holders.setContentDisplay(ContentDisplay.CENTER);
         holders.setFont(new Font(20));

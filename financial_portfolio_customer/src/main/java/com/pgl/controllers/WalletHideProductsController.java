@@ -73,7 +73,6 @@ public class WalletHideProductsController implements Initializable {
      */
     @FXML
     private void show_Product(MouseEvent event) {
-        //TODO
     }
 
     /**
@@ -82,8 +81,6 @@ public class WalletHideProductsController implements Initializable {
      */
     @FXML
     private void delete_Product(MouseEvent event) {
-
-        //TODO
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Client-Wallet-DeleteConfirmation.fxml"));

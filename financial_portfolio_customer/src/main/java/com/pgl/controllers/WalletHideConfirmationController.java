@@ -53,7 +53,6 @@ public class WalletHideConfirmationController implements Initializable {
      */
     @FXML
     private void hide_confirm(MouseEvent event) {
-        //TODO
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(bundle.getString("succes10"));

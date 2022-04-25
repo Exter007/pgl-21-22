@@ -122,7 +122,6 @@ public class DashboardController implements Initializable {
         YourWallet_label.setText(bundle.getString("YourWallet_label"));
         consult_btn.setText(bundle.getString("Consult_btn"));
         delete_btn.setText(bundle.getString("Delete_btn"));
-        //TODO : Les nom des collums du tableau
         Day.setText(bundle.getString("Day_btn"));
         Week.setText(bundle.getString("Week_btn"));
         Month.setText(bundle.getString("Month_btn"));

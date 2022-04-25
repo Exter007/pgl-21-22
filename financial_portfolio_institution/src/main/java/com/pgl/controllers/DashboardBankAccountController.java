@@ -192,7 +192,6 @@ public class DashboardBankAccountController implements Initializable {
      */
     @FXML
     private void search_Client(MouseEvent event) {
-        //TODO
     }
 
     /**
@@ -217,6 +216,5 @@ public class DashboardBankAccountController implements Initializable {
      */
     @FXML
     private void import_ClientData(MouseEvent event) {
-        //TODO
     }
 }

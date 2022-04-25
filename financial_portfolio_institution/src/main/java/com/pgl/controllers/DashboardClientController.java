@@ -184,7 +184,6 @@ public class DashboardClientController implements Initializable {
      */
     @FXML
     private void search_Client(MouseEvent event) {
-        //TODO
     }
 
     /**
@@ -207,7 +206,6 @@ public class DashboardClientController implements Initializable {
      */
     @FXML
     private void import_ClientData(MouseEvent event) {
-        //TODO
     }
 
 }

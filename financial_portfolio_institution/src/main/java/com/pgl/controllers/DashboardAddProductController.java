@@ -52,6 +52,5 @@ public class DashboardAddProductController implements Initializable {
      */
     @FXML
     private void create_product(ActionEvent event) {
-        //TODO
     }
 }

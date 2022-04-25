@@ -142,8 +142,6 @@ public class WalletAskCardController implements Initializable {
                 }
             }
 
-            //TODO
-
             /*
             RequestCard rc = requestCardService.save(requestCard);
             if(rc != null && rc.getStatus() == Request.REQUEST_STATUS.PENDING){
