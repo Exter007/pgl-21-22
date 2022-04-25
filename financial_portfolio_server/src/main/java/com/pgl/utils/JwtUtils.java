@@ -10,13 +10,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/** Utility class related to Json Web Tokens
+ *
+ */
 @Component
 public class JwtUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
     @Value("${bezkoder.app.jwtSecret}")
     private String jwtSecret;
     @Value("${bezkoder.app.jwtExpirationMs}")
     private int jwtExpirationMs;
+
+    /** Generate a Json Web Token
+     *
+     * @param authentication represents the token for an authentication request
+     * @return a Json Web Token
+     */
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         return Jwts.builder()
@@ -26,9 +36,21 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+
+    /** Get the username from a Json Web Token
+     *
+     * @param token the Json Web Token
+     * @return the username
+     */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
+
+    /** Checks if a Json Web Token is valid
+     *
+     * @param authToken the Json Web Token
+     * @return true if the token is valid, otherwise false
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
