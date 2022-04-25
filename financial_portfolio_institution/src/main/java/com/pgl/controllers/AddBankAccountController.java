@@ -131,23 +131,20 @@ public class AddBankAccountController implements Initializable {
         show_current_account();
         accountTypeComboBox.getSelectionModel().selectFirst();
 
-        accountNatureComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT.name())) {
-                    show_current_account();
-                    accountTypeComboBox.setDisable(false);
-                }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.SAVING_ACCOUNT.name())){
-                    show_saving_account();
-                    accountTypeComboBox.setDisable(false);
-                }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT.name())){
-                    show_young_account();
-                    accountTypeComboBox.setValue(BankAccount.ACCOUNT_TYPE.JOINT_ACCOUNT.name());
-                    accountTypeComboBox.setDisable(true);
-                }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.TERM_ACCOUNT.name())){
-                    show_term_account();
-                    accountTypeComboBox.setDisable(false);
-                }
+        accountNatureComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(BankAccount.ACCOUNT_NATURE.CURRENT_ACCOUNT.name())) {
+                show_current_account();
+                accountTypeComboBox.setDisable(false);
+            }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.SAVING_ACCOUNT.name())){
+                show_saving_account();
+                accountTypeComboBox.setDisable(false);
+            }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.YOUNG_ACCOUNT.name())){
+                show_young_account();
+                accountTypeComboBox.setValue(BankAccount.ACCOUNT_TYPE.JOINT_ACCOUNT.name());
+                accountTypeComboBox.setDisable(true);
+            }else if (newValue.equals(BankAccount.ACCOUNT_NATURE.TERM_ACCOUNT.name())){
+                show_term_account();
+                accountTypeComboBox.setDisable(false);
             }
         });
 
@@ -293,7 +290,7 @@ public class AddBankAccountController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error8"));
             alert.showAndWait();
-        } else if(( holder = productHolderService
+        }else if(( holder = productHolderService
                 .getHolderByInstitutionAndRegisterNum(clientRegisterNumber.getText())) == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error14"));
@@ -378,9 +375,9 @@ public class AddBankAccountController implements Initializable {
         // If edit mode
         if(bankAccountService.isEdit()){
             currentAccount = (CurrentAccount) bankAccountService.getCurrentBankAccount();
+            currentAccount.setModificationDate(new Date());
         }else {
             currentAccount = new CurrentAccount();
-            currentAccount.setModificationDate(new Date());
             currentAccount.setPin_code(generatePinCode());
         }
 
@@ -403,8 +400,8 @@ public class AddBankAccountController implements Initializable {
             savingsAccount.setModificationDate(new Date());
         }else {
             savingsAccount = new SavingsAccount();
-            LocalDate loyaltyDate = LocalDate.now();
-            savingsAccount.setLoyaltyDate(java.sql.Date.valueOf(loyaltyDate.plusYears(1)));
+            LocalDate localDate = LocalDate.now();
+            savingsAccount.setLoyaltyDate(java.sql.Date.valueOf(localDate.plusYears(1)));
         }
 
         buildDefault(savingsAccount);
@@ -429,9 +426,9 @@ public class AddBankAccountController implements Initializable {
         // If edit mode
         if(bankAccountService.isEdit()){
             youngAccount = (YoungAccount) bankAccountService.getCurrentBankAccount();
+            youngAccount.setModificationDate(new Date());
         }else {
             youngAccount = new YoungAccount();
-            youngAccount.setModificationDate(new Date());
             youngAccount.setPin_code(generatePinCode());
         }
         buildDefault(youngAccount);
@@ -453,9 +450,9 @@ public class AddBankAccountController implements Initializable {
         // If edit mode
         if(bankAccountService.isEdit()){
             termAccount = (TermAccount) bankAccountService.getCurrentBankAccount();
+            termAccount.setModificationDate(new Date());
         }else {
             termAccount = new TermAccount();
-            termAccount.setModificationDate(new Date());
         }
         buildDefault(termAccount);
 
@@ -482,6 +479,7 @@ public class AddBankAccountController implements Initializable {
         bankAccount.setCurrency(BankAccount.CURRENCY.EURO);
         bankAccount.setMonthlyFee(convertToFloat(monthlyFee.getText()));
         bankAccount.getFinancialProductHolders().add(0,holder);
+        bankAccount.setCreationDate(new Date());
 
         return bankAccount;
     }
@@ -491,7 +489,7 @@ public class AddBankAccountController implements Initializable {
      */
     private void loadBankDashboard(){
         DynamicViews.loadBorderCenter("Institution-Dashboard-BankAccount");
-        productHolderService.moveCurrentClient();
+        bankAccountService.moveCurrentBankAccount();
     }
 
     /**

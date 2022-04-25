@@ -36,7 +36,7 @@ public class DashboardController implements Initializable {
 	FinancialInstitutionService institutionService = new FinancialInstitutionService();
     BankAccountService bankAccountService = new BankAccountService();
 
-    static ResourceBundle bundle;
+    public static ResourceBundle bundle;
 
     ObservableList list = FXCollections.observableArrayList();
     List<FinancialProduct> productList = new ArrayList<>();
@@ -194,9 +194,6 @@ public class DashboardController implements Initializable {
             if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
                 bankAccountService.setCurrentBankAccount((BankAccount) productService.getCurrentProduct());
                 DynamicViews.loadBorderCenter("Institution-ViewBankAccount");
-            }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
-//                insuranceService.setCurrentInsurance((BankAccount) productService.getCurrentProduct());
-//                DynamicViews.loadBorderCenter("Institution-ViewInsurance");
             }
         } else {
             productService.not_selected_error();
@@ -214,10 +211,6 @@ public class DashboardController implements Initializable {
                 bankAccountService.setEdit(true);
                 bankAccountService.setCurrentBankAccount((BankAccount) productService.getCurrentProduct());
                 DynamicViews.loadBorderCenter("Institution-Dashboard-AddBankAccount");
-            }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
-//                insuranceService.setEdit(true);
-//                insuranceService.setCurrentInsurance((BankAccount) productService.getCurrentProduct());
-//                DynamicViews.loadBorderCenter("Institution-Dashboard-AddInsurance");
             }
         } else {
             productService.not_selected_error();
@@ -238,8 +231,6 @@ public class DashboardController implements Initializable {
                 boolean status = false;
                 if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT)){
                     status = bankAccountService.deleteById(String.valueOf(currentProduct.getId()));
-                }else if (currentProduct.getProductType().equals(FinancialProduct.PRODUCT_TYPE.INSURANCE)){
-//                    status = insuranceService.deleteById(String.valueOf(currentProduct.getId()));
                 }
                 // if successful deletion
                 if (status) {
@@ -362,7 +353,7 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void on_insurances(ActionEvent event){
-       //TODO
+        DynamicViews.loadBorderCenter(border_pane,"/extension5/Institution-Dashboard-InsuranceContract");
     }
 
     /**

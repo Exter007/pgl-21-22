@@ -57,7 +57,7 @@ public class UserService<P extends User> {
         String mailSubject = "Validation de votre compte";
         String token = user.getToken();
         String message = "Bonjour,\n\n Votre compte a bien été créé.\n Veuillez utiliser ce code pour le valider : "
-                + token + "\n\n Merci,";
+                + token + "\n\nMerci, \nLe groupe 2 du Projet GL";
 
         sendMail(user.getEmail(), mailSubject, message);
     }
@@ -72,7 +72,8 @@ public class UserService<P extends User> {
 
         String token = Code.generateCode();
         String mailSubject = "Activation du compte";
-        String message = "Bonjour,\n\n Veuillez utiliser ce code pour activer votre compte: "+ token;
+        String message = "Bonjour,\n\n Veuillez utiliser ce code pour activer votre compte : "
+                + token + "\n\nMerci, \nLe groupe 2 du Projet GL";
         sendMail(user.getEmail(), mailSubject, message);
         user.setToken(token);
         updateTokenOrStatusOrPwd(user);
@@ -93,7 +94,8 @@ public class UserService<P extends User> {
         User user2 = updateTokenOrStatusOrPwd(user);
 
         String mailSubject = "Réinitialisation du mot de passe";
-        String message = "Bonjour,\n\n Veuillez utiliser ce code pour réinitialiser votre mot de passe: " + user2.getToken();
+        String message = "Bonjour,\n\n Veuillez utiliser ce code pour réinitialiser votre mot de passe : "
+                + user2.getToken()+ "\n\nMerci, \nLe groupe 2 du Projet GL";
         sendMail(user2.getEmail(), mailSubject, message);
 
         return user2;

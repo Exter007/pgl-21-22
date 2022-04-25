@@ -1,7 +1,9 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
+import com.pgl.models.extension5.*;
 import com.pgl.repositories.*;
+import com.pgl.repositories.extension5.InsuranceContractRepository;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.RequestTransferService;
@@ -44,6 +46,10 @@ public class InstitutionController {
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    InsuranceContractRepository insuranceRepository;
+
 
     public InstitutionController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -266,12 +272,12 @@ public class InstitutionController {
         return ResponseEntity.ok(accounts);
     }
 
-    /** Retrieve Bank Account by IBAN for a Financial Holder
+    /** Retrieve Bank Account by IBAN
      * @param iban A BankAccount IBAN
-     * @return List of all the BankAccount
+     * @return Bank Account retrieved
      */
     @GetMapping(value = "account/get-by-iban/{iban}")
-    public ResponseEntity<?> getProductByIBAN(@PathVariable String iban) {
+    public ResponseEntity<?> getBankAccountByIBAN(@PathVariable String iban) {
         FinancialProduct account = productService
                 .getRepository().findBankAccountByIBAN(
                         iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT
@@ -423,6 +429,136 @@ public class InstitutionController {
         List<RequestTransfer> entities = requestTransferService.getRepository()
                 .findAllByFinancialInstitution(bic);
         return ResponseEntity.ok(entities);
+    }
+
+
+    // Ressources for Insurance Contract
+
+    /** Retrieve Insurance Contract by number
+     * @param insuranceNumber A Insurance Contract Number
+     * @return Insurance Contract retrieved
+     */
+    @GetMapping(value = "insurance-contract/get-by-number/{insuranceNumber}")
+    public ResponseEntity<?> getInsuranceContractByNumber(@PathVariable String insuranceNumber) {
+        InsuranceContract insurance = insuranceRepository.findInsuranceContractByNumber(
+                        insuranceNumber, FinancialProduct.PRODUCT_TYPE.INSURANCE_CONTRACT
+                );
+        return ResponseEntity.ok(insurance);
+    }
+
+    /** Retrieve Insurance Contracts by Financial institution
+     * @param bic A Financial Institution Number
+     * @return Insurance Contracts retrieved
+     */
+    @GetMapping(value = "insurance-contract/get-by-institution/{bic}")
+    public ResponseEntity<?> getInsuranceContractsByBIC(@PathVariable String bic) {
+        List<InsuranceContract> insurances = insuranceRepository.findInsuranceContractByInstitution(
+                bic, FinancialProduct.PRODUCT_TYPE.INSURANCE_CONTRACT
+        );
+        return ResponseEntity.ok(insurances);
+    }
+
+
+    /**
+     * Save Family Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "family-insurance/save")
+    public ResponseEntity<?> saveFamilyInsurance(@RequestBody FamilyInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Habitation Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "habitation-insurance/save")
+    public ResponseEntity<?> saveHabitationInsurance(@RequestBody HabitationInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Vehicle Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "vehicle-insurance/save")
+    public ResponseEntity<?> saveVehicleInsurance(@RequestBody VehicleInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Assistance Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "assistance-insurance/save")
+    public ResponseEntity<?> saveAssistanceInsurance(@RequestBody AssistanceInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Hospitalization Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "hospitalization-insurance/save")
+    public ResponseEntity<?> saveHospitalizationInsurance(@RequestBody HospitalizationInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Travel Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "travel-insurance/save")
+    public ResponseEntity<?> saveTravelInsurance(@RequestBody TravelInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Life Branch 21 Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "life21branch-insurance/save")
+    public ResponseEntity<?> saveLifeBranch21Insurance(@RequestBody LifeBranch21Insurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Life Branch 23 Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "life23branch-insurance/save")
+    public ResponseEntity<?> saveLifeBranch23Insurance(@RequestBody LifeBranch23Insurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Save Pension Savings Insurance
+     * @param insurance
+     * @return
+     */
+    @PostMapping(value = "pension-savings-insurance/save")
+    public ResponseEntity<?> savePensionSavingsInsurance(@RequestBody PensionSavingsInsurance insurance){
+        return ResponseEntity.ok(productService.saveProduct(insurance));
+    }
+
+    /**
+     * Delete Bank Account by ID
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "insurance-contract/delete-by-id/{id}")
+    public ResponseEntity<?> deleteInsuranceById(@PathVariable Long id){
+        logger.debug("Call : delete Insurance Contract by id");
+        insuranceRepository.deleteById(id);
+        return ResponseEntity.ok(true);
     }
 
 //    /**

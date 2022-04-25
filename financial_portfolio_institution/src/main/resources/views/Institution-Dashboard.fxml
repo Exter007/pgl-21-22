@@ -204,7 +204,7 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                 <MenuItem fx:id="BankAccounts_menu" mnemonicParsing="false" onAction="#on_accounts" text="Comptes bancaires" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="Assurances_menu" mnemonicParsing="false" onAction="#on_insurances" text="Assurances" />
+                  <MenuItem fx:id="Assurances_menu" mnemonicParsing="false" onAction="#on_insurances" text="Contrats d'assurance" />
                </items>
             </Menu>
         </menus>

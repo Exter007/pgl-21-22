@@ -226,8 +226,6 @@ public class ViewBankAccountController implements Initializable {
                         newWindow.setScene(scene);
                         GlobalStage.setStage(newWindow);
 
-                        bankAccountService.moveCurrentBankAccount();
-
                     } catch (IOException ex) {
                         Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                     }

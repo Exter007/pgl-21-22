@@ -24,6 +24,9 @@ public class FinancialProduct extends Persistent {
     @Column(name = "state", nullable = false)
     private PRODUCT_STATE state;
 
+    @Column(name="amount")
+    private float amount;
+
     @Column(name = "tranfer_access")
     private TRANSFER_ACCESS transferAccess;
 
@@ -75,6 +78,7 @@ public class FinancialProduct extends Persistent {
         this.financialInstitution = financialInstitution;
         this.productType = productType;
         this.state = PRODUCT_STATE.UNARCHIVED;
+        this.amount = 0;
     }
 
     /** Class constructor with all attributes
@@ -144,6 +148,22 @@ public class FinancialProduct extends Persistent {
         this.state = state;
     }
 
+    /** Get the amount available
+     *
+     * @return the amount available in this account in the form of a float
+     */
+    public float getAmount() {
+        return amount;
+    }
+
+    /** Set the amount available
+     *
+     * @param amount a float
+     */
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
     /** Get the transfert access of this product
      *
      * @return the state in the form of a FinancialProduct.TRANSFER_ACCESS enum
@@ -196,7 +216,7 @@ public class FinancialProduct extends Persistent {
      */
     public enum PRODUCT_TYPE{
         BANK_ACCOUNT,
-        INSURANCE,
+        INSURANCE_CONTRACT,
     }
 
     /** Represent the product state

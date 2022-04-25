@@ -24,7 +24,7 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="iban")
     private String iban;
 
-    @Column(name="nature", nullable = false)
+    @Column(name="nature")
     private ACCOUNT_NATURE nature;
 
     @Column(name="account_type")
@@ -33,10 +33,7 @@ public abstract class BankAccount extends FinancialProduct {
     @Column(name="pin_code")
     private String pin_code;
 
-    @Column(name="amount")
-    private float amount;
-
-    @Column(name="currency", nullable = false)
+    @Column(name="currency")
     private CURRENCY currency;
 
     @Column(name="monthlyFee")
@@ -84,7 +81,6 @@ public abstract class BankAccount extends FinancialProduct {
         this.iban = iban;
         this.accountType = type;
         this.pin_code = pin_code;
-        this.amount = 0;
         this.currency = currency;
         this.monthlyFee = monthlyFee;
         this.annualYield = annualYield;
@@ -137,22 +133,6 @@ public abstract class BankAccount extends FinancialProduct {
      */
     public void setPin_code(String pin_code) {
         this.pin_code = pin_code;
-    }
-
-    /** Get the amount available
-     *
-     * @return the amount available in this account in the form of a float
-     */
-    public float getAmount() {
-        return amount;
-    }
-
-    /** Set the amount available
-     *
-     * @param amount a float
-     */
-    public void setAmount(float amount) {
-        this.amount = amount;
     }
 
     /** Get the currency of this account

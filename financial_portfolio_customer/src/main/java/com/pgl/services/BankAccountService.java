@@ -72,8 +72,10 @@ public class BankAccountService extends HttpClientService<LinkedHashMap> {
         setCurrentBankAccount(null);
     }
 
+
     /**
      * Retrieve Bank Account from a IBAN
+     * @param iban for Bank account
      * @return
      */
     public BankAccount getBankAccountByIBAN(String iban){
