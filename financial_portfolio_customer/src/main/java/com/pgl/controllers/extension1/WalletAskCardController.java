@@ -1,6 +1,10 @@
 package com.pgl.controllers.extension1;
 
 import com.pgl.models.*;
+import com.pgl.models.extension1.Card;
+import com.pgl.models.extension1.CreditCard;
+import com.pgl.models.extension1.DebitCard;
+import com.pgl.models.extension1.RequestCard;
 import com.pgl.services.BankAccountService;
 import com.pgl.services.RequestCardService;
 import com.pgl.services.UserService;

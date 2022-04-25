@@ -1,6 +1,6 @@
 package com.pgl.services;
 
-import com.pgl.models.RequestCard;
+import com.pgl.models.extension1.RequestCard;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
