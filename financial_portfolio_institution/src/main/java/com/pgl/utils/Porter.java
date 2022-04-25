@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Exporter {
+public class Porter {
 
-    public static <P extends PersistentWithoutId> void ActionExport(String currentDateTime, List<P> list, ResourceBundle bundle, ChoiceBox<String> export_format, boolean all) {
-        Exporter exp = new Exporter();
+    public static <P extends PersistentWithoutId> void ActionExport(String currentDateTime, List<P> list, ResourceBundle bundle, ChoiceBox<String> export_format) {
+        Porter exp = new Porter();
         String fileName = null;
         if(list.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -27,13 +27,11 @@ public class Exporter {
             return;
         }
         else if(list.get(0) instanceof FinancialProduct){
-            if(all)
-                fileName="financial_products_" + currentDateTime;
-            else
-                fileName= ((FinancialProduct) list.get(0)).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
+            fileName="financial_products_" + currentDateTime;
+
         }
-        else if(list.get(0) instanceof Transaction){
-            fileName = "transactions_" + currentDateTime;
+        else if(list.get(0) instanceof FinancialProductHolder){
+            fileName = "financial_products_holders_" + currentDateTime;
         }
         exp.export(list, fileName, bundle, export_format);
     }
@@ -47,7 +45,7 @@ public class Exporter {
      * @param <P> generic type extended from PersistentWithoutId
      */
     public <P extends PersistentWithoutId> void export(List<P> list, String fileName, ResourceBundle bundle, ChoiceBox<String> export_format) {
-        if(export_format.getValue()==null){
+        if (export_format.getValue()==null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("Export_format"));
             alert.showAndWait();
@@ -85,21 +83,57 @@ public class Exporter {
             }
 
             try {
-                writeAccounts(CurrentAccount.class, fileName, currentAccounts, bundle);
-                writeAccounts(YoungAccount.class, fileName, youngAccounts, bundle);
-                writeAccounts(SavingsAccount.class, fileName, savingAccounts, bundle);
-                writeAccounts(TermAccount.class, fileName, termAccounts, bundle);
+                if (!currentAccounts.isEmpty())
+                    writeAccounts(CurrentAccount.class, fileName, currentAccounts, bundle);
+                if(!youngAccounts.isEmpty())
+                    writeAccounts(YoungAccount.class, fileName, youngAccounts, bundle);
+                if(!savingAccounts.isEmpty())
+                    writeAccounts(SavingsAccount.class, fileName, savingAccounts, bundle);
+                if(!termAccounts.isEmpty())
+                    writeAccounts(TermAccount.class, fileName, termAccounts, bundle);
 
             } catch (Exception ex) {
                 System.err.println("Error writing the CSV file: " + ex);
             }
         }
-        else if(list.get(0) instanceof Transaction){
+        else if(list.get(0) instanceof FinancialProductHolder){
             try {
-                writeAccounts(Transaction.class, fileName, list, bundle);
+                writeAccounts(FinancialProductHolder.class, fileName, list, bundle);
             } catch (Exception ex) {
                 System.err.println("Error writing the CSV file: " + ex);
             }
+        }
+    }
+
+    private<P extends PersistentWithoutId> void writeAccounts(Class pClass, String fileName, List<P> accounts,
+                                                              ResourceBundle bundle) throws IOException {
+        String[] fileMapping;
+        String[] header;
+        ICsvDozerBeanWriter beanWriter;
+        // create writer
+        beanWriter = new CsvDozerBeanWriter(new FileWriter(fileName, true),
+                CsvPreference.STANDARD_PREFERENCE);
+
+        //implement the chain of responsibility
+        fileMapping = fileMapping(pClass);
+        showProcessorsError(fileMapping, bundle);
+        //account header
+        header = header(pClass);
+        showHeaderError(header, bundle);
+
+        beanWriter.configureBeanMapping(pClass, fileMapping);
+
+        beanWriter.writeHeader(header);
+
+        for (P element : accounts) {
+            beanWriter.write(element);
+        }
+
+        beanWriter.writeHeader("\n");
+        try {
+            beanWriter.close();
+        } catch (IOException ex) {
+            System.err.println("Error closing the writer: " + ex);
         }
     }
 
@@ -128,9 +162,9 @@ public class Exporter {
                     "MONTHLY FEE", "ANNUAL YIELD", "FINANCIAL INSTITUTION", "TERM DATE", "PENALTY",
                     "CREATION DATE", "MODIFICATION DATE"};
         }
-        else if(obj.equals(Transaction.class)){
-            return new String[]{"TRANSACTION NUMBER", "TRANSACTION TYPE", "Transmitter IBAN", "BENEFICIARY IBAN",
-                    "BENEFICIARY NAME", "AMOUNT", "COMMUNICATION TYPE", "COMMUNICATION", "DATE", "REQUEST_STATUS"};
+        else if(obj.equals(FinancialProductHolder.class)){
+            return new String[]{"NATIONAL REGISTER NUMBER", "LAST NAME", "FIRST NAME", "DATE OF BIRTH", "SEX", "PHONE",
+                    "BIC", "CREATION DATE", "MODIFICATION DATE"};
         }
         else
             return null;
@@ -161,9 +195,9 @@ public class Exporter {
                     "financialInstitution.name", "maximumDate", "penalty",
                     "creationDate", "modificationDate"};
         }
-        else if(obj.equals(Transaction.class)){
-            return new String[]{"transactionNumber", "type", "bankAccount.iban", "destinationIBAN",
-                    "destinationName", "amount", "communication_type", "communication", "date", "status"};
+        else if(obj.equals(FinancialProductHolder.class)){
+            return new String[]{"nationalRegister", "name", "firstName", "birthDate", "sex", "phone",
+                    "financialInstitution.BIC", "creationDate", "modificationDate"};
         }
         else
             return null;
@@ -208,38 +242,6 @@ public class Exporter {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("CSV_alert"));
             alert.showAndWait();
-        }
-    }
-
-    private<P extends PersistentWithoutId> void writeAccounts(Class pClass, String fileName, List<P> accounts,
-                                                      ResourceBundle bundle) throws IOException {
-        String[] fileMapping;
-        String[] header;
-        ICsvDozerBeanWriter beanWriter;
-        // create writer
-        beanWriter = new CsvDozerBeanWriter(new FileWriter(fileName, true),
-                CsvPreference.STANDARD_PREFERENCE);
-
-        //implement the chain of responsibility
-        fileMapping = fileMapping(pClass);
-        showProcessorsError(fileMapping, bundle);
-        //account header
-        header = header(pClass);
-        showHeaderError(header, bundle);
-
-        beanWriter.configureBeanMapping(pClass, fileMapping);
-
-        beanWriter.writeHeader(header);
-
-        for (P element : accounts) {
-            beanWriter.write(element);
-        }
-
-        beanWriter.writeHeader("\n");
-        try {
-            beanWriter.close();
-        } catch (IOException ex) {
-            System.err.println("Error closing the writer: " + ex);
         }
     }
 }

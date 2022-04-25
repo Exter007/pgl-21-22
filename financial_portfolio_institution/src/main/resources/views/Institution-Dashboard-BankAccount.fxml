@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1113.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardBankAccountController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1113.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardBankAccountController">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="741.0" prefWidth="1114.0" VBox.vgrow="ALWAYS">
          <children>
@@ -101,6 +101,9 @@
                                     <String fx:value="border-2px" />
                                     <String fx:value="fill-white" />
                                  </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Button>
                               <Button fx:id="Edit_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
                                  <styleClass>
@@ -109,6 +112,9 @@
                                     <String fx:value="border-2px" />
                                     <String fx:value="fill-white" />
                                  </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Button>
                               <Button fx:id="Delete_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
                                  <styleClass>
@@ -118,19 +124,15 @@
                                     <String fx:value="fill-white" />
                                  </styleClass>
                               </Button>
-                              <VBox prefHeight="27.0" prefWidth="100.0" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </children>
             </VBox>
-            <HBox alignment="CENTER" layoutX="681.0" layoutY="600.0" prefHeight="55.0" prefWidth="367.0">
-               <children>
-                  <Button fx:id="import_btn" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importer des données" />
-                  <Button fx:id="export_btn" mnemonicParsing="false" onMouseClicked="#export_ClientData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
-               </children>
-            </HBox>
+            <Button fx:id="import_btn" layoutX="849.0" layoutY="648.0" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importer des données" />
+            <Button fx:id="export_btn" layoutX="849.0" layoutY="583.0" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+            <ChoiceBox fx:id="export_format" layoutX="672.0" layoutY="583.0" prefHeight="55.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>

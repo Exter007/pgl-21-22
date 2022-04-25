@@ -412,18 +412,18 @@ public class DashboardController implements Initializable {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String currentDateTime = dateFormatter.format(new Date());
 
-        if(data.getValue().equals(bundle.getString("Financial_Products"))) {
+        if(data.getValue()==null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("Export_data"));
+            alert.showAndWait();
+        }
+        else if(data.getValue().equals(bundle.getString("Financial_Products"))) {
             List<FinancialProduct> financialProducts = financialProductService.getFinancialProductsByClient(userService.getCurrentUser());
             Exporter.ActionExport(currentDateTime, financialProducts, bundle, export_format, true);
         }
         else if(data.getValue().equals(bundle.getString("Transactions"))){
             List<Transaction> transactions = transactionService.getTransactionsByClient();
             Exporter.ActionExport(currentDateTime, transactions, bundle, export_format, true);
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("Export_data"));
-            alert.showAndWait();
         }
     }
 

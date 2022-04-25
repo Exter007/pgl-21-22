@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1113.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardClientController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1113.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardClientController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="741.0" prefWidth="1114.0" VBox.vgrow="ALWAYS">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="741.0" prefWidth="1114.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox layoutX="22.0" layoutY="33.0" prefHeight="530.0" prefWidth="1078.0">
                <children>
@@ -76,12 +77,9 @@
                         <Insets left="50.0" right="50.0" top="30.0" />
                      </VBox.margin>
                      <children>
-                        <HBox prefHeight="292.0" prefWidth="978.0">
-                           <children>
-                              <ListView fx:id="clientListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="281.0" prefWidth="958.0" style="-fx-font-size: 17;">
-                                 <HBox.margin>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                 </HBox.margin>
+                        <ScrollPane fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="977.0">
+                           <content>
+                              <ListView fx:id="clientListView" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="280.0" prefWidth="958.0" style="-fx-font-size: 17;">
                                  <styleClass>
                                     <String fx:value="back-blue" />
                                     <String fx:value="fn-16" />
@@ -89,15 +87,8 @@
                                     <String fx:value="fill-white" />
                                  </styleClass>
                               </ListView>
-                           </children>
-                           <styleClass>
-                              <String fx:value="back-blue" />
-                              <String fx:value="fn-16" />
-                              <String fx:value="border-listView" />
-                              <String fx:value="list-cell" />
-                           </styleClass>
-                        </HBox>
-                        <HBox prefHeight="35.0" prefWidth="1084.0" />
+                           </content>
+                        </ScrollPane>
                         <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="978.0">
                            <children>
                               <Button fx:id="Consult_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
@@ -107,6 +98,9 @@
                                     <String fx:value="border-2px" />
                                     <String fx:value="fill-white" />
                                  </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Button>
                               <Button fx:id="Edit_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
                                  <styleClass>
@@ -115,6 +109,9 @@
                                     <String fx:value="border-2px" />
                                     <String fx:value="fill-white" />
                                  </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                               </Button>
                               <Button fx:id="Delete_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
                                  <styleClass>
@@ -124,19 +121,18 @@
                                     <String fx:value="fill-white" />
                                  </styleClass>
                               </Button>
-                              <VBox prefHeight="27.0" prefWidth="100.0" />
                            </children>
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
                </children>
             </VBox>
-            <HBox alignment="CENTER" layoutX="681.0" layoutY="600.0" prefHeight="55.0" prefWidth="367.0">
-               <children>
-                  <Button fx:id="import_btn" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importer des données" />
-                  <Button fx:id="export_btn" mnemonicParsing="false" onMouseClicked="#export_ClientData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
-               </children>
-            </HBox>
+            <Button fx:id="export_btn" layoutX="847.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+            <Button fx:id="import_btn" layoutX="847.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#import_ClientData" prefHeight="55.0" prefWidth="203.0" text="Importer des données" />
+            <ChoiceBox fx:id="export_format" layoutX="680.0" layoutY="545.0" prefHeight="55.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>
