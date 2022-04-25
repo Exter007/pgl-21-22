@@ -5,21 +5,38 @@ import com.google.gson.GsonBuilder;
 import com.pgl.models.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-import org.supercsv.cellprocessor.Optional;
-import org.supercsv.cellprocessor.ParseDate;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.constraint.NotNull;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanWriter;
-import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.io.dozer.CsvDozerBeanWriter;
+import org.supercsv.io.dozer.ICsvDozerBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class Exporter {
+
+    public static <P extends PersistentWithoutId> void ActionExport(String currentDateTime, List<P> list, ResourceBundle bundle, ChoiceBox<String> export_format, boolean all) {
+        Exporter exp = new Exporter();
+        String fileName = null;
+        if(list.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("Export_alert"));
+            alert.showAndWait();
+            return;
+        }
+        else if(list.get(0) instanceof FinancialProduct){
+            if(all)
+                fileName="financial_products_" + currentDateTime;
+            else
+                fileName= ((FinancialProduct) list.get(0)).getFinancialInstitution().getName() + "_wallet_" + currentDateTime;
+        }
+        else if(list.get(0) instanceof Transaction){
+            fileName = "transactions_" + currentDateTime;
+        }
+        exp.export(list, fileName, bundle, export_format);
+    }
 
     /** Export a list of persistent object in a certain format to a file
      *
@@ -29,12 +46,11 @@ public class Exporter {
      * @param export_format the format
      * @param <P> generic type extended from PersistentWithoutId
      */
-    public static <P extends PersistentWithoutId> void export(List<P> list, String fileName, ResourceBundle bundle, ChoiceBox<String> export_format) {
-        Exporter exp = new Exporter();
+    public <P extends PersistentWithoutId> void export(List<P> list, String fileName, ResourceBundle bundle, ChoiceBox<String> export_format) {
         if(export_format.getValue().equals(".csv")){
-            exp.toCSVFile(list, fileName, bundle);
+            this.toCSVFile(list, fileName, bundle);
         }else if(export_format.getValue().equals(".json")){
-            exp.toJsonFile(list, fileName, bundle);
+            this.toJsonFile(list, fileName);
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("Export_format"));
@@ -48,48 +64,40 @@ public class Exporter {
      * @param fileName the name of the CSV file
      * @param <P> generic type extended from PersistentWithoutId
      */
-    private  <P extends PersistentWithoutId> void toCSVFile (List<P> list, String fileName, ResourceBundle bundle){
-        ICsvBeanWriter beanWriter = null;
-
-        //implement the chain of responsibility
-        CellProcessor[] processors = processorsHeader(list.get(0));
-        if (processors == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("CSV_alert"));
-            alert.showAndWait();
-            return;
-        }
-
-        //file header
-        String[] header = header(list.get(0));
-        if (header == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(bundle.getString("CSV_alert"));
-            alert.showAndWait();
-            return;
-        }
-
+    private  <P extends PersistentWithoutId> void toCSVFile (List<P> list, String fileName, ResourceBundle bundle) {
         fileName = fileName.concat(".csv");
-        try {
-            // create writer
-            beanWriter = new CsvBeanWriter(new FileWriter(fileName),
-                    CsvPreference.STANDARD_PREFERENCE);
+        if(list.get(0) instanceof FinancialProduct){
+            List<P> currentAccounts = new ArrayList<>();
+            List<P> youngAccounts = new ArrayList<>();
+            List<P> savingAccounts = new ArrayList<>();
+            List<P> termAccounts = new ArrayList<>();
 
-            beanWriter.writeHeader(header);
-
-            for (P element : list) {
-                beanWriter.write(element, header, processors);
+            for (P account: list) {
+                if(account.getClass().equals(CurrentAccount.class))
+                    currentAccounts.add(account);
+                else if(account.getClass().equals(YoungAccount.class))
+                    youngAccounts.add(account);
+                else if(account.getClass().equals(SavingsAccount.class))
+                    savingAccounts.add(account);
+                else if(account.getClass().equals(TermAccount.class))
+                    termAccounts.add(account);
             }
 
-        } catch (Exception ex) {
-            System.err.println("Error writing the CSV file: " + ex);
-        } finally {
-            if (beanWriter != null) {
-                try {
-                    beanWriter.close();
-                } catch (IOException ex) {
-                    System.err.println("Error closing the writer: " + ex);
-                }
+            try {
+                writeAccounts(CurrentAccount.class, fileName, currentAccounts, bundle);
+                writeAccounts(YoungAccount.class, fileName, youngAccounts, bundle);
+                writeAccounts(SavingsAccount.class, fileName, savingAccounts, bundle);
+                writeAccounts(TermAccount.class, fileName, termAccounts, bundle);
+
+            } catch (Exception ex) {
+                System.err.println("Error writing the CSV file: " + ex);
+            }
+        }
+        else if(list.get(0) instanceof Transaction){
+            try {
+                writeAccounts(Transaction.class, fileName, list, bundle);
+            } catch (Exception ex) {
+                System.err.println("Error writing the CSV file: " + ex);
             }
         }
     }
@@ -100,22 +108,30 @@ public class Exporter {
      * @param <P> generic type extended from PersistentWithoutId
      * @return CellProcessor[] or null if the type is unsupported
      */
-    private <P extends PersistentWithoutId> CellProcessor[] processorsHeader(P obj){
-        if (obj instanceof CurrentAccount){
-            return new CellProcessor[] {
-                    new NotNull(), // iban
-                    new NotNull(), // nature
-                    new NotNull(), // accountType
-                    new ParseDouble(), // amount
-                    new NotNull(), // currency
-                    new ParseDouble(), //monthlyFee
-                    new ParseDouble(), //annualYield
-                    new Optional(), //jointIban
-                    new NotNull(), //financialInstitution
-                    new ParseDate("dd/MM/yyyy"), //creationDate
-                    new ParseDate("dd/MM/yyyy"), //modificationDate
-            };
-        }else
+    private <P extends PersistentWithoutId> String[] header(Class<P> obj){
+        if (obj.equals(CurrentAccount.class)){
+            return new String[]{"NATURE", "ACCOUNT TYPE", "IBAN", "AMOUNT", "CURRENCY",
+                    "MONTHLY FEE", "ANNUAL YIELD", "FINANCIAL INSTITUTION", "CREATION DATE", "MODIFICATION DATE"};
+        }
+        else if(obj.equals(YoungAccount.class)){
+            return new String[]{"NATURE", "ACCOUNT TYPE", "IBAN", "AMOUNT", "CURRENCY","MAX TRANSACTIONAL AMOUNT",
+                    "MONTHLY FEE", "ANNUAL YIELD", "FINANCIAL INSTITUTION", "CREATION DATE", "MODIFICATION DATE"};
+        }
+        else if(obj.equals(SavingsAccount.class)){
+            return new String[]{"NATURE", "ACCOUNT TYPE", "IBAN", "AMOUNT", "CURRENCY",
+                    "MONTHLY FEE", "ANNUAL YIELD", "FINANCIAL INSTITUTION", "LOYALTY DATE",
+                    "LOYALTY BONUS", "ANNUAL INTEREST", "CREATION DATE", "MODIFICATION DATE"};
+        }
+        else if(obj.equals(TermAccount.class)){
+            return new String[]{"NATURE", "ACCOUNT TYPE", "IBAN", "AMOUNT", "CURRENCY",
+                    "MONTHLY FEE", "ANNUAL YIELD", "FINANCIAL INSTITUTION", "TERM DATE", "PENALTY",
+                    "CREATION DATE", "MODIFICATION DATE"};
+        }
+        else if(obj.equals(Transaction.class)){
+            return new String[]{"TRANSACTION NUMBER", "TRANSACTION TYPE", "Transmitter IBAN", "BENEFICIARY IBAN",
+                    "BENEFICIARY NAME", "AMOUNT", "COMMUNICATION TYPE", "COMMUNICATION", "DATE", "REQUEST_STATUS"};
+        }
+        else
             return null;
     }
 
@@ -125,28 +141,30 @@ public class Exporter {
      * @param <P> generic type extended from PersistentWithoutId
      * @return String[] or null if the object is unsupported
      */
-    private <P extends PersistentWithoutId> String[] header(P obj){
-        if (obj instanceof CurrentAccount){
-            return new String[]{"iban", "nature", "accountType", "amount", "currency",
-                    "monthlyFee", "annualYield", "jointIban", "financialInstitution", "creationDate", "modificationDate"};
+    private <P extends PersistentWithoutId> String[] fileMapping(Class<P> obj){
+        if (obj.equals(CurrentAccount.class)){
+            return new String[]{"nature", "accountType", "iban", "amount", "currency",
+                    "monthlyFee", "annualYield", "financialInstitution.name", "creationDate", "modificationDate"};
         }
-        else if (obj instanceof YoungAccount){
-            return new String[]{"iban", "nature", "accountType", "amount", "currency", "maxTransactionAmount",
-                    "monthlyFee", "annualYield", "jointIban", "financialInstitution", "creationDate", "modificationDate"};
+        else if (obj.equals(YoungAccount.class)){
+            return new String[]{"nature", "accountType", "iban", "amount", "currency", "maxTransactionAmount",
+                    "monthlyFee", "annualYield", "financialInstitution.name", "creationDate", "modificationDate"};
         }
-        else if (obj instanceof SavingsAccount){
-            return new String[]{"iban", "nature", "accountType", "amount", "currency",
-                    "monthlyFee", "annualYield", "jointIban", "financialInstitution", "loyaltyDate",
+        else if (obj.equals(SavingsAccount.class)){
+            return new String[]{"nature", "accountType", "iban", "amount", "currency",
+                    "monthlyFee", "annualYield", "financialInstitution.name", "loyaltyDate",
                     "loyaltyBonus", "annualInterest", "creationDate", "modificationDate"};
         }
-        else if (obj instanceof TermAccount){
-            return new String[]{"iban", "nature", "accountType", "amount", "currency", "monthlyFee", "annualYield",
-                    "jointIban", "financialInstitution", "maximumDate", "penalty",
+        else if (obj.equals(TermAccount.class)){
+            return new String[]{"nature", "accountType", "iban", "amount", "currency", "monthlyFee", "annualYield",
+                    "financialInstitution.name", "maximumDate", "penalty",
                     "creationDate", "modificationDate"};
-        //}
-        //else if(obj instanceof Wallet){
-            //return new String[]{"name", "financialInstitution", "applicationClient", "walletFinancialProducts"};
-        }else
+        }
+        else if(obj.equals(Transaction.class)){
+            return new String[]{"transactionNumber", "type", "bankAccount.iban", "destinationIBAN",
+                    "destinationName", "amount", "communication_type", "communication", "date", "status"};
+        }
+        else
             return null;
     }
 
@@ -156,7 +174,7 @@ public class Exporter {
      * @param fileName the name of the JSON file
      * @param <P> generic type extended from PersistentWithoutId
      */
-    private <P extends PersistentWithoutId> void toJsonFile(List<P> list, String fileName, ResourceBundle bundle){
+    private <P extends PersistentWithoutId> void toJsonFile(List<P> list, String fileName){
         fileName = fileName.concat(".json");
         try {
             // create Gson instance with pretty-print
@@ -173,6 +191,54 @@ public class Exporter {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void showHeaderError(String[] header, ResourceBundle bundle){
+        if (header == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("CSV_alert"));
+            alert.showAndWait();
+        }
+    }
+
+    private void showProcessorsError(String[] fileMapping, ResourceBundle bundle){
+        if (fileMapping == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(bundle.getString("CSV_alert"));
+            alert.showAndWait();
+        }
+    }
+
+    private<P extends PersistentWithoutId> void writeAccounts(Class pClass, String fileName, List<P> accounts,
+                                                      ResourceBundle bundle) throws IOException {
+        String[] fileMapping;
+        String[] header;
+        ICsvDozerBeanWriter beanWriter;
+        // create writer
+        beanWriter = new CsvDozerBeanWriter(new FileWriter(fileName, true),
+                CsvPreference.STANDARD_PREFERENCE);
+
+        //implement the chain of responsibility
+        fileMapping = fileMapping(pClass);
+        showProcessorsError(fileMapping, bundle);
+        //account header
+        header = header(pClass);
+        showHeaderError(header, bundle);
+
+        beanWriter.configureBeanMapping(pClass, fileMapping);
+
+        beanWriter.writeHeader(header);
+
+        for (P element : accounts) {
+            beanWriter.write(element);
+        }
+
+        beanWriter.writeHeader("\n");
+        try {
+            beanWriter.close();
+        } catch (IOException ex) {
+            System.err.println("Error closing the writer: " + ex);
         }
     }
 }

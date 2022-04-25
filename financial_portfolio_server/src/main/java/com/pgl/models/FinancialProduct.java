@@ -217,6 +217,7 @@ public class FinancialProduct extends Persistent {
     public enum PRODUCT_TYPE{
         BANK_ACCOUNT,
         INSURANCE_CONTRACT,
+        CARD,
     }
 
     /** Represent the product state

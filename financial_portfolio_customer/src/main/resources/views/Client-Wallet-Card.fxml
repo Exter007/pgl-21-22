@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension1.WalletCardController">
 <children>
       <ScrollPane fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>

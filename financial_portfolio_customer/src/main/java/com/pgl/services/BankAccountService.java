@@ -11,6 +11,7 @@ import java.util.List;
 
 public class BankAccountService extends HttpClientService<LinkedHashMap> {
     WalletService walletService = new WalletService();
+    UserService userService = new UserService();
 
     private static BankAccount currentBankAccount;
 
@@ -124,4 +125,23 @@ public class BankAccountService extends HttpClientService<LinkedHashMap> {
         return accounts;
     }
 
+    /**
+     * Retrieve Bank Account from a Wallet
+     * @return
+     */
+    public List<BankAccount> findBankAccountByNationalRegister(){
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/find-by-user/"
+                + userService.getCurrentUser().getNationalRegister();
+
+        List<LinkedHashMap> results = getListByURL(url);
+        List<BankAccount> accounts = new ArrayList<>();
+        results.forEach( result ->{
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (result.get("classe").equals(CurrentAccount.class.getSimpleName()) ){
+                accounts.add(objectMapper.convertValue(result, CurrentAccount.class));
+            }
+        });
+
+        return accounts;
+    }
 }

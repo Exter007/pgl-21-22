@@ -63,27 +63,4 @@ public class WalletService extends HttpClientService<Wallet>{
 
         return getListByURL(url);
     }
-
-    public List<FinancialProduct> getWalletFinancialProductsById(){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath + "/" + currentWallet.getId() +"/product/list";
-        HttpEntity<FinancialProduct> httpEntity = new HttpEntity<>(getHeaders());
-
-        try {
-            ResponseEntity<List<FinancialProduct>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<FinancialProduct>>() {});
-            System.out.println(response.getStatusCode());
-            return response.getBody();
-
-        }catch (HttpClientErrorException ex) {
-            System.out.println("Exception : " + ex.getStatusCode() + " - " + ex.getMessage());
-
-            if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED) || ex.getMessage().contains("AccessDenied")) {
-                showNotAuthException();
-            } else {
-                showOtherException();
-            }
-        }catch(Exception ex) {
-            showException(ex);
-        }
-        return null;
-    }
 }

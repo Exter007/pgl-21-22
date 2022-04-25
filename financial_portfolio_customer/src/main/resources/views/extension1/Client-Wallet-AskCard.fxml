@@ -7,22 +7,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.pgl.controllers.extension1.WalletAskCard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="308.0" prefWidth="314.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="com.pgl.controllers.extension1.WalletAskCardController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="308.0" prefWidth="314.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="314.0" stylesheets="@../../stylesheet/Style.css" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="105.0" layoutY="258.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Envoyer" />
-            <Label layoutX="24.0" layoutY="18.0" text="Demande de création d'une carte">
+            <Button fx:id="send_btn" onMouseClicked="#send_request" layoutX="105.0" layoutY="258.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Envoyer" />
+            <Label fx:id="askCard_label" layoutX="24.0" layoutY="18.0" text="Demande de création d'une carte">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <ChoiceBox layoutX="57.0" layoutY="93.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
-            <Label layoutX="111.0" layoutY="70.0" text="Compte courant :" />
-            <ChoiceBox layoutX="57.0" layoutY="151.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
-            <Label layoutX="118.0" layoutY="128.0" text="Type de carte :" />
-            <ChoiceBox layoutX="57.0" layoutY="212.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
-            <Label layoutX="123.0" layoutY="189.0" text="Distribution :" />
+            <ChoiceBox fx:id="currentAccount_choicebox" layoutX="57.0" layoutY="93.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
+            <Label fx:id="currentAccount_label" layoutX="111.0" layoutY="70.0" text="Compte courant :" />
+            <ChoiceBox fx:id="cardType_choicebox" layoutX="57.0" layoutY="151.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
+            <Label fx:id="cardType_label" layoutX="118.0" layoutY="128.0" text="Type de carte :" />
+            <ChoiceBox fx:id="distribution_choicebox" layoutX="57.0" layoutY="212.0" prefHeight="25.0" prefWidth="200.0" styleClass="field" />
+            <Label fx:id="distribution_label" layoutX="123.0" layoutY="189.0" text="Distribution :" />
       </children>
     </AnchorPane>
   </children>

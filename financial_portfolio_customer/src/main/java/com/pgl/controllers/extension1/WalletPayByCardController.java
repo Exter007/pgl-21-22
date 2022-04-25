@@ -1,12 +1,7 @@
 package com.pgl.controllers.extension1;
 
-import com.pgl.controllers.DashboardController;
-import com.pgl.controllers.LoginController;
-import com.pgl.controllers.WalletController;
 import com.pgl.services.UserService;
 import com.pgl.utils.GlobalStage;
-import com.pgl.utils.Validators;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,36 +19,32 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WalletPayByCard implements Initializable {
+public class WalletPayByCardController implements Initializable {
 
     @Inject
     static UserService userService = new UserService();
     static ResourceBundle bundle;
-    static String lang;
 
     @FXML
-    private Menu menu;
+    private Label Pay_label;
     @FXML
-    private TextField CardNumber;
+    private TextField Pay_card_field;
     @FXML
-    private PasswordField PINCode;
+    private TextField Pay_account_to_field;
     @FXML
-    private Button login_btn;
+    private PasswordField Pay_pin_field;
     @FXML
-    private Hyperlink login_with_id_link;
-    @FXML
-    private Hyperlink create_account_link;
+    private Button Pay_btn;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
      */
     private void setText(){
-        /*menu.setText(bundle.getString("Language_menu"));
-        CardNumber.setPromptText(bundle.getString("CardNumber_field"));
-        PINCode.setPromptText(bundle.getString("PINCode_field"));
-        login_btn.setText(bundle.getString("Connexion_btn"));
-        login_with_id_link.setText(bundle.getString("LoginWithID_link"));
-        create_account_link.setText(bundle.getString("CreateAccount_link"));*/
+        Pay_label.setText(bundle.getString("Pay_label"));
+        Pay_card_field.setPromptText(bundle.getString("Pay_card_field"));
+        Pay_account_to_field.setPromptText(bundle.getString("Pay_account_to_field"));
+        Pay_pin_field.setPromptText(bundle.getString("Pay_pin_field"));
+        Pay_btn.setText(bundle.getString("Pay_btn"));
     }
 
     /**
@@ -72,11 +63,28 @@ public class WalletPayByCard implements Initializable {
     }
 
     /**
-     * Connect the user
+     * Pay by card
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void login(MouseEvent event) {
+    private void pay_by_card(MouseEvent event) {
+        //TODO
 
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(bundle.getString("success12"));
+        alert.showAndWait();
+
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Client-Dashboard.fxml"));
+            Stage newWindow = new Stage();
+            Scene scene = new Scene(root);
+            newWindow.setScene(scene);
+            GlobalStage.setStage(newWindow);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+        Stage stage = (Stage) Pay_btn.getScene().getWindow();
+        stage.close();
     }
 }

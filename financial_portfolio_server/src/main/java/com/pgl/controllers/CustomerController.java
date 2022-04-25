@@ -140,11 +140,18 @@ public class CustomerController {
         return ResponseEntity.ok(products);
     }
 
+    @RequestMapping("product/get-by-client/{registerNumber}")
+    public ResponseEntity<?> getProductsByWallet(@PathVariable String registerNumber) {
+        List<FinancialProduct> products = financialProductRepository
+                .findProductsByClient(registerNumber);
+        return ResponseEntity.ok(products);
+    }
+
     /**
      * @param bic A FinancialInstitution's BIC
      * @return List of all the FinancialProducts held by a certain FinancialInstitution
      */
-    @GetMapping("product/gett-financial-products-by-institution/{bic}")
+    @GetMapping("product/get-financial-products-by-institution/{bic}")
     public ResponseEntity<?>  getFinancialProductsByInstitutionBIC(@PathVariable String bic) {
         List<FinancialProduct> entities = financialProductRepository.findProductsByInstitution(bic);
         return ResponseEntity.ok(entities);
@@ -177,6 +184,14 @@ public class CustomerController {
         logger.debug("Call : Find Bank Account by IBAN");
         return ResponseEntity.ok(financialProductRepository
                 .findBankAccountByIBAN(iban, FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT));
+    }
+
+    @GetMapping(value = "bank-account/find-by-user/{national_register}")
+    public ResponseEntity<?> findBankAccountByNationalRegister(@PathVariable String national_register){
+        logger.debug("Call : Find Bank Account by login");
+
+        return ResponseEntity.ok(financialProductRepository
+                .findBankAccountByNationalRegister(FinancialProduct.PRODUCT_TYPE.BANK_ACCOUNT));
     }
 
 
