@@ -91,7 +91,9 @@ public class AddCardController implements Initializable {
      */
     @FXML
     private void creat(MouseEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(bundle.getString("success13"));
+        alert.showAndWait();
     }
 
 }
