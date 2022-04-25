@@ -237,21 +237,24 @@ public class DashboardInsuranceController implements Initializable {
         hbox2.setPrefHeight(120);
         hbox2.setPrefWidth(170);
 
+        // View button
         ImageView imgViewInsurance = new ImageView(getClass().getResource("/images/icons/source_icons_eye-empty.jpg").toString());
         imgViewInsurance.setOnMouseClicked(this::display_product);
         imgViewInsurance.setFitHeight(36);
         imgViewInsurance.setFitWidth(36);
         imgViewInsurance.setPreserveRatio(true);
         imgViewInsurance.setPickOnBounds(true);
+        imgViewInsurance.setUserData(insuranceContract);
         hbox2.getChildren().add(imgViewInsurance);
 
-        // View button
+        // Make payement button
         ImageView imgDeleteProduct = new ImageView(getClass().getResource("/images/icons/tabler-icon-arrows-right-left.jpg").toString());
         imgDeleteProduct.setOnMouseClicked(this::make_transaction);
-        imgViewInsurance.setFitHeight(36);
-        imgViewInsurance.setFitWidth(36);
-        imgViewInsurance.setPreserveRatio(true);
-        imgViewInsurance.setPickOnBounds(true);
+        imgDeleteProduct.setFitHeight(36);
+        imgDeleteProduct.setFitWidth(36);
+        imgDeleteProduct.setPreserveRatio(true);
+        imgDeleteProduct.setPickOnBounds(true);
+        imgDeleteProduct.setUserData(insuranceContract);
         hbox2.getChildren().add(imgDeleteProduct);
 
         hBox.getChildren().add(hbox2);
