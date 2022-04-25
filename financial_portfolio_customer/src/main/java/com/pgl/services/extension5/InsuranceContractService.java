@@ -78,7 +78,7 @@ public class InsuranceContractService extends HttpClientService<InsuranceContrac
      * @return
      */
     public List<InsuranceContract> getInsuranceByWallet(){
-        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/find-by-wallet/"
+        String url = GlobalVariables.CONTEXT_PATH_CUSTOMER + referencePath +"/get-by-wallet/"
                 + walletService.getCurrentWallet().getId();
 
         return getListByURL(url);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -24,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.WalletController">
 <children>
       <ScrollPane fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -32,7 +33,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="1960.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox prefHeight="61.0" prefWidth="1300.0">
+                        <HBox alignment="CENTER" prefHeight="61.0" prefWidth="1300.0">
                            <children>
                               <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="1121.0" layoutY="25.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                                  <image>
@@ -45,7 +46,7 @@
                                     <Insets left="15.0" top="15.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label fx:id="Wallet_label" prefHeight="59.0" prefWidth="1135.0" text="Portefeuille #1">
+                              <Label fx:id="Wallet_label" prefHeight="50.0" prefWidth="604.0" text="Portefeuille #1">
                                  <font>
                                     <Font name="System Bold" size="34.0" />
                                  </font>
@@ -56,6 +57,14 @@
                                     <Insets left="20.0" top="10.0" />
                                  </HBox.margin>
                               </Label>
+                              <Button fx:id="Consult_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_insurances" prefHeight="38.0" prefWidth="168.0" style="-fx-font-size: 15;" text="Contrats d'assurance">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
                               <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#show_exchange_rate_history" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/icons/source_icons_rate.jpg" />

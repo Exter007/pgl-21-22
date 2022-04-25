@@ -1,7 +1,9 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
+import com.pgl.models.extension5.InsuranceContract;
 import com.pgl.repositories.*;
+import com.pgl.repositories.extension5.InsuranceContractRepository;
 import com.pgl.services.*;
 
 import org.slf4j.Logger;
@@ -41,6 +43,9 @@ public class CustomerController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    InsuranceContractRepository insuranceRepository;
 
 
     public CustomerController() {
@@ -338,5 +343,21 @@ public class CustomerController {
         return ResponseEntity.ok(notificationService.getRepository()
                 .findNotificationsByClient(registerNumber));
     }
+
+
+    // RESSOURCES FOR INSURANCE CONTRACT
+
+    /** Retrieve Insurance Contracts by Wallet
+     * @param idWallet A Wallet ID
+     * @return Insurance Contracts retrieved
+     */
+    @GetMapping(value = "insurance-contract/get-by-wallet/{idWallet}")
+    public ResponseEntity<?> getInsuranceContractsByWallet(@PathVariable Long idWallet) {
+        List<InsuranceContract> insurances = insuranceRepository.findInsuranceContractsByWallet(
+                idWallet, FinancialProduct.PRODUCT_TYPE.INSURANCE_CONTRACT
+        );
+        return ResponseEntity.ok(insurances);
+    }
+
 
 }

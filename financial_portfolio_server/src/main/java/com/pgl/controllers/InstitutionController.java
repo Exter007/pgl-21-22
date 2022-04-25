@@ -432,7 +432,7 @@ public class InstitutionController {
     }
 
 
-    // Ressources for Insurance Contract
+    // RESSOURCES FOR INSURANCE CONTRACT
 
     /** Retrieve Insurance Contract by number
      * @param insuranceNumber A Insurance Contract Number

@@ -353,6 +353,15 @@ public class WalletController implements Initializable {
         }
     }
 
+    /**
+     * Open a window showing Insurance Contracts of the user
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    private void on_insurances(MouseEvent event) {
+        DynamicViews.loadBorderCenter("extension5/Client-Dashboard-Insurances");
+    }
+
     /*
      * Open a window allowing you to request transfer from an institution
      * @param event the click of the mouse on the button

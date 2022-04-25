@@ -15,4 +15,7 @@ public interface InsuranceContractRepository extends CrudRepository<InsuranceCon
 
     @Query("SELECT r FROM InsuranceContract r where r.financialInstitution.BIC=:f and r.productType =:t")
     List<InsuranceContract> findInsuranceContractByInstitution(@Param("f") String bic, @Param("t") FinancialProduct.PRODUCT_TYPE insuranceProductType);
+
+    @Query("SELECT f FROM FinancialProduct f, WalletFinancialProduct w WHERE w.wallet.id=:idWallet and w.financialProduct.id = f.id and f.productType =:t")
+    List<InsuranceContract> findInsuranceContractsByWallet(@Param("idWallet") Long idWallet, @Param("t") FinancialProduct.PRODUCT_TYPE insuranceProductType);
 }

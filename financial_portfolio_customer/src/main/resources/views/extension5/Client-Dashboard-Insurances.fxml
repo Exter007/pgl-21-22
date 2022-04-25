@@ -88,7 +88,7 @@
                                     <VBox prefHeight="27.0" prefWidth="100.0" />
                                  </children>
                               </HBox>
-                              <GridPane fx:id="Product_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="476.0" prefWidth="1039.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css">
+                              <GridPane fx:id="Product_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="476.0" prefWidth="1039.0">
                                 <columnConstraints>
                                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="1000.0" />
                                 </columnConstraints>

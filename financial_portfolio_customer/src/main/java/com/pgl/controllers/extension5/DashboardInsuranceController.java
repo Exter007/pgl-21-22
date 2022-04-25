@@ -146,7 +146,7 @@ public class DashboardInsuranceController implements Initializable {
      */
     @FXML
     private void on_insuranceType(MouseEvent event) {
-       DynamicViews.loadBorderCenter("Client-InsuranceType");
+       DynamicViews.loadBorderCenter("extension5/Client-InsuranceType");
     }
 
     /**
@@ -155,13 +155,13 @@ public class DashboardInsuranceController implements Initializable {
      */
     @FXML
     private void on_insuranceQuote(MouseEvent event) {
-        DynamicViews.loadBorderCenter("Client-InsuranceTypeQuote");
+        DynamicViews.loadBorderCenter("extension5/Client-InsuranceTypeQuote");
     }
 
 
     private void createVisualInsuranceContracts(InsuranceContract insuranceContract, int index) {
         HBox hBox = new HBox();
-        // Create the structure of GridPane defined in Client-Wallet.fxml
+        // Create the structure of GridPane defined in Client-Dashboard-Insurance.fxml
         hBox.setStyle("-fx-border-radius: 10; -fx-padding: 10; -fx-border-width: 2; -fx-border-color: #000;");
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         hBox.setPrefHeight(120);
