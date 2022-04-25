@@ -15,6 +15,7 @@ public class CategoryService {
 
     public Category saveCategory(Category category) {
         if(categoryRepository.findByName(category.getName()) == null) {
+            System.out.println(category.getApplicationClient());
             return categoryRepository.save(category);
         } else {
             return null;

@@ -57,4 +57,12 @@ public class Category extends Persistent {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public void setApplicationClient(ApplicationClient applicationClient) {
+        this.applicationClient = applicationClient;
+    }
+
+    public ApplicationClient getApplicationClient() {
+        return applicationClient;
+    }
 }
