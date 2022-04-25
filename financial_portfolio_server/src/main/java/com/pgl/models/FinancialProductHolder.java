@@ -52,10 +52,10 @@ public class FinancialProductHolder extends Persistent {
 
     /** Class constructor
      *
-     * @param nationalRegister a String object
-     * @param name a String object that contains the holder's last name
-     * @param firstName a String object
-     * @param birthDate a Date object
+     * @param nationalRegister a String object that contains the client's national register
+     * @param firstName a String object that contains the client's first name
+     * @param name a String object that contains the client's last name
+     * @param birthDate a Date object that contains the client's birthday
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide the product of this holder
      * @param currentAccount a CurrentAccount object that represent the banking current account of this holder
      */
@@ -70,12 +70,12 @@ public class FinancialProductHolder extends Persistent {
 
     /** Class constructor with all attributes
      *
-     * @param nationalRegister a String object
-     * @param name a String object that contains the holder's last name
-     * @param firstName a String object
-     * @param birthDate a Date object
-     * @param sex a String object
-     * @param phone a String object
+     * @param nationalRegister a String object that contains the client's national register
+     * @param firstName a String object that contains the client's first name
+     * @param name a String object that contains the client's last name
+     * @param birthDate a Date object that contains the client's birthday
+     * @param sex a String object that contains the client's sex
+     * @param phone a String object that contains the client's phone
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide the product of this holder
      * @param applicationClient an ApplicationClient object that represent the user of the client application bound to this holder
      * @param financialProducts a List that contains the financial products held by this holder
@@ -91,7 +91,6 @@ public class FinancialProductHolder extends Persistent {
         this.applicationClient = applicationClient;
         this.financialProducts = financialProducts;
 
-        //add this FinancialProductHolder in the list financialProductHolders of this.applicationClient
         List<FinancialProductHolder> list = applicationClient.getFinancialProductHolders();
         list.add(this);
         this.applicationClient.setFinancialProductHolders(list);
@@ -99,7 +98,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Get the last name of this holder
      *
-     * @return the last name in the form of a String object
+     * @return the last name in the form of a String object that contains the client's last name
      */
     public String getName() {
         return name;
@@ -107,7 +106,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the last name of this holder
      *
-     * @param name a String object
+     * @param name a String object that contains the client's last name
      */
     public void setName(String name) {
         this.name = name;
@@ -123,7 +122,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the first name of this holder
      *
-     * @param firstName a String object
+     * @param firstName a String object that contains the client's first name
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -139,7 +138,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the birthdate of this holder
      *
-     * @param birthDate a Date object
+     * @param birthDate a Date object that contains the client's birthdau
      */
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
@@ -155,7 +154,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the sex of this holder
      *
-     * @param sex a String object
+     * @param sex a String object that contains the client's sex
      */
     public void setSex(String sex) {
         this.sex = sex;
@@ -171,7 +170,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the phone number of this holder
      *
-     * @param phone a String object
+     * @param phone a String object that contains the client's phone
      */
     public void setPhone(String phone) {
         this.phone = phone;
@@ -203,7 +202,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the national register of this holder
      *
-     * @param nationalRegister a String object
+     * @param nationalRegister a String object that contains the client's national register
      */
     public void setNationalRegister(String nationalRegister) {
         this.nationalRegister = nationalRegister;
@@ -219,7 +218,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the financial institution that will be bound to this holder
      *
-     * @param financialInstitution a FinancialInstitution object
+     * @param financialInstitution a FinancialInstitution object that contains the financial institution
      */
     public void setFinancialInstitution(FinancialInstitution financialInstitution) {
         this.financialInstitution = financialInstitution;
@@ -235,7 +234,7 @@ public class FinancialProductHolder extends Persistent {
 
     /** Set the list of financial products held by this holder
      *
-     * @param financialProducts a List
+     * @param financialProducts a List of financial products
      */
     public void setFinancialProducts(List<FinancialProduct> financialProducts) {
         this.financialProducts = financialProducts;

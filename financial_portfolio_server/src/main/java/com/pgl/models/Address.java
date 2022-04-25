@@ -41,11 +41,11 @@ public class Address extends Persistent{
 
     /** Class constructor
      *
-     * @param street a String object
-     * @param streetNumber a String object
-     * @param city a String object
-     * @param postalCode a String object
-     * @param country a String object
+     * @param street a String object that contains the street name
+     * @param streetNumber a String object that contains the street number
+     * @param city a String object that contains the city
+     * @param postalCode a String object that contains the post code
+     * @param country a String object that contains the country
      */
     public Address(String street, String streetNumber,String city, String postalCode, String country) {
         this.street = street;
@@ -65,7 +65,7 @@ public class Address extends Persistent{
 
     /** Set the street
      *
-     * @param street a String object
+     * @param street a String object that contains the street name
      */
     public void setStreet(String street) {
         this.street = street;
@@ -81,7 +81,7 @@ public class Address extends Persistent{
 
     /** Set the street number
      *
-     * @param streetNumber a String object
+     * @param streetNumber a String object that contains the street number
      */
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
@@ -97,7 +97,7 @@ public class Address extends Persistent{
 
     /** Set the city
      *
-     * @param city a String object
+     * @param city a String object that contains the city
      */
     public void setCity(String city) {
         this.city = city;
@@ -113,7 +113,7 @@ public class Address extends Persistent{
 
     /** Set the postal code
      *
-     * @param postalCode a String object
+     * @param postalCode a String object that contains the post code
      */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
@@ -129,7 +129,7 @@ public class Address extends Persistent{
 
     /** Set the country
      *
-     * @param country a String object
+     * @param country a String object that contains the country
      */
     public void setCountry(String country) {
         this.country = country;
@@ -145,7 +145,7 @@ public class Address extends Persistent{
 
     /** Set the financial institution that will be bound to this address
      *
-     * @param financialInstitution a FinancialInstitution object
+     * @param financialInstitution a FinancialInstitution object that contains the financial institution
      */
     public void setFinancialInstitution(FinancialInstitution financialInstitution) {
         this.financialInstitution = financialInstitution;

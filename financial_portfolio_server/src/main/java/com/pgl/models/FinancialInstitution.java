@@ -45,13 +45,13 @@ public class FinancialInstitution extends User{
 
     /** Class constructor
      *
-     * @param BIC a String object
-     * @param name a String object
-     * @param password a String object
-     * @param email a String object
-     * @param address an Address object
-     * @param active a boolean
-     * @param token a String object
+     * @param BIC a String object that contains the BIC
+     * @param name a String object that contains the name of the institution
+     * @param password a String object that contains the password
+     * @param email a String object that contains the email
+     * @param address an Address object that contains the address
+     * @param active a boolean that contains the state
+     * @param token a String object that contains the token
      */
     public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token) {
         super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION);
@@ -63,17 +63,17 @@ public class FinancialInstitution extends User{
 
     /** Class constructor with all attributes
      *
-     * @param BIC a String object
-     * @param name a String object
-     * @param password a String object
-     * @param email a String object
-     * @param address an Address object
-     * @param active a boolean
-     * @param token a String object
-     * @param language a String object
-     * @param phone a String object
-     * @param financialProductHolders
-     * @param notifications
+     * @param BIC a String object that contains the BIC
+     * @param name a String object that contains the name of the institution
+     * @param password a String object that contains the password
+     * @param email a String object that contains the email
+     * @param address an Address object that contains the address
+     * @param active a boolean that contains the state
+     * @param token a String object that contains the token
+     * @param language a String object that contains the language
+     * @param phone a String object that contains the phone
+     * @param financialProductHolders a List that contains the financial product holders who are bound to this client
+     * @param notifications a List that contains the notifications bound to this client
      */
     public FinancialInstitution(String BIC, String name, String password, String email, Address address, boolean active, String token, String language, String phone, List<FinancialProductHolder> financialProductHolders, List<Notification> notifications) {
         super(password, email, token, active, ROLE.FINANCIAL_INSTITUTION, language);
@@ -96,7 +96,7 @@ public class FinancialInstitution extends User{
 
     /** Set the BIC
      *
-     * @param BIC a String object
+     * @param BIC a String object that contains the BIC
      */
     public void setBIC(String BIC) {
         this.BIC = BIC;
@@ -112,7 +112,7 @@ public class FinancialInstitution extends User{
 
     /** Set the name
      *
-     * @param name a String object
+     * @param name a String object that contains the name
      */
     public void setName(String name) {
         this.name = name;
@@ -128,7 +128,7 @@ public class FinancialInstitution extends User{
 
     /** Set the phone number of this institution
      *
-     * @param phone a String object
+     * @param phone a String object that contains the phone
      */
     public void setPhone(String phone) {
         this.phone = phone;
@@ -144,7 +144,7 @@ public class FinancialInstitution extends User{
 
     /** Set the address where this institution will be located
      *
-     * @param address an Address object
+     * @param address an Address object that contains the address
      */
     public void setAddress(Address address) {
         this.address = address;
@@ -160,7 +160,7 @@ public class FinancialInstitution extends User{
 
     /** Set the list of financial product holders of this institution
      *
-     * @param financialProductHolders a List
+     * @param financialProductHolders a List that contains the financial product holders who are bound to this client
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
@@ -176,7 +176,7 @@ public class FinancialInstitution extends User{
 
     /** Set the list of notification of this institution
      *
-     * @param notifications a List
+     * @param notifications a List that contains the notifications bound to this client
      */
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;

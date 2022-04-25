@@ -1,13 +1,10 @@
 package com.pgl.models;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import javax.persistence.*;
 
 /** Class that represent a banking young account
  *
  */
-//@JsonTypeName("YoungAccount")
 @Entity
 @DiscriminatorValue("YOUNG_ACCOUNT")
 @DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)

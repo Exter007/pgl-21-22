@@ -44,13 +44,13 @@ public class ApplicationClient extends User{
 
     /** Class constructor
      *
-     * @param nationalRegister a String object
-     * @param firstName a String object
+     * @param nationalRegister a String object that contains the client's national register
+     * @param firstName a String object that contains the client's first name
      * @param name a String object that contains the client's last name
-     * @param password a String object
-     * @param email a String object
-     * @param token a String object
-     * @param active a boolean
+     * @param password a String object that contains the client's password
+     * @param email a String object that contains the client's email
+     * @param token a String object that contains the client's token
+     * @param active a boolean that contains the state
      */
     public ApplicationClient(String nationalRegister, String firstName, String name, String password, String email, String token, boolean active) {
         super(password, email, token, active, ROLE.APPLICATION_CLIENT);
@@ -62,14 +62,14 @@ public class ApplicationClient extends User{
 
     /** Class constructor with all attributes
      *
-     * @param nationalRegister a String object
-     * @param firstName a String object
+     * @param nationalRegister a String object that contains the client's national register
+     * @param firstName a String object that contains the client's first name
      * @param name a String object that contains the client's last name
-     * @param password a String object
-     * @param email a String object
-     * @param active a String object
-     * @param language a String object
-     * @param token a String object
+     * @param password a String object that contains the client's password
+     * @param email a String object that contains the client's email
+     * @param token a String object that contains the client's token
+     * @param active a boolean that contains the state
+     * @param language a String object that contains the language
      * @param financialProductHolders a List that contains the financial product holders who are bound to this client
      * @param notifications a List that contains the notifications bound to this client
      */
@@ -94,7 +94,7 @@ public class ApplicationClient extends User{
 
     /** Set the national register
      *
-     * @param nationalRegister a String object
+     * @param nationalRegister a String object that contains the client's national register
      */
     public void setNationalRegister(String nationalRegister) {
         this.nationalRegister = nationalRegister;
@@ -110,7 +110,7 @@ public class ApplicationClient extends User{
 
     /** Set the first name
      *
-     * @param firstName a String object
+     * @param firstName a String object that contains the client's first name
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -126,7 +126,7 @@ public class ApplicationClient extends User{
 
     /** Set the last name
      *
-     * @param name a String object
+     * @param name a String object that contains the client's name
      */
     public void setName(String name) {
         this.name = name;
@@ -142,7 +142,7 @@ public class ApplicationClient extends User{
 
     /** Set the list of financial product holders who will be bound to this client
      *
-     * @param financialProductHolders a List
+     * @param financialProductHolders a List that contains the financial product holders
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;
@@ -158,7 +158,7 @@ public class ApplicationClient extends User{
 
     /**
      *  Get the list of client-owned wallet
-     * @return
+     * @return the list of client-owned wallet
      */
     public List<Wallet> getWallets() {
         return wallets;
@@ -166,7 +166,7 @@ public class ApplicationClient extends User{
 
     /**
      * Set the list of client-owned wallet
-     * @param wallets
+     * @param wallets a List that contains the wallets
      */
     public void setWallets(List<Wallet> wallets) {
         this.wallets = wallets;
@@ -174,11 +174,8 @@ public class ApplicationClient extends User{
 
     /** Set the list of notification of this client
      *
-     * @param notifications a List
+     * @param notifications a List of notification
      */
-
-
-
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }

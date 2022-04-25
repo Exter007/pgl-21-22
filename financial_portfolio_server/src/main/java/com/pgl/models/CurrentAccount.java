@@ -1,7 +1,5 @@
 package com.pgl.models;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -24,14 +22,14 @@ public class CurrentAccount extends BankAccount {
 
     /** Class constructor
      *
-     * @param iban a String object
+     * @param iban a String object that contains the iban
      * @param type a BankAccount.ACCOUNT_TYPE enum
      * @param state a FinancialProduct.PRODUCT_STATE enum
-     * @param pin_code a String object
+     * @param pin_code a String object that contains the pin code
      * @param currency a BankAccount.CURRENCY enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
-     * @param monthlyFee a float
-     * @param annualYield a float
+     * @param monthlyFee a float that contains the monthly fee
+     * @param annualYield a float that contains the annual yield
      */
     public CurrentAccount(String iban, ACCOUNT_TYPE type, PRODUCT_STATE state, String pin_code, CURRENCY currency,
                           FinancialInstitution financialInstitution,

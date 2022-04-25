@@ -3,7 +3,6 @@ package com.pgl.models;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @MappedSuperclass
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "classe")
@@ -17,19 +16,17 @@ public class Persistent extends PersistentWithoutId {
     @Column(name = "id")
     protected Long id;
 
-    /**
-     * The object ID. This attribute is null if the object is not yet persisted.
+    /**Get the object ID
      *
-     * @return
+     * @return the id
      */
     public Long getId() {
         return id;
     }
 
-    /**
+    /**Set the object ID
      *
-     * @param id
-     *            the id to set
+     * @param id the id to set
      */
     public void setId(Long id) {
         this.id = id;
