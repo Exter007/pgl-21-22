@@ -1,6 +1,7 @@
 package com.pgl.repositories;
 
 import com.pgl.models.*;
+import com.pgl.models.extension1.RequestCard;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

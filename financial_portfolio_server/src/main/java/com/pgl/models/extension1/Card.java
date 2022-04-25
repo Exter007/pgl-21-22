@@ -1,6 +1,7 @@
-package com.pgl.models;
+package com.pgl.models.extension1;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.pgl.models.*;
 
 import javax.persistence.*;
 import java.util.Date;

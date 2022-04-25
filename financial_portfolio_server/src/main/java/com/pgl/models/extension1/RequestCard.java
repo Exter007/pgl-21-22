@@ -1,4 +1,9 @@
-package com.pgl.models;
+package com.pgl.models.extension1;
+
+import com.pgl.models.ApplicationClient;
+import com.pgl.models.FinancialInstitution;
+import com.pgl.models.Request;
+import com.pgl.models.BankAccount;
 
 import javax.persistence.*;
 

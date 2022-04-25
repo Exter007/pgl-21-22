@@ -1,6 +1,8 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
+import com.pgl.models.extension1.Card;
+import com.pgl.models.extension1.RequestCard;
 import com.pgl.repositories.CardRepository;
 import com.pgl.repositories.FinancialProductRepository;
 import com.pgl.repositories.RequestCardRepository;

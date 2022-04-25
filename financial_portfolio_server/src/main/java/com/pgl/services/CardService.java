@@ -2,6 +2,8 @@ package com.pgl.services;
 
 import com.pgl.controllers.AccountController;
 import com.pgl.models.*;
+import com.pgl.models.extension1.Card;
+import com.pgl.models.extension1.RequestCard;
 import com.pgl.repositories.ApplicationClientRepository;
 import com.pgl.repositories.CardRepository;
 import com.pgl.repositories.RequestCardRepository;
