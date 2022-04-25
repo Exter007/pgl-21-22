@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1113.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.extension3.CategoryController">
+   <children>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="741.0" prefWidth="1114.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox layoutX="22.0" layoutY="33.0" prefHeight="530.0" prefWidth="1078.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1078.0">
+                     <children>
+                        <Label fx:id="myCategories_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="930.0" text="Mes catégories" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="30.0" />
+                     </padding>
+                  </HBox>
+                  <VBox prefHeight="381.0" prefWidth="978.0">
+                     <VBox.margin>
+                        <Insets left="50.0" right="50.0" top="30.0" />
+                     </VBox.margin>
+                     <children>
+                        <HBox prefHeight="292.0" prefWidth="978.0">
+                           <children>
+                              <ListView fx:id="categoriesListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="281.0" prefWidth="958.0" style="-fx-font-size: 17;">
+                                 <HBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="fn-16" />
+                                    <String fx:value="border-listView" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </ListView>
+                           </children>
+                           <styleClass>
+                              <String fx:value="back-blue" />
+                              <String fx:value="fn-16" />
+                              <String fx:value="border-listView" />
+                              <String fx:value="list-cell" />
+                           </styleClass>
+                        </HBox>
+                        <HBox prefHeight="35.0" prefWidth="1084.0" />
+                        <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="978.0">
+                           <children>
+                              <VBox prefHeight="27.0" prefWidth="100.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" layoutX="681.0" layoutY="600.0" prefHeight="55.0" prefWidth="367.0">
+               <children>
+                  <Button fx:id="add_btn" mnemonicParsing="false" onAction="#on_add" prefHeight="55.0" prefWidth="203.0" text="Ajouter une catégorie" />
+                  <Button fx:id="delete_btn" mnemonicParsing="false" onAction="#on_delete" prefHeight="55.0" prefWidth="203.0" text="Supprimer" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
