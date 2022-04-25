@@ -2,6 +2,8 @@ package com.pgl.controllers.extension1;
 
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
+import com.pgl.models.extension1.CreditCard;
+import com.pgl.models.extension1.DebitCard;
 import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;

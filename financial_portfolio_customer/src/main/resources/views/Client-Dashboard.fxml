@@ -96,6 +96,14 @@
                         <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="1084.0" />
                         <HBox alignment="TOP_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="1280.0">
                            <children>
+                              <Button fx:id="analyze_btn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#on_analyze" prefHeight="44.0" prefWidth="101.0" style="-fx-font-size: 14;" text="Analyser">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
                               <Button fx:id="consult_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="101.0" style="-fx-font-size: 14;" text="Consulter">
                                  <styleClass>
                                     <String fx:value="fn-14" />
