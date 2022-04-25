@@ -75,7 +75,6 @@ public class ScheduleTransaction implements Initializable {
         }else{
             bundle = null;
         }
-        setText();
     }
 
 

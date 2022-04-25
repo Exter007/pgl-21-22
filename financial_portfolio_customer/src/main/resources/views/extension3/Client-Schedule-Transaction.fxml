@@ -36,13 +36,7 @@
                   <AnchorPane prefHeight="539.0" prefWidth="706.0">
                      <children>
                         <Line endX="470.88885498046875" layoutX="162.0" layoutY="427.0" startX="-100.0" />
-                        <Button id="confirm" layoutX="264.0" layoutY="449.0" mnemonicParsing="false" text="Confirmer la programmation" />
-                        <TextField id="amount" alignment="CENTER" layoutX="277.0" layoutY="70.0" promptText="Min : 1€" />
-                        <Text id="amount_title" layoutX="323.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Montant :">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
+                        <Button id="confirm" onMouseClicked="#confirm_scheduling" layoutX="264.0" layoutY="449.0" mnemonicParsing="false" text="Confirmer la programmation" />
                         <Line endX="470.88885498046875" layoutX="176.0" layoutY="14.0" startX="-100.0" />
                         <Text id="every_title" layoutX="291.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Effectuer tous les :" wrappingWidth="132.80001220703116">
                            <font>
