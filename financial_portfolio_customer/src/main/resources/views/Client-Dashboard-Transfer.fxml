@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -10,10 +11,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="595.0" prefWidth="533.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.TransferController">
+<VBox prefHeight="643.0" prefWidth="533.0" style="-fx-background-color: #FFF;" stylesheets="@../stylesheet/Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.TransferController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="596.0" prefWidth="534.0">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="619.0" prefWidth="534.0">
          <children>
             <Label fx:id="Label_SEPA" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="55.0" prefWidth="474.0" text="Virement en zone SEPA" textAlignment="CENTER">
                <font>
@@ -73,7 +73,9 @@
             <TextField fx:id="structuredCommunication" alignment="CENTER" layoutX="282.0" layoutY="405.0" prefHeight="38.0" prefWidth="228.0" promptText="+++ 000 / 0000 / 000XX +++" styleClass="field" />
             <Line endX="419.20001220703125" endY="3.0517578125E-5" layoutX="97.0" layoutY="463.0" startX="-68.4999771118164" startY="3.0517578125E-5" stroke="#9f9f9f" />
             <PasswordField fx:id="password" alignment="CENTER" layoutX="143.0" layoutY="486.0" prefHeight="38.0" prefWidth="259.0" promptText="Mot de passe" styleClass="field" />
-            <Button fx:id="transferButton" layoutX="185.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="38.0" prefWidth="192.0" text="Effectuer le virement" />
+            <Button fx:id="transferButton" layoutX="58.0" layoutY="581.0" mnemonicParsing="false" onMouseClicked="#on_validate" prefHeight="38.0" prefWidth="192.0" text="Effectuer le virement" />
+            <Button fx:id="scheduleButton" layoutX="296.0" layoutY="581.0" mnemonicParsing="false" onAction="#on_schedule" prefHeight="38.0" prefWidth="192.0" text="Programmer" />
+            <CheckBox fx:id="schedule_checkbox" layoutX="226.0" layoutY="547.0" mnemonicParsing="false" text="Programmer" />
          </children>
       </AnchorPane>
    </children>

@@ -332,6 +332,10 @@ public class DashboardController implements Initializable {
         }
     }
 
+    @FXML
+    private void on_analyze(MouseEvent event){
+    }
+
     /**
      * Supprimer un element de la liste
      * @param event
