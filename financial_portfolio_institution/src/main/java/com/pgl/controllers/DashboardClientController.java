@@ -4,6 +4,7 @@ import com.pgl.helpers.DynamicViews;
 import com.pgl.models.FinancialProductHolder;
 import com.pgl.services.ProductHolderService;
 import com.pgl.services.UserService;
+import com.pgl.utils.Porter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,10 +15,9 @@ import javafx.scene.layout.BorderPane;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class DashboardClientController implements Initializable {
 
@@ -37,7 +37,7 @@ public class DashboardClientController implements Initializable {
     @FXML
     private TextField productClientName;
     @FXML
-    private ChoiceBox productInstitutionName;
+    private ChoiceBox<String> productInstitutionName;
     @FXML
     private Button Search_btn;
     @FXML
@@ -52,6 +52,8 @@ public class DashboardClientController implements Initializable {
     private Button Edit_btn;
     @FXML
     private Button Delete_btn;
+    @FXML
+    private ChoiceBox<String> export_format;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -66,6 +68,8 @@ public class DashboardClientController implements Initializable {
         Consult_btn.setText(bundle.getString("Consult_btn"));
         Edit_btn.setText(bundle.getString("Edit_btn"));
         Delete_btn.setText(bundle.getString("Delete_btn"));
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
     }
 
     @Override
@@ -180,7 +184,6 @@ public class DashboardClientController implements Initializable {
      */
     @FXML
     private void search_Client(MouseEvent event) {
-        //TODO
     }
 
     /**
@@ -188,8 +191,13 @@ public class DashboardClientController implements Initializable {
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void export_ClientData(MouseEvent event) {
-        //TODO
+    private void export(MouseEvent event) {
+        //take the date so each time the user downloads a CSV file, its name is different
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        List<FinancialProductHolder> financialProductHolders = productHolderService.getHolderByInstitution();
+        Porter.ActionExport(currentDateTime, financialProductHolders, bundle, export_format);
     }
 
     /**
@@ -198,7 +206,6 @@ public class DashboardClientController implements Initializable {
      */
     @FXML
     private void import_ClientData(MouseEvent event) {
-        //TODO
     }
 
 }

@@ -36,9 +36,9 @@ public class Wallet extends Persistent {
 
     /** Class constructor
      *
-     * @param name
-     * @param financialInstitution
-     * @param applicationClient
+     * @param name a String object
+     * @param financialInstitution a FinancialInstitution object
+     * @param applicationClient an ApplicationClient object
      */
     public Wallet(String name, FinancialInstitution financialInstitution, ApplicationClient applicationClient) {
         this.name = name;
@@ -48,10 +48,10 @@ public class Wallet extends Persistent {
 
     /** Class constructor with all attributes
      *
-     * @param name
-     * @param financialInstitution
-     * @param applicationClient
-     * @param walletFinancialProducts
+     * @param name a String object
+     * @param financialInstitution a FinancialInstitution object
+     * @param applicationClient an ApplicationClient object
+     * @param walletFinancialProducts a list of WalletFinancialProducts object
      */
     public Wallet(String name, FinancialInstitution financialInstitution, ApplicationClient applicationClient, List<WalletFinancialProduct> walletFinancialProducts) {
         this.name = name;
@@ -78,7 +78,7 @@ public class Wallet extends Persistent {
 
     /**
      * Get the application client who owns the wallet
-     * @return
+     * @return the application client in the form of a ApplicationClient object
      */
     public ApplicationClient getApplicationClient() {
         return applicationClient;
@@ -86,7 +86,7 @@ public class Wallet extends Persistent {
 
     /**
      * Set the application client who owns the wallet
-     * @param applicationClient
+     * @param applicationClient a ApplicationClient object
      */
     public void setApplicationClient(ApplicationClient applicationClient) {
         this.applicationClient = applicationClient;
@@ -118,7 +118,7 @@ public class Wallet extends Persistent {
 
     /** Set the list of FinancialProducts of this wallet
      *
-     * @param walletFinancialProducts a List
+     * @param walletFinancialProducts a List of wallet financial product in the form of a WalletFinancialProduct object
      */
     public void setWalletFinancialProducts(List<WalletFinancialProduct> walletFinancialProducts) {
         this.walletFinancialProducts = walletFinancialProducts;

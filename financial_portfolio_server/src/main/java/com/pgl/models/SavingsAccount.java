@@ -1,14 +1,11 @@
 package com.pgl.models;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import javax.persistence.*;
 import java.util.Date;
 
 /** Class that represent a banking saving account
  *
  */
-//@JsonTypeName("SavingsAccount")
 @Entity
 @DiscriminatorValue("SAVING_ACCOUNT")
 @DiscriminatorColumn(name="TYPE",discriminatorType= DiscriminatorType.STRING)
@@ -94,7 +91,7 @@ public class SavingsAccount extends BankAccount {
 
     /**
      * Set the Annual Interest of this account
-     * @param annualInterest
+     * @param annualInterest an float
      */
     public void setAnnualInterest(float annualInterest) {
         this.annualInterest = annualInterest;

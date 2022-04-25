@@ -1,7 +1,5 @@
 package com.pgl.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public class FinancialProduct extends Persistent {
 
     /** Class constructor
      *
-     * @param productType
+     * @param productType that contains financial product type
      */
     public FinancialProduct(PRODUCT_TYPE productType) {
         this.productType = productType;
@@ -57,8 +55,8 @@ public class FinancialProduct extends Persistent {
 
     /** Class constructor
      *
-     * @param productType
-     * @param transferAccess
+     * @param productType that contains financial product type
+     * @param transferAccess that contains transfer access state
      */
     public FinancialProduct(PRODUCT_TYPE productType, TRANSFER_ACCESS transferAccess) {
         this.productType = productType;
@@ -68,8 +66,9 @@ public class FinancialProduct extends Persistent {
 
     /** Class constructor
      *
-     * @param productType
+     * @param productType a PRODUCT_TYPE enum
      * @param state a FinancialProduct.PRODUCT_STATE enum
+     * @param transferAccess a TRANSFER_ACCESS enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      */
     public FinancialProduct(PRODUCT_TYPE productType, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, FinancialInstitution financialInstitution) {
@@ -83,8 +82,8 @@ public class FinancialProduct extends Persistent {
 
     /** Class constructor with all attributes
      *
-     * @param wording a String object
-     * @param productType
+     * @param wording a String object that contains financial product description
+     * @param productType that contains financial product type
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param transferAccess a FinancialProduct.TRANSFER_ACCESS enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
@@ -110,22 +109,22 @@ public class FinancialProduct extends Persistent {
 
     /** Set the wording of this product
      *
-     * @param wording a String object
+     * @param wording a String object that contains financial product description
      */
     public void setWording(String wording) {
         this.wording = wording;
     }
 
     /**
-     * Set the type of financial product
-     * @return
+     * Get the type of financial product
+     * @return the product type
      */
     public PRODUCT_TYPE getProductType() {
         return productType;
     }
 
     /**
-     *  Get the type of financial product
+     *  Set the type of financial product
      * @param productType a FinancialProduct.PRODUCT_TYPE enum
      */
     public void setProductType(PRODUCT_TYPE productType) {
@@ -158,7 +157,7 @@ public class FinancialProduct extends Persistent {
 
     /** Set the amount available
      *
-     * @param amount a float
+     * @param amount a float that contains amount on the financial product
      */
     public void setAmount(float amount) {
         this.amount = amount;
@@ -206,7 +205,7 @@ public class FinancialProduct extends Persistent {
 
     /** Set the list of financial product holders of this product
      *
-     * @param financialProductHolders a List
+     * @param financialProductHolders a List of financial product holders
      */
     public void setFinancialProductHolders(List<FinancialProductHolder> financialProductHolders) {
         this.financialProductHolders = financialProductHolders;

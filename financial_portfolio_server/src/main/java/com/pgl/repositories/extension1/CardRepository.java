@@ -1,7 +1,7 @@
-package com.pgl.repositories;
+package com.pgl.repositories.extension1;
 
 import com.pgl.models.BankAccount;
-import com.pgl.models.Card;
+import com.pgl.models.extension1.Card;
 import com.pgl.models.FinancialProduct;
 import com.pgl.models.Wallet;
 import org.springframework.data.jpa.repository.Query;

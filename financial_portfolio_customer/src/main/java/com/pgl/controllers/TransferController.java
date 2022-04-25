@@ -3,9 +3,11 @@ package com.pgl.controllers;
 import com.pgl.helpers.DynamicViews;
 import com.pgl.models.*;
 import com.pgl.services.*;
+import com.pgl.services.extension3.ScheduleTransactionService;
 import com.pgl.utils.GlobalStage;
 import com.pgl.utils.Validators;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +24,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.pgl.helpers.DynamicViews.border_pane;
+
 public class TransferController implements Initializable {
 
     ApplicationClientService clientService = new ApplicationClientService();
@@ -29,6 +33,8 @@ public class TransferController implements Initializable {
     TransactionService transactionService = new TransactionService();
     BankAccountService bankAccountService = new BankAccountService();
     Wallet currentWallet = walletService.getCurrentWallet();
+    ScheduleTransactionService scheduleTransactionService = new ScheduleTransactionService();
+    ScheduledTransaction currentScheduledTransaction;
     BankAccount bankAccount;
     float fAmount;
     static ResourceBundle bundle;
@@ -69,6 +75,10 @@ public class TransferController implements Initializable {
     private PasswordField password;
     @FXML
     private Button transferButton;
+    @FXML
+    private Button scheduleButton;
+    @FXML
+    private CheckBox schedule_checkbox;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -89,6 +99,8 @@ public class TransferController implements Initializable {
         password.setPromptText(bundle.getString("Password_field"));
         transferButton.setText(bundle.getString("Transfer_btn"));
         recipientNameLabel.setText(bundle.getString("RecipientName_label"));
+        scheduleButton.setText(bundle.getString("Schedule_btn"));
+        schedule_checkbox.setText(bundle.getString("Schedule_checkbox"));
     }
 
     /**
@@ -166,13 +178,28 @@ public class TransferController implements Initializable {
             alert.setHeaderText(bundle.getString("error8"));
             alert.showAndWait();
         }else{
-            Transaction transaction = transactionService.save(buildTransaction());
-            if (transaction != null) {
+            if(schedule_checkbox.isSelected() && scheduleTransactionService.getCurrentScheduledTransaction() != null){
+                Transaction transaction = buildTransaction();
+                currentScheduledTransaction = scheduleTransactionService.getCurrentScheduledTransaction();
+                ScheduledTransaction scheduledTransaction = new ScheduledTransaction(transaction, currentScheduledTransaction.getEvery(), currentScheduledTransaction.getInferiorAt(), currentScheduledTransaction.getSuperiorAt());
+                scheduleTransactionService.save(scheduledTransaction);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(bundle.getString("succes5"));
                 alert.showAndWait();
-
                 DynamicViews.loadBorderCenter("Client-Wallet");
+            } else if(schedule_checkbox.isSelected() && scheduleTransactionService.getCurrentScheduledTransaction() == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(bundle.getString("errorEmptyScheduledTransaction"));
+                alert.showAndWait();
+            }else {
+                Transaction transaction = transactionService.save(buildTransaction());
+                if (transaction != null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(bundle.getString("succes5"));
+                    alert.showAndWait();
+
+                    DynamicViews.loadBorderCenter("Client-Wallet");
+                }
             }
         }
 //        else{
@@ -180,6 +207,15 @@ public class TransferController implements Initializable {
 //            alert.setHeaderText(bundle.getString("error6"));
 //            alert.showAndWait();
 //        }
+    }
+
+    /**
+     * Build a scheduled transaction
+     * @param event the click of the mouse on the button
+     */
+    @FXML
+    public void on_schedule(ActionEvent event) {
+        DynamicViews.loadBorderCenter(border_pane,"extension3/Client-Schedule-Transaction");
     }
 
     private Transaction buildTransaction(){

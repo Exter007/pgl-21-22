@@ -7,6 +7,7 @@ import com.pgl.services.BankAccountService;
 import com.pgl.services.FinancialInstitutionService;
 import com.pgl.services.FinancialProductService;
 import com.pgl.services.UserService;
+import com.pgl.utils.Porter;
 import com.pgl.utils.GlobalStage;
 
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,6 +96,8 @@ public class DashboardController implements Initializable {
     private Button import_btn;
     @FXML
     private BorderPane border_pane;
+    @FXML
+    private ChoiceBox<String> export_format;
 
     /**
      * Initialize all labels and fields of the interface according to the chosen language
@@ -120,6 +125,8 @@ public class DashboardController implements Initializable {
         Consult_btn.setText(bundle.getString("Consult_btn"));
         Edit_btn.setText(bundle.getString("Edit_btn"));
         Delete_btn.setText(bundle.getString("Delete_btn"));
+        ObservableList<String> formats = FXCollections.observableArrayList(".csv", ".json");
+        export_format.setItems(formats);
     }
 
     /**
@@ -388,7 +395,6 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void search_Product(MouseEvent event) {
-        //TODO
     }
 
 
@@ -397,8 +403,13 @@ public class DashboardController implements Initializable {
      * @param event the click of the mouse on the button
      */
     @FXML
-    private void export_ProductsData(MouseEvent event) {
-        //TODO
+    private void export(MouseEvent event) {
+        //take the date so each time the user downloads a CSV file, its name is different
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        List<FinancialProduct> financialProducts = productService.getFinancialProductsByInstitution();
+        Porter.ActionExport(currentDateTime, financialProducts, bundle, export_format);
     }
 
     /**
@@ -407,6 +418,5 @@ public class DashboardController implements Initializable {
      */
     @FXML
     private void import_ProductsData(MouseEvent event) {
-        //TODO
     }
 }

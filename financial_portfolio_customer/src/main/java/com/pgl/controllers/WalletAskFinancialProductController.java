@@ -64,8 +64,6 @@ public class WalletAskFinancialProductController implements Initializable {
     private void send_request(MouseEvent event) {
        if(institution.getValue() != null && productType.getValue() != null){
 
-            //TODO
-
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(bundle.getString("succes3"));
             alert.showAndWait();

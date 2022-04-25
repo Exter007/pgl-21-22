@@ -1,11 +1,14 @@
 package com.pgl.controllers;
 
 import com.pgl.models.*;
+import com.pgl.models.extension3.Category;
 import com.pgl.models.extension5.InsuranceContract;
 import com.pgl.repositories.*;
+import com.pgl.repositories.extension3.CategoryRepository;
 import com.pgl.repositories.extension5.InsuranceContractRepository;
 import com.pgl.services.*;
 
+import com.pgl.services.extension3.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,9 @@ public class CustomerController {
 
     @Autowired
     InsuranceContractRepository insuranceRepository;
+
+    @Autowired
+    CategoryService categoryService;
 
 
     public CustomerController() {
@@ -357,6 +363,39 @@ public class CustomerController {
                 idWallet, FinancialProduct.PRODUCT_TYPE.INSURANCE_CONTRACT
         );
         return ResponseEntity.ok(insurances);
+    }
+
+    /**
+     * @param category Transaction Category to create
+     * @return Category created
+     */
+    @PostMapping(value = "category/save")
+    public ResponseEntity<?> saveCategory(@RequestBody Category category){
+        logger.debug("Call : Save Category");
+
+        return ResponseEntity.ok(categoryService.saveCategory(category));
+    }
+
+    /**
+     * @param id A Category ID
+     * @return True if Category deleted
+     */
+    @DeleteMapping("category/delete-by-id/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
+        logger.debug("Call : Delete Category");
+        categoryService.getCategoryRepository().deleteById(id);
+        return ResponseEntity.ok(true);
+    }
+
+    /**
+     * @param applicationClient A Application Client
+     * @return List of Categories of the Application Client
+     */
+    @GetMapping("category/find-by-application-client/{applicationClient}")
+    public ResponseEntity<?> findByApplicationClient(@PathVariable String applicationClient){
+        logger.debug("Call : Find Category By Application Client");
+
+        return ResponseEntity.ok(categoryService.getAllCategories(applicationClient));
     }
 
 

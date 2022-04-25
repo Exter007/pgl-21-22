@@ -55,10 +55,10 @@ public class Notification extends Persistent{
 
     /**
      * Class constructeur for all arguments
-     * @param message
-     * @param status
-     * @param applicationClient
-     * @param financialInstitution
+     * @param message a String object
+     * @param status a Notification.NOTIFICATION_STATUS enum
+     * @param applicationClient a ApplicationClient object
+     * @param financialInstitution a FinancialInstitution object that represent the financial institution bound to this notification
      */
     public Notification(String message, NOTIFICATION_STATUS status, ApplicationClient applicationClient, FinancialInstitution financialInstitution) {
         this.message = message;

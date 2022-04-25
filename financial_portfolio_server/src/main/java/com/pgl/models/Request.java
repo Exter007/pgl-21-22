@@ -35,7 +35,7 @@ public class Request extends Persistent{
         return status;
     }
 
-    /** Set the status of this request
+    /**Set the status of this request
      *
      * @param status a Request.REQUEST_STATUS enum
      */

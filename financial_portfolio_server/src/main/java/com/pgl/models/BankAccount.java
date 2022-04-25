@@ -1,7 +1,6 @@
 package com.pgl.models;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 
@@ -9,7 +8,6 @@ import javax.persistence.*;
  *
  */
 
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "BankAccount")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CurrentAccount.class, name = "CurrentAccount"),
         @JsonSubTypes.Type(value = SavingsAccount.class, name = "SavingsAccount"),
@@ -56,8 +54,8 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Class constructor
      *
-     * @param nature
-     * @param transferAccess
+     * @param nature a account nature enum
+     * @param transferAccess a transfer access enum
      */
     public BankAccount(ACCOUNT_NATURE nature, TRANSFER_ACCESS transferAccess) {
         super(PRODUCT_TYPE.BANK_ACCOUNT, transferAccess);
@@ -66,15 +64,15 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Class constructor
      *
-     * @param iban a String object
+     * @param iban a String object that contains the iban
      * @param type a BankAccount.ACCOUNT_TYPE enum
      * @param state a FinancialProduct.PRODUCT_STATE enum
      * @param transferAccess a FinancialProduct.TRANSFER_ACCESS enum
-     * @param pin_code a String object
+     * @param pin_code a String object that contains the pin code
      * @param currency a BankAccount.CURRENCY enum
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this bank account
-     * @param monthlyFee a float
-     * @param annualYield a float
+     * @param monthlyFee a float that contains the monthly fee
+     * @param annualYield a float that contains the annual yield
      */
     public BankAccount(String iban, ACCOUNT_NATURE nature, ACCOUNT_TYPE type, PRODUCT_STATE state, TRANSFER_ACCESS transferAccess, String pin_code, CURRENCY currency, FinancialInstitution financialInstitution, float monthlyFee, float annualYield) {
         super(PRODUCT_TYPE.BANK_ACCOUNT, state, transferAccess, financialInstitution);
@@ -97,7 +95,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Set the IBAN
      *
-     * @param iban a String object
+     * @param iban a String object that contains the iban
      */
     public void setIban(String iban) {
         this.iban = iban;
@@ -129,7 +127,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Set the pin code
      *
-     * @param pin_code a String object
+     * @param pin_code a String object that contains the pin code
      */
     public void setPin_code(String pin_code) {
         this.pin_code = pin_code;
@@ -161,7 +159,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Set the monthly fee of this account
      *
-     * @param monthlyFee a float
+     * @param monthlyFee a float that contains the monthly fee
      */
     public void setMonthlyFee(float monthlyFee) {
         this.monthlyFee = monthlyFee;
@@ -177,7 +175,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Set the annual yield of this account
      *
-     * @param annualYield a float
+     * @param annualYield a float that contains the annual yield
      */
     public void setAnnualYield(float annualYield) {
         this.annualYield = annualYield;
@@ -201,7 +199,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Get the IBAN joint of this account
      *
-     * @return
+     * @return the joint IBAN of this account
      */
     public CurrentAccount getJointIban() {
         return jointIban;
@@ -209,7 +207,7 @@ public abstract class BankAccount extends FinancialProduct {
 
     /** Set the IBAN joint of this account
      *
-     * @param jointIban
+     * @param jointIban that contains the IBAN joint of this account
      */
     public void setJointIban(CurrentAccount jointIban) {
         this.jointIban = jointIban;

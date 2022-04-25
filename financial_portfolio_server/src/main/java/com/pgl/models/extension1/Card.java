@@ -1,6 +1,7 @@
-package com.pgl.models;
+package com.pgl.models.extension1;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.pgl.models.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,7 +10,6 @@ import java.util.List;
 /** Abstract class that represent a card
  *
  */
-
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CreditCard.class, name = "CreditCard"),
         @JsonSubTypes.Type(value = DebitCard.class, name = "DebitCard"),
@@ -66,20 +66,20 @@ public abstract class Card extends FinancialProduct {
 
     /** Class constructor
      *
-     * @param wording a String object
+     * @param wording a String object that contains a description
      * @param financialInstitution a FinancialInstitution object that represent the financial institution that provide this product
      * @param financialProductHolders a List that contains the financial product holders who have this product
-     * @param cardNumber a String object
+     * @param cardNumber a String object that contains the card number
      * @param bankAccount a BankAccount object who is inked to this card
-     * @param endValidityDate a Date object
-     * @param isValid a boolean object
-     * @param isBlocked a boolean object
-     * @param CVC a integer object
-     * @param annualFee a float object
-     * @param commissionFee a float object
-     * @param internationallyUsable a boolean object
-     * @param internationalFee a float object
-     * @param withdrawalFee a float object
+     * @param endValidityDate a Date object that contains the validity end date
+     * @param isValid a boolean object that contains the valid state of the card
+     * @param isBlocked a boolean object that contains the block state of the card
+     * @param CVC an integer object that contains the CVC
+     * @param annualFee a float object that contains the annual fee
+     * @param commissionFee a float object that contains the commission fee
+     * @param internationallyUsable a boolean object that international use state
+     * @param internationalFee a float object that contains the international use fee
+     * @param withdrawalFee a float object that contains the withdrawal fee
      * @param cardType a Card_Type enum
      */
     public Card(String wording,
@@ -114,7 +114,7 @@ public abstract class Card extends FinancialProduct {
 
     /** Get the card number
      *
-     * @return the IBAN in the form of a String object
+     * @return the card number in the form of a String object
      */
     public String getCardNumber() {
         return cardNumber;
@@ -122,7 +122,7 @@ public abstract class Card extends FinancialProduct {
 
     /** Set the card number
      *
-     * @param cardNumber a String object
+     * @param cardNumber a String object that contains the card number
      */
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;

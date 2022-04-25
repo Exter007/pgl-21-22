@@ -22,156 +22,141 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="border_pane" prefHeight="746.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
+<BorderPane fx:id="border_pane" prefHeight="746.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pgl.controllers.DashboardController">
    <center>
       <VBox prefHeight="972.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../stylesheet/Style.css">
         <children>
-            <ScrollPane prefHeight="939.0" prefWidth="1300.0">
-               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="1283.0" style="-fx-background-color: #fff;">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="1283.0" style="-fx-background-color: #fff;">
+               <children>
+                  <HBox prefHeight="74.0" prefWidth="1300.0">
                      <children>
-                        <HBox prefHeight="74.0" prefWidth="1300.0">
-                           <children>
-                              <Label fx:id="welcome_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1300.0" text="Bienvenue ING !" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="25.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="50.0" top="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <ImageView fitHeight="32.0" fitWidth="34.0" onMouseClicked="#show_Notifications" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/icons/source_icons_bell-notification.jpg" />
-                                 </image>
-                                 <HBox.margin>
-                                    <Insets right="50.0" top="20.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutY="77.0" prefHeight="82.0" prefWidth="1300.0">
-                           <children>
-                              <Label fx:id="filters_label" text="Filtres :">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="50.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <ChoiceBox fx:id="productInstitutionName" prefHeight="40.0" prefWidth="201.0" styleClass="field">
-                                 <HBox.margin>
-                                    <Insets left="30.0" />
-                                 </HBox.margin>
-                              </ChoiceBox>
-                              <TextField fx:id="productCode" prefHeight="40.0" prefWidth="173.0" promptText="Code du produit" styleClass="field">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="30.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <DatePicker fx:id="productCreateDate" prefHeight="40.0" prefWidth="195.0" promptText="Date de création du produit" styleClass="field">
-                                 <HBox.margin>
-                                    <Insets left="30.0" right="50.0" />
-                                 </HBox.margin>
-                              </DatePicker>
-                              <Button fx:id="Search_btn" mnemonicParsing="false" onMouseClicked="#search_Product" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox layoutX="37.0" layoutY="164.0" prefHeight="76.0" prefWidth="1230.0">
-                           <children>
-                              <Label fx:id="AllFinancialProduct_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tous les produits financiers:" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                           <padding>
-                              <Insets top="30.0" />
-                           </padding>
-                        </HBox>
-                        <VBox layoutX="39.0" layoutY="255.0" prefHeight="277.0" prefWidth="1199.0">
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="292.0" prefWidth="1114.0">
-                                 <children>
-                                    <ListView fx:id="productListView" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="200.0" prefWidth="1122.0" style="-fx-font-size: 17;">
-                                       <HBox.margin>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </HBox.margin>
-                                       <styleClass>
-                                          <String fx:value="back-blue" />
-                                          <String fx:value="fn-16" />
-                                          <String fx:value="border-listView" />
-                                          <String fx:value="fill-white" />
-                                       </styleClass>
-                                    </ListView>
-                                 </children>
+                        <Label fx:id="welcome_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="1300.0" text="Bienvenue ING !" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="32.0" fitWidth="34.0" onMouseClicked="#show_Notifications" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/icons/source_icons_bell-notification.jpg" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="50.0" top="20.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutY="77.0" prefHeight="82.0" prefWidth="1300.0">
+                     <children>
+                        <Label fx:id="filters_label" text="Filtres :">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ChoiceBox fx:id="productInstitutionName" prefHeight="40.0" prefWidth="201.0" styleClass="field">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                        </ChoiceBox>
+                        <TextField fx:id="productCode" prefHeight="40.0" prefWidth="173.0" promptText="Code du produit" styleClass="field">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <DatePicker fx:id="productCreateDate" prefHeight="40.0" prefWidth="195.0" promptText="Date de création du produit" styleClass="field">
+                           <HBox.margin>
+                              <Insets left="30.0" right="50.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <Button fx:id="Search_btn" mnemonicParsing="false" onMouseClicked="#search_Product" prefHeight="45.0" prefWidth="170.0" text="Rechercher">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="36.0" layoutY="165.0" prefHeight="40.0" prefWidth="1231.0">
+                     <children>
+                        <Label fx:id="AllFinancialProduct_label" contentDisplay="CENTER" prefHeight="39.0" prefWidth="1163.0" text="Tous les produits financiers:" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox layoutX="36.0" layoutY="212.0" prefHeight="277.0" prefWidth="1199.0">
+                     <children>
+                        <ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="1199.0">
+                           <content>
+                              <ListView fx:id="productListView" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#selectedItem" prefHeight="280.0" prefWidth="1184.0" style="-fx-font-size: 17;">
                                  <styleClass>
                                     <String fx:value="back-blue" />
                                     <String fx:value="fn-16" />
                                     <String fx:value="border-listView" />
-                                    <String fx:value="list-cell" />
+                                    <String fx:value="fill-white" />
                                  </styleClass>
-                              </HBox>
-                              <HBox prefHeight="102.0" prefWidth="1199.0" />
-                              <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="978.0">
-                                 <children>
-                                    <Button fx:id="Consult_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
-                                       <styleClass>
-                                          <String fx:value="fn-14" />
-                                          <String fx:value="back-blue" />
-                                          <String fx:value="border-2px" />
-                                          <String fx:value="fill-white" />
-                                       </styleClass>
-                                    </Button>
-                                    <Button fx:id="Edit_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
-                                       <styleClass>
-                                          <String fx:value="fn-14" />
-                                          <String fx:value="back-blue" />
-                                          <String fx:value="border-2px" />
-                                          <String fx:value="fill-white" />
-                                       </styleClass>
-                                    </Button>
-                                    <Button fx:id="Delete_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
-                                       <styleClass>
-                                          <String fx:value="fn-14" />
-                                          <String fx:value="back-blue" />
-                                          <String fx:value="border-2px" />
-                                          <String fx:value="fill-white" />
-                                       </styleClass>
-                                    </Button>
-                                    <VBox prefHeight="27.0" prefWidth="100.0" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <HBox alignment="CENTER" layoutX="893.0" layoutY="557.0">
+                              </ListView>
+                           </content>
+                        </ScrollPane>
+                        <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="978.0">
                            <children>
-                              <ChoiceBox fx:id="export_ProductsFormat" prefHeight="40.0" prefWidth="150.0" styleClass="field" />
-                              <Button fx:id="export_btn" mnemonicParsing="false" onMouseClicked="#export_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+                              <Button fx:id="Consult_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_display" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Consulter">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Edit_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_edit" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Modifier">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="Delete_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#on_delete" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 15;" text="Supprimer">
+                                 <styleClass>
+                                    <String fx:value="fn-14" />
+                                    <String fx:value="back-blue" />
+                                    <String fx:value="border-2px" />
+                                    <String fx:value="fill-white" />
+                                 </styleClass>
+                              </Button>
                            </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </HBox>
-                        <Button fx:id="import_btn" layoutX="1049.0" layoutY="625.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
                      </children>
-                  </AnchorPane>
-               </content>
-            </ScrollPane>
+                  </VBox>
+                  <HBox alignment="CENTER" layoutX="825.0" layoutY="556.0" />
+                  <Button fx:id="import_btn" layoutX="1034.0" layoutY="634.0" mnemonicParsing="false" onMouseClicked="#import_ProductsData" prefHeight="55.0" prefWidth="203.0" text="Importet des données" />
+                  <ChoiceBox fx:id="export_format" layoutX="858.0" layoutY="564.0" prefHeight="55.0" prefWidth="150.0" styleClass="field" />
+                  <Button fx:id="export_btn" layoutX="1034.0" layoutY="564.0" mnemonicParsing="false" onMouseClicked="#export" prefHeight="55.0" prefWidth="203.0" text="Exporter les données" />
+               </children>
+            </AnchorPane>
         </children>
       </VBox>
    </center>

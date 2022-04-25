@@ -368,7 +368,7 @@ public class AddBankAccountController implements Initializable {
 
     /**
      * Build a current bank account
-     * @return
+     * @return CurrentAccount
      */
     private CurrentAccount buildCurrentAccount(){
         CurrentAccount currentAccount;

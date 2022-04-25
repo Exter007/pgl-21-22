@@ -47,14 +47,15 @@ public class Exporter {
      * @param <P> generic type extended from PersistentWithoutId
      */
     public <P extends PersistentWithoutId> void export(List<P> list, String fileName, ResourceBundle bundle, ChoiceBox<String> export_format) {
-        if(export_format.getValue().equals(".csv")){
-            this.toCSVFile(list, fileName, bundle);
-        }else if(export_format.getValue().equals(".json")){
-            this.toJsonFile(list, fileName);
-        }else {
+        if(export_format.getValue()==null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("Export_format"));
             alert.showAndWait();
+        }
+        else if(export_format.getValue().equals(".csv")){
+            this.toCSVFile(list, fileName, bundle);
+        }else if(export_format.getValue().equals(".json")){
+            this.toJsonFile(list, fileName);
         }
     }
 
@@ -147,16 +148,16 @@ public class Exporter {
                     "monthlyFee", "annualYield", "financialInstitution.name", "creationDate", "modificationDate"};
         }
         else if (obj.equals(YoungAccount.class)){
-            return new String[]{"nature", "accountType", "iban", "amount", "currency", "maxTransactionAmount",
+            return new String[]{"nature", "accountType", "jointIban.iban", "amount", "currency", "maxTransactionAmount",
                     "monthlyFee", "annualYield", "financialInstitution.name", "creationDate", "modificationDate"};
         }
         else if (obj.equals(SavingsAccount.class)){
-            return new String[]{"nature", "accountType", "iban", "amount", "currency",
+            return new String[]{"nature", "accountType", "jointIban.iban", "amount", "currency",
                     "monthlyFee", "annualYield", "financialInstitution.name", "loyaltyDate",
                     "loyaltyBonus", "annualInterest", "creationDate", "modificationDate"};
         }
         else if (obj.equals(TermAccount.class)){
-            return new String[]{"nature", "accountType", "iban", "amount", "currency", "monthlyFee", "annualYield",
+            return new String[]{"nature", "accountType", "jointIban.iban", "amount", "currency", "monthlyFee", "annualYield",
                     "financialInstitution.name", "maximumDate", "penalty",
                     "creationDate", "modificationDate"};
         }
