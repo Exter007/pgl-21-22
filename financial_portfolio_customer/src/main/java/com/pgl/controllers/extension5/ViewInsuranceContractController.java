@@ -98,10 +98,10 @@ public class ViewInsuranceContractController implements Initializable {
     private Label withholdingTax;
     @FXML
     private Label taxBenefit;
-    @FXML
-    private Button Edit_btn;
-    @FXML
-    private Button Delete_btn;
+//    @FXML
+//    private Button Edit_btn;
+//    @FXML
+//    private Button Delete_btn;
 
 
     @Override
@@ -131,8 +131,8 @@ public class ViewInsuranceContractController implements Initializable {
         depositGuarantee_label.setText(bundle.getString("DepositGuarantee"));
         withholdingTax_label.setText(bundle.getString("WithholdingTax"));
         taxBenefit_label.setText(bundle.getString("TaxBenefit"));
-        Edit_btn.setText(bundle.getString("Edit_btn"));
-        Delete_btn.setText(bundle.getString("Delete_btn"));
+//        Edit_btn.setText(bundle.getString("Edit_btn"));
+//        Delete_btn.setText(bundle.getString("Delete_btn"));
     }
 
     /**
